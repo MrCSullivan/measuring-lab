@@ -1,0 +1,12 @@
+Karla (c) The Karla Project Authors, and Fraunces (c) 2020 The Fraunces Project
+Authors (github.com/undercasetype/Fraunces), are licensed under the SIL Open
+Font License, Version 1.1, which allows them to be used, copied and redistributed
+with software. The full text is at https://openfontlicense.org
+
+The font files here come unchanged from the @fontsource/karla and
+@fontsource-variable/fraunces packages.
+
+--- Fraunces licence notice, as shipped with that package ---
+Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces) Fraunces-Italic[SOFT,WONK,opsz,wght].ttf: Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.

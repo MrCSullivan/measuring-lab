@@ -18,12 +18,13 @@ Nothing secret is in these files. The teacher password lives only in the sheet.
 | config.js | One line: the address of your Apps Script web app. The only file you edit. |
 | sw.js | Saves the game on the device and opens it when the connection is poor. |
 | manifest.webmanifest, icon-192.png, icon-512.png, apple-touch-icon.png | Make "Add to Home Screen" work, with an icon. |
+| fonts/ | The two fonts the game uses, kept here so the page never waits on another website for them. |
 
 Keep all of them together in one folder.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_22.gs`.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_23.gs`.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
@@ -69,20 +70,34 @@ next time it is opened with a working connection. If the connection is slow, it
 opens the saved copy first and has the new one the time after. Changing
 `config.js` works the same way.
 
-## If an iPad still cannot connect
+## When a whole class opens it at once
 
-The hosted page makes the first screen reliable. The class code step still needs
-the iPad to reach Google, so if the school network blocks or throttles Google,
-that step will say it could not reach the class sheet. Check, on the iPad that
-fails:
+Fifteen or twenty iPads opening the link in the same minute is fine for the game
+itself: the page is a single 120 KB download, and the Google side was tested with
+sixty children pressing Continue within three seconds without a single refusal.
+When some iPads still fail to load the page, the cause is almost always the
+school network, not the game. Things that help:
+
+- **Use a QR code, not a typed address.** A long address typed by twenty children
+  is wrong on a few of them, and the error looks like "cannot connect". On a
+  computer, open the hosted address in Chrome, right-click the page and choose
+  Create QR code for this page, then put it on the board.
+- **Do not all press Go on the same second.** Call the iPads in two or three
+  groups.
+- **After the first successful visit, use the Home Screen icon.** It opens the
+  saved copy and needs no connection to show the first screen.
+- **If a page opens blank:** older copies waited on Google's font server and sat
+  on a white screen where it was slow. This version no longer does.
+
+If some iPads still cannot load it, test one that fails:
 
 - Does google.com open?
-- Does it work on a phone hotspot? If yes, the school network is the cause.
-- Does it only fail when all the iPads start at once?
+- Does it work on a phone hotspot? If yes, the school network or filter is the cause.
+- Is it only when many iPads start together? That points to the school's Wi-Fi or filter limiting new connections.
 
-If it is the school network, ask IT to allow these addresses:
-`script.google.com`, `script.googleusercontent.com`, `fonts.googleapis.com` and
-`fonts.gstatic.com`.
+Then ask IT to allow `script.google.com` and `script.googleusercontent.com`
+(the class sheet), and the address you host the game on. The fonts no longer need
+anything outside your own site.
 
 ## Limits worth knowing
 

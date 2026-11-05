@@ -5,12 +5,14 @@
   After that the page is fetched fresh when the network answers within a few
   seconds, and taken from the device when it does not, so a slow or flaky school
   connection no longer means a page that will not open. Anything that is not on
-  this website (the class sheet, fonts) goes straight to the network and is never
+  this website (the class sheet) goes straight to the network and is never
   stored or answered from here, so scores are never served stale.
 */
-var CACHE = "measuring-lab-v27";
+var CACHE = "measuring-lab-v29";
 var SHELL = ["./", "index.html", "config.js", "manifest.webmanifest",
-             "apple-touch-icon.png", "icon-192.png", "icon-512.png"];
+             "apple-touch-icon.png", "icon-192.png", "icon-512.png",
+             "fonts/fonts.css", "fonts/karla-latin-400-normal.woff2", "fonts/karla-latin-600-normal.woff2",
+             "fonts/karla-latin-700-normal.woff2", "fonts/fraunces-latin-opsz-normal.woff2"];
 var WAIT_PAGE = 3000;     // how long to wait for the network before using the stored page
 var WAIT_CONFIG = 2500;
 

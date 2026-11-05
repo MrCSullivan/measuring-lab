@@ -20,8 +20,9 @@
   [hidden] { display: none !important; }
 </style>
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;600;700&display=swap">
+<!-- Fonts come from this website (fonts/), not from Google, so nothing third-party can hold the page up. -->
+<link rel="stylesheet" href="fonts/fonts.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="fonts/fonts.css"></noscript>
 <style>
   /* ---------- tokens: light (default, un-stamped) ---------- */
   :root {
@@ -254,7 +255,7 @@
 
   .bench { display: flex; gap: 4px; justify-content: center; align-items: flex-end; }
   .bench svg { width: min(300px, 60vw); height: auto; display: block; }
-  .bench.pair svg { width: min(232px, 39vw); }
+  .bench.pair[data-shape] svg { width: min(232px, 39vw); }
 
   .plus {
     align-self: center;
@@ -366,13 +367,13 @@
   /* ---------- level rail ---------- */
   .rail { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--ink-soft); font-size: 14px; }
   .pips { display: flex; gap: 5px; }
-  .pip { width: 26px; height: 8px; border-radius: 4px; background: var(--edge); }
+  .pip { width: 22px; height: 8px; border-radius: 4px; background: var(--edge); }
   .pip.on { background: var(--water); }
   /* The eighth pip is the top of the ladder, so it goes green when it is
      reached. The two after it are the stretch tier and go gold. Unreached,
      they are a little narrower than the rest, so a child on level three can
      see the ladder does not simply carry on. */
-  .pip.gold { width: 18px; }
+  .pip.gold { width: 13px; }
   .pip.gold.on { background: var(--gold); }
   .pips.done .pip.on:not(.gold) { background: var(--leaf); }
   .lvl.gold, .mode .lvl.gold {
@@ -609,6 +610,9 @@
 
 
   .bench[data-shape="dial"] svg  { width: min(384px, 74vw); }
+  /* A pair of scales is two of these, not one: each gets the pair width (the
+     rules for a pair name the shape too, so they are the stronger ones), or two
+     dials at 74% of the screen each ran off the side of a phone. */
   .bench[data-shape="ruler"] svg { width: 100%; max-width: 760px; margin: 0 auto; }
   .bench[data-shape="ruler"] { flex-direction: column; align-items: stretch; gap: 2px; width: 100%; }
   .bench[data-shape="ruler"] .plus { padding: 0; text-align: center; }
@@ -1661,7 +1665,7 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .lad-row.here > span:first-child { color: var(--water-deep); font-weight: 800; }
-  .lad-pips { display: grid; grid-template-columns: repeat(8, 1fr) 7px 7px; gap: 2.5px; }
+  .lad-pips { display: grid; grid-template-columns: repeat(8, 1fr) repeat(6, 7px); gap: 2.5px; }
   .lad-pips i { height: 8px; border-radius: 2px; background: var(--edge); }
   .lad-pips i.on { background: var(--water); }
   .lad-pips.done i.on { background: var(--leaf); }
@@ -1870,7 +1874,7 @@
        card pushes the leaderboard off a 768-high classroom laptop. */
     .bench svg { width: min(380px, 30vw); }
     .bench[data-shape="dial"] svg { width: min(400px, 31vw); }
-    .bench.pair svg { width: min(275px, 21vw); }
+    .bench.pair[data-shape] svg { width: min(275px, 21vw); }
     svg.numbench { max-width: none; max-height: 330px; }
     /* A definite width, like the other instruments have, rather than letting a
        grid column of `auto` size itself to whatever the drawing happened to be:
@@ -1923,7 +1927,7 @@
     .mode .lvl { margin-top: 3px; }
     .stage { padding: 14px 18px; gap: 18px; }
     .bench svg { width: min(300px, 60vw, 40vh); }
-    .bench.pair svg { width: min(232px, 39vw, 34vh); }
+    .bench.pair[data-shape] svg { width: min(232px, 39vw, 34vh); }
   }
 
   /* ---------- how big the picture is, for the screen it is on ----------
@@ -1947,10 +1951,19 @@
   @media (min-width: 1500px) and (min-height: 860px) {
     .bench svg { width: min(460px, 28vw, 50vh); }
     .bench[data-shape="dial"] svg { width: min(480px, 30vw, 52vh); }
-    .bench.pair svg { width: min(340px, 21vw, 42vh); }
+    .bench.pair[data-shape] svg { width: min(340px, 21vw, 42vh); }
     .bench[data-shape="ruler"] svg,
     .bench.pair[data-shape="ruler"] svg { width: 100%; max-width: min(1000px, 130vh); }
     .bench.pair[data-shape="ruler"] svg { max-width: min(1000px, 66vh); }
+  }
+
+  /* Two rulers stacked are the tallest thing in the game. On an iPad held
+     sideways (a screen 650 to 840 high) they pushed the Check button 10 to 70
+     pixels below the bottom, so a child scrolled for that one question. Their
+     width is taken from what height is left after the header, the activity cards
+     and the question text, which are a fixed 330 or so pixels. */
+  @media (orientation: landscape) and (max-height: 840px) and (min-width: 761px) {
+    .bench.pair[data-shape="ruler"] svg { max-width: min(760px, calc(100vh - 330px)); }
   }
 
   /* An iPad held upright has plenty of height and not much width, so a pair of
@@ -1961,7 +1974,7 @@
   @media (min-width: 700px) and (max-width: 1099px) and (orientation: portrait) and (min-height: 980px) {
     .stage:has(.bench.pair) { grid-template-columns: 1fr; }
     .stage:has(.bench.pair) .bench { order: -1; }
-    .bench.pair svg { width: min(300px, 38vw, 26vh); }
+    .bench.pair[data-shape] svg { width: min(300px, 38vw, 26vh); }
     /* two rulers stacked take the most height of anything in the game */
     .bench.pair[data-shape="ruler"] svg { width: 100%; max-width: min(760px, 54vh); }
   }
@@ -2632,6 +2645,15 @@
       /* 10: Year 6. Both sides carry a place value, and the unknown can be
          either of them. 30 x 40, and 1200 divided by 40. */
       { groups: [20, 30, 40, 50, 60, 70, 80], size: [20, 30, 40, 50, 60],
+        show: "none", miss: true },
+      /* 11 to 14: the extension levels. 11: two digits times one. 12: two digits
+         times two. 13: products into the hundreds, and dividing by two digits.
+         14: the biggest, with hundreds and teens together. */
+      { groups: [12, 13, 14, 15, 16, 17, 18, 19, 21, 24, 25], size: [3, 4, 5, 6, 7, 8, 9], show: "none" },
+      { groups: [11, 12, 13, 14, 15, 16, 18], size: [11, 12, 13, 14, 15, 16, 18], show: "none", miss: true },
+      { groups: [12, 14, 15, 16, 17, 18, 19, 21, 24], size: [14, 15, 16, 17, 18, 19, 21, 24, 25],
+        show: "none", miss: true },
+      { groups: [25, 35, 45, 75, 125, 150, 250], size: [12, 14, 15, 16, 18, 24, 25],
         show: "none", miss: true }
     ],
     read: [
@@ -2649,6 +2671,12 @@
       /* 10: Year 6. Both sides carry a place value, and the unknown can be
          either of them. 30 x 40, and 1200 divided by 40. */
       { groups: [20, 30, 40, 50, 60, 70, 80], size: [20, 30, 40, 50, 60],
+        show: "none", miss: true },
+      { groups: [12, 13, 14, 15, 16, 17, 18, 19, 21, 24, 25], size: [3, 4, 5, 6, 7, 8, 9], show: "none" },
+      { groups: [11, 12, 13, 14, 15, 16, 18], size: [11, 12, 13, 14, 15, 16, 18], show: "none", miss: true },
+      { groups: [12, 14, 15, 16, 17, 18, 19, 21, 24], size: [14, 15, 16, 17, 18, 19, 21, 24, 25],
+        show: "none", miss: true },
+      { groups: [25, 35, 45, 75, 125, 150, 250], size: [12, 14, 15, 16, 18, 24, 25],
         show: "none", miss: true }
     ],
     add: [
@@ -2666,7 +2694,11 @@
       /* 10: Year 6. Both sides carry a place value, and the unknown can be
          either of them. 30 x 40, and 1200 divided by 40. */
       { groups: [20, 30, 40, 50, 60, 70, 80], size: [20, 30, 40, 50, 60],
-        show: "none" }
+        show: "none" },
+      { groups: [12, 13, 14, 15, 16, 17, 18, 19, 21, 24, 25], size: [3, 4, 5, 6, 7, 8, 9], show: "none" },
+      { groups: [11, 12, 13, 14, 15, 16, 18], size: [11, 12, 13, 14, 15, 16, 18], show: "none" },
+      { groups: [12, 14, 15, 16, 17, 18, 19, 21, 24], size: [14, 15, 16, 17, 18, 19, 21, 24, 25], show: "none" },
+      { groups: [25, 35, 45, 75, 125, 150, 250], size: [12, 14, 15, 16, 18, 24, 25], show: "none" }
     ],
     about: [
       { groups: [2, 3],        size: [2, 3, 4, 5],           show: "all" },
@@ -2683,7 +2715,11 @@
       /* 10: Year 6. Both sides carry a place value, and the unknown can be
          either of them. 30 x 40, and 1200 divided by 40. */
       { groups: [20, 30, 40, 50, 60, 70, 80], size: [20, 30, 40, 50, 60],
-        show: "none" }
+        show: "none" },
+      { groups: [12, 13, 14, 15, 16, 17, 18, 19, 21, 24, 25], size: [3, 4, 5, 6, 7, 8, 9], show: "none" },
+      { groups: [11, 12, 13, 14, 15, 16, 18], size: [11, 12, 13, 14, 15, 16, 18], show: "none" },
+      { groups: [12, 14, 15, 16, 17, 18, 19, 21, 24], size: [14, 15, 16, 17, 18, 19, 21, 24, 25], show: "none" },
+      { groups: [25, 35, 45, 75, 125, 150, 250], size: [12, 14, 15, 16, 18, 24, 25], show: "none" }
     ],
 
     /* ------------------------------------------------- put it on the line
@@ -2709,7 +2745,14 @@
          Both are Year 5 and 6 number-line work and neither is possible on any
          other ladder in the game. */
       { from: 200, to: 700, marks: 10, labels: "ends" },
-      { from: -50, to: 50, marks: 10, labels: "ends" }
+      { from: -50, to: 50, marks: 10, labels: "ends" },
+      /* 11 to 14: a line in the thousands that does not start at zero, one that
+         crosses zero in fifties, one whose marks are 125 apart, and one that
+         crosses zero in 250s. The number asked for is still always on a mark. */
+      { from: 1200, to: 1700, marks: 10, labels: "ends" },
+      { from: -300, to: 200, marks: 10, labels: "ends" },
+      { from: 4000, to: 5000, marks: 8, labels: "ends" },
+      { from: -1250, to: 1250, marks: 10, labels: "ends" }
     ]
   };
 
@@ -2723,7 +2766,11 @@
     "the tables to twelve, in words",
     "the tables to twelve, and the missing number moves",
     "a known fact carrying a multiple of ten",
-    "multiples of ten on both sides"
+    "multiples of ten on both sides",
+    "two-digit numbers times a single digit",
+    "two-digit numbers times two-digit numbers",
+    "bigger products, and dividing by two-digit numbers",
+    "hundreds, teens and the biggest products together"
   ];
 
   /* The counters are laid out in rows of at most this many, so a group of ten
@@ -3316,7 +3363,22 @@
          { n: [8], step: [250], start: [0], unit: "mL", face: "L", per: 1000 }],
         [{ n: [4, 8], step: [250, 500], start: [0], unit: "mL", ask: "L", per: 1000 },
          { n: [5], step: [200, 400], start: [0], unit: "mL", ask: "L", per: 1000 },
-         { n: [4], step: [125], start: [0], unit: "mL", ask: "L", per: 1000 }]
+         { n: [4], step: [125], start: [0], unit: "mL", ask: "L", per: 1000 }],
+        /* 11 to 14: the extension levels. Awkward steps and scales that start part
+           way up; the unit changes that come after are the ones above, made worse. */
+        [{ n: [4, 5, 6, 8], step: [15, 30, 40, 60, 75], start: [0, 15, 30, 75, 150], unit: "mL" },
+         { n: [3, 5, 6, 7], step: [125, 150, 300], start: [0, 125, 250, 500], unit: "mL" },
+         { n: [6, 8], step: [12, 16, 24], start: [0, 24, 48], unit: "mL" }],
+        [{ n: [4, 5, 6], step: [250, 500, 125], start: [500, 750, 1250], unit: "mL", ask: "L", per: 1000 },
+         { n: [4, 5], step: [200, 400, 150], start: [300, 600, 900], unit: "mL", ask: "L", per: 1000 },
+         { n: [6, 8], step: [75, 125], start: [0, 250, 500], unit: "mL", ask: "L", per: 1000 }],
+        [{ n: [6], step: [250], start: [0, 500], unit: "mL", face: "L", per: 1000 },
+         { n: [5], step: [300], start: [0], unit: "mL", face: "L", per: 1000 },
+         { n: [8], step: [125], start: [0, 250], unit: "mL", face: "L", per: 1000 },
+         { n: [10], step: [150], start: [0], unit: "mL", face: "L", per: 1000 }],
+        [{ n: [4, 5, 6], step: [1250, 1500, 2500], start: [0, 2500, 5000], unit: "mL", ask: "L", per: 1000 },
+         { n: [4, 8], step: [750, 1500], start: [0, 1500, 3000], unit: "mL", ask: "L", per: 1000 },
+         { n: [5, 6], step: [1200, 1800], start: [0, 3600], unit: "mL", ask: "L", per: 1000 }]
       ]
     },
     mass: {
@@ -3351,7 +3413,21 @@
          { n: [8], step: [250], start: [0], unit: "g", face: "kg", per: 1000 }],
         [{ n: [4, 8], step: [250, 500], start: [0], unit: "g", ask: "kg", per: 1000 },
          { n: [5], step: [200, 400], start: [0], unit: "g", ask: "kg", per: 1000 },
-         { n: [4], step: [125], start: [0], unit: "g", ask: "kg", per: 1000 }]
+         { n: [4], step: [125], start: [0], unit: "g", ask: "kg", per: 1000 }],
+        /* 11 to 14: as capacity */
+        [{ n: [4, 5, 6, 8], step: [15, 30, 40, 60, 75], start: [0, 15, 30, 75, 150], unit: "g" },
+         { n: [3, 5, 6, 7], step: [125, 150, 300], start: [0, 125, 250, 500], unit: "g" },
+         { n: [6, 8], step: [12, 16, 24], start: [0, 24, 48], unit: "g" }],
+        [{ n: [4, 5, 6], step: [250, 500, 125], start: [500, 750, 1250], unit: "g", ask: "kg", per: 1000 },
+         { n: [4, 5], step: [200, 400, 150], start: [300, 600, 900], unit: "g", ask: "kg", per: 1000 },
+         { n: [6, 8], step: [75, 125], start: [0, 250, 500], unit: "g", ask: "kg", per: 1000 }],
+        [{ n: [6], step: [250], start: [0, 500], unit: "g", face: "kg", per: 1000 },
+         { n: [5], step: [300], start: [0], unit: "g", face: "kg", per: 1000 },
+         { n: [8], step: [125], start: [0, 250], unit: "g", face: "kg", per: 1000 },
+         { n: [10], step: [150], start: [0], unit: "g", face: "kg", per: 1000 }],
+        [{ n: [4, 5, 6], step: [1250, 1500, 2500], start: [0, 2500, 5000], unit: "g", ask: "kg", per: 1000 },
+         { n: [4, 8], step: [750, 1500], start: [0, 1500, 3000], unit: "g", ask: "kg", per: 1000 },
+         { n: [5, 6], step: [1200, 1800], start: [0, 3600], unit: "g", ask: "kg", per: 1000 }]
       ]
     },
     length: {
@@ -3388,7 +3464,21 @@
          { n: [8], step: [25], start: [0], unit: "cm", face: "m", per: 100 }],
         [{ n: [4, 8], step: [25, 50], start: [0], unit: "cm", ask: "m", per: 100 },
          { n: [5], step: [20, 40], start: [0], unit: "cm", ask: "m", per: 100 },
-         { n: [4], step: [10], start: [0], unit: "cm", ask: "m", per: 100 }]
+         { n: [4], step: [10], start: [0], unit: "cm", ask: "m", per: 100 }],
+        /* 11 to 14: as capacity, with a hundred centimetres to the metre */
+        [{ n: [4, 5, 6, 8], step: [15, 30, 40, 60, 75], start: [0, 15, 30, 75], unit: "cm" },
+         { n: [3, 5, 6], step: [125, 150, 300], start: [0, 125, 250], unit: "cm" },
+         { n: [4, 6, 8], step: [15, 20, 30, 40], start: [0, 15, 30], unit: "mm" }],
+        [{ n: [4, 5, 6], step: [25, 50, 125], start: [50, 75, 125], unit: "cm", ask: "m", per: 100 },
+         { n: [4, 5], step: [20, 40, 15], start: [30, 60, 90], unit: "cm", ask: "m", per: 100 },
+         { n: [6, 8], step: [75, 125], start: [0, 25, 50], unit: "cm", ask: "m", per: 100 }],
+        [{ n: [6], step: [25], start: [0, 50], unit: "cm", face: "m", per: 100 },
+         { n: [5], step: [30], start: [0], unit: "cm", face: "m", per: 100 },
+         { n: [8], step: [15], start: [0, 30], unit: "cm", face: "m", per: 100 },
+         { n: [10], step: [15], start: [0], unit: "cm", face: "m", per: 100 }],
+        [{ n: [4, 5, 6], step: [125, 150, 250], start: [0, 250, 500], unit: "cm", ask: "m", per: 100 },
+         { n: [4, 8], step: [75, 150], start: [0, 150, 300], unit: "cm", ask: "m", per: 100 },
+         { n: [5, 6], step: [120, 180], start: [0, 360], unit: "cm", ask: "m", per: 100 }]
       ]
     },
     /* ---------------------------------------------------------- temperature
@@ -3455,7 +3545,23 @@
            before they can read anything at all. */
         [{ n: [5, 6, 8], step: [2], start: [-8, -6, -4], unit: "\u00b0C", half: true },
          { n: [4, 6], step: [4], start: [-12, -8], unit: "\u00b0C", half: true },
-         { n: [6, 7], step: [2], start: [-10, -14], unit: "\u00b0C", half: true }]
+         { n: [6, 7], step: [2], start: [-10, -14], unit: "\u00b0C", half: true }],
+        /* 11 to 14: the extension levels. Still half a degree between marks, but
+           the marks are three, four, five, six, seven, eight and nine degrees
+           apart, so half of one is 1.5, 2.5, 3.5 or 4.5 and the scale has to be
+           understood before it can be read at all. */
+        [{ n: [6, 8], step: [5], start: [-20, -25, -15], unit: "\u00b0C", half: true },
+         { n: [5, 7], step: [3], start: [-9, -6, -12], unit: "\u00b0C", half: true },
+         { n: [6, 7], step: [4], start: [-12, -16], unit: "\u00b0C", half: true }],
+        [{ n: [6, 8], step: [6], start: [-18, -24, -12], unit: "\u00b0C", half: true },
+         { n: [7, 9], step: [3], start: [-15, -12, -18], unit: "\u00b0C", half: true },
+         { n: [5, 6], step: [10], start: [-30, -20], unit: "\u00b0C", half: true }],
+        [{ n: [6, 8], step: [7], start: [-21, -14, -28], unit: "\u00b0C", half: true },
+         { n: [6, 7], step: [9], start: [-27, -18], unit: "\u00b0C", half: true },
+         { n: [5, 8], step: [8], start: [-24, -16], unit: "\u00b0C", half: true }],
+        [{ n: [8, 9], step: [4], start: [-16, -20, -24], unit: "\u00b0C", half: true },
+         { n: [8, 9], step: [6], start: [-30, -24, -18], unit: "\u00b0C", half: true },
+         { n: [7, 8], step: [12], start: [-36, -24], unit: "\u00b0C", half: true }]
       ]
     },
 
@@ -3555,7 +3661,8 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var STRETCH_MAX = 10;
+  var GAME_VERSION = "29";
+  var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
      year one number range has somewhere real to play. From there the ceiling
@@ -3573,7 +3680,11 @@
     "odd numbers of gaps",
     "scales that don't start at zero",
     "marked in the big unit, answered in the small one",
-    "marked in the small unit, answered in the big one"
+    "marked in the small unit, answered in the big one",
+    "awkward steps like 15, 40, 75 and 150, starting part way up",
+    "starting part way up the scale, answered in the big unit",
+    "the ends are marked in the big unit, like 1.5 L, and the answer is in the small one",
+    "each line worth more than a whole big unit, answered in the big one"
   ];
 
   /* ================================================ the step ladder
@@ -3640,7 +3751,29 @@
     [{ n: [4, 8], step: [250, 500], start: [0], askBig: true, cm: [25, 50] },
      { n: [5, 10], step: [200, 400, 100], start: [0], askBig: true, cm: [20, 40, 10] },
      { n: [4, 8], step: [125, 250], start: [0], askBig: true, cm: [10, 25] },
-     { n: [2, 5], step: [500, 200], start: [0], askBig: true, cm: [50, 20] }]
+     { n: [2, 5], step: [500, 200], start: [0], askBig: true, cm: [50, 20] }],
+    /* 11 to 14: the extension levels. Nothing here is a bigger number for its
+       own sake; each one is a new kind of awkward. */
+    /* 11: steps that are not in any times table a child has to hand. */
+    [{ n: [4, 5, 6, 8], step: [15, 30, 40, 60, 75], start: [0], cm: [15, 30, 40, 60, 75] },
+     { n: [3, 5, 6, 7], step: [125, 150, 300], start: [0], cm: [125, 150, 300] },
+     { n: [8, 9, 10], step: [12, 16, 18, 24], start: [0], cm: [12, 16, 18, 24] }],
+    /* 12: the same awkward steps, asked for in the big unit, so a line worth
+       75 mL is answered 0.075 L. */
+    [{ n: [4, 6, 8], step: [75, 125, 150], start: [0], askBig: true, cm: [75, 125, 150] },
+     { n: [5, 6, 7], step: [30, 40, 60], start: [0], askBig: true, cm: [30, 40, 60] },
+     { n: [4, 5], step: [250, 300, 150], start: [0], askBig: true, cm: [250, 300, 150] }],
+    /* 13: the scale is printed in the big unit and stops somewhere that is not
+       a whole one (1.5 L), so the step has to be worked out from a decimal. */
+    [{ n: [6], step: [250], start: [0], faceBig: true, cm: [25] },
+     { n: [5], step: [300], start: [0], faceBig: true, cm: [30] },
+     { n: [8], step: [125], start: [0], faceBig: true, cm: [15] },
+     { n: [10], step: [150], start: [0], faceBig: true, cm: [15] }],
+    /* 14: a line is worth more than a whole big unit, and the answer is wanted
+       in it: 1250 mL a line is 1.25 L. */
+    [{ n: [4, 5, 6], step: [1250, 1500, 2500], start: [0], askBig: true, cm: [125, 150, 250] },
+     { n: [4, 8], step: [750, 1200, 1800], start: [0], askBig: true, cm: [75, 120, 180] },
+     { n: [3, 5], step: [3000, 4000, 2500], start: [0], askBig: true, cm: [300, 400, 250] }]
   ];
   /* Every recipe above starts at zero, and that is load-bearing rather than an
      oversight: the first mark up from the bottom then reads exactly the step,
@@ -3658,7 +3791,11 @@
     "odd numbers of gaps, and awkward steps",
     "the biggest numbers, on the busiest scales",
     "the scale is in the big unit, each line worth a small one",
-    "the scale is in the small unit, each line worth part of a big one"
+    "the scale is in the small unit, each line worth part of a big one",
+    "awkward steps, like 15, 40, 75 and 150",
+    "awkward steps, answered in the big unit",
+    "the scale is in the big unit and the lines are worth awkward amounts",
+    "each line worth more than a whole big unit"
   ];
 
   var pick = function (a) { return a[Math.floor(Math.random() * a.length)]; };
@@ -3722,8 +3859,21 @@
   }
   function askUnit(scale) { return scale.ask || scale.unit; }
 
-  function levelNote(level, mode) {
-    return (mode === "step" ? STEP_NOTE : LEVEL_NOTE)[Math.min(level, STRETCH_MAX) - 1];
+  /* Temperature has no bigger unit, so its stretch levels are about something
+     else and the shared notes (which talk about litres) would say the wrong
+     thing. Levels nine to fourteen. */
+  var TEMP_NOTE = [
+    "half-degree readings between marks one degree apart",
+    "half-degree readings between marks two and four degrees apart",
+    "half-degree readings, marks three, four and five degrees apart",
+    "half-degree readings, marks three, six and ten degrees apart",
+    "half-degree readings, marks seven, eight and nine degrees apart",
+    "the busiest scales, marks four, six and twelve degrees apart"
+  ];
+  function levelNote(level, mode, measure) {
+    var lv = Math.min(level, STRETCH_MAX);
+    if (measure === "temperature" && lv > MAX_LEVEL) return TEMP_NOTE[lv - MAX_LEVEL - 1];
+    return (mode === "step" ? STEP_NOTE : LEVEL_NOTE)[lv - 1];
   }
 
   function amount(scale, value) { return value + " " + scale.unit; }
@@ -4184,7 +4334,9 @@
      It used to be three the whole way, which took a child from level one to the
      top of the Year 6 stretch tier in twenty-seven questions. Roughly a lesson.
      Everything the ladder had to offer, gone on the first morning. */
-  var CLIMB = [3, 3, 3, 3, 4, 4, 5, 5, 6, 6];
+  /* Eleven to fourteen are the extension levels, and they ask for a longer run
+     again: a child who has got this far does not need to be told it is hard. */
+  var CLIMB = [3, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
   function climbNeeded(lv) {
     return CLIMB[Math.min(CLIMB.length, Math.max(1, lv | 0)) - 1];
   }
@@ -5258,7 +5410,11 @@
         msg += isStretch(to)
           ? (to === MAX_LEVEL + 1
               ? " That is the top of that ladder. Stretch level 1 now, which is Year 5 work."
-              : " Stretch level 2 now, which is Year 6 work.")
+              : to === MAX_LEVEL + 2
+                ? " Stretch level 2 now, which is Year 6 work."
+                : to === STRETCH_MAX
+                  ? " Stretch level " + (to - MAX_LEVEL) + " now, the top of everything in this game."
+                  : " Stretch level " + (to - MAX_LEVEL) + " now, past Year 6 work.")
           : " Level " + to + " on " + MEASURES[q.measure].label.toLowerCase() + " now.";
       }
       msg += " Press Enter for another one.";
@@ -5440,9 +5596,9 @@
     }
 
     document.getElementById("levelnote").textContent =
-      (isStretch(lv) ? "Stretch " + (lv - MAX_LEVEL) + " of 2"
+      (isStretch(lv) ? "Stretch " + (lv - MAX_LEVEL) + " of " + (STRETCH_MAX - MAX_LEVEL)
                      : lv + " of " + MAX_LEVEL) + ": " +
-      (shown === "number" ? NUMBER_NOTE[lv - 1] : levelNote(lv, state.mode)) +
+      (shown === "number" ? NUMBER_NOTE[lv - 1] : levelNote(lv, state.mode, shown)) +
       " · " + help + climb +
       (CONFIG.LEVEL_BONUS ? " · worth " + basePoints(lv) + " points" : "");
     document.getElementById("railname").textContent = MEASURES[shown].label + " level";
@@ -6385,7 +6541,7 @@
     }).join("");
 
     return '<p class="rules">Level reached in each game. Anyone sitting on 1 or 2 is ' +
-      'still counting lines instead of gaps. S1 and S2 are the stretch levels above the ladder.</p>' +
+      'still counting lines instead of gaps. S1 to S" + (STRETCH_MAX - MAX_LEVEL) + " are the stretch levels above the ladder.</p>' +
       '<div class="tablewrap"><table class="progress"><thead>' + head +
       "</thead><tbody>" + body + "</tbody></table></div>";
   }
@@ -7118,7 +7274,7 @@
 
   /* ----------------------------------------------------- your ladders
      All sixteen, grouped by measure, with the game the child is on picked out.
-     Ten pips: eight for the ladder, then two narrower ones for the stretch
+     Fourteen pips: eight for the ladder, then six narrower ones for the stretch
      tier, so a child on level three can see that the ladder ends at eight and
      that there is something past it. */
   function drawLadders() {
@@ -8435,7 +8591,9 @@
         clearTimeout(timer);
         if (attempt >= 3) throw err;
         codeBtn.textContent = "Waking the class sheet...";
-        return new Promise(function (res) { setTimeout(res, 1200 * attempt); })
+        /* A little random on the wait, so a whole class that failed together does
+           not come back together. */
+        return new Promise(function (res) { setTimeout(res, 1200 * attempt * (0.7 + Math.random() * 0.6) + Math.random() * 400); })
           .then(function () { return askSheet(code, attempt + 1); });
       });
   }
@@ -9166,7 +9324,7 @@
     document.getElementById("footnote").textContent =
       "Every game keeps its own level. A few right in a row moves you up, and it " +
       "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores from every device go to the same " +
-      "class sheet.";
+      "class sheet. Version " + GAME_VERSION + ".";
     pullShared(true);
     (function poll() {
       setTimeout(function () {
@@ -9177,7 +9335,7 @@
   } else {
     document.getElementById("footnote").textContent =
       "Every game keeps its own level. A few right in a row moves you up, and it " +
-      "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores are saved in this browser on this device.";
+      "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores are saved in this browser on this device. Version " + GAME_VERSION + ".";
   }
 
   /* A hook the browser tests use to read the current question. Harmless in
@@ -9447,7 +9605,28 @@
     add("meta", { name: "apple-mobile-web-app-title", content: "Measuring Lab" });
     add("meta", { name: "theme-color", content: "#0B6E92" });
     if ("serviceWorker" in navigator && (proto === "https:" || host === "localhost" || host === "127.0.0.1")) {
+      var hadController = !!navigator.serviceWorker.controller;
       navigator.serviceWorker.register("sw.js").catch(function () { /* plays the same without it */ });
+      /* When a newer copy of the game has been downloaded, say so and let the
+         child choose the moment, rather than reloading in the middle of a
+         question. The very first install taking control is not an update. */
+      navigator.serviceWorker.addEventListener("controllerchange", function () {
+        if (!hadController) { hadController = true; return; }
+        if (document.getElementById("update-bar")) return;
+        var bar = document.createElement("div");
+        bar.id = "update-bar";
+        bar.setAttribute("role", "status");
+        bar.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#0B6E92;color:#fff;border-radius:12px;padding:10px 12px 10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between;font:600 15px/1.3 system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25)";
+        var msg = document.createElement("span");
+        msg.textContent = "A new version of Measuring Lab is ready.";
+        var btn = document.createElement("button");
+        btn.textContent = "Refresh";
+        btn.style.cssText = "background:#fff;color:#0B6E92;border:0;border-radius:8px;padding:8px 16px;min-height:44px;font:700 15px system-ui,sans-serif;cursor:pointer";
+        btn.addEventListener("click", function () { location.reload(); });
+        bar.appendChild(msg);
+        bar.appendChild(btn);
+        document.body.appendChild(bar);
+      });
     }
   } catch (e) { /* plays the same without it */ }
 })();
