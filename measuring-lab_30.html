@@ -1283,9 +1283,9 @@
   body[data-bg="dusk"] {
     background-color: #1A0F36;
     background-image:
-      radial-gradient(120% 20% at 50% 100%, rgba(255,150,90,.50) 0%, transparent 70%),
-      radial-gradient(60% 30% at 50% 108%, rgba(255,205,120,.35) 0%, transparent 70%),
-      linear-gradient(180deg, #170C33 0%, #2F1553 45%, #5A2468 78%, #86355F 100%);
+      radial-gradient(120% 16% at 50% 100%, rgba(240,130,90,.34) 0%, transparent 70%),
+      radial-gradient(50% 20% at 50% 106%, rgba(255,190,120,.22) 0%, transparent 70%),
+      linear-gradient(180deg, #170C33 0%, #2A1450 45%, #43205F 80%, #55285F 100%);
     background-size: 100% 100vh;
     background-repeat: no-repeat;
   }
@@ -1363,6 +1363,10 @@
   body[data-bg="dusk"] .pip, body[data-bg="ember"] .pip, body[data-bg="nebula"] .pip
     { background: rgba(255,255,255,.28); }
 
+  /* Lava's footnote sits over the glow at the bottom and measured about 3.3:1,
+     under the 4.5 a line of small print needs. Whiter, with a dark edge. */
+  body[data-bg="lava"] .footnote { color: #FFFFFF; text-shadow: 0 1px 3px rgba(0,0,0,.75); }
+
   /* ---------- frames: a ring round a character, seen on the class board too ---------- */
   .avi[class*="frame-"] { border-radius: 50%; padding: 2px; }
   .frame-ring       { box-shadow: 0 0 0 2px var(--water); }
@@ -1378,7 +1382,9 @@
   .frame-summit     { box-shadow: 0 0 0 2px #6E56CF, 0 0 10px 3px rgba(110,86,207,.7); }
   /* the same rings, small, on the picker buttons */
   .fsw { width: 15px; height: 15px; border-radius: 50%; flex: none; background: #fff; border: 1px solid transparent; }
-  .fsw.frame-rainbowring { border-width: 3px; }
+  .fsw.frame-rainbowring { border: 3px solid transparent;
+                           background: linear-gradient(#fff, #fff) padding-box,
+                             conic-gradient(#E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; }
   .fsw.frame-none { box-shadow: none; border-color: var(--edge); }
 
   /* ---------- flame colours, earned with long streaks ---------- */
@@ -6476,7 +6482,7 @@
   /* Where the points came from, measure by measure, with the level reached
      in that measure alongside. */
   function breakdown(row) {
-    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", number: "Number" };
+    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number" };
     var bits = [];
     for (var i = 0; i < MEASURE_KEYS.length; i++) {
       var k = MEASURE_KEYS[i];
@@ -7123,8 +7129,6 @@
       test: function (s) { return s.bestStreak >= 150; } },
     { id: "streak200", art: "crown", name: "Two hundred in a row", want: "Get 200 right in a row",
       test: function (s) { return s.bestStreak >= 200; } },
-    { id: "streak30b", art: "star",  name: "Blue flame", want: "Get 30 right in a row, then look at your flames",
-      test: function (s) { return s.bestStreak >= 30; } },
 
     /* --- past the ladder: the stretch levels, which until now had no badges at
            all, so a child on Stretch 4 looked exactly like one on Stretch 1 --- */
@@ -7805,7 +7809,7 @@
   ];
   var FLAMES = [
     { id: "ember",   name: "Ember",     need: "" },
-    { id: "blue",    name: "Blue",      need: "streak30b", how: "30 in a row" },
+    { id: "blue",    name: "Blue",      need: "streak30", how: "30 in a row" },
     { id: "violet",  name: "Violet",    need: "streak50",  how: "50 in a row" },
     { id: "jade",    name: "Jade",      need: "streak75",  how: "75 in a row" },
     { id: "white",   name: "White hot", need: "streak100", how: "100 in a row" },
