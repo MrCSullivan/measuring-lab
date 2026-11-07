@@ -3062,6 +3062,76 @@
     .ws-key .ws-keys ol { margin: 1mm 0 0; padding-left: 6mm; }
   }
 
+  /* ---- the worksheets on screen ----
+     Making the sheets opens them in a preview first, with Print, Save as a
+     file and Close. Printing straight from the page is blocked in some places
+     (an iPad Home Screen app cannot print at all), and a saved file can always
+     be opened and printed. The instruments are drawn black on white here too. */
+  .worksheet { --paper: #fff; --card: #fff; --card-sunk: #fff; --edge: #333; --ink: #000; --ink-soft: #222; --ink-faint: #444;
+    --water: #000; --water-deep: #000; --water-fill: #fff; --water-lite: #fff; --zest: #000; --leaf: #000; --berry: #000; --gold: #000; color: #000; }
+  body.ws-open { overflow: hidden; }
+  body.ws-open .worksheet { display: block; position: fixed; inset: 0; z-index: 300; overflow: auto; -webkit-overflow-scrolling: touch;
+    background: #5F646B; padding: 96px 12px 24px; }
+  /* Whatever colour is on screen, a worksheet is plain black ink on white:
+     none of the themes' gold, glow, patterns or movement reach the paper. */
+  body .worksheet svg * { filter: none !important; animation: none !important; stroke-dasharray: none !important; }
+  body .worksheet .glass, body .worksheet .rim, body .worksheet .rulerbody, body .worksheet .face,
+  body .worksheet .dialtrack, body .worksheet .grad, body .worksheet .needle { stroke: #000 !important; }
+  body .worksheet .glass { stroke-width: 2.5px !important; }
+  body .worksheet .face, body .worksheet .rulerbody { fill: #fff !important; }
+  body .worksheet .liquid { fill: #E4E4E4 !important; }
+  body .worksheet .dialfill { stroke: #BDBDBD !important; }
+  body .worksheet .hub { fill: #000 !important; }
+  body .worksheet .ribbon { fill: #9A9A9A !important; }
+  body .worksheet .mercury { fill: #555 !important; }
+  body .worksheet .lab { fill: #000 !important; }
+  .ws-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 301; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    padding: 10px 14px; background: #1E2228; color: #fff; font: 600 15px/1.3 Karla, sans-serif; }
+  .ws-bar b { margin-right: auto; }
+  .ws-bar button { font: 700 15px/1 Karla, sans-serif; padding: 11px 16px; min-height: 44px; border-radius: 10px; border: 0; cursor: pointer; background: #fff; color: #111; }
+  .ws-bar button.go { background: #2F80FF; color: #fff; }
+  .ws-bar small { flex-basis: 100%; color: #C9D1DA; font: 500 13px/1.35 Karla, sans-serif; }
+  .worksheet .ws-page { background: #fff; width: 210mm; max-width: 100%; margin: 0 auto 16px; padding: 14mm 12mm; box-sizing: border-box; box-shadow: 0 6px 20px rgba(0,0,0,.35); }
+    .ws-head { border-bottom: 1.5pt solid #000; padding-bottom: 4pt; margin-bottom: 10pt; }
+  .ws-head h1 { font: 700 15pt/1.2 Georgia, serif; margin: 0; }
+  .ws-head p { font: 11pt/1.3 Arial, sans-serif; margin: 3pt 0 0; }
+
+  /* Two columns, because twelve questions down one column is four pages and
+     a child loses their place. Questions are kept whole across the break. */
+  .ws-qs { columns: 2; column-gap: 10mm; list-style: decimal; margin: 0; padding-left: 5mm; }
+  .ws-qs > li {
+    break-inside: avoid; page-break-inside: avoid;
+    margin: 0 0 7mm; padding: 0;
+    font: 10.5pt/1.35 Arial, sans-serif;
+  }
+  .ws-ask { font-weight: 700; }
+  .ws-sub { color: #333; font-size: 9.5pt; margin-top: 1pt; }
+  .ws-art { margin: 2mm 0; }
+  /* The drawings are SVG, so they scale to whatever they are given without
+     going soft. Small enough that two columns of them fit one page. */
+  .ws-art svg { max-width: 100%; max-height: 34mm; height: auto; }
+
+  /* Somewhere to write. The rule is a real line rather than an underscore
+     row, so it stays straight whatever the font does. */
+  .ws-line { display: flex; align-items: flex-end; gap: 2mm; margin-top: 2mm; }
+  .ws-line span { font-size: 9pt; color: #333; }
+  .ws-line i { flex: 1 1 auto; border-bottom: 0.8pt solid #000; height: 9pt; }
+  .ws-line em { font-style: normal; font-size: 9.5pt; }
+
+  /* The answers, together at the back, so a class set can be marked in one
+     pass and a child leafing through does not meet them. */
+  .ws-key .ws-keys { columns: 3; column-gap: 8mm; font: 9.5pt/1.4 Arial, sans-serif; }
+  .ws-key .ws-keys > div { break-inside: avoid; page-break-inside: avoid; margin-bottom: 5mm; }
+  .ws-key .ws-keys b { font-size: 10.5pt; }
+  .ws-key .ws-keys small { color: #333; }
+  .ws-key .ws-keys ol { margin: 1mm 0 0; padding-left: 6mm; }
+
+  @media print {
+    .ws-bar { display: none !important; }
+    body.ws-open .worksheet, .worksheet { position: static !important; padding: 0 !important; background: #fff !important; overflow: visible !important; }
+    .worksheet .ws-page { box-shadow: none; width: auto; margin: 0; padding: 0; }
+  }
+
   .nsentence { fill: var(--water-deep); font-family: Karla, sans-serif; font-weight: 800; }
   .nunknown  { fill: var(--zest); }
 </style>
@@ -4801,7 +4871,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "41";
+  var GAME_VERSION = "42";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -8104,16 +8174,88 @@
     out += "</div></section>";
 
     var sheet = document.getElementById("worksheet");
-    sheet.innerHTML = out;
+    /* The print rules keep only what sits directly on the page, and the sheet
+       used to sit inside the game's own box, so it was hidden along with the
+       game and the printout came out blank. It lives on the page itself now. */
+    if (sheet.parentNode !== document.body) document.body.appendChild(sheet);
+    lastSheets = out;
+    var pages = who.length;
+    sheet.innerHTML = '<div class="ws-bar" role="toolbar" aria-label="Worksheets">' +
+      "<b>Worksheets: " + pages + (pages === 1 ? " page" : " pages") + " and the answers</b>" +
+      '<button type="button" class="go" id="ws-print">Print</button>' +
+      '<button type="button" id="ws-save">Save as a file</button>' +
+      '<button type="button" id="ws-close">Close</button>' +
+      '<small id="ws-tip"></small></div>' + out;
     var d = new Date();
     sheet.querySelectorAll(".ws-date").forEach(function (el) {
       el.textContent = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
     });
-    document.body.classList.add("printing");
-    window.print();
-    /* Taken off again whichever way the print dialog ended, since there is no
-       reliable event for "they pressed cancel". */
-    setTimeout(function () { document.body.classList.remove("printing"); }, 400);
+    openSheets(sheet);
+  }
+
+  var lastSheets = "";
+  function sheetsCanPrint() {
+    var homeApp = !!(window.navigator.standalone ||
+      (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches));
+    return typeof window.print === "function" && !homeApp;
+  }
+  function openSheets(sheet) {
+    document.body.classList.add("ws-open");
+    sheet.setAttribute("aria-hidden", "false");
+    sheet.scrollTop = 0;
+    var tip = document.getElementById("ws-tip"), printBtn = document.getElementById("ws-print");
+    if (!sheetsCanPrint()) {
+      printBtn.hidden = true;
+      tip.textContent = "The Home Screen app cannot print. Press Save as a file, or open the game in Safari to print from there.";
+    } else {
+      tip.textContent = "If no print window opens, press Save as a file, then open the file and print it.";
+    }
+    printBtn.onclick = function () {
+      try { window.print(); }
+      catch (e) { tip.textContent = "Printing is blocked here. Press Save as a file, then open the file and print it."; }
+    };
+    document.getElementById("ws-save").onclick = function () { saveSheets(tip); };
+    document.getElementById("ws-close").onclick = closeSheets;
+    document.getElementById("ws-close").focus();
+  }
+  function closeSheets() {
+    var sheet = document.getElementById("worksheet");
+    document.body.classList.remove("ws-open");
+    sheet.setAttribute("aria-hidden", "true");
+    sheet.innerHTML = "";
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && document.body.classList.contains("ws-open")) closeSheets();
+  });
+  /* A complete page of its own, with the game's styles inside it, that opens
+     and prints anywhere: a laptop, a school computer, or Safari on an iPad. */
+  function saveSheets(tip) {
+    var css = [].map.call(document.querySelectorAll("style"), function (s) { return s.textContent; }).join("\n");
+    var stamp = new Date();
+    var page = '<!doctype html><html lang="en-AU" data-theme="light"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1"><title>Measuring Lab worksheets</title>' +
+      "<style>" + css + "\n.worksheet{display:block!important;background:#E8EAED;padding:16px 8px}" +
+      "@media print{.worksheet{background:#fff;padding:0}}</style></head><body>" +
+      '<div class="worksheet" id="worksheet">' + document.getElementById("worksheet").innerHTML.replace(/<div class="ws-bar"[\s\S]*?<\/div>/, "") + "</div>" +
+      "<script>window.addEventListener('load',function(){setTimeout(function(){try{window.print()}catch(e){}},500)})<\/script></body></html>";
+    var blob = new Blob([page], { type: "text/html" });
+    var url = URL.createObjectURL(blob);
+    var name = "worksheets-" + stamp.getFullYear() + "-" + (stamp.getMonth() + 1) + "-" + stamp.getDate() + ".html";
+    var framed = false;
+    try { framed = window.top !== window.self; } catch (e) { framed = true; }
+    if (framed) {
+      /* Inside Apps Script the page is in a frame that may not save files, so
+         the sheets open in a new tab instead, where they print straight away. */
+      var w = window.open(url, "_blank");
+      tip.textContent = w ? "The worksheets opened in a new tab. Print from there."
+                          : "Your browser blocked the new tab. Allow pop-ups for this page and press Save as a file again.";
+    } else {
+      var a = document.createElement("a");
+      a.href = url; a.download = name; a.rel = "noopener";
+      document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
+      tip.textContent = "Saved as " + name + ". Open it and it prints straight away.";
+    }
+    setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
   }
 
   /* ---------------------------------------------------- who needs me
