@@ -1,16 +1,12 @@
-/* Karla and Fraunces, kept with the game so the page never waits on another
-   website for them. Latin letters only; anything else falls back to the
-   device's own font. Both are licensed under the SIL Open Font License 1.1
-   (see LICENSE.txt in this folder). */
-@font-face { font-family: "Karla"; font-style: normal; font-weight: 400; font-display: swap;
-  src: url("karla-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
-@font-face { font-family: "Karla"; font-style: normal; font-weight: 600; font-display: swap;
-  src: url("karla-latin-600-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
-@font-face { font-family: "Karla"; font-style: normal; font-weight: 700; font-display: swap;
-  src: url("karla-latin-700-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
-@font-face { font-family: "Fraunces"; font-style: normal; font-weight: 100 900; font-display: swap;
-  src: url("fraunces-latin-opsz-normal.woff2") format("woff2-variations");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+Karla (c) The Karla Project Authors, and Fraunces (c) 2020 The Fraunces Project
+Authors (github.com/undercasetype/Fraunces), are licensed under the SIL Open
+Font License, Version 1.1, which allows them to be used, copied and redistributed
+with software. The full text is at https://openfontlicense.org
+
+The font files here come unchanged from the @fontsource/karla and
+@fontsource-variable/fraunces packages.
+
+--- Fraunces licence notice, as shipped with that package ---
+Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces) Fraunces-Italic[SOFT,WONK,opsz,wght].ttf: Copyright 2020 The Fraunces Project Authors (github.com/undercasetype/Fraunces)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
