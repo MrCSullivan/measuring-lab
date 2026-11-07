@@ -1262,148 +1262,278 @@
   /* ---------- more of what a full jar buys, past the eighth ----------
      Four more jug colours. Each is measured the way the first five were: white on
      the colour for a selected button, and the marks drawn at 80% against white. */
-  body[data-skin="lagoon"] { --water: #0A7C7C; --water-deep: #075A5A;
-                             --water-fill: #C9E2E2; --water-lite: #E6F2F2; }
-  .sw-lagoon { background: #0A7C7C; }
-  body[data-skin="ruby"] { --water: #B02A44; --water-deep: #821E32;
-                             --water-fill: #EED0D6; --water-lite: #F7EAEC; }
-  .sw-ruby { background: #B02A44; }
-  body[data-skin="midnight"] { --water: #3B47A0; --water-deep: #2A3478;
-                             --water-fill: #D4D7EA; --water-lite: #EBEDF6; }
-  .sw-midnight { background: #3B47A0; }
-  body[data-skin="magenta"] { --water: #A12E8C; --water-deep: #7A2169;
-                             --water-fill: #EAD1E6; --water-lite: #F6EAF4; }
-  .sw-magenta { background: #A12E8C; }
 
-  /* Five more backgrounds. Three are dark scenes, so they join the list of
-     backgrounds that bring the words printed straight on the page with them
-     (below); two are light and need nothing. All CSS gradients, no download. */
+  /* Five more backgrounds, each a scene with something moving in it, and each a
+     step richer than the one before (the last, Nebula, has two layers of stars
+     drifting at different speeds and the odd shooting star). The three dark ones
+     bring their words with them, as the older dark backgrounds do (below). All
+     CSS, nothing to download, and everything stops for anyone who has asked
+     their device for reduced motion. */
+  body[data-bg="dusk"], body[data-bg="meadow"], body[data-bg="arctic"], body[data-bg="ember"], body[data-bg="nebula"] {
+    background-size: 100% 100vh; background-repeat: no-repeat; }
+  body[data-bg="dusk"]::before, body[data-bg="meadow"]::before, body[data-bg="arctic"]::before,
+  body[data-bg="ember"]::before, body[data-bg="nebula"]::before, body[data-bg="nebula"]::after {
+    content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; pointer-events: none; }
 
-  /* 10 jars. Dusk: the sky going from violet to the last of the sun. */
+  /* 10 jars: Dusk Peaks. Three ridges against the last of the light, a moon, and stars that come out. */
   body[data-bg="dusk"] {
-    background-color: #1A0F36;
+    background-color: #150A30;
     background-image:
-      radial-gradient(120% 16% at 50% 100%, rgba(240,130,90,.34) 0%, transparent 70%),
-      radial-gradient(50% 20% at 50% 106%, rgba(255,190,120,.22) 0%, transparent 70%),
-      linear-gradient(180deg, #170C33 0%, #2A1450 45%, #43205F 80%, #55285F 100%);
-    background-size: 100% 100vh;
-    background-repeat: no-repeat;
-  }
-  /* 12 jars. Meadow: a light one, soft hills under a pale sky. */
+      radial-gradient(60% 45% at 78% 74%, rgba(255,150,90,.55), transparent 70%),
+      radial-gradient(90% 26% at 18% 100%, #231046 0 99%, transparent 100%),
+      radial-gradient(80% 22% at 72% 104%, #1A0B38 0 99%, transparent 100%),
+      radial-gradient(70% 18% at 40% 108%, #120728 0 99%, transparent 100%),
+      radial-gradient(circle at 12% 15%, #FFF3D6 0 1.8%, rgba(255,243,214,.22) 3%, transparent 8%),
+      linear-gradient(180deg, #150A30 0%, #2A1450 40%, #5A2468 68%, #B2476B 86%, #E27A55 100%); }
+  body[data-bg="dusk"]::before {
+    background-image: radial-gradient(circle at 20% 12%, #fff 0 1px, transparent 1.6px), radial-gradient(circle at 55% 8%, #fff 0 1px, transparent 1.6px),
+                      radial-gradient(circle at 80% 18%, #fff 0 1px, transparent 1.6px), radial-gradient(circle at 38% 24%, #fff 0 1px, transparent 1.6px);
+    background-size: 420px 260px; animation: bgtwinkle 5s ease-in-out infinite alternate; }
+  /* 12 jars: Sunny Hills. A light one: rolling hills, a warm sun, clouds drifting across. */
   body[data-bg="meadow"] {
-    background-color: #EEF7E6;
+    background-color: #EAF6E0;
     background-image:
-      radial-gradient(120% 28% at 20% 108%, rgba(120,190,110,.40) 0%, transparent 70%),
-      radial-gradient(110% 24% at 85% 110%, rgba(150,205,120,.38) 0%, transparent 70%),
-      radial-gradient(circle at 82% 8%, rgba(255,240,170,.85) 0 7%, transparent 18%),
-      linear-gradient(180deg, #E4F3F5 0%, #EEF7E6 55%, #E2F1D4 100%);
-    background-size: 100% 100vh;
-    background-repeat: no-repeat;
-  }
-  /* 14 jars. Arctic: pale ice, light slanting through it. */
+      radial-gradient(90% 30% at 15% 104%, #8CC673 0 99%, transparent 100%),
+      radial-gradient(80% 26% at 85% 106%, #A5D48C 0 99%, transparent 100%),
+      radial-gradient(100% 30% at 50% 112%, #BFE3A8 0 99%, transparent 100%),
+      radial-gradient(circle at 84% 9%, rgba(255,244,170,.95) 0 5%, rgba(255,244,170,.35) 9%, transparent 17%),
+      linear-gradient(180deg, #CFEAF7 0%, #E6F4E8 60%, #F3F8DC 100%); }
+  body[data-bg="meadow"]::before {
+    left: -30%; right: auto; width: 160%; bottom: auto; height: 34%; top: 5%;
+    background-image: radial-gradient(ellipse 120px 34px at 12% 40%, rgba(255,255,255,.92), transparent 70%),
+                      radial-gradient(ellipse 170px 42px at 46% 62%, rgba(255,255,255,.88), transparent 70%),
+                      radial-gradient(ellipse 110px 30px at 78% 34%, rgba(255,255,255,.92), transparent 70%);
+    animation: bgclouds 90s linear infinite alternate; }
+  /* 14 jars: Glacier. Pale slabs of ice, and a slow glint of light crossing them. */
   body[data-bg="arctic"] {
-    background-color: #EAF5FA;
+    background-color: #E4F2F8;
     background-image:
-      repeating-linear-gradient(115deg, rgba(255,255,255,.55) 0 22px, rgba(190,225,240,.18) 22px 60px),
-      radial-gradient(90% 40% at 15% 0%, rgba(255,255,255,.9) 0%, transparent 70%),
-      linear-gradient(180deg, #E6F4FA 0%, #D6ECF5 100%);
-    background-size: 100% 100vh;
-    background-repeat: no-repeat;
-  }
-  /* 16 jars. Ember: a dark room with the last of a fire, sparks lifting off it. */
+      linear-gradient(115deg, rgba(255,255,255,.7) 0 18%, transparent 18% 100%),
+      linear-gradient(65deg, transparent 0 40%, rgba(170,215,235,.35) 40% 62%, transparent 62%),
+      linear-gradient(140deg, transparent 0 55%, rgba(255,255,255,.55) 55% 74%, transparent 74%),
+      linear-gradient(180deg, #E9F6FB 0%, #CFE7F1 100%); }
+  body[data-bg="arctic"]::before {
+    background-image: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.6) 50%, transparent 65%);
+    background-size: 250% 100%; animation: bgglint 16s ease-in-out infinite alternate; }
+  /* 16 jars: Ember Forge. A dark room, the glow of the fire at the bottom, sparks lifting off it. */
   body[data-bg="ember"] {
-    background-color: #120707;
+    background-color: #0F0605;
     background-image:
-      radial-gradient(circle at 22% 78%, rgba(255,140,50,.85) 0 1.4px, transparent 1.8px),
-      radial-gradient(circle at 58% 64%, rgba(255,190,90,.75) 0 1.2px, transparent 1.6px),
-      radial-gradient(circle at 81% 82%, rgba(255,120,40,.8) 0 1.5px, transparent 1.9px),
-      radial-gradient(circle at 40% 90%, rgba(255,170,70,.7) 0 1.1px, transparent 1.5px),
-      radial-gradient(130% 24% at 50% 108%, rgba(255,95,30,.55) 0%, transparent 70%),
-      linear-gradient(180deg, #0E0505 0%, #1F0A09 70%, #2B0E0A 100%);
-    background-size: 380px 340px, 380px 340px, 380px 340px, 380px 340px, 100% 100vh, 100% 100vh;
-    background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat;
-  }
-  /* 20 jars. Nebula: a cloud of colour in deep space, the whole year's work. */
+      radial-gradient(120% 22% at 50% 110%, rgba(255,90,25,.50), transparent 70%),
+      radial-gradient(60% 14% at 25% 106%, rgba(255,170,60,.35), transparent 70%),
+      linear-gradient(180deg, #0B0404 0%, #1B0907 70%, #2A0E09 100%); }
+  body[data-bg="ember"]::before {
+    background-image: radial-gradient(circle at 22% 78%, rgba(255,140,50,.95) 0 1.5px, transparent 2px), radial-gradient(circle at 58% 64%, rgba(255,200,90,.85) 0 1.2px, transparent 1.8px),
+                      radial-gradient(circle at 81% 82%, rgba(255,120,40,.9) 0 1.6px, transparent 2.1px), radial-gradient(circle at 40% 92%, rgba(255,170,70,.8) 0 1.1px, transparent 1.7px),
+                      radial-gradient(circle at 68% 30%, rgba(255,150,60,.7) 0 1px, transparent 1.6px);
+    background-size: 360px 520px; animation: bgrise 16s linear infinite; }
+  /* 20 jars: Nebula. Clouds of colour in deep space, two layers of stars, a shooting star now and then. */
   body[data-bg="nebula"] {
-    background-color: #0D0922;
+    background-color: #0B0820;
     background-image:
-      radial-gradient(circle at 15% 22%, rgba(255,255,255,.85) 0 1.3px, transparent 1.6px),
-      radial-gradient(circle at 70% 14%, rgba(255,255,255,.6) 0 1px, transparent 1.3px),
-      radial-gradient(circle at 88% 63%, rgba(255,255,255,.8) 0 1.3px, transparent 1.6px),
-      radial-gradient(circle at 33% 76%, rgba(255,255,255,.55) 0 1px, transparent 1.3px),
-      radial-gradient(60% 40% at 78% 30%, rgba(214,92,200,.36) 0%, transparent 70%),
-      radial-gradient(55% 45% at 22% 60%, rgba(96,120,255,.34) 0%, transparent 70%),
-      linear-gradient(170deg, #1A1042 0%, #0D0922 60%);
-    background-size: 440px 400px, 440px 400px, 440px 400px, 440px 400px, 100% 100vh, 100% 100vh, cover;
-    background-repeat: repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
+      radial-gradient(60% 40% at 78% 28%, rgba(214,92,200,.40), transparent 70%),
+      radial-gradient(55% 45% at 20% 62%, rgba(96,120,255,.38), transparent 70%),
+      radial-gradient(45% 35% at 60% 90%, rgba(60,200,220,.22), transparent 70%),
+      linear-gradient(170deg, #1A1042 0%, #0B0820 65%); }
+  body[data-bg="nebula"]::before {
+    background-image: radial-gradient(circle at 15% 22%, rgba(255,255,255,.9) 0 1.3px, transparent 1.7px), radial-gradient(circle at 70% 14%, rgba(255,255,255,.65) 0 1px, transparent 1.4px),
+                      radial-gradient(circle at 88% 63%, rgba(255,255,255,.85) 0 1.3px, transparent 1.7px), radial-gradient(circle at 33% 76%, rgba(255,255,255,.6) 0 1px, transparent 1.4px),
+                      radial-gradient(circle at 52% 44%, rgba(190,200,255,.7) 0 1px, transparent 1.4px);
+    background-size: 440px 400px; animation: bgdrift 150s linear infinite; }
+  body[data-bg="nebula"]::after {
+    left: -20%; right: auto; bottom: auto; width: 150px; height: 2px; top: 12%;
+    background: linear-gradient(90deg, transparent, #fff); transform: rotate(25deg); opacity: 0;
+    animation: bgshoot 13s linear infinite; }
+  /* the footnote sits over the green hills on this one, so it goes a dark green */
+  body[data-bg="meadow"] .footnote { color: #1B3317; }
+  @keyframes bgtwinkle { from { opacity: .35; } to { opacity: .95; } }
+  @keyframes bgclouds  { from { transform: translateX(0); } to { transform: translateX(16%); } }
+  @keyframes bgglint   { from { background-position: 100% 0; } to { background-position: 0% 0; } }
+  @keyframes bgrise    { from { background-position: 0 0; } to { background-position: 0 -520px; } }
+  @keyframes bgdrift   { from { background-position: 0 0; } to { background-position: -440px 200px; } }
+  @keyframes bgshoot   { 0%, 86% { opacity: 0; transform: translate(0, 0) rotate(25deg); }
+                         88% { opacity: 1; } 100% { opacity: 0; transform: translate(130vw, 62vh) rotate(25deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    body[data-bg]::before, body[data-bg]::after { animation: none !important; }
+    body[data-bg="nebula"]::after { display: none; }
   }
-  .bgsw[data-bg="dusk"]   { background: linear-gradient(180deg, #2F1553 0%, #5A2468 55%, #E08A55 100%); }
-  .bgsw[data-bg="meadow"] { background: radial-gradient(110% 60% at 30% 110%, #86C275 0 55%, transparent 58%),
-                                        linear-gradient(180deg, #DDF0F3 0%, #EEF7E6 100%); }
-  .bgsw[data-bg="arctic"] { background: repeating-linear-gradient(115deg, #fff 0 4px, #BFE0EE 4px 9px); }
-  .bgsw[data-bg="ember"]  { background: radial-gradient(120% 55% at 50% 110%, #FF6A1F 0%, #7A1D0B 45%, transparent 75%),
-                                        linear-gradient(180deg, #0E0505 0%, #2B0E0A 100%); }
-  .bgsw[data-bg="nebula"] { background: radial-gradient(70% 55% at 70% 30%, rgba(214,92,200,.75) 0%, transparent 70%),
-                                        radial-gradient(60% 55% at 25% 65%, rgba(96,120,255,.7) 0%, transparent 70%),
-                                        #0D0922; }
-
-  /* The same rules as the dark scenes above, for the three new dark ones. */
+  .bgsw[data-bg="dusk"]   { background: radial-gradient(70% 40% at 70% 100%, #E27A55, transparent 70%), linear-gradient(180deg, #150A30, #5A2468 70%); }
+  .bgsw[data-bg="meadow"] { background: radial-gradient(110% 60% at 30% 112%, #8CC673 0 55%, transparent 58%), linear-gradient(180deg, #CFEAF7, #EAF6E0); }
+  .bgsw[data-bg="arctic"] { background: linear-gradient(115deg, #fff 0 25%, #BFE0EE 25% 55%, #fff 55% 75%, #CFE7F1 75%); }
+  .bgsw[data-bg="ember"]  { background: radial-gradient(120% 55% at 50% 112%, #FF6A1F, #7A1D0B 45%, transparent 75%), #0F0605; }
+  .bgsw[data-bg="nebula"] { background: radial-gradient(70% 55% at 70% 30%, rgba(214,92,200,.8), transparent 70%), radial-gradient(60% 55% at 25% 65%, rgba(96,120,255,.75), transparent 70%), #0B0820; }
   body[data-bg="dusk"] .rail, body[data-bg="ember"] .rail, body[data-bg="nebula"] .rail,
   body[data-bg="dusk"] .rail .note, body[data-bg="ember"] .rail .note, body[data-bg="nebula"] .rail .note,
   body[data-bg="dusk"] .footnote, body[data-bg="ember"] .footnote, body[data-bg="nebula"] .footnote,
   body[data-bg="dusk"] .player, body[data-bg="ember"] .player, body[data-bg="nebula"] .player,
-  body[data-bg="dusk"] .player b, body[data-bg="ember"] .player b, body[data-bg="nebula"] .player b
-    { color: #DCE6F3; }
-  body[data-bg="dusk"] .masthead h1, body[data-bg="ember"] .masthead h1,
-  body[data-bg="nebula"] .masthead h1 { color: #F2F6FD; }
+  body[data-bg="dusk"] .player b, body[data-bg="ember"] .player b, body[data-bg="nebula"] .player b { color: #DCE6F3; }
+  body[data-bg="dusk"] .masthead h1, body[data-bg="ember"] .masthead h1, body[data-bg="nebula"] .masthead h1 { color: #F2F6FD; }
   body[data-bg="dusk"] .linky, body[data-bg="ember"] .linky, body[data-bg="nebula"] .linky,
-  body[data-bg="dusk"] .mytitle, body[data-bg="ember"] .mytitle, body[data-bg="nebula"] .mytitle
-    { color: #F2F8FF; background: rgba(255,255,255,.22); }
+  body[data-bg="dusk"] .mytitle, body[data-bg="ember"] .mytitle, body[data-bg="nebula"] .mytitle { color: #F2F8FF; background: rgba(255,255,255,.22); }
   body[data-bg="dusk"] .avi.big, body[data-bg="ember"] .avi.big, body[data-bg="nebula"] .avi.big { stroke: #BBDFF6; }
-  body[data-bg="dusk"] .pip, body[data-bg="ember"] .pip, body[data-bg="nebula"] .pip
-    { background: rgba(255,255,255,.28); }
+  body[data-bg="dusk"] .pip, body[data-bg="ember"] .pip, body[data-bg="nebula"] .pip { background: rgba(255,255,255,.28); }
 
   /* Lava's footnote sits over the glow at the bottom and measured about 3.3:1,
      under the 4.5 a line of small print needs. Whiter, with a dark edge. */
   body[data-bg="lava"] .footnote { color: #FFFFFF; text-shadow: 0 1px 3px rgba(0,0,0,.75); }
 
-  /* ---------- frames: a ring round a character, seen on the class board too ---------- */
+
+  /* ============ the premium tier, for the jars past the eighth ============
+     Galaxy, Volcano and Neon are whole re-themes with a moving liquid and a
+     glowing instrument, not a change of colour. Anything that came after them
+     had to be at least that, so these four are each a full theme with their own
+     moving parts: Borealis has a drifting aurora across the cards, Opal a
+     pearly sheen that slowly shifts, Midas a band of light that sweeps across
+     like gold foil, and Prism a holographic spectrum with the whole range
+     running through the liquid and round the glass. Every colour was measured:
+     the ink on the cards 7:1 or better, the small print 4.5:1, and the label on
+     a selected button 4.5:1. */
+  body[data-skin="borealis"] {
+    --paper: #04141A; --card: #0B2530; --card-sunk: #071C25; --edge: #1F5260;
+    --ink: #E9FBF6; --ink-soft: #A9D8CF; --ink-faint: #6FA59B;
+    --water: #3EE6B0; --water-deep: #9CF5DA; --water-fill: #0E4A45; --water-lite: #0A3A3A;
+    --zest: #B58CFF; --zest-soft: #271A4A; --leaf: #6BFFB0; --leaf-soft: #0E2C1F;
+  }
+  body[data-skin="borealis"] .glass, body[data-skin="borealis"] .rim, body[data-skin="borealis"] .grad,
+  body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face
+    { animation: borealisline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(62,230,176,.65)); }
+  body[data-skin="borealis"] .liquid, body[data-skin="borealis"] .ribbon, body[data-skin="borealis"] .dialfill
+    { animation: borealisfill 9s linear infinite; }
+  body[data-skin="borealis"] .stage, body[data-skin="borealis"] #board {
+    background-image: linear-gradient(115deg, transparent 0%, rgba(62,230,176,.13) 28%, rgba(92,200,255,.10) 48%, rgba(181,140,255,.14) 70%, transparent 100%);
+    background-size: 220% 100%; animation: auroradrift 16s ease-in-out infinite alternate; }
+  @keyframes borealisline { 0% { stroke: #3EE6B0; } 33% { stroke: #5CC8FF; } 66% { stroke: #B58CFF; } 100% { stroke: #3EE6B0; } }
+  @keyframes borealisfill { 0% { fill: #0F6B5E; } 33% { fill: #15527F; } 66% { fill: #43307F; } 100% { fill: #0F6B5E; } }
+  @keyframes auroradrift { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+
+  body[data-skin="opal"] {
+    --paper: #F3F1FA; --card: #FFFFFF; --card-sunk: #F6F4FC; --edge: #D9D3EC;
+    --ink: #2B2545; --ink-soft: #5A5378; --ink-faint: #8982A8;
+    --water: #6B4FC8; --water-deep: #4B34A0; --water-fill: #DCD3F7; --water-lite: #EFEAFC;
+    --zest: #C23A82; --zest-soft: #FCE3EF;
+  }
+  body[data-skin="opal"] {
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.55) 0 18px, rgba(214,205,246,.18) 18px 36px); }
+  body[data-skin="opal"] .glass, body[data-skin="opal"] .rim, body[data-skin="opal"] .grad,
+  body[data-skin="opal"] .dialtrack, body[data-skin="opal"] .rulerbody, body[data-skin="opal"] .face
+    { filter: drop-shadow(0 3px 8px rgba(107,79,200,.32)); }
+  body[data-skin="opal"] .liquid, body[data-skin="opal"] .ribbon, body[data-skin="opal"] .dialfill
+    { animation: opalfill 8s ease-in-out infinite; }
+  body[data-skin="opal"] .stage, body[data-skin="opal"] #board {
+    background-image: linear-gradient(120deg, rgba(168,221,240,.30), rgba(244,185,218,.30), rgba(203,184,245,.30), rgba(168,221,240,.30));
+    background-size: 300% 100%; animation: opalsheen 14s linear infinite; }
+  @keyframes opalfill { 0% { fill: #CBB8F5; } 33% { fill: #A8DDF0; } 66% { fill: #F4B9DA; } 100% { fill: #CBB8F5; } }
+  @keyframes opalsheen { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+
+  body[data-skin="midas"] {
+    --paper: #0E0B05; --card: #1C160A; --card-sunk: #151007; --edge: #5A4614;
+    --ink: #FFF6DC; --ink-soft: #E0CB8F; --ink-faint: #A8924F;
+    --water: #E8B923; --water-deep: #FFE08A; --water-fill: #4A3A0C; --water-lite: #2E2409;
+    --zest: #FF9F43; --zest-soft: #3A240B; --leaf: #E8B923; --leaf-soft: #3A2E0A;
+  }
+  body[data-skin="midas"] .glass, body[data-skin="midas"] .rim, body[data-skin="midas"] .grad,
+  body[data-skin="midas"] .dialtrack, body[data-skin="midas"] .rulerbody, body[data-skin="midas"] .face
+    { filter: drop-shadow(0 0 6px rgba(232,185,35,.6)); }
+  body[data-skin="midas"] .liquid, body[data-skin="midas"] .ribbon, body[data-skin="midas"] .dialfill
+    { animation: midasfill 4s ease-in-out infinite; }
+  body[data-skin="midas"] .stage, body[data-skin="midas"] #board {
+    background-image: linear-gradient(105deg, transparent 38%, rgba(255,224,138,.13) 50%, transparent 62%);
+    background-size: 260% 100%; animation: foilsweep 7s linear infinite; }
+  @keyframes midasfill { 0%, 100% { fill: #5A4510; } 50% { fill: #8A6A14; } }
+  @keyframes foilsweep { from { background-position: 130% 0; } to { background-position: -30% 0; } }
+
+  body[data-skin="prism"] {
+    --paper: #070810; --card: #121428; --card-sunk: #0C0E1E; --edge: #3A3F7A;
+    --ink: #F4F5FF; --ink-soft: #C0C4EE; --ink-faint: #878CC4;
+    --water: #7C8CFF; --water-deep: #C9D0FF; --water-fill: #1D2152; --water-lite: #14183E;
+    --zest: #FFD166; --zest-soft: #3A2E0F; --leaf: #5CF2A6; --leaf-soft: #0E2C22;
+  }
+  body[data-skin="prism"] .glass, body[data-skin="prism"] .rim, body[data-skin="prism"] .grad,
+  body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face
+    { animation: prismline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(255,255,255,.4)); }
+  body[data-skin="prism"] .liquid, body[data-skin="prism"] .ribbon, body[data-skin="prism"] .dialfill
+    { animation: prismfill 9s linear infinite; }
+  body[data-skin="prism"] .stage, body[data-skin="prism"] #board {
+    background-image: linear-gradient(125deg, rgba(255,92,138,.09), rgba(255,179,71,.09), rgba(245,230,99,.09), rgba(92,242,166,.09), rgba(92,200,255,.09), rgba(181,140,255,.09), rgba(255,92,138,.09));
+    background-size: 400% 100%; animation: prismsheen 18s linear infinite; }
+  @keyframes prismline { 0% { stroke: #FF5C8A; } 17% { stroke: #FFB347; } 33% { stroke: #F5E663; } 50% { stroke: #5CF2A6; } 67% { stroke: #5CC8FF; } 83% { stroke: #B58CFF; } 100% { stroke: #FF5C8A; } }
+  @keyframes prismfill { 0% { fill: #5A1F3F; } 17% { fill: #7A3A1F; } 33% { fill: #5A5A1F; } 50% { fill: #1F6A5A; } 67% { fill: #1F3F7A; } 83% { fill: #43307F; } 100% { fill: #5A1F3F; } }
+  @keyframes prismsheen { from { background-position: 0% 0; } to { background-position: 400% 0; } }
+
+  /* a selected button is bright on these three, so its words go dark */
+  body[data-skin="borealis"] .measure[aria-pressed="true"],
+  body[data-skin="midas"] .measure[aria-pressed="true"],
+  body[data-skin="prism"] .measure[aria-pressed="true"],
+  body[data-skin="borealis"] .mode[aria-pressed="true"],
+  body[data-skin="midas"] .mode[aria-pressed="true"],
+  body[data-skin="prism"] .mode[aria-pressed="true"],
+  body[data-skin="borealis"] .chal-flag,
+  body[data-skin="midas"] .chal-flag,
+  body[data-skin="prism"] .chal-flag { color: #07131A; }
+  body[data-skin="borealis"] .measure[aria-pressed="true"] small,
+  body[data-skin="midas"] .measure[aria-pressed="true"] small,
+  body[data-skin="prism"] .measure[aria-pressed="true"] small,
+  body[data-skin="borealis"] .mode[aria-pressed="true"] em,
+  body[data-skin="midas"] .mode[aria-pressed="true"] em,
+  body[data-skin="prism"] .mode[aria-pressed="true"] em,
+  body[data-skin="borealis"] .mode[aria-pressed="true"] .lvl,
+  body[data-skin="midas"] .mode[aria-pressed="true"] .lvl,
+  body[data-skin="prism"] .mode[aria-pressed="true"] .lvl { color: rgba(7,19,26,.8); }
+  .sw-borealis { background: linear-gradient(135deg, #3EE6B0, #5CC8FF, #B58CFF); }
+  .sw-opal     { background: linear-gradient(135deg, #CBB8F5, #A8DDF0, #F4B9DA); }
+  .sw-midas    { background: linear-gradient(135deg, #8A6A14, #E8B923, #FFE08A); }
+  .sw-prism    { background: conic-gradient(#FF5C8A, #FFB347, #F5E663, #5CF2A6, #5CC8FF, #B58CFF, #FF5C8A); }
+  @media (prefers-reduced-motion: reduce) {
+    body[data-skin="borealis"] .glass, body[data-skin="borealis"] .rim, body[data-skin="borealis"] .grad, body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face, body[data-skin="borealis"] .liquid, body[data-skin="borealis"] .ribbon, body[data-skin="borealis"] .dialfill, body[data-skin="borealis"] .stage, body[data-skin="borealis"] #board,
+    body[data-skin="opal"] .liquid, body[data-skin="opal"] .ribbon, body[data-skin="opal"] .dialfill, body[data-skin="opal"] .stage, body[data-skin="opal"] #board,
+    body[data-skin="midas"] .liquid, body[data-skin="midas"] .ribbon, body[data-skin="midas"] .dialfill, body[data-skin="midas"] .stage, body[data-skin="midas"] #board,
+    body[data-skin="prism"] .glass, body[data-skin="prism"] .rim, body[data-skin="prism"] .grad, body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face, body[data-skin="prism"] .liquid, body[data-skin="prism"] .ribbon, body[data-skin="prism"] .dialfill, body[data-skin="prism"] .stage, body[data-skin="prism"] #board { animation: none !important; }
+  }
+
+  /* ---------- frames: a ring round a character, seen on the class board too ----------
+     They get richer the further a class goes. The first few are plain rings; from
+     the middle of the list they are metal, then light that moves. */
+  .fsw { width: 15px; height: 15px; border-radius: 50%; flex: none; background: #fff; border: 1px solid transparent; }
   .avi[class*="frame-"] { border-radius: 50%; padding: 2px; }
   .frame-ring       { box-shadow: 0 0 0 2px var(--water); }
-  .frame-goldring   { box-shadow: 0 0 0 2px #C99A12, 0 0 0 4px #F6E3A1; }
+  .frame-goldring   { border: 2px solid transparent;
+                      background: linear-gradient(#fff, #fff) padding-box, conic-gradient(from 200deg, #F6E3A1, #C99A12, #FFF1B8, #A97C0B, #F6E3A1) border-box; }
   .frame-dashed     { outline: 2px dashed var(--water-deep); outline-offset: 2px; }
-  .frame-glow       { box-shadow: 0 0 0 1.5px #E8B923, 0 0 7px 3px rgba(240,190,50,.75); }
-  .frame-double     { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--water); }
-  .frame-rainbowring { border: 3px solid transparent;
-                       background: linear-gradient(#fff, #fff) padding-box,
-                         conic-gradient(#E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; }
-  .frame-blaze      { box-shadow: 0 0 0 2px #E8590C, 0 0 8px 3px rgba(240,100,20,.7); }
-  .frame-diamond    { box-shadow: 0 0 0 2px #35B8E0, 0 0 0 4px #fff, 0 0 8px 4px rgba(90,200,240,.75); }
-  .frame-summit     { box-shadow: 0 0 0 2px #6E56CF, 0 0 10px 3px rgba(110,86,207,.7); }
-  /* the same rings, small, on the picker buttons */
-  .fsw { width: 15px; height: 15px; border-radius: 50%; flex: none; background: #fff; border: 1px solid transparent; }
-  .fsw.frame-rainbowring { border: 3px solid transparent;
-                           background: linear-gradient(#fff, #fff) padding-box,
-                             conic-gradient(#E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; }
+  .frame-glow       { box-shadow: 0 0 0 1.5px #E8B923, 0 0 6px 2px rgba(240,190,50,.6); animation: framepulse 2.6s ease-in-out infinite; }
+  .frame-double     { border: 2px solid transparent;
+                      background: linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, var(--water), var(--zest)) border-box;
+                      box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--water); }
+  .frame-rainbowring { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; background-size: 100% 100%, 64px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3s linear infinite;
+                      }
+  .frame-blaze      { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #E8590C, #FFC53D, #E5484D, #E8590C) border-box; background-size: 100% 100%, 48px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 1.4s linear infinite;
+                      box-shadow: 0 0 8px 2px rgba(240,100,20,.65); }
+  .frame-diamond    { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #FFFFFF, #7FE3FF, #35B8E0, #FFFFFF) border-box; background-size: 100% 100%, 52px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 2.4s linear infinite;
+                      box-shadow: 0 0 8px 2px rgba(90,200,240,.7); }
+  .frame-summit     { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #6E56CF, #35B8E0, #E879F9, #6E56CF) border-box; background-size: 100% 100%, 60px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3.4s linear infinite;
+                      box-shadow: 0 0 10px 3px rgba(110,86,207,.7); animation: ringslide 3.4s linear infinite, framepulse 3s ease-in-out infinite; }
   .fsw.frame-none { box-shadow: none; border-color: var(--edge); }
+  @keyframes ringslide { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 64px 0; } }
+  @keyframes framepulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.25); } }
+  @media (prefers-reduced-motion: reduce) { [class*="frame-"] { animation: none !important; } }
 
-  /* ---------- flame colours, earned with long streaks ---------- */
-  body[data-flame="blue"]   .flame { fill: #2F80FF; }
-  body[data-flame="violet"] .flame { fill: #8B4DFF; }
-  body[data-flame="jade"]   .flame { fill: #14B87A; }
-  body[data-flame="white"]  .flame { fill: #FFF3C4; stroke: #E8A400; stroke-width: 1.3; }
-  body[data-flame="rainbow"] .flame { animation: flicker 1.1s ease-in-out infinite, flamehue 3s linear infinite; }
-  @keyframes flamehue {
-    0% { fill: #E5484D; } 17% { fill: #F2A71B; } 33% { fill: #F5D90A; }
-    50% { fill: #30A46C; } 67% { fill: #3E8FF0; } 83% { fill: #8E4EC6; } 100% { fill: #E5484D; }
-  }
-  @media (prefers-reduced-motion: reduce) { body[data-flame="rainbow"] .flame { animation: none; fill: #8E4EC6; } }
-  .sw-flame-ember   { background: #E8590C; }
-  .sw-flame-blue    { background: #2F80FF; }
-  .sw-flame-violet  { background: #8B4DFF; }
-  .sw-flame-jade    { background: #14B87A; }
-  .sw-flame-white   { background: #FFF3C4; box-shadow: inset 0 0 0 2px #E8A400; }
-  .sw-flame-rainbow { background: conic-gradient(#E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D); }
+  /* ---------- flame colours, earned with long streaks ----------
+     A flat colour at the start, then a gradient (dark at the root, bright at
+     the tip), then a glow, then a white-hot core, then the whole spectrum
+     turning. The gradients are defined once, in the hidden drawing at the top
+     of the page. */
+  body[data-flame="blue"]   .flame { fill: url(#fg-blue);   filter: drop-shadow(0 0 2px rgba(47,128,255,.7)); }
+  body[data-flame="violet"] .flame { fill: url(#fg-violet); filter: drop-shadow(0 0 3px rgba(139,77,255,.8)); }
+  body[data-flame="jade"]   .flame { fill: url(#fg-jade);   filter: drop-shadow(0 0 3px rgba(20,184,122,.8)); }
+  body[data-flame="white"]  .flame { fill: url(#fg-white);  stroke: #E8A400; stroke-width: 1.1; filter: drop-shadow(0 0 4px rgba(255,226,120,.95)); }
+  body[data-flame="rainbow"] .flame { fill: url(#fg-rainbow); animation: flicker 1.1s ease-in-out infinite, flamehue 4s linear infinite; }
+  @keyframes flamehue { from { filter: hue-rotate(0deg) drop-shadow(0 0 4px rgba(255,255,255,.7)); } to { filter: hue-rotate(360deg) drop-shadow(0 0 4px rgba(255,255,255,.7)); } }
+  @media (prefers-reduced-motion: reduce) { body[data-flame="rainbow"] .flame { animation: none; } }
+  .sw-flame-ember   { background: linear-gradient(0deg, #C2410C, #F97316 55%, #FDE047); }
+  .sw-flame-blue    { background: linear-gradient(0deg, #1747D9, #2F80FF 55%, #A5ECFF); }
+  .sw-flame-violet  { background: linear-gradient(0deg, #5B21B6, #8B4DFF 55%, #E9B8FF); }
+  .sw-flame-jade    { background: linear-gradient(0deg, #047857, #14B87A 55%, #B9F7A0); }
+  .sw-flame-white   { background: linear-gradient(0deg, #FF9F1C, #FFE27A 45%, #FFFFFF); box-shadow: inset 0 0 0 2px #E8A400; }
+  .sw-flame-rainbow { background: linear-gradient(0deg, #FF3B30, #FF9500, #FFD60A, #30D158, #0A84FF, #BF5AF2); }
 
 
 
@@ -2115,7 +2245,7 @@
      width is taken from what height is left after the header, the activity cards
      and the question text, which are a fixed 330 or so pixels. */
   @media (orientation: landscape) and (max-height: 840px) and (min-width: 761px) {
-    .bench.pair[data-shape="ruler"] svg { max-width: min(760px, calc(100vh - 330px)); }
+    .bench.pair[data-shape="ruler"] svg { max-width: min(760px, calc(100vh - 370px)); }
   }
 
   /* An iPad held upright has plenty of height and not much width, so a pair of
@@ -2227,6 +2357,13 @@
   .nunknown  { fill: var(--zest); }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="fg-blue" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#1747D9"/><stop offset=".55" stop-color="#2F80FF"/><stop offset="1" stop-color="#A5ECFF"/></linearGradient>
+  <linearGradient id="fg-violet" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5B21B6"/><stop offset=".55" stop-color="#8B4DFF"/><stop offset="1" stop-color="#E9B8FF"/></linearGradient>
+  <linearGradient id="fg-jade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#047857"/><stop offset=".55" stop-color="#14B87A"/><stop offset="1" stop-color="#B9F7A0"/></linearGradient>
+  <linearGradient id="fg-white" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF9F1C"/><stop offset=".45" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+  <linearGradient id="fg-rainbow" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF3B30"/><stop offset=".2" stop-color="#FF9500"/><stop offset=".4" stop-color="#FFD60A"/><stop offset=".6" stop-color="#30D158"/><stop offset=".8" stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/></linearGradient>
+</defs></svg>
 <div class="wrap">
   <header class="masthead">
     <div>
@@ -2236,7 +2373,7 @@
         &nbsp;<button class="linky" id="switch">Switch player</button></p>
     </div>
     <div class="scoreboard">
-      <div class="stat" id="stat-score"><b id="s-score">0</b><span>Score</span></div>
+      <div class="stat" id="stat-score" title="This week's points. They start again from 0 every Monday at 8am, Adelaide time."><b id="s-score">0</b><span>Score</span></div>
       <div class="stat" id="stat-streak"><b id="s-streak">0</b><span>Streak</span>
         <span class="flames" id="flames"></span></div>
       <div class="stat"><b id="s-correct">0</b><span>Right</span></div>
@@ -3817,7 +3954,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "30";
+  var GAME_VERSION = "31";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -5669,7 +5806,8 @@
 
   /* ================================================ chrome */
   function updateChrome() {
-    document.getElementById("s-score").textContent = state.score;
+    noteWeek();
+    document.getElementById("s-score").textContent = state.weekScore;   // this week's points; the all-time total is on the All time board
     document.getElementById("s-correct").textContent = state.correct;
     document.getElementById("s-streak").textContent = state.streak;
     document.getElementById("stat-streak").className =
@@ -5982,7 +6120,7 @@
 
   /* ================================================ shared board */
   var shared = { on: !!CONFIG.SHARED_URL, rows: [], duels: [], settled: [],
-                 inboxMax: 5, status: "", loaded: false,
+                 inboxMax: 5, status: "", loaded: false, log: [], fails: 0, kind: "", outLog: [],
                  pending: false, timer: null, tries: 0, lastPush: 0, ease: 1,
                  /* The jar as the sheet last described it. The goal and the
                     reward are typed into the sheet, not into this file, so
@@ -6014,6 +6152,28 @@
     catch (e) { /* only a courtesy */ }
   }
   if (!LAB) wakeSheet();
+
+  /* An iPad that has been asleep, or a Home Screen app that has been in the
+     background, wakes with its connections dead. The first request after that
+     often fails while the Wi-Fi catches up, so waking is treated as a reason to
+     try again quietly, a moment later, rather than waiting for the next timer. */
+  function resumed() {
+    setTimeout(function () {
+      if (!shared.on || !classReady) return;
+      wakeSheet();
+      pullShared(true);
+      if (state.name && state.score > 0 && !shared.pending && Date.now() - (shared.lastPush || 0) > 5000) pushShared();
+    }, 800);
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") resumed();
+  });
+  window.addEventListener("online", resumed);
+  window.addEventListener("pageshow", function (e) { if (e.persisted) resumed(); });
+  window.__shared = function () { return shared; };
+  window.__pull = function (q) { return pullShared(q); };
+  window.__push = function () { return pushShared(); };
+  window.__netTimeout = function (ms) { NET_TIMEOUT = ms; };
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "visible") wakeSheet();
   });
@@ -6239,13 +6399,9 @@
   function pullShared(quiet) {
     if (!shared.on || !classReady) return Promise.resolve();
     if (!quiet) { shared.status = "reading"; drawBoard(); }
-    return fetch(sharedUrl({ action: "list", room: CLASS }), { method: "GET", redirect: "follow" })
-      .then(function (r) { return r.json(); })
-      .then(takeRows)
-      .catch(function (err) {
-        shared.status = "offline";
-        shared.why = "no answer at all: " + (err && err.message ? err.message : String(err));
-      })
+    return fetchSheet(sharedUrl({ action: "list", room: CLASS }), { method: "GET", redirect: "follow" })
+      .then(function (data) { if (takeRows(data)) noteOk(); })
+      .catch(function (err) { noteFail(err); shared.status = "offline"; })
       .then(function () { drawBoard(); });
   }
 
@@ -6253,6 +6409,7 @@
     return JSON.stringify({
       action: action, light: action === "submit" ? 1 : 0, room: CLASS, name: state.name, best: state.score,
       teacher: TEACHER ? TEACHER_CODE : "",
+      connlog: shared.outLog || [],
       bestStreak: state.bestStreak, right: state.correct,
       levels: state.levels, scores: state.byMeasure, tally: state.tally,
       // which reset this device has seen, so the sheet can ignore a post that
@@ -6274,6 +6431,80 @@
      watching a board that never moves. Posting every thirty seconds or so
      carries exactly the same information, since each post sends the running
      total rather than a difference. */
+  /* ---- every request to the sheet goes through here ----
+     Three things were wrong with a bare fetch. It had no clock on it, so on an
+     iPad that had just woken up a stalled connection could hang for a minute or
+     more and the game sat waiting. Every kind of failure, including Google
+     answering with an error web page instead of data, was reported as the same
+     thing ("can't reach the sheet"). And nobody could tell afterwards which it
+     had been. Now each request gives up after twenty seconds, a failure says
+     what kind it was in plain words, and the last few are kept and handed to the
+     sheet's Connection log with the next post that does get through, so a
+     teacher can read what actually happened on a child's iPad. */
+  var NET_TIMEOUT = 20000;
+
+  function sheetError(kind, detail) {
+    var e = new Error(detail);
+    e.kind = kind;
+    e.detail = detail;
+    return e;
+  }
+
+  function fetchSheet(url, opts, ms) {
+    var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0;
+    var ctl = typeof AbortController === "function" ? new AbortController() : null;
+    opts = opts || {};
+    if (ctl) {
+      opts.signal = ctl.signal;
+      timer = setTimeout(function () { timedOut = true; ctl.abort(); }, wait);
+    }
+    return fetch(url, opts)
+      .then(function (r) {
+        return r.text().then(function (txt) {
+          clearTimeout(timer);
+          var data = null;
+          try { data = JSON.parse(txt); } catch (e) { data = null; }
+          if (data && typeof data === "object") return data;
+          var said = String(txt || "").replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, " ")
+                       .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 90);
+          if (!r.ok) throw sheetError("http", "HTTP " + r.status + (said ? ": " + said : ""));
+          throw sheetError("page", "a web page came back instead of data" + (said ? ": " + said : " (it was empty)"));
+        });
+      })
+      .catch(function (err) {
+        clearTimeout(timer);
+        if (err && err.kind) throw err;
+        if (timedOut) throw sheetError("timeout", "no answer in " + Math.round(wait / 1000) + " seconds");
+        if (typeof navigator !== "undefined" && navigator.onLine === false) {
+          throw sheetError("offline", "the device has no internet connection");
+        }
+        throw sheetError("network", "the connection failed (" + (err && err.message ? err.message : "no reason given") + ")");
+      });
+  }
+
+  function noteFail(err) {
+    shared.fails = (shared.fails || 0) + 1;
+    shared.kind = err && err.kind ? err.kind : "network";
+    shared.why = err && err.detail ? err.detail : String((err && err.message) || err);
+    shared.log.push({
+      at: new Date().toISOString(), kind: shared.kind, detail: shared.why,
+      app: (typeof navigator !== "undefined" && navigator.standalone) ? "homescreen" : "browser",
+      ver: GAME_VERSION
+    });
+    if (shared.log.length > 12) shared.log.shift();
+  }
+
+  function noteOk() { shared.fails = 0; shared.kind = ""; shared.lastOk = Date.now(); }
+
+  /* What the likely cause is, for the teacher, by kind. */
+  var CAUSE = {
+    timeout: "The request hung. Usually a weak or just-woken connection, or Google being slow.",
+    network: "The connection failed before Google answered. Usually Wi-Fi dropping out, or a school filter.",
+    offline: "The device says it has no internet connection.",
+    page: "Google, or a school filter, sent back a web page instead of data. That is Google being briefly unavailable, or a filter's block page.",
+    http: "The server answered with an error code."
+  };
+
   var PUSH_GAP = 30000;
   var PUSH_JITTER = 10000;
   var MAX_RETRIES = 12;
@@ -6295,19 +6526,19 @@
     shared.status = "sending";
     shared.lastPush = Date.now();
     drawBoard();
-    return fetch(CONFIG.SHARED_URL, {
+    shared.outLog = shared.log.slice(0, 10);
+    var sentN = shared.outLog.length;
+    return fetchSheet(CONFIG.SHARED_URL, {
       method: "POST", redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: payload("submit")
     })
-      .then(function (r) { return r.json(); })
-      .then(function (data) { if (!takeRows(data)) retryPush(); })
-      .catch(function (err) {
-        shared.status = "offline";
-        shared.why = "no answer at all: " + (err && err.message ? err.message : String(err));
-        retryPush();
+      .then(function (data) {
+        if (takeRows(data)) { noteOk(); shared.log.splice(0, sentN); }   // the sheet has the list now
+        else retryPush();
       })
-      .then(function () { drawBoard(); });
+      .catch(function (err) { noteFail(err); shared.status = "offline"; retryPush(); })
+      .then(function () { shared.outLog = []; drawBoard(); });
   }
 
   /* A refused write comes back and tries again, backing off a little further
@@ -6396,7 +6627,7 @@
     { id: "week",  next: "Today",     heading: ", this week",  score: "weekScore" },
     { id: "today", next: "All time",  heading: ", today",      score: "dayScore" }
   ];
-  var viewAt = 0;
+  var viewAt = 1;   // opens on This week, because that is the score that starts again every Monday
   function view() { return BOARD_VIEWS[viewAt]; }
   var weekView = false;   // kept: "not the all-time board" is asked for a lot
 
@@ -6497,7 +6728,6 @@
   // the tests read the true player count from here, so a display cap can
   // never quietly hide someone without the test noticing
   window.__boardCount = function () { return boardRows().length; };
-  window.__shared = function () { return shared; };
   window.__retry = function () { return retryPush(); };
   window.__boardCap = function () { return Math.max(3, CONFIG.BOARD_ROWS | 0); };
 
@@ -6513,12 +6743,17 @@
            leaderboard. The word was being written over the shorter heading the
            display mode had already set, so that line never showed. */
         CLASS + (view().heading || (DISPLAY ? "" : " leaderboard"));
+      /* One or two misses in a row is the connection catching its breath (an
+         iPad coming out of sleep, Wi-Fi moving between access points), not a
+         fault, so the badge says it is reconnecting and stays calm. Three in a
+         row is worth saying out loud. */
+      var flaky = shared.status === "offline" && (shared.fails || 0) < 3;
       var word = { reading: "checking the sheet…", sending: "posting your score…",
                    busy: "sheet is busy, trying again",
                    refused: "the sheet said no",
-                   offline: "can't reach the sheet" }[shared.status] || "shared by every device";
+                   offline: flaky ? "reconnecting…" : "can't reach the sheet" }[shared.status] || "shared by every device";
       badge.textContent = word;
-      var wrong = shared.status === "offline" || shared.status === "busy" ||
+      var wrong = (shared.status === "offline" && !flaky) || shared.status === "busy" ||
                   shared.status === "refused";
       badge.className = "badge " + (wrong ? "warn" : "live");
       badge.title = wrong && shared.why ? shared.why : "";
@@ -6534,11 +6769,13 @@
       if (why) {
         var explain = wrong && shared.why && shared.status !== "busy";
         why.hidden = !explain;
-        why.textContent = explain
-          ? (shared.status === "offline"
-              ? "The sheet never answered. Usually the address is wrong, the device is offline, or a school filter is blocking script.google.com. "
-              : "The sheet answered and refused. ") + shared.why
-          : "";
+        /* A child is told the one thing that matters to them. The teacher gets the
+           kind of failure and what it usually means, and the same detail is
+           written to the sheet's Connection log. */
+        why.textContent = !explain ? ""
+          : shared.status !== "offline" ? "The sheet answered and refused. " + shared.why
+          : TEACHER ? (CAUSE[shared.kind] || "The sheet never answered. ") + " (" + shared.why + ")"
+          : "Your points are safe on this iPad and will go to the class board as soon as the connection is back.";
       }
     } else {
       badge.textContent = "this device only";
@@ -7376,10 +7613,10 @@
     { id: "neon",      name: "Neon",       jars: 5 },
     { id: "galaxy",    name: "Galaxy",     jars: 8 },
     /* past the eighth jar: a class that keeps going still has something coming */
-    { id: "lagoon",    name: "Lagoon",     jars: 10 },
-    { id: "ruby",      name: "Ruby",       jars: 12 },
-    { id: "midnight",  name: "Midnight",   jars: 15 },
-    { id: "magenta",   name: "Magenta",    jars: 20 }
+    { id: "borealis",  name: "Borealis",   jars: 10 },
+    { id: "opal",      name: "Opal",       jars: 12 },
+    { id: "midas",     name: "Midas",      jars: 15 },
+    { id: "prism",     name: "Prism",      jars: 20 }
   ];
 
   /* The teacher has every colour from the start - not as a perk, but because
@@ -7408,10 +7645,10 @@
     { id: "sunbeam", name: "Sunbeam",    jars: 5 },
     { id: "jungle",  name: "Jungle",     jars: 6 },
     { id: "space",   name: "Deep space", jars: 8 },
-    { id: "dusk",    name: "Dusk",       jars: 10 },
-    { id: "meadow",  name: "Meadow",     jars: 12 },
-    { id: "arctic",  name: "Arctic",     jars: 14 },
-    { id: "ember",   name: "Ember",      jars: 16 },
+    { id: "dusk",    name: "Dusk Peaks", jars: 10 },
+    { id: "meadow",  name: "Sunny Hills", jars: 12 },
+    { id: "arctic",  name: "Glacier",    jars: 14 },
+    { id: "ember",   name: "Ember Forge", jars: 16 },
     { id: "nebula",  name: "Nebula",     jars: 20 }
   ];
 
@@ -7962,15 +8199,34 @@
      The all-time board belongs to whoever has played most, and always will.
      A week is short enough that a child who started on Tuesday, or who works
      more slowly, can still be top of something on Friday. */
+  /* The week turns over on Monday at 8am in South Australia, whatever the
+     device's own clock or time zone says, so every iPad in the room (and the
+     sheet, which works it out the same way) agrees on when scores start again.
+     Adelaide's wall clock is stepped back eight hours, which makes 8am Monday
+     the start of a Monday, and the ordinary ISO week number does the rest. */
   function weekKey(d) {
     d = d || new Date();
-    // Monday-based week number, computed the ISO way
-    var t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    var day = t.getUTCDay() || 7;
-    t.setUTCDate(t.getUTCDate() + 4 - day);
-    var start = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
-    var week = Math.ceil(((t - start) / 86400000 + 1) / 7);
-    return t.getUTCFullYear() + "-W" + (week < 10 ? "0" : "") + week;
+    var y, mo, da, hr, mi, se;
+    try {
+      var parts = new Intl.DateTimeFormat("en-AU", {
+        timeZone: "Australia/Adelaide", hourCycle: "h23", year: "numeric", month: "2-digit",
+        day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }).formatToParts(d);
+      var m = {};
+      parts.forEach(function (q) { m[q.type] = q.value; });
+      y = +m.year; mo = +m.month; da = +m.day; hr = (+m.hour) % 24; mi = +m.minute; se = +m.second;
+    } catch (e) {
+      // a browser too old to know time zones: Adelaide in summer, UTC+10:30
+      var u = new Date(d.getTime() + 10.5 * 3600000);
+      y = u.getUTCFullYear(); mo = u.getUTCMonth() + 1; da = u.getUTCDate();
+      hr = u.getUTCHours(); mi = u.getUTCMinutes(); se = u.getUTCSeconds();
+    }
+    var t = new Date(Date.UTC(y, mo - 1, da, hr, mi, se) - 8 * 3600000);
+    var day0 = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDate()));
+    var day = day0.getUTCDay() || 7;
+    day0.setUTCDate(day0.getUTCDate() + 4 - day);
+    var start = new Date(Date.UTC(day0.getUTCFullYear(), 0, 1));
+    var week = Math.ceil(((day0 - start) / 86400000 + 1) / 7);
+    return day0.getUTCFullYear() + "-W" + (week < 10 ? "0" : "") + week;
   }
 
   function noteWeek() {
@@ -9672,7 +9928,7 @@
     document.getElementById("footnote").textContent =
       "Every game keeps its own level. A few right in a row moves you up, and it " +
       "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores from every device go to the same " +
-      "class sheet. Version " + GAME_VERSION + ".";
+      "class sheet. Scores start again from 0 every Monday at 8am, Adelaide time. Version " + GAME_VERSION + ".";
     pullShared(true);
     (function poll() {
       setTimeout(function () {
@@ -9683,7 +9939,7 @@
   } else {
     document.getElementById("footnote").textContent =
       "Every game keeps its own level. A few right in a row moves you up, and it " +
-      "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores are saved in this browser on this device. Version " + GAME_VERSION + ".";
+      "asks for more of them the higher you climb. Two wrong in a row moves you back down. Scores are saved in this browser on this device. Scores start again from 0 every Monday at 8am, Adelaide time. Version " + GAME_VERSION + ".";
   }
 
   /* A hook the browser tests use to read the current question. Harmless in
@@ -9691,6 +9947,8 @@
      reaching into internals. */
   window.__peek = function () { return state.q; };
   window.__score = function () { return state.score; };
+  window.__weekKey = weekKey;
+  window.__noteWeek = noteWeek;
   window.__levels = function () { return state.levels; };
   window.__tally = function () { return state.tally; };
   window.__state = function () { return state; };
@@ -9913,6 +10171,12 @@
   }
 
   window.__measures = function () { return MEASURES; };
+
+  /* A page left open across Monday 8am turns the week over by itself, rather
+     than waiting for the next answer to notice. */
+  setInterval(function () {
+    if (state.weekOf && state.weekOf !== weekKey()) { noteWeek(); updateChrome(); drawBoard(); }
+  }, 30000);
 
   drawBoard();
   drawRewards();
