@@ -8,7 +8,7 @@
   this website (the class sheet) goes straight to the network and is never
   stored or answered from here, so scores are never served stale.
 */
-var CACHE = "measuring-lab-v30";
+var CACHE = "measuring-lab-v31";
 var SHELL = ["./", "index.html", "config.js", "manifest.webmanifest",
              "apple-touch-icon.png", "icon-192.png", "icon-512.png",
              "fonts/fonts.css", "fonts/karla-latin-400-normal.woff2", "fonts/karla-latin-600-normal.woff2",

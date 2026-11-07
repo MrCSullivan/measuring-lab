@@ -122,7 +122,7 @@ var PAGE_FILE = 'Page';
 
 /* Bumped whenever this file changes, so ?check=1 can say which copy is running
    and nobody has to guess whether a paste took. */
-var VERSION = '4 November, more unlocks';
+var VERSION = '5 November, weekly reset, connection log';
 
 /* The line in the game that this script fills in. A copy of the game without it
    is too old to be served from here. Split so that this file can hold the text
@@ -424,6 +424,107 @@ var SCORE_PER_S = 300;         // and per second since the row last changed (a t
 var RIGHT_SLACK = 100;
 var RIGHT_PER_S = 2;
 
+/* ------------------------------------------------------------------ the week
+ * Scores start again from zero every Monday at 8am in South Australia. The week
+ * is worked out here, on the sheet, from Adelaide's own clock (summer time and
+ * winter time included) and not from whatever each iPad thinks, so every device
+ * agrees on when it turned over. The trick is to take Adelaide's wall clock and
+ * step it back eight hours: then Monday 8am is the start of a Monday, and the
+ * ordinary ISO week number does the rest.
+ */
+var WEEK_TZ = 'Australia/Adelaide';
+var WEEK_TURNS_AT_HOUR = 8;
+
+function weekNow(date) {
+  var d = date || new Date();
+  var s = Utilities.formatDate(d, WEEK_TZ, "yyyy-MM-dd'T'HH:mm:ss");
+  var n = s.split(/[-T:]/).map(Number);
+  var t = new Date(Date.UTC(n[0], n[1] - 1, n[2], n[3], n[4], n[5]) - WEEK_TURNS_AT_HOUR * 3600000);
+  return isoWeekKey(t);
+}
+
+/** "2026-W46" for the date held in a Date's UTC fields. */
+function isoWeekKey(t) {
+  var u = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), t.getUTCDate()));
+  var day = u.getUTCDay() || 7;
+  u.setUTCDate(u.getUTCDate() + 4 - day);
+  var start = new Date(Date.UTC(u.getUTCFullYear(), 0, 1));
+  var week = Math.ceil(((u - start) / 86400000 + 1) / 7);
+  return u.getUTCFullYear() + '-W' + (week < 10 ? '0' : '') + week;
+}
+
+/** The Monday a week key begins on, written for a person: "Mon 9 Nov 2026". */
+function weekStarting(key) {
+  var m = /^([0-9]{4})-W([0-9]{2})$/.exec(String(key));
+  if (!m) return String(key);
+  var jan4 = new Date(Date.UTC(Number(m[1]), 0, 4));
+  var mondayOfWeek1 = new Date(jan4.getTime() - ((jan4.getUTCDay() || 7) - 1) * 86400000);
+  var mon = new Date(mondayOfWeek1.getTime() + (Number(m[2]) - 1) * 7 * 86400000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return 'Mon ' + mon.getUTCDate() + ' ' + months[mon.getUTCMonth()] + ' ' + mon.getUTCFullYear();
+}
+
+/**
+ * Last week's scores are written to the Weekly history tab and then zeroed, so
+ * nothing is lost by the reset and a teacher can look back. Runs inside tidy, on
+ * the rows already in hand, so it costs nothing extra and also catches a child
+ * who was away this week and never posted to trigger it themselves.
+ */
+function archiveWeeks(rows) {
+  var wnow = weekNow(), out = [];
+  for (var i = 0; i < rows.length; i++) {
+    var wk = String(rows[i][COL.weekOf - 1] || '');
+    var sc = count(rows[i][COL.weekScore - 1]);
+    if (wk && wk < wnow && sc > 0) {
+      out.push([weekStarting(wk), wk, rows[i][COL.room - 1], rows[i][COL.name - 1], sc]);
+      rows[i][COL.weekScore - 1] = 0;
+    }
+  }
+  appendHistory(out);
+}
+
+/** Adds rows of [week starting, week, class, name, points] to the history tab. */
+function appendHistory(out) {
+  if (!out.length) return;
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var tab = ss.getSheetByName('Weekly history');
+  if (!tab) {
+    tab = ss.insertSheet('Weekly history');
+    tab.appendRow(['Week starting', 'Week', 'Class', 'Name', 'Points that week']);
+    tab.getRange(1, 1, 1, 5).setFontWeight('bold');
+    tab.setFrozenRows(1);
+  }
+  tab.getRange(tab.getLastRow() + 1, 1, out.length, 5).setValues(out);
+}
+
+/**
+ * Failures the iPads had reaching this sheet, reported by the iPad itself the
+ * next time it gets a post through. A device that could not reach the sheet
+ * cannot tell anyone at the time, so it keeps a short list and hands it over
+ * when it can. One row each, with how the game was opened, so "Home Screen app
+ * after the iPad woke up" shows up as a pattern rather than a rumour.
+ */
+function logConnection(room, name, list) {
+  if (!Array.isArray(list) || !list.length) return;
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var tab = ss.getSheetByName('Connection log');
+  if (!tab) {
+    tab = ss.insertSheet('Connection log');
+    tab.appendRow(['Logged', 'Class', 'Name', 'Happened (device clock, UTC)', 'What', 'Detail', 'Opened as', 'Version']);
+    tab.getRange(1, 1, 1, 8).setFontWeight('bold');
+    tab.setFrozenRows(1);
+  }
+  var rows = [], now = new Date();
+  for (var i = 0; i < list.length && i < 10; i++) {
+    var e = list[i] || {};
+    rows.push([now, room, name, cleanText(e.at, 30), cleanText(e.kind, 16),
+               cleanText(e.detail, 160), cleanText(e.app, 12), cleanText(e.ver, 8)]);
+  }
+  tab.getRange(tab.getLastRow() + 1, 1, rows.length, 8).setValues(rows);
+  var last = tab.getLastRow();
+  if (last > 1500) tab.deleteRows(2, last - 1000);     // keep it from growing for ever
+}
+
 function doPost(e) {
   var body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { body = {}; }
@@ -545,6 +646,7 @@ function handle(p) {
     var mark = resetMark(room);
     if (p.action === 'submit') {
       if (count(p.cleared) >= mark.n) submit(sheet, room, p);
+      if (p.connlog) logConnection(room, cleanText(p.name, 24), p.connlog);
     }
     if (p.action === 'clear') {
       clearRoom(sheet, room);
@@ -747,7 +849,7 @@ function cachePut(key, text) {
  * A class is a tab, and its name is the class code. These are the tabs the
  * game keeps for itself, which can therefore never be a class.
  */
-var NOT_CLASS_TABS = ['scores', 'duels', 'class goal', 'class tables'];
+var NOT_CLASS_TABS = ['scores', 'duels', 'class goal', 'class tables', 'weekly history', 'connection log'];
 var CODE_CACHE_S = 60;
 
 function isClassTabName(name) {
@@ -848,8 +950,15 @@ function submit(sheet, room, p) {
   var weekScore = Math.min(ABS_BEST, count(p.weekScore));
   /* These two are compared as text and written to a cell, so only the shapes a
      week or a day really has (2026-W45, 2026-11-02) are accepted. */
-  var weekOf = /^[0-9]{4}-W[0-9]{2}$/.test(String(p.weekOf || '')) ? String(p.weekOf) : '';
+  var weekOf = weekNow();
   var dayScore = Math.min(ABS_BEST, count(p.dayScore));
+  /* The sheet decides which week it is. A device whose clock is wrong, or that
+     has been open across Monday 8am without being used, may send last week's
+     number under last week's name; it is counted as nothing, not as this week's
+     points, and the next post from the device (which has by then noticed the new
+     week) carries on properly. */
+  var wkNow = weekNow();
+  if (!/^[0-9]{4}-W[0-9]{2}$/.test(String(p.weekOf || '')) || String(p.weekOf) !== wkNow) weekScore = 0;
   var dayOf = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(String(p.dayOf || '')) ? String(p.dayOf) : '';
   var wins = Math.min(ABS_COUNT, count(p.wins));
   var losses = Math.min(ABS_COUNT, count(p.losses));
@@ -896,6 +1005,13 @@ function submit(sheet, room, p) {
       : [Number(was[2]) || 0, Number(was[3]) || 0, Number(was[4]) || 0,
          Number(was[22]) || 0, Number(was[24]) || 0];
 
+    /* The first post of a new week would overwrite last week's total on this row
+       before the tidy that normally archives it had run. Whoever plays first on
+       Monday morning is exactly who this would catch, so it is saved here. */
+    var hadWk = String(was[19] || ''), hadSc = count(was[18]);
+    if (hadWk && hadWk < weekOf && hadSc > 0) {
+      appendHistory([[weekStarting(hadWk), hadWk, room, String(was[0] || name), hadSc]]);
+    }
     var week = keepDated(weekOf, weekScore, was[19], was[18]);
     var day = keepDated(dayOf, dayScore, was[21], was[20]);
 
@@ -1706,6 +1822,7 @@ function dressHeader(sheet) {
 function tidy(sheet) {
   var rows = readAll(sheet);
   if (!rows.length) return;
+  archiveWeeks(rows);
 
   // sort: class A-Z, then best score high to low, then name
   rows.sort(function (a, b) {

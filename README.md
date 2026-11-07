@@ -24,7 +24,7 @@ Keep all of them together in one folder.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_23.gs`.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_25.gs`.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
@@ -98,6 +98,18 @@ If some iPads still cannot load it, test one that fails:
 Then ask IT to allow `script.google.com` and `script.googleusercontent.com`
 (the class sheet), and the address you host the game on. The fonts no longer need
 anything outside your own site.
+
+## Weekly scores and the connection log
+
+Scores start again from 0 every Monday at 8am, Adelaide time, worked out by the
+sheet so every iPad agrees. Last week's points are copied to a **Weekly history**
+tab first, so nothing is lost, and the all-time total is never reset.
+
+If an iPad cannot reach the sheet, it remembers what went wrong and hands it
+over the next time it gets through. Look at the **Connection log** tab to see
+what happened: a timeout (weak or just-woken Wi-Fi), a network failure (Wi-Fi
+dropping, or a filter), or a web page instead of data (Google briefly down, or
+a filter's block page), and whether it was the Home Screen app or Safari.
 
 ## Limits worth knowing
 
