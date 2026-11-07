@@ -875,6 +875,21 @@
      to make. Darkened until it does. Measured, not judged by eye. */
   body[data-skin="gold"]   { --water: #8F6E1F; --water-deep: #6B5015;
                              --water-fill: #F3E6C4; --water-lite: #FAF3E1; }
+  /* In dark mode the five simple colours lighten their text shade and darken
+     their fills, so nothing ends up dark on dark. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) body[data-skin="ocean"] { --water-deep: #7FD3E0; --water-fill: #134650; --water-lite: #10343B; }
+    :root:not([data-theme="light"]) body[data-skin="forest"] { --water-deep: #8BD9B2; --water-fill: #1A4434; --water-lite: #12332A; }
+    :root:not([data-theme="light"]) body[data-skin="grape"] { --water-deep: #C9B3EC; --water-fill: #352A4D; --water-lite: #2A2240; }
+    :root:not([data-theme="light"]) body[data-skin="sunset"] { --water-deep: #F2A27E; --water-fill: #4D2A1C; --water-lite: #3A2017; }
+    :root:not([data-theme="light"]) body[data-skin="gold"] { --water-deep: #E8C66A; --water-fill: #4A3A12; --water-lite: #33290E; }
+  }
+  :root[data-theme="dark"] body[data-skin="ocean"] { --water-deep: #7FD3E0; --water-fill: #134650; --water-lite: #10343B; }
+  :root[data-theme="dark"] body[data-skin="forest"] { --water-deep: #8BD9B2; --water-fill: #1A4434; --water-lite: #12332A; }
+  :root[data-theme="dark"] body[data-skin="grape"] { --water-deep: #C9B3EC; --water-fill: #352A4D; --water-lite: #2A2240; }
+  :root[data-theme="dark"] body[data-skin="sunset"] { --water-deep: #F2A27E; --water-fill: #4D2A1C; --water-lite: #3A2017; }
+  :root[data-theme="dark"] body[data-skin="gold"] { --water-deep: #E8C66A; --water-fill: #4A3A12; --water-lite: #33290E; }
+
 
   /* ---------- the ones the class earns together, jar by jar ----------
      These had to be more than a change of hue. Bubblegum stays a bright light
@@ -1397,17 +1412,36 @@
 
 
   /* ============ five more jug colours, for 22 to 36 jars ============
-     Each a whole theme with something moving in the instrument. None of them
-     ever moves the liquid's level, which is the reading: only its colour and
-     shine change. Every colour measured: ink 7:1, small print 4.5:1, the label
-     on a selected button 4.5:1. */
-  body[data-skin="molten"] { --paper: #120806; --card: #1F0F0A; --card-sunk: #180B07; --edge: #5A2A14;
-    --ink: #FFF1E6; --ink-soft: #E8C2A8; --ink-faint: #B08670; --water: #FF8A3D; --water-deep: #FFC58A;
-    --water-fill: #5A220C; --water-lite: #2E140A; --zest: #FFD166; --zest-soft: #3D2610; }
-  body[data-skin="molten"] .measure[aria-pressed="true"], body[data-skin="molten"] .mode[aria-pressed="true"],
-  body[data-skin="molten"] .chal-flag { color: #160803; }
-  body[data-skin="molten"] .measure[aria-pressed="true"] small, body[data-skin="molten"] .mode[aria-pressed="true"] em,
-  body[data-skin="molten"] .mode[aria-pressed="true"] .lvl { color: #160803; opacity: .82; }
+     Each is a whole theme with its own idea, not a change of colour. None of
+     them ever moves the liquid's level, which is the reading: the patterns
+     slide inside the liquid, and the outlines change, but the top of the
+     liquid stays exactly where the question put it. Every colour measured:
+     ink 7:1, small print 4.5:1, the label on a selected button 4.5:1. */
+  body[data-skin="blueprint"] { --paper: #0A2342; --card: #0E2D52; --card-sunk: #0B2647; --edge: #3A6EA5;
+    --ink: #F2F7FF; --ink-soft: #BCD3EE; --ink-faint: #8FB0D6; --water: #8FC7FF; --water-deep: #D4E8FF;
+    --water-fill: #2A64A3; --water-lite: #12396A; --zest: #FFC94D; --zest-soft: #3A2E0E; }
+  body[data-skin="blueprint"] .measure[aria-pressed="true"], body[data-skin="blueprint"] .mode[aria-pressed="true"],
+  body[data-skin="blueprint"] .chal-flag { color: #071A33; }
+  body[data-skin="blueprint"] .measure[aria-pressed="true"] small, body[data-skin="blueprint"] .mode[aria-pressed="true"] em,
+  body[data-skin="blueprint"] .mode[aria-pressed="true"] .lvl { color: #071A33; opacity: .82; }
+  /* Blueprint: drawing-office grid paper, white technical lines with a faint
+     second construction line behind them, and the liquid drawn as hatching
+     that slides slowly, like a plan being shaded in. */
+  body[data-skin="blueprint"]:not([data-bg]), body[data-skin="blueprint"][data-bg="plain"] {
+    background-image: linear-gradient(rgba(143,199,255,.16) 1px, transparent 1px), linear-gradient(90deg, rgba(143,199,255,.16) 1px, transparent 1px),
+                      linear-gradient(rgba(143,199,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(143,199,255,.07) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px; }
+  body[data-skin="blueprint"] .stage, body[data-skin="blueprint"] #board {
+    background-image: linear-gradient(rgba(143,199,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(143,199,255,.06) 1px, transparent 1px);
+    background-size: 24px 24px; }
+  body[data-skin="blueprint"] .glass, body[data-skin="blueprint"] .rim, body[data-skin="blueprint"] .rulerbody, body[data-skin="blueprint"] .face, body[data-skin="blueprint"] .dialtrack { stroke: #EAF4FF; filter: drop-shadow(3px 3px 0 rgba(143,199,255,.35)); }
+  body[data-skin="blueprint"] .grad { stroke: #EAF4FF; }
+  body[data-skin="blueprint"] .liquid { fill: url(#sk-bp); }
+  body[data-skin="blueprint"] .dialfill { stroke: url(#sk-bp); }
+  body.lowfx[data-skin="blueprint"] .liquid { fill: url(#sk-bp-still); }
+  body.lowfx[data-skin="blueprint"] .dialfill { stroke: url(#sk-bp-still); }
+  .sw-blueprint { background: linear-gradient(rgba(234,244,255,.5) 1px, transparent 1px) 0 0 / 6px 6px, linear-gradient(90deg, rgba(234,244,255,.5) 1px, transparent 1px) 0 0 / 6px 6px, #0E2D52; }
+
   body[data-skin="oceandeep"] { --paper: #031A1F; --card: #082A31; --card-sunk: #062228; --edge: #155660;
     --ink: #E6FBFB; --ink-soft: #9FD6D6; --ink-faint: #6AA3A6; --water: #2FD3C8; --water-deep: #9AF1EA;
     --water-fill: #0B4A50; --water-lite: #08363C; --zest: #FFB86B; --zest-soft: #3A2410; }
@@ -1415,9 +1449,38 @@
   body[data-skin="oceandeep"] .chal-flag { color: #021417; }
   body[data-skin="oceandeep"] .measure[aria-pressed="true"] small, body[data-skin="oceandeep"] .mode[aria-pressed="true"] em,
   body[data-skin="oceandeep"] .mode[aria-pressed="true"] .lvl { color: #021417; opacity: .82; }
-  body[data-skin="sakura"] { --paper: #FFF4F7; --card: #FFFFFF; --card-sunk: #FFF0F4; --edge: #F3C6D3;
-    --ink: #3B1F2B; --ink-soft: #6E4656; --ink-faint: #9A6F80; --water: #C23468; --water-deep: #962A52;
-    --water-fill: #FAD3E0; --water-lite: #FDEBF1; --zest: #6A3FC2; --zest-soft: #EEE6FF; }
+  /* Ocean Deep: light playing through water */
+  body[data-skin="oceandeep"] .glass, body[data-skin="oceandeep"] .rulerbody, body[data-skin="oceandeep"] .face { filter: drop-shadow(0 0 5px rgba(47,211,200,.55)); }
+  body[data-skin="oceandeep"] .liquid { animation: oceanfill 4.5s ease-in-out infinite; }
+  body[data-skin="oceandeep"] .dialfill { animation: oceanstroke 4.5s ease-in-out infinite; }
+  @keyframes oceanfill { 0%, 100% { fill: #0E5B62; } 50% { fill: #16808A; } }
+  @keyframes oceanstroke { 0%, 100% { stroke: #0E5B62; } 50% { stroke: #16808A; } }
+  .sw-oceandeep { background: linear-gradient(135deg, #031A1F, #2FD3C8 60%, #9AF1EA); }
+
+  body[data-skin="chalk"] { --paper: #1B2621; --card: #24342C; --card-sunk: #1F2D26; --edge: #5C7064;
+    --ink: #F4F1E8; --ink-soft: #D2CDBF; --ink-faint: #A8A393; --water: #9BD3F2; --water-deep: #D8EEFB;
+    --water-fill: #3B6278; --water-lite: #2A3E37; --zest: #FFE27A; --zest-soft: #3E3A1E; }
+  body[data-skin="chalk"] .measure[aria-pressed="true"], body[data-skin="chalk"] .mode[aria-pressed="true"],
+  body[data-skin="chalk"] .chal-flag { color: #13201A; }
+  body[data-skin="chalk"] .measure[aria-pressed="true"] small, body[data-skin="chalk"] .mode[aria-pressed="true"] em,
+  body[data-skin="chalk"] .mode[aria-pressed="true"] .lvl { color: #13201A; opacity: .82; }
+  /* Chalkboard: slate in a wooden frame, a little chalk dust, and every
+     outline drawn in chalk that wobbles very slightly, the way a hand-drawn
+     line never sits quite still. The scale lines themselves are not wobbled,
+     so they are always exactly where they should be. */
+  body[data-skin="chalk"]:not([data-bg]), body[data-skin="chalk"][data-bg="plain"] {
+    background-image: radial-gradient(60% 40% at 20% 30%, rgba(255,255,255,.05), transparent 70%), radial-gradient(50% 35% at 80% 70%, rgba(255,255,255,.04), transparent 70%); }
+  body[data-skin="chalk"] .stage, body[data-skin="chalk"] #board {
+    box-shadow: inset 0 0 0 5px #7A5530, inset 0 0 0 6px #4A3119, 0 2px 0 #3A2412;
+    background-image: radial-gradient(40% 30% at 30% 20%, rgba(255,255,255,.045), transparent 70%), radial-gradient(35% 25% at 75% 80%, rgba(255,255,255,.035), transparent 70%); }
+  body[data-skin="chalk"] .glass, body[data-skin="chalk"] .rim, body[data-skin="chalk"] .rulerbody, body[data-skin="chalk"] .face, body[data-skin="chalk"] .dialtrack { stroke: #F4F1E8; filter: url(#sk-chalk); }
+  body[data-skin="chalk"] .grad { stroke: #F4F1E8; }
+  body[data-skin="chalk"] .liquid { fill: url(#sk-chalkfill); }
+  body[data-skin="chalk"] .dialfill { stroke: url(#sk-chalkfill); }
+  body.lowfx[data-skin="chalk"] .glass, body.lowfx[data-skin="chalk"] .rim, body.lowfx[data-skin="chalk"] .rulerbody,
+  body.lowfx[data-skin="chalk"] .face, body.lowfx[data-skin="chalk"] .dialtrack { filter: url(#sk-chalk-still); }
+  .sw-chalk { background: radial-gradient(circle at 30% 35%, rgba(255,255,255,.35) 0 12%, transparent 14%), #24342C; box-shadow: inset 0 0 0 3px #7A5530 !important; }
+
   body[data-skin="circuit"] { --paper: #050A06; --card: #0C150E; --card-sunk: #08100A; --edge: #1E4A2A;
     --ink: #E8FFE9; --ink-soft: #A6D8AE; --ink-faint: #6FA27A; --water: #39E07A; --water-deep: #A8F5C2;
     --water-fill: #0F3A1E; --water-lite: #0B2614; --zest: #FFD23F; --zest-soft: #3A300C; }
@@ -1425,42 +1488,42 @@
   body[data-skin="circuit"] .chal-flag { color: #04130A; }
   body[data-skin="circuit"] .measure[aria-pressed="true"] small, body[data-skin="circuit"] .mode[aria-pressed="true"] em,
   body[data-skin="circuit"] .mode[aria-pressed="true"] .lvl { color: #04130A; opacity: .82; }
-  body[data-skin="storm"] { --paper: #0E1116; --card: #1A1F27; --card-sunk: #141920; --edge: #3A4452;
-    --ink: #EEF2F7; --ink-soft: #B7C1CE; --ink-faint: #8390A1; --water: #7FB2FF; --water-deep: #C3DAFF;
-    --water-fill: #27364F; --water-lite: #1D2838; --zest: #FFD54A; --zest-soft: #3A320F; }
-  body[data-skin="storm"] .measure[aria-pressed="true"], body[data-skin="storm"] .mode[aria-pressed="true"],
-  body[data-skin="storm"] .chal-flag { color: #0A0E14; }
-  body[data-skin="storm"] .measure[aria-pressed="true"] small, body[data-skin="storm"] .mode[aria-pressed="true"] em,
-  body[data-skin="storm"] .mode[aria-pressed="true"] .lvl { color: #0A0E14; opacity: .82; }
-  /* Molten Glass: the liquid swirls between deep and bright orange like a lava lamp */
-  body[data-skin="molten"] .glass, body[data-skin="molten"] .rulerbody, body[data-skin="molten"] .face { filter: drop-shadow(0 0 6px rgba(255,138,61,.7)); }
-  body[data-skin="molten"] .liquid, body[data-skin="molten"] .ribbon, body[data-skin="molten"] .dialfill { animation: moltenfill 5s ease-in-out infinite; }
-  @keyframes moltenfill { 0%, 100% { fill: #7A2E0E; } 35% { fill: #B8461A; } 70% { fill: #8C3412; } }
-  /* Ocean Deep: light playing through water */
-  body[data-skin="oceandeep"] .glass, body[data-skin="oceandeep"] .rulerbody, body[data-skin="oceandeep"] .face { filter: drop-shadow(0 0 5px rgba(47,211,200,.55)); }
-  body[data-skin="oceandeep"] .liquid, body[data-skin="oceandeep"] .ribbon, body[data-skin="oceandeep"] .dialfill { animation: oceanfill 4.5s ease-in-out infinite; }
-  @keyframes oceanfill { 0%, 100% { fill: #0E5B62; } 50% { fill: #16808A; } }
-  /* Sakura: a pearly pink shine */
-  body[data-skin="sakura"] .glass, body[data-skin="sakura"] .rulerbody, body[data-skin="sakura"] .face { filter: drop-shadow(0 3px 7px rgba(194,52,104,.28)); }
-  body[data-skin="sakura"] .liquid, body[data-skin="sakura"] .ribbon, body[data-skin="sakura"] .dialfill { animation: sakurafill 6s ease-in-out infinite; }
-  @keyframes sakurafill { 0%, 100% { fill: #F6B8CE; } 50% { fill: #FBD9E5; } }
-  /* Circuit: current runs round the outline like a track on a circuit board */
-  body[data-skin="circuit"] .glass, body[data-skin="circuit"] .rulerbody, body[data-skin="circuit"] .dialtrack
-    { stroke-dasharray: 14 6; animation: circuitflow 1.4s linear infinite; filter: drop-shadow(0 0 4px rgba(57,224,122,.6)); }
-  body[data-skin="circuit"] .liquid, body[data-skin="circuit"] .ribbon, body[data-skin="circuit"] .dialfill { animation: circuitfill 2.8s ease-in-out infinite; }
+  /* Circuit: current runs round the outline like a track on a circuit board.
+     The little spout and the thermometer bulb stay solid, where dashes just
+     looked broken. */
+  body[data-skin="circuit"] .glass:not(.spout):not(.bulb), body[data-skin="circuit"] .rulerbody, body[data-skin="circuit"] .dialtrack
+    { stroke-dasharray: 14 6; animation: circuitflow 1.4s linear infinite; }
+  body[data-skin="circuit"] .glass, body[data-skin="circuit"] .rulerbody, body[data-skin="circuit"] .dialtrack, body[data-skin="circuit"] .face { filter: drop-shadow(0 0 4px rgba(57,224,122,.6)); }
+  body[data-skin="circuit"] .liquid { animation: circuitfill 2.8s ease-in-out infinite; }
+  body[data-skin="circuit"] .dialfill { animation: circuitstroke 2.8s ease-in-out infinite; }
   @keyframes circuitflow { to { stroke-dashoffset: -20; } }
   @keyframes circuitfill { 0%, 100% { fill: #0F3A1E; } 50% { fill: #17552C; } }
-  /* Storm: now and then lightning runs down the glass */
-  body[data-skin="storm"] .glass, body[data-skin="storm"] .rulerbody, body[data-skin="storm"] .face { animation: stormflash 7s linear infinite; }
-  body[data-skin="storm"] .liquid, body[data-skin="storm"] .ribbon, body[data-skin="storm"] .dialfill { fill: #27364F; }
-  @keyframes stormflash { 0%, 90%, 94%, 100% { stroke: #7FB2FF; filter: none; }
-                          91%, 93% { stroke: #FFFFFF; filter: drop-shadow(0 0 8px #CFE2FF); } 92% { stroke: #7FB2FF; } }
-  .sw-molten    { background: linear-gradient(135deg, #3A1206, #FF8A3D 55%, #FFD166); }
-  .sw-oceandeep { background: linear-gradient(135deg, #031A1F, #2FD3C8 60%, #9AF1EA); }
-  .sw-sakura    { background: linear-gradient(135deg, #FDEBF1, #F6B8CE 50%, #C23468); }
-  .sw-circuit   { background: repeating-linear-gradient(90deg, #0C150E 0 3px, #39E07A 3px 4px), #0C150E; }
-  .sw-storm     { background: linear-gradient(135deg, #0E1116, #3A4452 50%, #7FB2FF 51%, #0E1116 56%); }
+  @keyframes circuitstroke { 0%, 100% { stroke: #17552C; } 50% { stroke: #22803F; } }
+  .sw-circuit { background: repeating-linear-gradient(90deg, #0C150E 0 3px, #39E07A 3px 4px), #0C150E; }
 
+  body[data-skin="stained"] { --paper: #EFE3C8; --card: #FFF9EC; --card-sunk: #F7EEDA; --edge: #CDB98F;
+    --ink: #2A1E14; --ink-soft: #5C4630; --ink-faint: #7A6246; --water: #8A1C3B; --water-deep: #5E1027;
+    --water-fill: #C99A3E; --water-lite: #FBEFD6; --zest: #1E5AA8; --zest-soft: #E3ECF9; }
+  /* Stained Glass: thick lead outlines, a lattice on the page, and the
+     liquid made of coloured glass with light glinting through it. */
+  body[data-skin="stained"]:not([data-bg]), body[data-skin="stained"][data-bg="plain"] {
+    background-image: repeating-linear-gradient(45deg, rgba(42,30,20,.07) 0 1.5px, transparent 1.5px 34px), repeating-linear-gradient(-45deg, rgba(42,30,20,.07) 0 1.5px, transparent 1.5px 34px); }
+  body[data-skin="stained"] .stage, body[data-skin="stained"] #board {
+    background-image: radial-gradient(40% 50% at 12% 0%, rgba(179,32,63,.08), transparent 70%), radial-gradient(40% 50% at 50% 0%, rgba(224,162,43,.10), transparent 70%), radial-gradient(40% 50% at 88% 0%, rgba(36,87,184,.08), transparent 70%); }
+  body[data-skin="stained"] .glass, body[data-skin="stained"] .rulerbody, body[data-skin="stained"] .face, body[data-skin="stained"] .dialtrack { stroke: #2A2320; stroke-width: 4; filter: drop-shadow(0 2px 3px rgba(42,30,20,.25)); }
+  body[data-skin="stained"] .rim { stroke: #2A2320; }
+  body[data-skin="stained"] .grad { stroke: #2A1E14; stroke-width: 2.6; }
+  body[data-skin="stained"] .liquid { fill: url(#sk-glass); }
+  body[data-skin="stained"] .dialfill { stroke: url(#sk-glass); }
+  body.lowfx[data-skin="stained"] .liquid { fill: url(#sk-glass-still); }
+  body.lowfx[data-skin="stained"] .dialfill { stroke: url(#sk-glass-still); }
+  .sw-stained { background: conic-gradient(#B3203F 0 25%, #E0A22B 0 50%, #1F8A5B 0 75%, #2457B8 0); box-shadow: inset 0 0 0 2px #2A2320 !important; }
+
+  /* A dial's coloured arc is a line, never a filled wedge, whatever a colour
+     animates. And the ribbon being measured on a ruler keeps its own bright
+     colour in every theme, so it never sinks into the background. */
+  body[data-skin] .dialfill { fill: none !important; }
+  body[data-skin] .ribbon { animation: none !important; fill: var(--zest) !important; }
   /* ============ seven more backgrounds, for 22 to 40 jars ============
      Built the same way as Ember Forge and Nebula: the scene is painted once on
      the fixed layer, and the moving parts are the three thin layers, which only
@@ -1556,6 +1619,9 @@
 
   /* ---------- names on the board, coloured by best streak ---------- */
   .nmtext.namesilver { color: #6F7E8F; background: linear-gradient(90deg, #4F5B68, #7D8A99, #4F5B68); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  /* On a dark theme or in dark mode the metals lighten instead, by mixing with the ink. */
+  #ranks .nmtext.namesilver { background-image: linear-gradient(90deg, color-mix(in srgb, var(--ink) 45%, #5F7086), color-mix(in srgb, var(--ink) 25%, #8C9CB0), color-mix(in srgb, var(--ink) 45%, #5F7086)); }
+  #ranks .nmtext.namegold { background-image: linear-gradient(90deg, color-mix(in srgb, var(--ink) 40%, #C99A12), color-mix(in srgb, var(--ink) 15%, #E8B923), color-mix(in srgb, var(--ink) 40%, #C99A12)); }
   .nmtext.namegold { background: linear-gradient(90deg, #7A4E00, #B07D0A, #7A4E00); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   .nmtext.namerainbow { background: linear-gradient(90deg, #E5484D, #F2A71B, #C9A80A, #30A46C, #3E8FF0, #8E4EC6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   .champ { display: inline-block; width: 15px; height: 15px; vertical-align: -2px; margin-left: 4px; fill: #F2C230; stroke: #8A6408; stroke-width: 1.2; }
@@ -1572,6 +1638,7 @@
   .sw-trail-comet   { background: radial-gradient(circle, #FFF 0 20%, #7FD7FF 50%, #2F80FF 75%); }
   .sw-trail-rainbow { background: conic-gradient(#E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D); }
 
+  .skin.badgechip { border-style: double; border-width: 3px; }
   /* ---------- the badge panel, in tabs ---------- */
   .sptabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; position: sticky; top: -16px; z-index: 2;
             background: var(--card); padding: 8px 0; }
@@ -1581,6 +1648,178 @@
   .sptabs button[aria-selected="true"] { background: var(--water); border-color: var(--water); color: #fff; }
   .sppane > p.rules:first-child { margin-top: 0 !important; }
 
+
+  /* Default colour in dark mode: the button turns light orange, so its label goes dark. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) body:not([data-skin]) button.action:not(.ghost),
+    :root:not([data-theme="light"]) body[data-skin="classic"] button.action:not(.ghost) { color: #0B1820; } }
+  :root[data-theme="dark"] body:not([data-skin]) button.action:not(.ghost), :root[data-theme="dark"] body[data-skin="classic"] button.action:not(.ghost) { color: #0B1820; }
+  /* The Check button keeps 4.5:1 on every colour: where the button is light, the label goes dark. */
+  body[data-skin="volcano"] button.action:not(.ghost) { color: #17100E; }
+  body[data-skin="neon"] button.action:not(.ghost) { color: #07060F; }
+  body[data-skin="galaxy"] button.action:not(.ghost) { color: #05060F; }
+  body[data-skin="blueprint"] button.action:not(.ghost) { color: #0A2342; }
+  body[data-skin="oceandeep"] button.action:not(.ghost) { color: #031A1F; }
+  body[data-skin="chalk"] button.action:not(.ghost) { color: #1B2621; }
+  body[data-skin="circuit"] button.action:not(.ghost) { color: #050A06; }
+  body[data-skin="borealis"] button.action:not(.ghost) { color: #04141A; }
+  body[data-skin="midas"] button.action:not(.ghost) { color: #0E0B05; }
+  body[data-skin="prism"] button.action:not(.ghost) { color: #070810; }
+
+  /* ============ five badge colours: the hardest unlocks in the game ============
+     Each one changes the whole screen, not just the instruments: the page, the
+     cards, the buttons and the scales all belong to one idea. The level of the
+     liquid and the scale lines never move. */
+  body[data-skin="sketch"] { --paper: #F4EDDC; --card: #FFFCF3; --card-sunk: #FAF4E6; --edge: #D6CBB2;
+    --ink: #24242A; --ink-soft: #52504A; --ink-faint: #6C685E; --water: #2C4A96; --water-deep: #1E3574;
+    --water-fill: #D9E2F5; --water-lite: #EDF1FA; --zest: #C0362C; --zest-soft: #FBE2DE; }
+  /* Sketchbook (Marksman): an exercise book. Grainy ruled paper with a red
+     margin, every card taped in, the instruments drawn in graphite that is
+     sketched twice and never sits quite still, and the liquid painted in a
+     blue watercolour wash with pencil shading over it. */
+  body[data-skin="sketch"]:not([data-bg]), body[data-skin="sketch"][data-bg="plain"] {
+    background-image: linear-gradient(90deg, transparent 52px, rgba(192,54,44,.45) 52px 54px, transparent 54px 58px, rgba(192,54,44,.25) 58px 59px, transparent 59px),
+                      repeating-linear-gradient(180deg, transparent 0 31px, rgba(44,74,150,.16) 31px 32px), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.9%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .09 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E"); }
+  body[data-skin="sketch"] .stage, body[data-skin="sketch"] #board {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 40%22%3E%3Cpath d=%22M6 8L114 2L116 30L4 36Z%22 fill=%22rgba%28246,214,110,.62%29%22/%3E%3Cpath d=%22M6 8L4 36M114 2L116 30%22 stroke=%22rgba%28200,160,60,.35%29%22 stroke-width=%222%22 stroke-dasharray=%222 2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 40%22%3E%3Cpath d=%22M4 3L116 9L113 37L6 31Z%22 fill=%22rgba%28160,206,232,.6%29%22/%3E%3Cpath d=%22M4 3L6 31M116 9L113 37%22 stroke=%22rgba%2890,140,170,.35%29%22 stroke-width=%222%22 stroke-dasharray=%222 2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.9%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .09 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E"); background-repeat: no-repeat, no-repeat, repeat;
+    background-position: 18px 0, calc(100% - 18px) 0, 0 0; background-size: 104px 32px, 104px 32px, 200px 200px;
+    box-shadow: 0 1px 0 #E2D7BE, 2px 8px 16px -10px rgba(60,50,30,.45); }
+  body[data-skin="sketch"] .glass, body[data-skin="sketch"] .rim, body[data-skin="sketch"] .rulerbody, body[data-skin="sketch"] .face, body[data-skin="sketch"] .dialtrack { stroke: #2B2B31; filter: url(#sk-pencil); }
+  body[data-skin="sketch"] .dialtrack { stroke: #77757A; stroke-width: 3.5; }
+  body[data-skin="sketch"] .grad { stroke: #2B2B31; }
+  body[data-skin="sketch"] .liquid { fill: url(#sk-wash); }
+  body[data-skin="sketch"] .dialfill { stroke: url(#sk-wash); stroke-width: 12; }
+  body[data-skin="sketch"] .needle { stroke: #C0362C; }
+  body[data-skin="sketch"] button.action:not(.ghost) { border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px; border: 2px solid #8E2620; }
+  body[data-skin="sketch"] button.action.ghost { border-radius: 225px 14px 255px 14px / 14px 255px 14px 225px; border: 1.5px solid #6C685E; }
+  body.lowfx[data-skin="sketch"] .glass, body.lowfx[data-skin="sketch"] .rim, body.lowfx[data-skin="sketch"] .rulerbody,
+  body.lowfx[data-skin="sketch"] .face, body.lowfx[data-skin="sketch"] .dialtrack { filter: url(#sk-pencil-still); }
+  .sw-sketch { background: repeating-linear-gradient(45deg, transparent 0 3px, rgba(43,43,49,.55) 3px 4px), radial-gradient(circle at 40% 40%, #9DB4E8, #D9E2F5 70%); }
+
+  body[data-skin="stitch"] { --paper: #E6DBC5; --card: #FBF6EA; --card-sunk: #F4ECDB; --edge: #CDBE9E;
+    --ink: #2E2420; --ink-soft: #5A4A3E; --ink-faint: #71604D; --water: #9C2F3E; --water-deep: #6E1F2B;
+    --water-fill: #D6E2EE; --water-lite: #F3EEE3; --zest: #2C5A87; --zest-soft: #E1EAF4; }
+  /* Embroidery (All term): a sampler. Linen cloth, every card edged in two
+     rows of stitching with little flowers sewn in the corners, the dial set in
+     a wooden hoop, outlines in twisted red thread that catches the light, and
+     the liquid worked in cross-stitch, shaded like real water. */
+  body[data-skin="stitch"]:not([data-bg]), body[data-skin="stitch"][data-bg="plain"] {
+    background-image: repeating-linear-gradient(0deg, rgba(120,95,60,.08) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(120,95,60,.08) 0 1px, transparent 1px 4px); }
+  body[data-skin="stitch"] .stage, body[data-skin="stitch"] #board {
+    outline: 2.5px dashed #9C2F3E; outline-offset: -9px;
+    box-shadow: inset 0 0 0 14px var(--card), inset 0 0 0 15.5px rgba(224,162,43,.75), 0 6px 16px -10px rgba(60,40,20,.4);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"); background-repeat: no-repeat;
+    background-size: 30px 30px; background-position: 18px 18px, calc(100% - 18px) 18px, 18px calc(100% - 18px), calc(100% - 18px) calc(100% - 18px); }
+  body[data-skin="stitch"] .glass, body[data-skin="stitch"] .rim, body[data-skin="stitch"] .rulerbody, body[data-skin="stitch"] .dialtrack
+    { stroke: url(#sk-thread); stroke-width: 4; stroke-dasharray: 8 4; stroke-linecap: round; filter: drop-shadow(0 1.4px 0 rgba(60,20,25,.5)); }
+  body[data-skin="stitch"] .glass.spout, body[data-skin="stitch"] .glass.bulb { stroke-dasharray: none; }
+  body[data-skin="stitch"] .dialtrack { stroke-width: 3; }
+  body[data-skin="stitch"] .face { stroke: url(#sk-hoop); stroke-width: 9; filter: drop-shadow(0 2px 2px rgba(70,40,15,.45)); }
+  body[data-skin="stitch"] .grad { stroke: #2E2420; }
+  body[data-skin="stitch"] .liquid { fill: url(#sk-xstitch); }
+  body[data-skin="stitch"] .dialfill { stroke: url(#sk-xstitch); stroke-width: 12; }
+  body[data-skin="stitch"] button.action:not(.ghost) { outline: 1.5px dashed rgba(255,255,255,.8); outline-offset: -5px; }
+  body[data-skin="stitch"] button.action.ghost { border: 1.5px dashed #9C2F3E; }
+  .sw-stitch { background: repeating-linear-gradient(45deg, transparent 0 3px, #2C5A87 3px 4.5px), repeating-linear-gradient(-45deg, transparent 0 3px, #2C5A87 3px 4.5px), #FBF6EA; box-shadow: inset 0 0 0 3px #B88A5A !important; }
+
+  body[data-skin="ice"] { --paper: #B9DCEE; --card: #F7FCFF; --card-sunk: #EDF7FC; --edge: #BCDCEC;
+    --ink: #0B2736; --ink-soft: #35576A; --ink-faint: #4F6F82; --water: #14668E; --water-deep: #0B4A69;
+    --water-fill: #CBE7F4; --water-lite: #E4F3FA; --zest: #6A3FC2; --zest-soft: #EEE6FF; }
+  /* Ice (Measure master): a frozen window. Frost ferns grow in from the
+     corners of the page and the cards, icicles hang from the top of every card,
+     the instruments are clear ice with frost crystals along their edges, and
+     the liquid is frozen into facets with bubbles trapped inside and a glint
+     of light crossing it. */
+  body[data-skin="ice"]:not([data-bg]), body[data-skin="ice"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(60% 50% at 50% 0%, rgba(244,251,255,.7), transparent 70%), linear-gradient(180deg, #CBE6F4, #A9D3EA);
+    background-repeat: no-repeat; background-size: 420px 420px, 420px 420px, 300px 300px, auto, auto; background-attachment: fixed;
+    background-position: left bottom, right top, 70% 100%, 0 0, 0 0; }
+  body[data-skin="ice"] .stage, body[data-skin="ice"] #board {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 26%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M0 0H120V4L114 4 110 20 106 4 96 4 93 13 90 4 78 4 74 24 70 4 58 4 55 11 52 4 40 4 37 18 34 4 22 4 19 9 16 4 6 4 3 15 0 4Z%22 fill=%22%23DDF1FB%22 stroke=%22%237FBFDF%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M110 20L108 8M74 24L72 8M37 18L35 8%22 stroke=%22%23fff%22 stroke-width=%221.2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat-x, no-repeat, no-repeat;
+    background-size: 120px 30px, 200px 200px, 200px 200px; background-position: 0 0, left bottom, right bottom;
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9), 0 10px 24px -14px rgba(20,102,142,.55); }
+  body[data-skin="ice"] .glass, body[data-skin="ice"] .rim, body[data-skin="ice"] .rulerbody, body[data-skin="ice"] .face, body[data-skin="ice"] .dialtrack { stroke: #5AA6CC; filter: url(#sk-frost); }
+  body[data-skin="ice"] .glass.bulb { filter: none; }
+  body[data-skin="ice"] .grad { stroke: #0B4A69; }
+  body[data-skin="ice"] .liquid { fill: url(#sk-ice); }
+  body[data-skin="ice"] .dialfill { stroke: url(#sk-ice); stroke-width: 12; }
+  body[data-skin="ice"] button.action:not(.ghost) { background: linear-gradient(180deg, #8A62DA, #5B33B2); box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px #4A2896, 0 4px 12px -4px rgba(106,63,194,.6); }
+  body[data-skin="ice"] button.action.ghost { background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(228,243,250,.9)); box-shadow: inset 0 1px 0 #fff; }
+  body.lowfx[data-skin="ice"] .glass, body.lowfx[data-skin="ice"] .rim, body.lowfx[data-skin="ice"] .rulerbody,
+  body.lowfx[data-skin="ice"] .face, body.lowfx[data-skin="ice"] .dialtrack { filter: url(#sk-frost-still); }
+  body.lowfx[data-skin="ice"] .glass.bulb { filter: none; }
+  body.lowfx[data-skin="ice"] .liquid { fill: url(#sk-ice-still); }
+  .sw-ice { background: linear-gradient(135deg, #FFFFFF 10%, #CBE7F4 40%, #8CC7E3 52%, #E4F3FA 60%, #FFFFFF); box-shadow: inset 0 0 0 1.5px #8CC7E3 !important; }
+
+  body[data-skin="sign"] { --paper: #120B0D; --card: #18100F; --card-sunk: #130C0C; --edge: #4A2E38;
+    --ink: #FFF0F6; --ink-soft: #EBC2D3; --ink-faint: #BC8FA3; --water: #FF4FA3; --water-deep: #FFB3D9;
+    --water-fill: #3A1428; --water-lite: #2A1220; --zest: #5EF2FF; --zest-soft: #0E2E33; }
+  body[data-skin="sign"] .measure[aria-pressed="true"], body[data-skin="sign"] .mode[aria-pressed="true"],
+  body[data-skin="sign"] .chal-flag { color: #1A0711; }
+  body[data-skin="sign"] .measure[aria-pressed="true"] small, body[data-skin="sign"] .mode[aria-pressed="true"] em,
+  body[data-skin="sign"] .mode[aria-pressed="true"] .lvl { color: #1A0711; opacity: .82; }
+  body[data-skin="sign"] button.action:not(.ghost) { color: #0B1418; }
+  /* Neon Sign (Thirty challenges): a sign on a brick wall at night. Real
+     tubes with a white-hot core and a pink glow spilling on the bricks, the
+     cards are black acrylic panels screwed to the wall, and every new question
+     switches the tubes on with a flicker, then they buzz now and then. */
+  body[data-skin="sign"]:not([data-bg]), body[data-skin="sign"][data-bg="plain"] {
+    background-image: radial-gradient(50% 35% at 20% 25%, rgba(255,79,163,.22), transparent 70%), radial-gradient(45% 35% at 85% 70%, rgba(94,242,255,.14), transparent 70%),
+                      linear-gradient(rgba(10,4,6,.45), rgba(10,4,6,.7)), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 60%22%3E%3Crect width=%22120%22 height=%2260%22 fill=%22%231A1210%22/%3E%3Crect x=%221.5%22 y=%221.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%2343221D%22/%3E%3Crect x=%2241.5%22 y=%221.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%23562B22%22/%3E%3Crect x=%2281.5%22 y=%221.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%235E3026%22/%3E%3Crect x=%22121.5%22 y=%221.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%22-18.5%22 y=%2216.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%2221.5%22 y=%2216.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%233D1F1A%22/%3E%3Crect x=%2261.5%22 y=%2216.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%22101.5%22 y=%2216.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%2343221D%22/%3E%3Crect x=%221.5%22 y=%2231.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%233D1F1A%22/%3E%3Crect x=%2241.5%22 y=%2231.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%2281.5%22 y=%2231.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%233D1F1A%22/%3E%3Crect x=%22121.5%22 y=%2231.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%23562B22%22/%3E%3Crect x=%22-18.5%22 y=%2246.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%2221.5%22 y=%2246.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%234B2621%22/%3E%3Crect x=%2261.5%22 y=%2246.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%235E3026%22/%3E%3Crect x=%22101.5%22 y=%2246.5%22 width=%2237%22 height=%2212%22 rx=%221.5%22 fill=%22%235E3026%22/%3E%3C/svg%3E");
+    background-size: auto, auto, auto, 120px 60px; }
+  body[data-skin="sign"] .stage, body[data-skin="sign"] #board {
+    background-color: rgba(18,10,12,.94); background-image: radial-gradient(circle at 14px 14px, #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at calc(100% - 14px) 14px, #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at 14px calc(100% - 14px), #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px);
+    box-shadow: 0 0 0 1px #3A242C, 0 0 40px -6px rgba(255,79,163,.28), 0 16px 36px -12px rgba(0,0,0,.9); }
+  body[data-skin="sign"] .glass, body[data-skin="sign"] .rim, body[data-skin="sign"] .rulerbody, body[data-skin="sign"] .face, body[data-skin="sign"] .dialtrack { stroke: #FF4FA3; stroke-width: 4; stroke-linecap: round; filter: url(#sk-neon);
+    animation: signon .9s steps(1) 1, signbuzz 7s steps(1) 1.5s infinite; }
+  body[data-skin="sign"] .grad { stroke: #5EF2FF; stroke-width: 3; filter: url(#sk-neon); animation: signon 1.1s steps(1) 1; }
+  body[data-skin="sign"] .face, body[data-skin="sign"] .rulerbody { fill: none; }
+  body[data-skin="sign"] .mercury { fill: #FF3B5C; filter: drop-shadow(0 0 5px #FF3B5C); }
+  body[data-skin="sign"] .liquid { fill: url(#sk-neonliq); }
+  body[data-skin="sign"] .dialfill { stroke: rgba(255,79,163,.5); }
+  body[data-skin="sign"] .needle { stroke: #5EF2FF; filter: drop-shadow(0 0 4px #5EF2FF); }
+  @keyframes signon { 0% { opacity: .1; } 15% { opacity: 1; } 25% { opacity: .2; } 40% { opacity: 1; } 50% { opacity: .4; } 60%, 100% { opacity: 1; } }
+  @keyframes signbuzz { 0%, 70%, 72%, 74%, 100% { opacity: 1; } 71%, 73% { opacity: .45; } }
+  body[data-skin="sign"] button.action:not(.ghost) { box-shadow: 0 0 0 2px #B8F9FF, 0 0 14px 2px rgba(94,242,255,.6); }
+  body[data-skin="sign"] button.action.ghost { border: 1.5px solid #FF4FA3; box-shadow: 0 0 8px rgba(255,79,163,.45), inset 0 0 6px rgba(255,79,163,.25); }
+  body.lowfx[data-skin="sign"] .glass, body.lowfx[data-skin="sign"] .rim, body.lowfx[data-skin="sign"] .grad, body.lowfx[data-skin="sign"] .rulerbody,
+  body.lowfx[data-skin="sign"] .face, body.lowfx[data-skin="sign"] .dialtrack { animation: none; }
+  .sw-sign { background: radial-gradient(circle, #FFD6EA 0 18%, #FF4FA3 30%, #3A1428 62%), #18100F; box-shadow: 0 0 6px #FF4FA3 !important; }
+
+  body[data-skin="arcade"] { --paper: #05030D; --card: #0B0720; --card-sunk: #080517; --edge: #2C2266;
+    --ink: #F4F2FF; --ink-soft: #C9C2F2; --ink-faint: #9C94D4; --water: #00E5FF; --water-deep: #A8F6FF;
+    --water-fill: #3A0F52; --water-lite: #1A0C38; --zest: #FFE600; --zest-soft: #33300A; }
+  body[data-skin="arcade"] .measure[aria-pressed="true"], body[data-skin="arcade"] .mode[aria-pressed="true"],
+  body[data-skin="arcade"] .chal-flag { color: #030210; }
+  body[data-skin="arcade"] .measure[aria-pressed="true"] small, body[data-skin="arcade"] .mode[aria-pressed="true"] em,
+  body[data-skin="arcade"] .mode[aria-pressed="true"] .lvl { color: #030210; opacity: .82; }
+  body[data-skin="arcade"] button.action:not(.ghost) { color: #030210; }
+  /* Retro Arcade (Two hundred in a row): an arcade cabinet. Pixel stars over a
+     glowing grid horizon, every card a curved CRT screen with scanlines, the
+     instruments drawn in real chunky pixels with an old monitor's colour
+     fringe and the odd glitch, and the liquid made of pixel blocks that ripple
+     like an 8-bit wave. */
+  body[data-skin="arcade"]:not([data-bg]), body[data-skin="arcade"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 300%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M275 0L-1000 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M294 0L-875 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M312 0L-750 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M331 0L-625 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M350 0L-500 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M369 0L-375 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M388 0L-250 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M406 0L-125 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M425 0L0 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M444 0L125 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M462 0L250 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M481 0L375 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M500 0L500 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M519 0L625 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M538 0L750 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M556 0L875 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M575 0L1000 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M594 0L1125 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M612 0L1250 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M631 0L1375 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M650 0L1500 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M669 0L1625 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M688 0L1750 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M706 0L1875 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M725 0L2000 300%22 stroke=%22%23FF2A6D%22 stroke-width=%222%22 opacity=%22.32%22/%3E%3Cpath d=%22M0 6H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%221.1%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 18H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%221.1%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 36H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%221.3%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 62H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%221.5%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 98H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%221.8%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 148H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%222.2%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 214H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%222.8%22 opacity=%22.36%22/%3E%3Cpath d=%22M0 300H1000%22 stroke=%22%23FF2A6D%22 stroke-width=%223.5%22 opacity=%22.36%22/%3E%3C/svg%3E"), radial-gradient(80% 30% at 50% 100%, rgba(255,42,109,.35), transparent 70%), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 160%22%3E%3Crect x=%2217%22 y=%2261%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2223%22 y=%22141%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22108%22 y=%2215%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22144%22 y=%2231%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2257%22 y=%22149%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2215%22 y=%22147%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22149%22 y=%22101%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2212%22 y=%2256%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2211%22 y=%22142%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2234%22 y=%2274%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22107%22 y=%2236%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22138%22 y=%2230%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22146%22 y=%2278%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%22143%22 y=%2246%22 width=%222%22 height=%222%22 fill=%22%23fff%22/%3E%3Crect x=%2226%22 y=%22148%22 width=%223%22 height=%223%22 fill=%22%237FE7FF%22/%3E%3Crect x=%22146%22 y=%2248%22 width=%223%22 height=%223%22 fill=%22%237FE7FF%22/%3E%3Crect x=%2295%22 y=%2224%22 width=%223%22 height=%223%22 fill=%22%237FE7FF%22/%3E%3Crect x=%22140%22 y=%2216%22 width=%223%22 height=%223%22 fill=%22%23FF6BB5%22/%3E%3Crect x=%22144%22 y=%2215%22 width=%223%22 height=%223%22 fill=%22%23FF6BB5%22/%3E%3C/svg%3E"),
+                      linear-gradient(180deg, #05030D 0%, #0E0626 60%, #2A0A3D 100%);
+    background-repeat: no-repeat, no-repeat, repeat, no-repeat; background-size: 100% 34vh, auto, 160px 160px, auto;
+    background-position: bottom, bottom, 0 0, 0 0; background-attachment: fixed; }
+  body[data-skin="arcade"] .stage, body[data-skin="arcade"] #board {
+    background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px), radial-gradient(120% 120% at 50% 50%, transparent 60%, rgba(0,0,0,.55));
+    box-shadow: inset 0 0 0 2px #2C2266, inset 0 0 50px rgba(0,229,255,.10), 0 0 0 4px #120C2E, 0 0 24px rgba(0,229,255,.18); }
+  body[data-skin="arcade"] .glass, body[data-skin="arcade"] .rim, body[data-skin="arcade"] .rulerbody, body[data-skin="arcade"] .face, body[data-skin="arcade"] .dialtrack { stroke: #00E5FF; stroke-width: 4; filter: url(#sk-pixel); animation: arcglitch 6s steps(1) infinite; }
+  body[data-skin="arcade"] .grad { stroke: #F4F2FF; shape-rendering: crispEdges; }
+  body[data-skin="arcade"] .liquid { fill: url(#sk-pixels); }
+  body[data-skin="arcade"] .dialfill { stroke: url(#sk-pixels); stroke-width: 12; }
+  @keyframes arcglitch { 0%, 92%, 95%, 100% { transform: none; } 93% { transform: translateX(3px); } 94% { transform: translateX(-2px); } }
+  body[data-skin="arcade"] button.action:not(.ghost) { border-radius: 0; box-shadow: 0 4px 0 #8A7C00, 4px 0 0 #8A7C00, 4px 4px 0 #8A7C00; }
+  body[data-skin="arcade"] button.action:not(.ghost):active { transform: translate(2px, 2px); box-shadow: 0 2px 0 #8A7C00, 2px 0 0 #8A7C00; }
+  body[data-skin="arcade"] button.action.ghost { border-radius: 0; border: 2px solid #00E5FF; }
+  body.lowfx[data-skin="arcade"] .glass, body.lowfx[data-skin="arcade"] .rim, body.lowfx[data-skin="arcade"] .rulerbody,
+  body.lowfx[data-skin="arcade"] .face, body.lowfx[data-skin="arcade"] .dialtrack { animation: none; }
+  body.lowfx[data-skin="arcade"] .liquid { fill: url(#sk-pixels-still); }
+  body.lowfx[data-skin="arcade"] .dialfill { stroke: url(#sk-pixels-still); }
+  .sw-arcade { background: conic-gradient(#FF2A6D 0 25%, #7A1FA2 0 50%, #00A8C2 0 75%, #7A1FA2 0) 0 0 / 8px 8px; box-shadow: inset 0 0 0 2px #00E5FF !important; border-radius: 3px !important; }
   /* ---------- moving effects off ----------
      Set from the switch in the badge panel, or by the game itself when it
      measures that this device cannot keep up. Everything that moves stands
@@ -1710,23 +1949,23 @@
   /* ---------- frames: a ring round a character, seen on the class board too ----------
      They get richer the further a class goes. The first few are plain rings; from
      the middle of the list they are metal, then light that moves. */
-  .fsw { width: 15px; height: 15px; border-radius: 50%; flex: none; background: #fff; border: 1px solid transparent; }
+  .fsw { width: 15px; height: 15px; border-radius: 50%; flex: none; background: var(--card); border: 1px solid transparent; }
   .avi[class*="frame-"] { border-radius: 50%; padding: 2px; }
   .frame-ring       { box-shadow: 0 0 0 2px var(--water); }
   .frame-goldring   { border: 2px solid transparent;
-                      background: linear-gradient(#fff, #fff) padding-box, conic-gradient(from 200deg, #F6E3A1, #C99A12, #FFF1B8, #A97C0B, #F6E3A1) border-box; }
+                      background: linear-gradient(var(--card), var(--card)) padding-box, conic-gradient(from 200deg, #F6E3A1, #C99A12, #FFF1B8, #A97C0B, #F6E3A1) border-box; }
   .frame-dashed     { outline: 2px dashed var(--water-deep); outline-offset: 2px; }
   .frame-glow       { box-shadow: 0 0 0 1.5px #E8B923, 0 0 6px 2px rgba(240,190,50,.6); animation: framepulse 2.6s ease-in-out infinite; }
   .frame-double     { border: 2px solid transparent;
-                      background: linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, var(--water), var(--zest)) border-box;
-                      box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--water); }
-  .frame-rainbowring { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; background-size: 100% 100%, 64px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3s linear infinite;
+                      background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(135deg, var(--water), var(--zest)) border-box;
+                      box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--water); }
+  .frame-rainbowring { border: 3px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(90deg, #E5484D, #F2A71B, #F5D90A, #30A46C, #3E8FF0, #8E4EC6, #E5484D) border-box; background-size: 100% 100%, 64px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3s linear infinite;
                       }
-  .frame-blaze      { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #E8590C, #FFC53D, #E5484D, #E8590C) border-box; background-size: 100% 100%, 48px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 1.4s linear infinite;
+  .frame-blaze      { border: 3px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(90deg, #E8590C, #FFC53D, #E5484D, #E8590C) border-box; background-size: 100% 100%, 48px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 1.4s linear infinite;
                       box-shadow: 0 0 8px 2px rgba(240,100,20,.65); }
-  .frame-diamond    { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #FFFFFF, #7FE3FF, #35B8E0, #FFFFFF) border-box; background-size: 100% 100%, 52px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 2.4s linear infinite;
+  .frame-diamond    { border: 3px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(90deg, #FFFFFF, #7FE3FF, #35B8E0, #FFFFFF) border-box; background-size: 100% 100%, 52px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 2.4s linear infinite;
                       box-shadow: 0 0 8px 2px rgba(90,200,240,.7); }
-  .frame-summit     { border: 3px solid transparent; background: linear-gradient(#fff, #fff) padding-box, linear-gradient(90deg, #6E56CF, #35B8E0, #E879F9, #6E56CF) border-box; background-size: 100% 100%, 60px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3.4s linear infinite;
+  .frame-summit     { border: 3px solid transparent; background: linear-gradient(var(--card), var(--card)) padding-box, linear-gradient(90deg, #6E56CF, #35B8E0, #E879F9, #6E56CF) border-box; background-size: 100% 100%, 60px 100%; background-repeat: no-repeat, repeat-x; animation: ringslide 3.4s linear infinite;
                       box-shadow: 0 0 10px 3px rgba(110,86,207,.7); animation: ringslide 3.4s linear infinite, framepulse 3s ease-in-out infinite; }
   .fsw.frame-none { box-shadow: none; border-color: var(--edge); }
   @keyframes ringslide { from { background-position: 0 0, 0 0; } to { background-position: 0 0, 64px 0; } }
@@ -1767,6 +2006,8 @@
 
      The numbers never move. Whatever colour the jug is, the scale has to be
      readable, so the labels stay in a dark ink throughout. */
+  /* Rainbow is a light theme in both modes: its near-black scale numbers need a light card. */
+  body[data-skin="rainbow"] { --paper: #EEF4F7; --card: #FFFFFF; --card-sunk: #F3F8FA; --edge: #D3E2EA; --ink: #0F2430; --ink-soft: #476274; --ink-faint: #5E7A8A; --water-deep: #084F6B; --water-fill: #C8E4F1; --water-lite: #E2F1F8; --zest: #C24B17; --zest-soft: #FBEADF; --leaf: #1F7A4C; --leaf-soft: #E2F2E8; --shadow: 0 1px 2px rgba(15,36,48,.06), 0 8px 24px -12px rgba(15,36,48,.22); --scrim: rgba(15,36,48,.55); color-scheme: light; }
   body[data-skin="rainbow"] {
     --water: #6A4C93;
     /* The numbers cannot cycle - a scale has to stay readable - so they get
@@ -2563,6 +2804,98 @@
   <linearGradient id="fg-jade" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#047857"/><stop offset=".55" stop-color="#14B87A"/><stop offset="1" stop-color="#B9F7A0"/></linearGradient>
   <linearGradient id="fg-white" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF9F1C"/><stop offset=".45" stop-color="#FFE27A"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
   <linearGradient id="fg-rainbow" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FF3B30"/><stop offset=".2" stop-color="#FF9500"/><stop offset=".4" stop-color="#FFD60A"/><stop offset=".6" stop-color="#30D158"/><stop offset=".8" stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/></linearGradient>
+
+  <!-- Blueprint hatching. Only the hatching slides; the shape it fills never moves. -->
+  <pattern id="sk-bp" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="10" height="10" fill="#1B4F86"/><line x1="0" y1="0" x2="0" y2="10" stroke="#CFE6FF" stroke-width="2.2" opacity=".55"/>
+    <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="10 0" dur="1.6s" repeatCount="indefinite" additive="sum"/></pattern>
+  <pattern id="sk-bp-still" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+    <rect width="10" height="10" fill="#1B4F86"/><line x1="0" y1="0" x2="0" y2="10" stroke="#CFE6FF" stroke-width="2.2" opacity=".55"/></pattern>
+  <!-- Chalk: lines roughened and broken up like chalk, redrawn a few times a second. -->
+  <filter id="sk-chalk" filterUnits="userSpaceOnUse" x="-50" y="-50" width="1400" height="1000">
+    <feTurbulence type="fractalNoise" baseFrequency=".08" numOctaves="2" seed="1" result="w"><animate attributeName="seed" values="1;5;9;3" dur=".9s" calcMode="discrete" repeatCount="indefinite"/></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="2.4" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="7" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.9" result="m"/>
+    <feComposite in="d" in2="m" operator="in"/></filter>
+  <filter id="sk-chalk-still" filterUnits="userSpaceOnUse" x="-50" y="-50" width="1400" height="1000">
+    <feTurbulence type="fractalNoise" baseFrequency=".08" numOctaves="2" seed="1" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="2.4" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="1" seed="7" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.9" result="m"/>
+    <feComposite in="d" in2="m" operator="in"/></filter>
+  <pattern id="sk-chalkfill" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
+    <rect width="14" height="14" fill="#2F4A5A"/><path d="M0 3Q7 1.5 14 3M0 10Q7 8.5 14 10" stroke="#9BD3F2" stroke-width="2.4" fill="none" opacity=".6"/></pattern>
+  <!-- Stained glass, with a glint of light crossing each pane. -->
+  <linearGradient id="sk-glint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/>
+    <stop offset=".5" stop-color="#fff" stop-opacity=".45"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <pattern id="sk-glass" width="90" height="90" patternUnits="userSpaceOnUse"><g opacity=".5"><path d="M0 0H38L30 34L0 42Z" fill="#B3203F"/><path d="M38 0H90V22L52 40L30 34Z" fill="#E0A22B"/><path d="M0 42L30 34L52 40L44 90H0Z" fill="#2457B8"/><path d="M52 40L90 22V64L70 90H44Z" fill="#1F8A5B"/><path d="M90 64V90H70Z" fill="#6B3FA0"/></g><path d="M38 0L30 34L0 42M30 34L52 40L90 22M52 40L44 90M70 90L90 64" stroke="#2A2320" stroke-width="1.5" fill="none" opacity=".35"/>
+    <rect x="-90" y="-90" width="180" height="180" fill="url(#sk-glint)"><animateTransform attributeName="transform" type="translate" values="-90 -90; 90 90" dur="4.5s" repeatCount="indefinite"/></rect></pattern>
+  <pattern id="sk-glass-still" width="90" height="90" patternUnits="userSpaceOnUse"><g opacity=".5"><path d="M0 0H38L30 34L0 42Z" fill="#B3203F"/><path d="M38 0H90V22L52 40L30 34Z" fill="#E0A22B"/><path d="M0 42L30 34L52 40L44 90H0Z" fill="#2457B8"/><path d="M52 40L90 22V64L70 90H44Z" fill="#1F8A5B"/><path d="M90 64V90H70Z" fill="#6B3FA0"/></g><path d="M38 0L30 34L0 42M30 34L52 40L90 22M52 40L44 90M70 90L90 64" stroke="#2A2320" stroke-width="1.5" fill="none" opacity=".35"/></pattern>
+
+  <!-- ===== badge colours ===== -->
+  <filter id="sk-pencil" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="1" result="w"><animate attributeName="seed" values="1;4;8;2" dur="2s" calcMode="discrete" repeatCount="indefinite"/></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="2" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="1" seed="9" result="w2"/>
+    <feDisplacementMap in="SourceGraphic" in2="w2" scale="3.2" result="d2"/><feOffset in="d2" dx="1.3" dy="-.9" result="o"/>
+    <feComponentTransfer in="o" result="faint"><feFuncA type="linear" slope=".35"/></feComponentTransfer>
+    <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="3" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.75" result="m"/>
+    <feComposite in="d" in2="m" operator="in" result="main"/>
+    <feMerge><feMergeNode in="faint"/><feMergeNode in="main"/></feMerge></filter>
+  <filter id="sk-pencil-still" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="1" result="w"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="2" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="1" seed="9" result="w2"/>
+    <feDisplacementMap in="SourceGraphic" in2="w2" scale="3.2" result="d2"/><feOffset in="d2" dx="1.3" dy="-.9" result="o"/>
+    <feComponentTransfer in="o" result="faint"><feFuncA type="linear" slope=".35"/></feComponentTransfer>
+    <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="3" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.75" result="m"/>
+    <feComposite in="d" in2="m" operator="in" result="main"/>
+    <feMerge><feMergeNode in="faint"/><feMergeNode in="main"/></feMerge></filter>
+  <filter id="washf" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4"/>
+    <feColorMatrix values="0 0 0 0 .55  0 0 0 0 .66  0 0 0 0 .92  0 0 0 .9 -.2"/></filter>
+  <pattern id="sk-wash" width="130" height="130" patternUnits="userSpaceOnUse"><rect width="130" height="130" fill="#C5D3F2"/><rect width="130" height="130" filter="url(#washf)"/><path d="M-130 130L0 0" stroke="#3E3E46" stroke-width=".8" opacity="0.43"/><path d="M-124 130L6 0" stroke="#3E3E46" stroke-width=".8" opacity="0.40"/><path d="M-118 130L12 0" stroke="#3E3E46" stroke-width=".8" opacity="0.41"/><path d="M-112 130L18 0" stroke="#3E3E46" stroke-width=".8" opacity="0.47"/><path d="M-106 130L24 0" stroke="#3E3E46" stroke-width=".8" opacity="0.40"/><path d="M-100 130L30 0" stroke="#3E3E46" stroke-width=".8" opacity="0.51"/><path d="M-94 130L36 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/><path d="M-88 130L42 0" stroke="#3E3E46" stroke-width=".8" opacity="0.34"/><path d="M-82 130L48 0" stroke="#3E3E46" stroke-width=".8" opacity="0.32"/><path d="M-76 130L54 0" stroke="#3E3E46" stroke-width=".8" opacity="0.47"/><path d="M-70 130L60 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M-64 130L66 0" stroke="#3E3E46" stroke-width=".8" opacity="0.36"/><path d="M-58 130L72 0" stroke="#3E3E46" stroke-width=".8" opacity="0.40"/><path d="M-52 130L78 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/><path d="M-46 130L84 0" stroke="#3E3E46" stroke-width=".8" opacity="0.39"/><path d="M-40 130L90 0" stroke="#3E3E46" stroke-width=".8" opacity="0.43"/><path d="M-34 130L96 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M-28 130L102 0" stroke="#3E3E46" stroke-width=".8" opacity="0.41"/><path d="M-22 130L108 0" stroke="#3E3E46" stroke-width=".8" opacity="0.32"/><path d="M-16 130L114 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/><path d="M-10 130L120 0" stroke="#3E3E46" stroke-width=".8" opacity="0.51"/><path d="M-4 130L126 0" stroke="#3E3E46" stroke-width=".8" opacity="0.39"/><path d="M2 130L132 0" stroke="#3E3E46" stroke-width=".8" opacity="0.52"/><path d="M8 130L138 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M14 130L144 0" stroke="#3E3E46" stroke-width=".8" opacity="0.42"/><path d="M20 130L150 0" stroke="#3E3E46" stroke-width=".8" opacity="0.48"/><path d="M26 130L156 0" stroke="#3E3E46" stroke-width=".8" opacity="0.48"/><path d="M32 130L162 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/><path d="M38 130L168 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/><path d="M44 130L174 0" stroke="#3E3E46" stroke-width=".8" opacity="0.40"/><path d="M50 130L180 0" stroke="#3E3E46" stroke-width=".8" opacity="0.48"/><path d="M56 130L186 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M62 130L192 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M68 130L198 0" stroke="#3E3E46" stroke-width=".8" opacity="0.35"/><path d="M74 130L204 0" stroke="#3E3E46" stroke-width=".8" opacity="0.45"/><path d="M80 130L210 0" stroke="#3E3E46" stroke-width=".8" opacity="0.30"/><path d="M86 130L216 0" stroke="#3E3E46" stroke-width=".8" opacity="0.46"/><path d="M92 130L222 0" stroke="#3E3E46" stroke-width=".8" opacity="0.36"/><path d="M98 130L228 0" stroke="#3E3E46" stroke-width=".8" opacity="0.42"/><path d="M104 130L234 0" stroke="#3E3E46" stroke-width=".8" opacity="0.45"/><path d="M110 130L240 0" stroke="#3E3E46" stroke-width=".8" opacity="0.39"/><path d="M116 130L246 0" stroke="#3E3E46" stroke-width=".8" opacity="0.46"/><path d="M122 130L252 0" stroke="#3E3E46" stroke-width=".8" opacity="0.50"/><path d="M128 130L258 0" stroke="#3E3E46" stroke-width=".8" opacity="0.37"/></pattern>
+  <pattern id="sk-thread" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(40)"><rect width="5" height="5" fill="#9C2F3E"/><rect width="1.6" height="5" fill="#D25C6E"/><rect x="3.4" width="1" height="5" fill="#74202D"/>
+    <animateTransform attributeName="patternTransform" type="translate" from="0 0" to="5 0" dur="2.5s" repeatCount="indefinite" additive="sum"/></pattern>
+  <linearGradient id="sk-hoop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#D9AE7A"/><stop offset=".5" stop-color="#B88A5A"/><stop offset="1" stop-color="#8A6238"/></linearGradient>
+  <filter id="xsh" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx=".4" dy=".6" stdDeviation=".2" flood-opacity=".4"/></filter>
+  <pattern id="sk-xstitch" width="36" height="36" patternUnits="userSpaceOnUse"><rect width="36" height="36" fill="#F3EEE3"/>
+    <g fill="#D8CBB0"><circle cx="0" cy="0" r=".7"/><circle cx="0" cy="9" r=".7"/><circle cx="0" cy="18" r=".7"/><circle cx="0" cy="27" r=".7"/><circle cx="0" cy="36" r=".7"/><circle cx="9" cy="0" r=".7"/><circle cx="9" cy="9" r=".7"/><circle cx="9" cy="18" r=".7"/><circle cx="9" cy="27" r=".7"/><circle cx="9" cy="36" r=".7"/><circle cx="18" cy="0" r=".7"/><circle cx="18" cy="9" r=".7"/><circle cx="18" cy="18" r=".7"/><circle cx="18" cy="27" r=".7"/><circle cx="18" cy="36" r=".7"/><circle cx="27" cy="0" r=".7"/><circle cx="27" cy="9" r=".7"/><circle cx="27" cy="18" r=".7"/><circle cx="27" cy="27" r=".7"/><circle cx="27" cy="36" r=".7"/><circle cx="36" cy="0" r=".7"/><circle cx="36" cy="9" r=".7"/><circle cx="36" cy="18" r=".7"/><circle cx="36" cy="27" r=".7"/><circle cx="36" cy="36" r=".7"/></g><path d="M7.5 1.5L1.5 7.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M1.5 1.5L7.5 7.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M2.1 1.7L7.1 6.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M16.5 1.5L10.5 7.5" stroke="#3A6E9E" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M10.5 1.5L16.5 7.5" stroke="#3A6E9E" stroke-width="2.4" stroke-linecap="round"/><path d="M11.1 1.7L16.1 6.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M25.5 1.5L19.5 7.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M19.5 1.5L25.5 7.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M20.1 1.7L25.1 6.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M34.5 1.5L28.5 7.5" stroke="#4B83B5" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M28.5 1.5L34.5 7.5" stroke="#4B83B5" stroke-width="2.4" stroke-linecap="round"/><path d="M29.1 1.7L34.1 6.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M7.5 10.5L1.5 16.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M1.5 10.5L7.5 16.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round"/><path d="M2.1 10.7L7.1 15.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M16.5 10.5L10.5 16.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M10.5 10.5L16.5 16.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M11.1 10.7L16.1 15.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M25.5 10.5L19.5 16.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M19.5 10.5L25.5 16.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round"/><path d="M20.1 10.7L25.1 15.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M34.5 10.5L28.5 16.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M28.5 10.5L34.5 16.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M29.1 10.7L34.1 15.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M7.5 19.5L1.5 25.5" stroke="#3A6E9E" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M1.5 19.5L7.5 25.5" stroke="#3A6E9E" stroke-width="2.4" stroke-linecap="round"/><path d="M2.1 19.7L7.1 24.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M16.5 19.5L10.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M10.5 19.5L16.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M11.1 19.7L16.1 24.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M25.5 19.5L19.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M19.5 19.5L25.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M20.1 19.7L25.1 24.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M34.5 19.5L28.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M28.5 19.5L34.5 25.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M29.1 19.7L34.1 24.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M7.5 28.5L1.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M1.5 28.5L7.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M2.1 28.7L7.1 33.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M16.5 28.5L10.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M10.5 28.5L16.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M11.1 28.7L16.1 33.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M25.5 28.5L19.5 34.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M19.5 28.5L25.5 34.5" stroke="#244C74" stroke-width="2.4" stroke-linecap="round"/><path d="M20.1 28.7L25.1 33.7" stroke="#fff" stroke-width=".6" opacity=".35"/><path d="M34.5 28.5L28.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round" filter="url(#xsh)"/><path d="M28.5 28.5L34.5 34.5" stroke="#2C5A87" stroke-width="2.4" stroke-linecap="round"/><path d="M29.1 28.7L34.1 33.7" stroke="#fff" stroke-width=".6" opacity=".35"/></pattern>
+  <filter id="sk-frost" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="halo"/>
+    <feTurbulence type="turbulence" baseFrequency=".9" numOctaves="1" seed="5" result="n"><animate attributeName="seed" values="5;6;7;8" dur="8s" calcMode="discrete" repeatCount="indefinite"/></feTurbulence>
+    <feComponentTransfer in="n" result="specks"><feFuncA type="discrete" tableValues="0 0 0 1 1 1"/></feComponentTransfer>
+    <feComposite in="specks" in2="halo" operator="in" result="crystals"/>
+    <feColorMatrix in="crystals" type="matrix" values="0 0 0 0 .55  0 0 0 0 .8  0 0 0 0 .93  0 0 0 .9 0" result="white"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="1.6" result="glow"/>
+    <feMerge><feMergeNode in="glow"/><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="sk-frost-still" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="halo"/>
+    <feTurbulence type="turbulence" baseFrequency=".9" numOctaves="1" seed="5" result="n"/>
+    <feComponentTransfer in="n" result="specks"><feFuncA type="discrete" tableValues="0 0 0 1 1 1"/></feComponentTransfer>
+    <feComposite in="specks" in2="halo" operator="in" result="crystals"/>
+    <feColorMatrix in="crystals" type="matrix" values="0 0 0 0 .55  0 0 0 0 .8  0 0 0 0 .93  0 0 0 .9 0" result="white"/>
+    <feMerge><feMergeNode in="white"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <linearGradient id="sk-iceglint" x1="0" y1="0" x2="1" y2="1"><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset=".58" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <pattern id="sk-ice" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#AFD8EE"/><path d="M0 0L34 16L22 50L0 38ZM34 16L80 0V30L50 44ZM22 50L50 44L80 30V80H40ZM0 38L22 50L40 80H0Z" fill="#CFEAF7" stroke="#FFFFFF" stroke-width="1.4"/><path d="M34 16L50 44L22 50Z" fill="#9FD0E8" stroke="#FFFFFF" stroke-width="1.4"/><path d="M80 30L50 44L62 64Z" fill="#B7DDF0"/><circle cx="14" cy="22" r="2.4" fill="none" stroke="#fff" stroke-width="1"/><circle cx="58" cy="60" r="1.8" fill="none" stroke="#fff" stroke-width="1"/><circle cx="62" cy="14" r="1.4" fill="none" stroke="#fff" stroke-width=".9"/><circle cx="30" cy="66" r="2.8" fill="none" stroke="#fff" stroke-width="1"/>
+    <rect x="-80" y="-80" width="160" height="160" fill="url(#sk-iceglint)"><animateTransform attributeName="transform" type="translate" values="-80 -80; 80 80" dur="5s" repeatCount="indefinite"/></rect></pattern>
+  <pattern id="sk-ice-still" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#AFD8EE"/><path d="M0 0L34 16L22 50L0 38ZM34 16L80 0V30L50 44ZM22 50L50 44L80 30V80H40ZM0 38L22 50L40 80H0Z" fill="#CFEAF7" stroke="#FFFFFF" stroke-width="1.4"/><path d="M34 16L50 44L22 50Z" fill="#9FD0E8" stroke="#FFFFFF" stroke-width="1.4"/><path d="M80 30L50 44L62 64Z" fill="#B7DDF0"/><circle cx="14" cy="22" r="2.4" fill="none" stroke="#fff" stroke-width="1"/><circle cx="58" cy="60" r="1.8" fill="none" stroke="#fff" stroke-width="1"/><circle cx="62" cy="14" r="1.4" fill="none" stroke="#fff" stroke-width=".9"/><circle cx="30" cy="66" r="2.8" fill="none" stroke="#fff" stroke-width="1"/></pattern>
+  <filter id="sk-neon" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="wide"/>
+    <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="near"/>
+    <feMorphology in="SourceGraphic" operator="erode" radius=".9" result="thin"/>
+    <feColorMatrix in="thin" type="matrix" values=".4 0 0 0 .6  0 .4 0 0 .6  0 0 .4 0 .6  0 0 0 1 0" result="core"/>
+    <feMerge><feMergeNode in="wide"/><feMergeNode in="wide"/><feMergeNode in="near"/><feMergeNode in="SourceGraphic"/><feMergeNode in="core"/></feMerge></filter>
+  <linearGradient id="sk-neonliq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF7FBF" stop-opacity=".85"/><stop offset=".06" stop-color="#FF4FA3" stop-opacity=".5"/><stop offset="1" stop-color="#FF4FA3" stop-opacity=".28"/></linearGradient>
+  <filter id="sk-pixel" filterUnits="userSpaceOnUse" x="-60" y="-60" width="1500" height="1100">
+    <feFlood x="1" y="1" width="1" height="1" flood-color="#000"/><feComposite width="4" height="4"/><feTile result="dots"/>
+    <feComposite in="SourceGraphic" in2="dots" operator="in"/><feMorphology operator="dilate" radius="2" result="px"/>
+    <feOffset in="px" dx="-2" result="l"/><feColorMatrix in="l" type="matrix" values="0 0 0 0 1  0 0 0 0 .16  0 0 0 0 .43  0 0 0 .8 0" result="red"/>
+    <feMerge><feMergeNode in="red"/><feMergeNode in="px"/></feMerge></filter>
+  <pattern id="sk-pixels" width="24" height="24" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.0s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="6" y="0" width="6" height="6" fill="#B0207A"><animate attributeName="fill" values="#B0207A;#7A1FA2;#B0207A" dur="1.6s" begin="0.2s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="12" y="0" width="6" height="6" fill="#7A1FA2"><animate attributeName="fill" values="#7A1FA2;#5A1478;#7A1FA2" dur="1.6s" begin="0.4s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="18" y="0" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.6s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="0" y="6" width="6" height="6" fill="#B0207A"><animate attributeName="fill" values="#B0207A;#7A1FA2;#B0207A" dur="1.6s" begin="0.0s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="6" y="6" width="6" height="6" fill="#7A1FA2"><animate attributeName="fill" values="#7A1FA2;#5A1478;#7A1FA2" dur="1.6s" begin="0.2s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="12" y="6" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.4s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="18" y="6" width="6" height="6" fill="#B0207A"><animate attributeName="fill" values="#B0207A;#7A1FA2;#B0207A" dur="1.6s" begin="0.6s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="0" y="12" width="6" height="6" fill="#7A1FA2"><animate attributeName="fill" values="#7A1FA2;#5A1478;#7A1FA2" dur="1.6s" begin="0.0s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="6" y="12" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.2s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="12" y="12" width="6" height="6" fill="#B0207A"><animate attributeName="fill" values="#B0207A;#7A1FA2;#B0207A" dur="1.6s" begin="0.4s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="18" y="12" width="6" height="6" fill="#7A1FA2"><animate attributeName="fill" values="#7A1FA2;#5A1478;#7A1FA2" dur="1.6s" begin="0.6s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="0" y="18" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.0s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="6" y="18" width="6" height="6" fill="#B0207A"><animate attributeName="fill" values="#B0207A;#7A1FA2;#B0207A" dur="1.6s" begin="0.2s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="12" y="18" width="6" height="6" fill="#7A1FA2"><animate attributeName="fill" values="#7A1FA2;#5A1478;#7A1FA2" dur="1.6s" begin="0.4s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="18" y="18" width="6" height="6" fill="#5A1478"><animate attributeName="fill" values="#5A1478;#B0207A;#5A1478" dur="1.6s" begin="0.6s" calcMode="discrete" repeatCount="indefinite"/></rect><rect x="0" y="0" width="24" height="1" fill="rgba(255,255,255,.18)"/></pattern>
+  <pattern id="sk-pixels-still" width="24" height="24" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="6" height="6" fill="#5A1478"></rect><rect x="6" y="0" width="6" height="6" fill="#B0207A"></rect><rect x="12" y="0" width="6" height="6" fill="#7A1FA2"></rect><rect x="18" y="0" width="6" height="6" fill="#5A1478"></rect><rect x="0" y="6" width="6" height="6" fill="#B0207A"></rect><rect x="6" y="6" width="6" height="6" fill="#7A1FA2"></rect><rect x="12" y="6" width="6" height="6" fill="#5A1478"></rect><rect x="18" y="6" width="6" height="6" fill="#B0207A"></rect><rect x="0" y="12" width="6" height="6" fill="#7A1FA2"></rect><rect x="6" y="12" width="6" height="6" fill="#5A1478"></rect><rect x="12" y="12" width="6" height="6" fill="#B0207A"></rect><rect x="18" y="12" width="6" height="6" fill="#7A1FA2"></rect><rect x="0" y="18" width="6" height="6" fill="#5A1478"></rect><rect x="6" y="18" width="6" height="6" fill="#B0207A"></rect><rect x="12" y="18" width="6" height="6" fill="#7A1FA2"></rect><rect x="18" y="18" width="6" height="6" fill="#5A1478"></rect><rect x="0" y="0" width="24" height="1" fill="rgba(255,255,255,.18)"/></pattern>
 </defs></svg>
 <div class="bgfx" aria-hidden="true"><i class="l1"></i><i class="l2"></i><i class="l3"></i></div>
 <div class="wrap">
@@ -2775,6 +3108,8 @@
         <div class="sppane" data-sp="colours" hidden>
         <p class="rules" style="margin-top:14px"><b>Colours.</b> Unlock a new look for the jugs, scales and rulers as your badges add up. The last fourteen are different: nobody earns them alone. They arrive for the whole class as the jar is filled again and again.</p>
         <div class="skins" id="skins"></div>
+        <p class="rules" style="margin-top:18px"><b>Badge colours.</b> The hardest to get. Each one comes with one of the toughest badges, and each changes the whole screen.</p>
+        <div class="skins" id="badgeskins"></div>
         </div>
         <div class="sppane" data-sp="backs" hidden>
         <p class="rules" style="margin-top:14px"><b>Backgrounds.</b> One more to choose from every time the class fills the jar. They sit behind everything, so the jugs and the numbers stay exactly as easy to read.</p>
@@ -4156,7 +4491,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "34";
+  var GAME_VERSION = "36";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -4571,7 +4906,7 @@
     }
 
     var spx = top.lx + 6;
-    out += '<path class="glass" d="M' + spx + ' ' + top.y + ' L' + (spx + 9) + ' ' +
+    out += '<path class="glass spout" d="M' + spx + ' ' + top.y + ' L' + (spx + 9) + ' ' +
            (top.y - 13) + ' L' + (spx + 18) + ' ' + top.y + '"/>';
     out += '<path class="glass" d="' + body + '"/>';
     out += '<line class="rim" x1="' + (top.lx + 3) + '" y1="' + (top.y + 5) + '" x2="' +
@@ -7934,11 +8269,17 @@
     { id: "opal",      name: "Opal",       jars: 12 },
     { id: "midas",     name: "Midas",      jars: 15 },
     { id: "prism",     name: "Prism",      jars: 20 },
-    { id: "molten",    name: "Molten Glass", jars: 22 },
+    { id: "blueprint", name: "Blueprint",  jars: 22 },
     { id: "oceandeep", name: "Ocean Deep", jars: 25 },
-    { id: "sakura",    name: "Sakura",     jars: 28 },
+    { id: "chalk",     name: "Chalkboard", jars: 28 },
     { id: "circuit",   name: "Circuit",    jars: 32 },
-    { id: "storm",     name: "Storm",      jars: 36 }
+    { id: "stained",   name: "Stained Glass", jars: 36 },
+    /* Badge colours: the hardest unlocks, each from a different kind of effort. */
+    { id: "sketch",    name: "Sketchbook",   need: "marks",     how: "Marksman badge" },
+    { id: "stitch",    name: "Embroidery",   need: "term",      how: "All term badge" },
+    { id: "ice",       name: "Ice",          need: "master",    how: "Measure master badge" },
+    { id: "sign",      name: "Neon Sign",    need: "daily30",   how: "Thirty challenges badge" },
+    { id: "arcade",    name: "Retro Arcade", need: "streak100", how: "A hundred in a row badge" }
   ];
 
   /* The teacher has every colour from the start - not as a perk, but because
@@ -7946,6 +8287,7 @@
      show them the one they already have. */
   function skinUnlocked(skin) {
     if (TEACHER) return true;
+    if (skin.need) return hasBadge(skin.need);
     if (skin.jars) return classProgress().filled >= skin.jars;
     return state.badges.length >= skin.at;
   }
@@ -8199,20 +8541,23 @@
 
     var jarWord = function (n) { return n === 1 ? "fill the jar" : "fill the jar " + n + " times"; };
 
-    var skins = "";
+    var skins = "", badgeSkins = "";
     for (var k = 0; k < SKINS.length; k++) {   // g is the class jug, read above
       var sk = SKINS[k], open = skinUnlocked(sk);
-      var earned = sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
-      var how = sk.jars ? jarWord(sk.jars) : sk.at + " badges";
-      skins += '<button class="skin' + (open ? "" : " locked") +
+      var earned = sk.need ? hasBadge(sk.need) : sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
+      var how = sk.need ? sk.how : sk.jars ? jarWord(sk.jars) : sk.at + " badges";
+      var chip = '<button class="skin' + (open ? "" : " locked") +
                (open && !earned ? " teacheronly" : "") +
-               (sk.jars ? " jarchip" : "") +
+               (sk.jars ? " jarchip" : "") + (sk.need ? " badgechip" : "") +
                (state.skin === sk.id ? " on" : "") + '" data-skin="' + sk.id + '"' +
                (open ? "" : " disabled") + '>' +
                '<span class="sw sw-' + sk.id + '"></span>' + esc(sk.name) +
                (earned ? "" : '<small>' + how + "</small>") + '</button>';
+      if (sk.need) badgeSkins += chip; else skins += chip;
     }
     document.getElementById("skins").innerHTML = skins;
+    var badgeBox = document.getElementById("badgeskins");
+    if (badgeBox) badgeBox.innerHTML = badgeSkins;
 
     var backs = "";
     for (var d = 0; d < BACKDROPS.length; d++) {
@@ -8464,7 +8809,7 @@
   function fxProbe() {
     if (fxProbed || document.body.classList.contains("lowfx") || !window.requestAnimationFrame) return;
     var moving = (state.bg && state.bg !== "plain") ||
-                 /^(bubblegum|volcano|neon|galaxy|borealis|opal|midas|prism|rainbow|molten|oceandeep|sakura|circuit|storm)$/.test(state.skin || "");
+                 /^(bubblegum|volcano|neon|galaxy|borealis|opal|midas|prism|rainbow|blueprint|oceandeep|chalk|circuit|stained|sketch|stitch|ice|sign|arcade)$/.test(state.skin || "");
     if (!moving) return;
     fxProbed = true;
     setTimeout(function () {
@@ -8520,6 +8865,7 @@
     for (i = 0; i < FRAMES.length; i++) if (FRAMES[i].need === badgeId) out.push(FRAMES[i].name + " frame");
     for (i = 1; i < FLAMES.length; i++) if (FLAMES[i].need === badgeId) out.push(FLAMES[i].name + " flames");
     for (i = 1; i < TRAILS.length; i++) if (TRAILS[i].need === badgeId) out.push(TRAILS[i].name + " trail");
+    for (i = 0; i < SKINS.length; i++) if (SKINS[i].need === badgeId) out.push(SKINS[i].name + " colours");
     return out;
   }
 
