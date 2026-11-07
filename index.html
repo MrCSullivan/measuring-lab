@@ -4871,7 +4871,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "42";
+  var GAME_VERSION = "43";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -7523,7 +7523,10 @@
     http: "The server answered with an error code."
   };
 
-  var PUSH_GAP = 30000;
+  /* 40 s rather than 30: two full classes share the sheet's one lock, and a
+     quarter fewer posts keeps it clear on a slow day. A child's own score is
+     always shown at once on their own device. */
+  var PUSH_GAP = 40000;
   var PUSH_JITTER = 10000;
   var MAX_RETRIES = 12;
 
