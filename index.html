@@ -4491,7 +4491,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "36";
+  var GAME_VERSION = "37";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -5227,6 +5227,7 @@
     weekScore: 0,
     weekOf: "",
     dayScore: 0,
+    leftToday: 0,
     dayOf: "",
     duelWins: 0,
     duelLosses: 0,
@@ -6655,7 +6656,8 @@
                 levels: null, scores: null, tally: null, badges: null,
                 daysPlayed: 0, lastDay: "", challenges: 0,
                 avatar: "jug", team: "", weekScore: 0, weekOf: "",
-                dayScore: 0, dayOf: "", wins: 0, losses: 0, draws: 0 };
+                dayScore: 0,
+    leftToday: 0, dayOf: "", wins: 0, losses: 0, draws: 0 };
       list.push(found);
     }
     found.name = state.name;
@@ -6741,6 +6743,40 @@
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "visible") resumed();
   });
+
+  /* ---- leaving mid-question ----
+     A child who leaves the game in the middle of a question (to use the
+     calculator, say) comes back to a fresh question, so whatever they worked
+     out no longer helps. No points for the one they left, but the streak is
+     kept, so a genuine interruption costs nothing. Each time is counted, and
+     the teacher sees the count in "Who needs me". Under a second and a half
+     away does not count: that is a notification, not a calculation. */
+  var awayAt = 0, awayQ = null;
+  function goneAway() {
+    if (awayAt || TEACHER || !state.name || !state.q || state.answered) return;
+    awayAt = Date.now();
+    awayQ = state.q;
+  }
+  function cameBack() {
+    if (!awayAt) return;
+    var gone = Date.now() - awayAt, q = awayQ;
+    awayAt = 0; awayQ = null;
+    if (gone < 1500 || state.q !== q || state.answered) return;
+    noteToday();
+    state.leftToday = (state.leftToday | 0) + 1;
+    next();
+    setVerdict("You left the game, so here is a new question. Your streak is safe.", "");
+    try { saveProgress(); } catch (e) { /* saved next time */ }
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") goneAway(); else cameBack();
+  });
+  window.addEventListener("blur", goneAway);
+  window.addEventListener("focus", cameBack);
+  window.addEventListener("pagehide", goneAway);
+  window.addEventListener("pageshow", cameBack);
+  window.__away = function () { goneAway(); };
+  window.__back = function (ms) { awayAt -= ms || 0; cameBack(); };
   window.addEventListener("online", resumed);
   window.addEventListener("pageshow", function (e) { if (e.persisted) resumed(); });
   window.__shared = function () { return shared; };
@@ -6823,6 +6859,7 @@
     state.correct = 0;
     state.weekScore = 0;
     state.dayScore = 0;
+    state.leftToday = 0;
     state.misses = freshCounts();
     state.runs = freshCounts();
     state.placed = freshCounts();
@@ -6995,7 +7032,7 @@
       lastDay: state.lastDay, challenges: state.challenges,
       avatar: state.avatar, team: state.team,
       weekScore: state.weekScore, weekOf: state.weekOf,
-      dayScore: state.dayScore, dayOf: state.dayOf,
+      dayScore: state.dayScore, dayOf: state.dayOf, left: state.leftToday | 0,
       wins: state.duelWins | 0, losses: state.duelLosses | 0,
       draws: state.duelDraws | 0
     });
@@ -7223,7 +7260,7 @@
                lastDay: String(r.lastDay || ""), challenges: r.challenges | 0,
                avatar: String(r.avatar || "jug"), team: String(r.team || ""),
                weekScore: r.weekScore | 0, weekOf: String(r.weekOf || ""),
-               dayScore: r.dayScore | 0, dayOf: String(r.dayOf || ""),
+               dayScore: r.dayScore | 0, dayOf: String(r.dayOf || ""), left: r.left | 0,
                wins: r.wins | 0, losses: r.losses | 0 };
     });
     if (state.name) {
@@ -7776,8 +7813,20 @@
     }
 
     var out = "";
+    var today = dayStamp();
+    var leavers = list.filter(function (r) { return (r.left | 0) > 0 && String(r.dayOf || "") === today; })
+                      .sort(function (a, b) { return (b.left | 0) - (a.left | 0); });
+    if (leavers.length) {
+      out += '<p class="rules"><b>Left the game mid-question today.</b> Each time, they came back to a new question and got no points for the one they left.</p><ul class="helplist">' +
+        leavers.slice(0, 12).map(function (r) {
+          var n = r.left | 0;
+          return '<li class="' + (n >= 5 ? "hot" : n >= 2 ? "warm" : "fine") + '"><b>' + esc(r.name) + "</b>" +
+                 '<span class="hs-why">left ' + n + " time" + (n === 1 ? "" : "s") + "</span>" +
+                 '<span class="hs-num"></span></li>';
+        }).join("") + "</ul>";
+    }
     if (idle.length) {
-      out += '<p class="rules"><b>Barely started.</b> Fewer than eight answers so far.</p><ul class="helplist">' +
+      out += '<p class="rules"' + (leavers.length ? ' style="margin-top:14px"' : "") + '><b>Barely started.</b> Fewer than eight answers so far.</p><ul class="helplist">' +
         idle.map(function (r) {
           return line(r, r.tried ? r.tried + " answered" : "nothing yet");
         }).join("") + "</ul>";
@@ -9047,6 +9096,7 @@
     if (state.dayOf !== now) {       // a new day wipes the day's score, not the total
       state.dayOf = now;
       state.dayScore = 0;
+      state.leftToday = 0;
     }
   }
 
@@ -9843,6 +9893,7 @@
     state.weekOf = w.of; state.weekScore = w.score;
     var d = datedPick(state, r, "dayOf", "dayScore");
     state.dayOf = d.of; state.dayScore = d.score;
+    if (String(r.dayOf || "") === state.dayOf) state.leftToday = Math.max(state.leftToday | 0, r.left | 0);
     state.bestStreak = r.bestStreak;
     state.correct = r.correct;
     state.duelWins = r.duelWins | 0;
