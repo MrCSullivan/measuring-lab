@@ -18,6 +18,180 @@
   body { margin: 0; }
   img { max-width: 100%; }
   [hidden] { display: none !important; }
+
+  /* ================================================= stage 3
+     Seasonal colours, Party, class against class, the class challenge, the
+     profile card and the PIN step. */
+  body[data-skin="festive"] { --paper: #FFF6EA; --card: #FFFFFF; --card-sunk: #FDF0E2; --edge: #E9CBA9;
+    --ink: #2B1610; --ink-soft: #5E3A2C; --ink-faint: #7E5646; --water: #B3122E; --water-deep: #8C0D23;
+    --water-fill: #F6C9CF; --water-lite: #FDE8EB; --zest: #17703F; --zest-soft: #E2F3E8; }
+  body[data-skin="festive"]:not([data-bg]), body[data-skin="festive"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22%3E%3Cpath d=%22M15 9l1.6 3.4 3.7.4-2.8 2.5.8 3.7L15 17.1 11.7 19l.8-3.7-2.8-2.5 3.7-.4z%22 fill=%22rgba%28214,160,40,.22%29%22/%3E%3Ccircle cx=%2245%22 cy=%2242%22 r=%223%22 fill=%22rgba%28179,18,46,.14%29%22/%3E%3Ccircle cx=%2249%22 cy=%2245%22 r=%223%22 fill=%22rgba%28179,18,46,.14%29%22/%3E%3Cpath d=%22M40 46q5-6 10 0q-5 3-10 0z%22 fill=%22rgba%2823,112,63,.16%29%22/%3E%3C/svg%3E"); background-size: 60px 60px; }
+  body[data-skin="festive"] .stage, body[data-skin="festive"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  /* a string of fairy lights along the top of the question card */
+  body[data-skin="festive"] .stage::after, body[data-skin="festive"] .board::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 16px; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(circle at 12px 10px, #FF4D5E 0 4px, transparent 5px) 0 0 / 72px 16px repeat-x,
+      radial-gradient(circle at 36px 11px, #FFD23F 0 4px, transparent 5px) 0 0 / 72px 16px repeat-x,
+      radial-gradient(circle at 60px 10px, #2FCB6E 0 4px, transparent 5px) 0 0 / 72px 16px repeat-x,
+      linear-gradient(#3B2A20, #3B2A20) 0 5px / 100% 1.5px no-repeat;
+    animation: fairy 1.8s steps(2, jump-none) infinite; }
+  @keyframes fairy { 0% { filter: brightness(1) saturate(1); } 100% { filter: brightness(1.35) saturate(1.4) hue-rotate(40deg); } }
+  body[data-skin="festive"] .liquid { fill: url(#sk-candy); }
+  body[data-skin="festive"] .dialfill { stroke: #B3122E; }
+  body[data-skin="festive"] .glass, body[data-skin="festive"] .rulerbody, body[data-skin="festive"] .face, body[data-skin="festive"] .dialtrack { stroke: #17703F; }
+  .sw-festive { background: repeating-linear-gradient(45deg, #B3122E 0 4px, #fff 4px 8px, #17703F 8px 12px, #fff 12px 16px); }
+
+  body[data-skin="bookweek"] { --paper: #F3EAD7; --card: #FFFCF4; --card-sunk: #F8F0DE; --edge: #D9C6A0;
+    --ink: #1F1A17; --ink-soft: #4C4036; --ink-faint: #6E5F4E; --water: #2B4C7E; --water-deep: #1D3557;
+    --water-fill: #C9D7EC; --water-lite: #E8EEF7; --zest: #A63A26; --zest-soft: #F6E1DA; }
+  body[data-skin="bookweek"]:not([data-bg]), body[data-skin="bookweek"][data-bg="plain"] {
+    background-image: repeating-linear-gradient(180deg, transparent 0 27px, rgba(43,76,126,.10) 27px 28px); }
+  body[data-skin="bookweek"] .stage, body[data-skin="bookweek"] .board { position: relative; isolation: isolate; overflow: hidden;
+    background-image: linear-gradient(90deg, transparent 0 34px, rgba(166,58,38,.28) 34px 35.5px, transparent 35.5px),
+                      repeating-linear-gradient(180deg, transparent 0 29px, rgba(43,76,126,.08) 29px 30px); }
+  /* a ribbon bookmark hanging from the top of the card */
+  body[data-skin="bookweek"] .stage::after { content: ""; position: absolute; right: 26px; top: -2px; width: 18px; height: 54px; z-index: -1; pointer-events: none;
+    background: linear-gradient(90deg, #8E2E1D, #C2492F 50%, #8E2E1D); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    transform-origin: top center; animation: bookmark 4s ease-in-out infinite; }
+  @keyframes bookmark { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  body[data-skin="bookweek"] h1, body[data-skin="bookweek"] h2, body[data-skin="bookweek"] .verdict { font-family: Fraunces, Georgia, serif; }
+  body[data-skin="bookweek"] .liquid { fill: url(#sk-ink); }
+  body[data-skin="bookweek"] .glass, body[data-skin="bookweek"] .rulerbody, body[data-skin="bookweek"] .face, body[data-skin="bookweek"] .dialtrack { stroke: #1F1A17; }
+  .sw-bookweek { background: linear-gradient(90deg, #A63A26 0 22%, #2B4C7E 22% 44%, #D9A441 44% 66%, #17703F 66% 88%, #F3EAD7 88%); }
+
+  body[data-skin="spring"] { --paper: #F2FAEF; --card: #FFFFFF; --card-sunk: #F1F8EE; --edge: #CDE4C6;
+    --ink: #18301F; --ink-soft: #3F5C46; --ink-faint: #5B7561; --water: #2F7D4A; --water-deep: #1F5A33;
+    --water-fill: #F7C6D9; --water-lite: #FCE9F1; --zest: #C2386F; --zest-soft: #FCE3EE; }
+  body[data-skin="spring"]:not([data-bg]), body[data-skin="spring"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 80 80%22%3E%3Cg fill=%22rgba%28232,120,160,.16%29%22%3E%3Cellipse cx=%2220%22 cy=%2214%22 rx=%224%22 ry=%227%22/%3E%3Cellipse cx=%2220%22 cy=%2214%22 rx=%224%22 ry=%227%22 transform=%22rotate%2872 20 22%29%22/%3E%3Cellipse cx=%2220%22 cy=%2214%22 rx=%224%22 ry=%227%22 transform=%22rotate%28144 20 22%29%22/%3E%3Cellipse cx=%2220%22 cy=%2214%22 rx=%224%22 ry=%227%22 transform=%22rotate%28216 20 22%29%22/%3E%3Cellipse cx=%2220%22 cy=%2214%22 rx=%224%22 ry=%227%22 transform=%22rotate%28288 20 22%29%22/%3E%3C/g%3E%3Cpath d=%22M55 60q8-10 16-2q-8 8-16 2z%22 fill=%22rgba%2847,125,74,.14%29%22/%3E%3C/svg%3E"); background-size: 80px 80px; }
+  body[data-skin="spring"] .stage, body[data-skin="spring"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  /* petals drifting down behind the question. The tile repeats exactly, so the
+     loop has no jump in it. */
+  body[data-skin="spring"] .stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg fill=%22%23F2A0C0%22%3E%3Cellipse cx=%2230%22 cy=%2240%22 rx=%224%22 ry=%227%22 transform=%22rotate%2830 30 40%29%22/%3E%3Cellipse cx=%22140%22 cy=%2220%22 rx=%223.5%22 ry=%226%22 transform=%22rotate%28-40 140 20%29%22/%3E%3Cellipse cx=%22190%22 cy=%22130%22 rx=%224%22 ry=%227%22 transform=%22rotate%2860 190 130%29%22/%3E%3Cellipse cx=%2280%22 cy=%22170%22 rx=%223.5%22 ry=%226.5%22 transform=%22rotate%28-20 80 170%29%22/%3E%3Cellipse cx=%22100%22 cy=%2295%22 rx=%223%22 ry=%225.5%22 transform=%22rotate%2810 100 95%29%22/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 220px 220px; animation: petals 11s linear infinite; }
+  @keyframes petals { from { background-position: 0 0; } to { background-position: 60px 220px; } }
+  body[data-skin="spring"] .glass, body[data-skin="spring"] .rulerbody, body[data-skin="spring"] .face, body[data-skin="spring"] .dialtrack { stroke: #2F7D4A; }
+  .sw-spring { background: radial-gradient(circle at 35% 40%, #F7C6D9 0 30%, transparent 32%), radial-gradient(circle at 70% 65%, #F2A0C0 0 22%, transparent 24%), #CFE9C6; }
+
+  body[data-skin="party"] { --paper: #1B1035; --card: #261747; --card-sunk: #1F1240; --edge: #4B3388;
+    --ink: #FFF6FF; --ink-soft: #E3D2FF; --ink-faint: #BBA7E8; --water: #FF5FAE; --water-deep: #FFB8DD;
+    --water-fill: #5B1E5E; --water-lite: #3A1B52; --zest: #FFD23F; --zest-soft: #3D3112;
+    --leaf-soft: #17402B; --berry-soft: #4A1A24; --gold: #FFD23F; }
+  body[data-skin="party"] button.action:not(.ghost) { color: #1B1035; }
+  body[data-skin="party"] .measure[aria-pressed="true"], body[data-skin="party"] .mode[aria-pressed="true"], body[data-skin="party"] .chal-flag { color: #1B1035; }
+  body[data-skin="party"] .measure[aria-pressed="true"] small, body[data-skin="party"] .mode[aria-pressed="true"] em,
+  body[data-skin="party"] .mode[aria-pressed="true"] .lvl { color: #1B1035; opacity: .85; }
+  body[data-skin="party"]:not([data-bg]), body[data-skin="party"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 90 90%22%3E%3Crect x=%2210%22 y=%2212%22 width=%226%22 height=%223%22 fill=%22%23FF5FAE%22 opacity=%22.35%22 transform=%22rotate%2820 13 13%29%22/%3E%3Crect x=%2260%22 y=%2220%22 width=%226%22 height=%223%22 fill=%22%23FFD23F%22 opacity=%22.35%22 transform=%22rotate%28-30 63 21%29%22/%3E%3Ccircle cx=%2235%22 cy=%2260%22 r=%222.2%22 fill=%22%2349E3FF%22 opacity=%22.35%22/%3E%3Crect x=%2272%22 y=%2270%22 width=%226%22 height=%223%22 fill=%22%237CF29A%22 opacity=%22.35%22 transform=%22rotate%2845 75 71%29%22/%3E%3C/svg%3E"); background-size: 90px 90px; }
+  body[data-skin="party"] .stage, body[data-skin="party"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="party"] .stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect x=%2220%22 y=%2230%22 width=%228%22 height=%224%22 fill=%22%23FF5FAE%22 transform=%22rotate%2830 24 32%29%22/%3E%3Crect x=%22120%22 y=%2215%22 width=%228%22 height=%224%22 fill=%22%23FFD23F%22 transform=%22rotate%28-25 124 17%29%22/%3E%3Ccircle cx=%22170%22 cy=%22110%22 r=%223%22 fill=%22%2349E3FF%22/%3E%3Crect x=%2260%22 y=%22150%22 width=%228%22 height=%224%22 fill=%22%237CF29A%22 transform=%22rotate%2860 64 152%29%22/%3E%3Ccircle cx=%2295%22 cy=%2285%22 r=%222.6%22 fill=%22%23FF8A3D%22/%3E%3Crect x=%22160%22 y=%22175%22 width=%228%22 height=%224%22 fill=%22%23B98CFF%22 transform=%22rotate%28-50 164 177%29%22/%3E%3C/svg%3E");
+    background-size: 200px 200px; animation: confetti 7s linear infinite; }
+  @keyframes confetti { from { background-position: 0 0; } to { background-position: -40px 200px; } }
+  body[data-skin="party"] .liquid { animation: partyfill 4s linear infinite; }
+  body[data-skin="party"] .dialfill { animation: partystroke 4s linear infinite; }
+  @keyframes partyfill { 0%, 100% { fill: #7A2A7E; } 25% { fill: #8A6A12; } 50% { fill: #1D6A7A; } 75% { fill: #2E7A44; } }
+  @keyframes partystroke { 0%, 100% { stroke: #C04BC6; } 25% { stroke: #D9A21C; } 50% { stroke: #2FB7D0; } 75% { stroke: #3FBF66; } }
+  body[data-skin="party"] .glass, body[data-skin="party"] .rulerbody, body[data-skin="party"] .face, body[data-skin="party"] .dialtrack { filter: drop-shadow(0 0 5px rgba(255,95,174,.6)); }
+  .sw-party { background: radial-gradient(circle at 30% 30%, #FFD23F 0 14%, transparent 16%), radial-gradient(circle at 70% 40%, #49E3FF 0 12%, transparent 14%), radial-gradient(circle at 45% 72%, #7CF29A 0 12%, transparent 14%), #FF5FAE; }
+
+  body[data-skin="festive"] .wave, body[data-skin="bookweek"] .wave, body[data-skin="spring"] .wave, body[data-skin="party"] .wave { animation: none; }
+  body.lowfx[data-skin="festive"] .stage::after, body.lowfx[data-skin="festive"] .board::after, body.lowfx[data-skin="bookweek"] .stage::after,
+  body.lowfx[data-skin="spring"] .stage::after, body.lowfx[data-skin="party"] .stage::after,
+  body.lowfx[data-skin="party"] .liquid, body.lowfx[data-skin="party"] .dialfill { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    body[data-skin="festive"] .stage::after, body[data-skin="festive"] .board::after, body[data-skin="bookweek"] .stage::after,
+    body[data-skin="spring"] .stage::after, body[data-skin="party"] .stage::after,
+    body[data-skin="party"] .liquid, body[data-skin="party"] .dialfill { animation: none; }
+  }
+  .skin.seasonchip.on { border-color: var(--water); background: var(--water-lite); }
+
+  /* ---- class against class, and the class challenge ---- */
+  .vsbox, .chalbox { border: 1px solid var(--edge); background: var(--card-sunk); border-radius: 12px; padding: 10px 12px; margin: 0 0 12px; }
+  .vsbox h3, .chalbox h3 { margin: 0 0 6px; font: 700 14px/1.2 Karla, sans-serif; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .vsbox h3 small, .chalbox h3 small { font-weight: 600; color: var(--ink-faint); }
+  .vsrow { display: grid; grid-template-columns: minmax(70px, 30%) 1fr auto; gap: 8px; align-items: center; margin: 4px 0; font-size: 14px; color: var(--ink); }
+  .vsrow b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .vsrow.mine b { color: var(--water-deep); }
+  .vsbar, .chalbar { height: 12px; border-radius: 99px; background: var(--card); border: 1px solid var(--edge); overflow: hidden; }
+  .vsbar i, .chalbar i { display: block; height: 100%; background: var(--water); border-radius: 99px; }
+  .vsrow.mine .vsbar i { background: var(--zest); }
+  .vsrow span { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink-soft); }
+  .vslast { margin: 6px 0 0; font-size: 13px; color: var(--ink-faint); }
+  .chalbox.met { border-color: var(--zest); background: var(--zest-soft); }
+  .chalbox p { margin: 6px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+  .chalbar { height: 16px; }
+  .tcontrols input.tc-num { width: 7em; font: inherit; padding: 4px 6px; border-radius: 8px; border: 1px solid var(--edge); background: var(--card); color: var(--ink); }
+
+  /* ---- the profile card ---- */
+  .ranks .rank { cursor: pointer; }
+  .ranks .rank:focus-visible { outline: 3px solid var(--water); outline-offset: 2px; }
+  .profile { position: fixed; inset: 0; z-index: 62; display: flex; align-items: center; justify-content: center; padding: 18px; }
+  .profile[hidden] { display: none; }
+  .pf-scrim { position: absolute; inset: 0; background: var(--scrim, rgba(10,30,40,.55)); }
+  .pf-card { position: relative; width: min(460px, 100%); max-height: 90vh; overflow: auto; background: var(--card); color: var(--ink);
+    border: 1px solid var(--edge); border-radius: 18px; box-shadow: 0 24px 64px rgba(15,36,48,.34); padding: 18px 18px 16px; }
+  .pf-top { display: flex; gap: 14px; align-items: center; }
+  .pf-top .avi.pf-avi { width: 72px; height: 72px; flex: none; stroke-width: 1.6; }
+  .pf-top h2 { margin: 0; font: 700 24px/1.1 Fraunces, Georgia, serif; overflow-wrap: anywhere; }
+  .pf-top p { margin: 4px 0 0; color: var(--ink-soft); font-size: 14px; }
+  .pf-look { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; font-size: 14px; color: var(--ink-soft); }
+  .pf-look .sw { width: 22px; height: 22px; border-radius: 6px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+  .pf-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 0; }
+  .pf-stats div { background: var(--card-sunk); border-radius: 10px; padding: 8px; text-align: center; }
+  .pf-stats b { display: block; font: 800 20px/1.1 Karla, sans-serif; color: var(--water-deep); font-variant-numeric: tabular-nums; }
+  .pf-stats small { font-size: 12px; color: var(--ink-faint); }
+  .pf-card h3 { margin: 14px 0 6px; font: 700 15px/1.2 Karla, sans-serif; color: var(--ink-soft); }
+  .pf-levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-size: 13.5px; }
+  .pf-levels span { background: var(--card-sunk); border-radius: 8px; padding: 6px 8px; display: flex; justify-content: space-between; gap: 6px; }
+  .pf-levels b.gold { color: var(--gold); }
+  .pf-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pf-badges span { width: 34px; height: 34px; border-radius: 9px; background: var(--card-sunk); display: grid; place-items: center; }
+  .pf-badges svg { width: 24px; height: 24px; fill: none; stroke: var(--zest); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+  .pf-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .pf-note { font-size: 13px; color: var(--ink-faint); }
+  @media (max-width: 420px) { .pf-stats, .pf-levels { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---- the PIN step ---- */
+  .gate-card input.pinbox { letter-spacing: .5em; text-align: center; font-size: 26px; }
+
+  /* ================================================= stage 4
+     Report cards, reading support and sounds. */
+  .worksheet .rc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 0 0 5mm; }
+  .worksheet .rc-grid div { border: 1pt solid #000; border-radius: 2mm; padding: 2mm; text-align: center; font: 9pt/1.2 Arial, sans-serif; }
+  .worksheet .rc-grid b { display: block; font: 700 15pt/1.15 Georgia, serif; }
+  .worksheet .rc-table { width: 100%; border-collapse: collapse; font: 9.5pt/1.25 Arial, sans-serif; margin: 0 0 5mm; }
+  .worksheet .rc-table th, .worksheet .rc-table td { border: 0.75pt solid #000; padding: 1.4mm 1.6mm; text-align: center; }
+  .worksheet .rc-table th:first-child, .worksheet .rc-table td:first-child { text-align: left; }
+  .worksheet .rc-table td.na { color: #999; }
+  .worksheet .rc-table td.top { font-weight: 700; }
+  .worksheet h2.rc-h { font: 700 11.5pt/1.2 Arial, sans-serif; margin: 4mm 0 2mm; }
+  .worksheet .rc-p { font: 10pt/1.4 Arial, sans-serif; margin: 0 0 2mm; }
+  .worksheet .rc-lines { border-top: 0.75pt solid #000; height: 9mm; }
+  .worksheet .rc-key { font: 8.5pt/1.3 Arial, sans-serif; color: #333; margin: 0 0 4mm; }
+
+  /* Reading support: per iPad, from the Aa button. */
+  .aapanel { position: fixed; inset: 0; z-index: 63; display: flex; align-items: flex-start; justify-content: center; padding: 70px 16px 16px; }
+  .aapanel[hidden] { display: none; }
+  .aa-scrim { position: absolute; inset: 0; background: var(--scrim, rgba(10,30,40,.45)); }
+  .aa-card { position: relative; width: min(380px, 100%); background: var(--card); color: var(--ink); border: 1px solid var(--edge); border-radius: 16px; padding: 16px; box-shadow: 0 18px 48px rgba(15,36,48,.3); }
+  .aa-card h2 { margin: 0 0 10px; font: 700 20px/1.2 Fraunces, Georgia, serif; }
+  .aa-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0; font-size: 15px; }
+  .aa-seg { display: inline-flex; border: 1px solid var(--edge); border-radius: 10px; overflow: hidden; }
+  .aa-seg button { font: 700 15px/1 Karla, sans-serif; padding: 9px 12px; min-height: 40px; background: var(--card-sunk); color: var(--ink); border: 0; cursor: pointer; }
+  .aa-seg button + button { border-left: 1px solid var(--edge); }
+  .aa-seg button[aria-pressed="true"] { background: var(--water); color: #fff; }
+  body[data-skin="party"] .aa-seg button[aria-pressed="true"], body[data-skin="circuit"] .aa-seg button[aria-pressed="true"] { color: #111; }
+  .aa-card .aa-note { font-size: 13px; color: var(--ink-faint); margin: 8px 0 12px; }
+  #aabtn { font-weight: 800; }
+  body.rs-big .wrap { zoom: 1.12; }
+  body.rs-bigger .wrap { zoom: 1.25; }
+  body.rs-space, body.rs-space input, body.rs-space button { letter-spacing: .04em; word-spacing: .12em; }
+  body.rs-space p, body.rs-space .verdict, body.rs-space .why, body.rs-space li { line-height: 1.75 !important; }
+  body.rs-easy, body.rs-easy button, body.rs-easy input, body.rs-easy select, body.rs-easy h1, body.rs-easy h2, body.rs-easy h3,
+  body.rs-easy .verdict, body.rs-easy .stage svg text { font-family: Verdana, Tahoma, "Trebuchet MS", sans-serif !important; }
 </style>
 
 <!-- Fonts come from this website, not from Google, so nothing third-party can hold the page up. -->
@@ -2088,6 +2262,67 @@
   body[data-skin="dragon"] .footnote { width: fit-content; max-width: 100%; }
   .tshow { margin: 0 0 10px; font: 600 14px/1.4 Karla, sans-serif; color: var(--ink-soft); }
   .tshow b { color: var(--ink); }
+  /* the teacher view's tabs, styled like the badge panel's */
+  .tviews { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .tviews button { font: 700 14px/1 Karla, sans-serif; padding: 9px 14px; min-height: 40px; border-radius: 999px; cursor: pointer;
+                   border: 1px solid var(--edge); background: var(--card-sunk); color: var(--ink-soft); }
+  .tviews button[aria-pressed="true"], .tviews button[aria-selected="true"], .tviews button.on { background: var(--water); border-color: var(--water); color: #fff; }
+  /* "Who needs me" rows: name, what is going on, and a number, in a line */
+  .helplist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+  .helplist li { display: grid; grid-template-columns: minmax(90px, 160px) 1fr auto; gap: 10px; align-items: baseline;
+                 padding: 8px 12px; border-radius: 10px; background: var(--card-sunk); border-left: 5px solid var(--edge);
+                 font: 500 15px/1.35 Karla, sans-serif; color: var(--ink-soft); }
+  .helplist li b { color: var(--ink); overflow-wrap: anywhere; }
+  .helplist .hs-num { color: var(--ink-faint); font-size: 13px; white-space: nowrap; }
+  .helplist li.hot { border-left-color: #D64545; } .helplist li.warm { border-left-color: #E3A21A; }
+  .helplist li.fine { border-left-color: #3BA272; } .helplist li.idle { border-left-color: var(--edge); }
+  @media (max-width: 560px) { .helplist li { grid-template-columns: 1fr auto; } .helplist .hs-why { grid-column: 1 / -1; grid-row: 2; } }
+  .why { margin: 10px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--card-sunk); border: 1px solid var(--edge); color: var(--ink); font: 500 15px/1.45 Karla, sans-serif; }
+  .why ol { margin: 6px 0 0; padding-left: 22px; } .why li { margin: 4px 0; }
+  .why .action { margin: 0; }
+  .pausecover { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; text-align: center; padding: 24px;
+                background: rgba(10,14,24,.92); color: #fff; }
+  .pausecover h2 { font: 800 clamp(30px, 6vw, 56px)/1.1 Fraunces, Georgia, serif; margin: 8px 0 10px; }
+  .pausecover p { font: 500 18px/1.4 Karla, sans-serif; color: #D6DEEA; margin: 0; }
+  .pc-eyes { font-size: 64px; animation: pclook 4s ease-in-out infinite; }
+  @keyframes pclook { 0%, 40%, 100% { transform: translateX(0); } 50%, 70% { transform: translateX(-10px); } 80%, 90% { transform: translateX(10px); } }
+  body.paused { overflow: hidden; }
+  .focusnote { margin: 0 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--zest-soft); color: var(--ink); font: 600 14px/1.35 Karla, sans-serif; }
+  .measure:disabled, .mode:disabled { opacity: .38; cursor: not-allowed; }
+  .tcontrols { display: grid; gap: 8px; margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--card-sunk); border: 1px solid var(--edge);
+               font: 500 14px/1.45 Karla, sans-serif; color: var(--ink-soft); }
+  .tcontrols b { color: var(--ink); }
+  .tcontrols select { font: 600 14px Karla, sans-serif; padding: 4px 6px; border-radius: 8px; border: 1px solid var(--edge); background: var(--card); color: var(--ink); margin-right: 4px; }
+  .tc-note { color: var(--ink-faint); font-size: 13px; }
+  /* ---------- stage 2: clocks, converting, real life ---------- */
+  @media (max-width: 1000px) { .measures { display: grid !important; grid-template-columns: repeat(3, 1fr); } .measures .measure { width: auto; } }
+  .bench.custom { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 240px; }
+  .bench.custom svg { max-width: 100%; height: auto; }
+  .bench.time svg .face { fill: var(--card-sunk); stroke: var(--edge); }
+  .bench.time .hourhand, .bench.time .minutehand { stroke: var(--ink); }
+  .bench.time .minutehand { stroke: var(--zest); }
+  .bench.time .hub { fill: var(--ink); }
+  .bench.time .sethandle { fill: var(--zest); opacity: .35; cursor: grab; }
+  .bench.time.setting svg { cursor: pointer; touch-action: none; }
+  .bench .twoclocks { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .bench .twoclocks svg { width: min(220px, 40vw); }
+  .bench .twoclocks .arrow { font-size: 30px; color: var(--ink-soft); }
+  .bench .digi { display: flex; gap: 14px; align-items: center; font: 800 44px/1 "Courier New", monospace; color: var(--ink); }
+  .bench .digi span { background: #111; color: #5EF27A; padding: 10px 16px; border-radius: 10px; letter-spacing: .06em; }
+  .bench .cvbig { font: 800 40px/1.2 Fraunces, Georgia, serif; color: var(--ink); text-align: center; }
+  .bench .cvbig span { color: var(--ink-soft); }
+  .bench.convert svg .glass { stroke: var(--ink); }
+  .stage.wide .bench.convert svg { width: 100%; max-width: 900px; }
+  .lifepic { font-size: 92px; line-height: 1; }
+  .lifeopts { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .lifeopt { font: 800 20px/1 Karla, sans-serif; padding: 16px 20px; min-height: 56px; min-width: 120px; border-radius: 14px; cursor: pointer;
+             border: 2px solid var(--edge); background: var(--card); color: var(--ink); }
+  .lifeopt:hover:not(:disabled) { border-color: var(--water); }
+  .lifeopt.right { border-color: #3BA272; background: #E3F5EA; color: #145A32; }
+  .lifeopt.dim { opacity: .4; }
+  .objtag { position: absolute; top: 8px; left: 10px; font-size: 44px; line-height: 1; pointer-events: none; }
+  .bench { position: relative; }
+  .focusnote.warm { background: var(--water-lite); }
   /* ---------- moving effects off ----------
      Set from the switch in the badge panel, or by the game itself when it
      measures that this device cannot keep up. Everything that moves stands
@@ -3276,6 +3511,11 @@
   <radialGradient id="sk-ruby" cx="38%" cy="32%" r="70%"><stop offset="0" stop-color="#FFB3B3"/><stop offset=".3" stop-color="#E0283C"/><stop offset="1" stop-color="#6A0612"/></radialGradient>
   <pattern id="sk-hoard" width="80" height="32" patternUnits="userSpaceOnUse"><rect width="80" height="32" fill="#4A2A06"/><g transform="translate(8 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(40 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(56 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(16 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(48 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(64 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(0 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(8 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(24 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(40 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(56 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(72 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(32 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(64 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(0 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(16 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(25 8)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#E0283C"/><path d="M-6 -2H6L0 6Z" fill="#9A0E22"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g><g transform="translate(34 15)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#2BC48A"/><path d="M-6 -2H6L0 6Z" fill="#0E7A52"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g><g transform="translate(50 28)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#3A7BFF"/><path d="M-6 -2H6L0 6Z" fill="#1A3FA8"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g><path d="M25 3.5L25.8 6.2L28.5 7L25.8 7.8L25 10.5L24.2 7.8L21.5 7L24.2 6.2Z" fill="#fff"><animate attributeName="opacity" values="0;1;0;0;0" dur="2.6s" begin="0s" repeatCount="indefinite"/></path><path d="M34 10.5L34.8 13.2L37.5 14L34.8 14.8L34 17.5L33.2 14.8L30.5 14L33.2 13.2Z" fill="#fff"><animate attributeName="opacity" values="0;1;0;0;0" dur="2.6s" begin="0.9s" repeatCount="indefinite"/></path><path d="M60 1.5L60.8 4.2L63.5 5L60.8 5.8L60 8.5L59.2 5.8L56.5 5L59.2 4.2Z" fill="#fff"><animate attributeName="opacity" values="0;1;0;0;0" dur="2.6s" begin="1.7s" repeatCount="indefinite"/></path><path d="M10 21.5L10.8 24.2L13.5 25L10.8 25.8L10 28.5L9.2 25.8L6.5 25L9.2 24.2Z" fill="#fff"><animate attributeName="opacity" values="0;1;0;0;0" dur="2.6s" begin="2.2s" repeatCount="indefinite"/></path></pattern>
   <pattern id="sk-hoard-still" width="80" height="32" patternUnits="userSpaceOnUse"><rect width="80" height="32" fill="#4A2A06"/><g transform="translate(8 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(40 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(56 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(16 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(48 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(64 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(0 13)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(8 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(24 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(40 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(56 20)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(72 6)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(32 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(64 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(0 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(16 27)"><ellipse rx="8" ry="4" fill="#8A5A0B"/><ellipse cy="-1.2" rx="8" ry="4" fill="#E8B923"/><ellipse cy="-1.2" rx="5.5" ry="2.6" fill="none" stroke="#FFE08A" stroke-width=".8"/></g><g transform="translate(25 8)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#E0283C"/><path d="M-6 -2H6L0 6Z" fill="#9A0E22"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g><g transform="translate(34 15)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#2BC48A"/><path d="M-6 -2H6L0 6Z" fill="#0E7A52"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g><g transform="translate(50 28)"><path d="M-6 -2L-3 -6H3L6 -2L0 6Z" fill="#3A7BFF"/><path d="M-6 -2H6L0 6Z" fill="#1A3FA8"/><path d="M-3 -6L-1 -2L1 -2L3 -6" fill="#fff" opacity=".35"/></g></pattern>
+  <!-- seasonal colours -->
+  <pattern id="sk-candy" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+    <rect width="16" height="16" fill="#FFFFFF"/><rect width="5" height="16" fill="#D2263F"/><rect x="8" width="2" height="16" fill="#2FA05A"/></pattern>
+  <pattern id="sk-ink" width="40" height="12" patternUnits="userSpaceOnUse">
+    <rect width="40" height="12" fill="#C9D7EC"/><path d="M0 11.5H40" stroke="#2B4C7E" stroke-width="1" opacity=".35"/></pattern>
 </defs></svg>
 <div class="bgfx" aria-hidden="true"><i class="l1"></i><i class="l2"></i><i class="l3"></i></div>
 <div class="wrap">
@@ -3284,7 +3524,8 @@
       <h1>Measuring Lab</h1>
       <p class="player"><span id="me-avi"></span>Playing: <b id="who">...</b>
         <span class="mytitle" id="me-title"></span>
-        &nbsp;<button class="linky" id="switch">Switch player</button></p>
+        &nbsp;<button class="linky" id="switch">Switch player</button>
+        &nbsp;<button class="linky" id="aabtn" aria-label="Reading and sound settings" title="Reading and sound settings">Aa</button></p>
     </div>
     <div class="scoreboard">
       <div class="stat" id="stat-score" title="This week's points. They start again from 0 every Monday at 8am, Adelaide time."><b id="s-score">0</b><span>Score</span></div>
@@ -3300,6 +3541,7 @@
     <button class="measure" data-measure="mass" aria-pressed="false">Mass<small>scales · g and kg</small></button>
     <button class="measure" data-measure="length" aria-pressed="false">Length<small>rulers · mm, cm, m</small></button>
     <button class="measure" data-measure="temperature" aria-pressed="false">Temperature<small>thermometers · °C</small></button>
+    <button class="measure" data-measure="time" aria-pressed="false">Time<small>clocks · minutes</small></button>
     <button class="measure number" data-measure="number" aria-pressed="false">Number<small>&#215; and &#247;</small></button>
   </nav>
 
@@ -3323,6 +3565,14 @@
     <button class="mode" data-mode="set" aria-pressed="false">
       <strong>Set it yourself</strong><em>Put it where the question asks.</em>
       <span class="lvl" data-lvl="set">Level 1</span>
+    </button>
+    <button class="mode" data-mode="convert" aria-pressed="false">
+      <strong>Convert</strong><em>Change it into the other unit.</em>
+      <span class="lvl" data-lvl="convert">Level 1</span>
+    </button>
+    <button class="mode" data-mode="life" aria-pressed="false">
+      <strong>Real life</strong><em>Which amount makes sense?</em>
+      <span class="lvl" data-lvl="life">Level 1</span>
     </button>
   </nav>
 
@@ -3490,6 +3740,8 @@
         <div class="skins" id="skins"></div>
         <p class="rules" style="margin-top:18px"><b>Badge colours.</b> The hardest to get. Each one comes with one of the toughest badges, and each changes the whole screen. Dragon Hoard is legendary: it needs Stretch 6 in every game.</p>
         <div class="skins" id="badgeskins"></div>
+        <p class="rules" style="margin-top:18px"><b>Seasonal colours.</b> Only here for part of the year. Party arrives for the whole class when you beat your teacher's class challenge.</p>
+        <div class="skins" id="seasonskins"></div>
         </div>
         <div class="sppane" data-sp="backs" hidden>
         <p class="rules" style="margin-top:14px"><b>Backgrounds.</b> One more to choose from every time the class fills the jar. They sit behind everything, so the jugs and the numbers stay exactly as easy to read.</p>
@@ -3507,6 +3759,28 @@
   </section>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <section class="aapanel" id="aapanel" hidden>
+    <div class="aa-scrim" id="aa-scrim"></div>
+    <div class="aa-card" role="dialog" aria-modal="true" aria-labelledby="aa-title">
+      <h2 id="aa-title">Reading and sound</h2>
+      <div class="aa-row"><span>Text size</span><span class="aa-seg" data-aa="size">
+        <button type="button" data-v="">Normal</button><button type="button" data-v="big">Big</button><button type="button" data-v="bigger">Bigger</button></span></div>
+      <div class="aa-row"><span>More space between words</span><span class="aa-seg" data-aa="space">
+        <button type="button" data-v="">Off</button><button type="button" data-v="on">On</button></span></div>
+      <div class="aa-row"><span>Easy-read letters</span><span class="aa-seg" data-aa="easy">
+        <button type="button" data-v="">Off</button><button type="button" data-v="on">On</button></span></div>
+      <div class="aa-row"><span>Sounds</span><span class="aa-seg" data-aa="sound">
+        <button type="button" data-v="">Off</button><button type="button" data-v="on">On</button></span></div>
+      <p class="aa-note">These stay on this iPad only. Sounds are quiet clicks and chimes for right answers, new levels and badges. Headphones are best.</p>
+      <button class="action small" type="button" id="aa-close">Done</button>
+    </div>
+  </section>
+
+  <section class="profile" id="profile" hidden>
+    <div class="pf-scrim" id="pf-scrim"></div>
+    <div class="pf-card" id="pf-card" role="dialog" aria-modal="true" aria-labelledby="pf-name"></div>
+  </section>
 
   <!-- Where a printed worksheet is built. Empty and out of the way until the
        teacher asks for one, and never on screen: it is shown only to the
@@ -3613,6 +3887,8 @@
     </details>
 
     <p class="rules">Every correct answer is worth the same, whatever level you are on. Three right in a row doubles your points, five triples them, eight in a row is quadruple. One wrong answer sends the streak back to zero.</p>
+    <div class="chalbox" id="chalbox" hidden></div>
+    <div class="vsbox" id="vsbox" hidden></div>
     <div class="teams" id="teams" hidden></div>
     <ol class="ranks" id="ranks"></ol>
     <div id="progress" hidden></div>
@@ -3655,6 +3931,14 @@
       <p class="err" id="teacher-err" hidden></p>
       <button class="action" type="button" id="teacher-go">Sign in</button>
       <button class="linkbtn" type="button" id="teacher-back">Not the teacher? Use a different name</button>
+    </div>
+
+    <div class="gate-step" id="gate-pin-step" hidden>
+      <input id="pinbox" class="pinbox" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" enterkeyhint="go" placeholder="PIN" aria-label="Your PIN">
+      <input id="pinbox2" class="pinbox" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" enterkeyhint="go" placeholder="Again" aria-label="Type your PIN again" hidden>
+      <p class="err" id="pin-err" hidden></p>
+      <button class="action" type="button" id="pin-go">Continue</button>
+      <button class="linkbtn" type="button" id="pin-back">Not you? Use a different name</button>
     </div>
 
     <div class="gate-step" id="gate-name-step">
@@ -4794,6 +5078,22 @@
     ladder: null
   };
 
+  /* Time: an analogue clock. Its five ladders have names of their own. */
+  MEASURES.time = {
+    label: "Time", short: "clocks", shape: "clock", layout: "side",
+    thing: "clock", things: "clocks",
+    readAsk: "What time is it?", addAsk: "", aboutAsk: "",
+    pointer: "minute hand", markWord: "minute mark",
+    noScale: true, ladder: null,
+    games: {
+      step: { label: "Minutes past", blurb: "How many minutes past, or to, the hour?" },
+      read: { label: "What time is it?", blurb: "Read the clock." },
+      add: { label: "How long?", blurb: "From one time to the other." },
+      about: { label: "Nearest 5 minutes", blurb: "Round the time." },
+      set: { label: "Set the clock", blurb: "Move the minute hand." }
+    }
+  };
+
   /* Two orders, on purpose.
 
      MEASURE_KEYS is the order a child's levels are written to the sheet, and it
@@ -4807,15 +5107,19 @@
      MEASURE_ORDER is the order they are shown in, where temperature belongs
      beside the other three instruments and Number is the odd one out at the
      end. Nothing but the eye depends on it. */
-  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature"];
-  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "number"];
-  var GAME_KEYS = ["step", "read", "add", "about", "set"];
+  /* Time, Convert and Real life go on the end, for the same reason. The CORE
+     lists are the original ladders, which every badge is still counted on. */
+  var CORE_MEASURES = ["capacity", "mass", "length", "number", "temperature"];
+  var CORE_GAMES = ["step", "read", "add", "about", "set"];
+  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time"];
+  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number"];
+  var GAME_KEYS = ["step", "read", "add", "about", "set", "convert", "life"];
 
   /* How many ladders there are altogether. Titles and several badges are
      scored out of this, and it moves whenever a measure or a game is added
      arrived, so it is worked out rather than typed. Everything that depends on
      the number of ladders reads it from here. */
-  var LADDERS = MEASURE_KEYS.length * GAME_KEYS.length;
+  var LADDERS = CORE_MEASURES.length * CORE_GAMES.length;
 
   /* What the four game buttons are called depends on which measure is chosen.
      The keys stay the same four so a child's levels are stored, merged and
@@ -4830,7 +5134,9 @@
        to set the instrument to it. Reading is recognition and setting is
        recall, and only the second one proves they have understood the scale
        rather than learned to spot a label. */
-    set:   { label: "Set it yourself",   blurb: "Put it where the question asks." }
+    set:   { label: "Set it yourself",   blurb: "Put it where the question asks." },
+    convert: { label: "Convert",         blurb: "Change it into the other unit." },
+    life:  { label: "Real life",         blurb: "Which amount makes sense?" }
   };
 
   /* What the button says.
@@ -4871,7 +5177,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "43";
+  var GAME_VERSION = "47";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -5608,6 +5914,7 @@
     weekOf: "",
     dayScore: 0,
     leftToday: 0,
+    mist: {}, mistOf: "",
     dayOf: "",
     duelWins: 0,
     duelLosses: 0,
@@ -5667,8 +5974,10 @@
       if (Math.random() < 0.7) return { at: Math.floor(Math.random() * n) + 0.5, half: true };
       return { at: 1 + Math.floor(Math.random() * (n - 1)), half: false };
     }
-    var canHalve = scale.step % 2 === 0;
-    if (canHalve && lv >= HALF_FROM_LEVEL && Math.random() < HALF_CHANCE) {
+    /* Above the ladder a half mark is allowed even when it makes a decimal,
+       so 12.5 g and 2.5 kg turn up: reading between the marks is Year 5 work. */
+    var canHalve = scale.step % 2 === 0 || (lv > MAX_LEVEL && !scale.ask);
+    if (canHalve && lv >= HALF_FROM_LEVEL && Math.random() < (lv > MAX_LEVEL ? 0.45 : HALF_CHANCE)) {
       return { at: Math.floor(Math.random() * n) + 0.5, half: true };
     }
     return { at: 1 + Math.floor(Math.random() * (n - 1)), half: false };
@@ -5762,6 +6071,7 @@
      removes nearly all of the back-to-back repeats. */
   function questionSig(q) {
     if (!q) return "";
+    if (q.kind) return q.sig || "";
     if (q.measure === "number" && !q.line) {
       return [q.groups, q.size, q.missing || "", q.mode].join("/");
     }
@@ -5784,6 +6094,9 @@
     lastSig = questionSig(state.q);
     render();
     updateChrome();
+    drawWarm();
+    if (state.q.kind === "life") setVerdict("Tap the one that makes sense.", "");
+    else if (state.q.timeAns && /^Type your answer/.test(verdict.textContent)) setVerdict("Type the time, like " + (state.q.h24 ? "15:45" : "3:45") + ", then press Check.", "");
     if (state.q.mode === "set" && /^Type your answer/.test(verdict.textContent)) {
       setVerdict("Set it, then press Check.", "");
     }
@@ -5793,8 +6106,20 @@
   }
 
   function buildQuestion() {
+    if (warm.pending) planWarm();
+    if (!gameAvailable(questionMeasure(), state.mode)) {
+      state.mode = "read";
+      document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === "read")); });
+    }
     var m = questionMeasure();
     var lv = level(m, state.mode);
+    if (isCustom(m, state.mode)) {
+      state.q = m === "time" && CORE_GAMES.indexOf(state.mode) > -1 ? makeTimeQuestion(state.mode, lv)
+              : state.mode === "convert" ? makeConvertQuestion(m, lv) : makeLifeQuestion(m, lv);
+      state.tries = 0;
+      state.answered = false;
+      return;
+    }
 
     /* Number has no scale to build, so it makes its own question and stops
        here. Everything after this point is about reading an instrument. */
@@ -5962,6 +6287,7 @@
         q.shown = chooseShown(q.s, q.at, lv);
       }
     }
+    addObject(q);
     state.q = q;
     state.tries = 0;
     state.answered = false;
@@ -6060,6 +6386,7 @@
      read back off the picture, so a redraw never loses it. */
   function setValue() {
     var q = state.q;
+    if (q && q.kind === "time") return state.setAt | 0;
     if (!q || !q.s) return 0;
     return askValue(q.s, valueAt(q.s, state.setAt || 0));
   }
@@ -6090,6 +6417,14 @@
     if (!r.width || !r.height) return;
     var pt = ev.touches && ev.touches[0] ? ev.touches[0] : ev;
     dropTrail(pt.clientX, pt.clientY);
+    if (q.kind === "time") {
+      var ddx = pt.clientX - (r.left + r.width / 2), ddy = pt.clientY - (r.top + r.height / 2);
+      var ang2 = Math.atan2(ddy, ddx) * 180 / Math.PI + 90;
+      if (ang2 < 0) ang2 += 360;
+      var mm2 = Math.round(ang2 / 6 / q.snap) * q.snap % 60;
+      if (mm2 !== state.setAt) { state.setAt = mm2; redrawSetter(); }
+      return;
+    }
 
     var t;
     var shape = bench.dataset.shape;
@@ -6171,12 +6506,48 @@
   function nudge(by) {
     var q = state.q;
     if (!q || q.mode !== "set" || state.answered) return;
+    if (q.kind === "time") { state.setAt = ((state.setAt | 0) + by * q.snap + 60) % 60; redrawSetter(); return; }
     var stepBy = q.s.halfMarks ? 0.5 : 1;
     state.setAt = Math.max(0, Math.min(q.s.n, (state.setAt || 0) + by * stepBy));
     redrawSetter();
   }
 
   function render(reveal) {
+    var q = state.q;
+    if (q && q.kind) { renderCustom(q, reveal); return; }
+    input.placeholder = "?";
+    checkBtn.hidden = false;
+    renderInner(reveal);
+    if (q && q.obj) {
+      promptEl.textContent = q.obj.ask;
+      bench.insertAdjacentHTML("beforeend", '<span class="objtag" aria-hidden="true">' + q.obj.e + "</span>");
+    }
+  }
+  function renderCustom(q, reveal) {
+    stage.className = "stage" + (q.kind === "convert" && q.picture ? " wide" : "");
+    checkBtn.hidden = q.kind === "life" && !state.answered;
+    bench.dataset.shape = q.kind === "time" ? "clock" : q.kind;
+    bench.className = "bench custom " + q.kind + (q.mode === "set" && q.kind === "time" ? " setting" : "");
+    input.hidden = (q.kind === "time" && q.mode === "set") || q.kind === "life";
+    bench.innerHTML = drawCustom(q, reveal);
+    promptEl.textContent = q.ask;
+    scaleEl.innerHTML = reveal ? customFact(q) : customSentence(q);
+    var unit = document.getElementById("unit");
+    unit.textContent = q.unitText || "";
+    unit.hidden = !q.unitText;
+    input.placeholder = q.placeholder || "?";
+    if (q.kind === "life" && !reveal) {
+      bench.querySelectorAll(".lifeopt").forEach(function (b) {
+        b.addEventListener("click", function () {
+          if (state.answered) return;
+          input.value = b.getAttribute("data-opt");
+          check();
+          if (!state.answered && state.q === q) { b.disabled = true; b.classList.add("dim"); }
+        });
+      });
+    }
+  }
+  function renderInner(reveal) {
     var q = state.q, M = MEASURES[q.measure], html = "";
 
     stage.className = "stage" + (M.layout === "wide" ? " wide" : "");
@@ -6307,6 +6678,9 @@
     if (stage) { stage.classList.add("roar"); setTimeout(function () { stage.classList.remove("roar"); }, 650); }
     setTimeout(function () { made.forEach(function (x) { if (x.parentNode) x.parentNode.removeChild(x); }); }, 1500);
   }
+  window.__classify = function (g) { return classifyMistake(state.q, g); };
+  window.__why = function () { return whySteps(state.q); };
+  window.__classState = function (cs) { if (cs) applyClassState(cs); return classState; };
   window.__dragonFire = function () { dragonFire(); return document.querySelectorAll(".dfire").length; };
 
   /* Did they give the right amount in the unit the scale is marked in, when
@@ -6327,9 +6701,693 @@
            " " + unitWord(small) + " in one " + unitOne(big) + ".";
   }
 
+  /* ================================================ stage 2: time, converting, real life, warm-up
+     Time is a measure of its own, with an analogue clock. Convert and Real
+     life are two more games, for the measures they make sense on. Like Number,
+     all three build and draw their own questions; the rest of the game (levels,
+     tries, points, streaks, badges, the sheet) treats them like any other.
+     Badges keep counting only the original ladders, so none got harder. */
+  function gameAvailable(m, g) {
+    if (CORE_GAMES.indexOf(g) > -1) return true;
+    if (g === "convert") return m === "capacity" || m === "mass" || m === "length" || m === "time";
+    if (g === "life") return m !== "number";
+    return false;
+  }
+  function rint(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function pickOne(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function round3(v) { return Math.round(v * 1000) / 1000; }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  /* ---------------------------------------------------------------- the clock */
+  var NUM_WORDS = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve",
+                   "thirteen", "fourteen", "quarter", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"];
+  function minuteWords(n) {
+    if (n === 15) return "quarter";
+    if (n === 30) return "half";
+    if (n <= 20) return NUM_WORDS[n] + (n === 1 ? " minute" : n % 5 ? " minutes" : "");
+    return "twenty-" + NUM_WORDS[n - 20] + (n % 5 ? " minutes" : "");
+  }
+  function timeWords(h, m) {
+    var next = h % 12 + 1;
+    if (m === 0) return NUM_WORDS[h] + " o'clock";
+    if (m <= 30) return minuteWords(m) + " past " + NUM_WORDS[h];
+    return minuteWords(60 - m) + " to " + NUM_WORDS[next];
+  }
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  function clockText(h, m) { return h + ":" + two(m); }
+  var ROMAN = ["", "I", "II", "III", "IIII", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+  function clockSVG(o) {
+    var cx = 130, cy = 130, R = 104, out = "";
+    var set = o.setting ? ' class="settable clockset" tabindex="0" role="slider" aria-label="Minute hand" aria-valuemin="0" aria-valuemax="59" aria-valuenow="' + o.m + '"' : "";
+    out += '<svg viewBox="0 0 260 260" width="260" height="260"' + set + ' aria-hidden="' + (o.setting ? "false" : "true") + '">';
+    out += '<circle class="face" cx="' + cx + '" cy="' + cy + '" r="' + R + '" stroke-width="5"/>';
+    for (var i = 0; i < 60; i++) {
+      var a = i * 6 * Math.PI / 180, big = i % 5 === 0, r1 = big ? R - 14 : R - 7;
+      out += '<line class="grad" x1="' + (cx + Math.sin(a) * r1).toFixed(1) + '" y1="' + (cy - Math.cos(a) * r1).toFixed(1) +
+             '" x2="' + (cx + Math.sin(a) * (R - 2)).toFixed(1) + '" y2="' + (cy - Math.cos(a) * (R - 2)).toFixed(1) +
+             '" stroke-width="' + (big ? 3 : 1.4) + '"/>';
+    }
+    for (var hr = 1; hr <= 12; hr++) {
+      var show = o.numbers === "all" || o.numbers === "roman" || (o.numbers === "quarters" && hr % 3 === 0);
+      if (!show) continue;
+      var ah = hr * 30 * Math.PI / 180, txt = o.numbers === "roman" ? ROMAN[hr] : String(hr);
+      out += '<text class="lab" x="' + (cx + Math.sin(ah) * (R - 30)).toFixed(1) + '" y="' + (cy - Math.cos(ah) * (R - 30) + 7).toFixed(1) +
+             '" text-anchor="middle" font-size="' + (o.numbers === "roman" ? 15 : 20) + '" font-weight="700">' + txt + "</text>";
+    }
+    if (o.minuteLabels) {
+      for (var mm = 5; mm <= 60; mm += 5) {
+        var am = mm * 6 * Math.PI / 180;
+        out += '<text class="lab q" x="' + (cx + Math.sin(am) * (R + 15)).toFixed(1) + '" y="' + (cy - Math.cos(am) * (R + 15) + 4).toFixed(1) +
+               '" text-anchor="middle" font-size="11" font-weight="700">' + (mm === 60 ? 0 : mm) + "</text>";
+      }
+    }
+    if (o.gaps) {
+      for (var gx = 0; gx < 12; gx++) {
+        var ag = (gx * 30 + 15) * Math.PI / 180;
+        out += '<text x="' + (cx + Math.sin(ag) * (R - 52)).toFixed(1) + '" y="' + (cy - Math.cos(ag) * (R - 52) + 4).toFixed(1) +
+               '" text-anchor="middle" font-size="10" fill="#2F80FF" font-weight="700">' + ((gx + 1) * 5) + "</text>";
+      }
+    }
+    var hA = ((o.h % 12) + o.m / 60) * 30 * Math.PI / 180, mA = o.m * 6 * Math.PI / 180;
+    out += '<line class="needle hourhand" x1="' + cx + '" y1="' + cy + '" x2="' + (cx + Math.sin(hA) * 54).toFixed(1) + '" y2="' + (cy - Math.cos(hA) * 54).toFixed(1) +
+           '" stroke-width="8" stroke-linecap="round"/>';
+    out += '<line class="needle minutehand" x1="' + cx + '" y1="' + cy + '" x2="' + (cx + Math.sin(mA) * 86).toFixed(1) + '" y2="' + (cy - Math.cos(mA) * 86).toFixed(1) +
+           '" stroke-width="' + (o.setting ? 6 : 4.5) + '" stroke-linecap="round"/>';
+    if (o.setting) out += '<circle class="sethandle" cx="' + (cx + Math.sin(mA) * 86).toFixed(1) + '" cy="' + (cy - Math.cos(mA) * 86).toFixed(1) + '" r="11"/>';
+    out += '<circle class="hub" cx="' + cx + '" cy="' + cy + '" r="7"/>';
+    return out + "</svg>";
+  }
+  function timeNumbers(lv, game) {
+    if (game === "read") return lv <= 4 ? "all" : lv === 5 ? "quarters" : lv === 6 ? "all" : lv === 7 ? "quarters" : lv === 8 ? "none" : lv <= 10 ? "all" : lv <= 12 ? "none" : "roman";
+    if (game === "step") return lv <= 4 ? "all" : lv <= 7 ? "quarters" : "none";
+    if (game === "about") return lv <= 3 ? "all" : lv <= 6 ? "quarters" : "none";
+    if (game === "set") return lv <= 6 ? "all" : lv <= 8 ? "quarters" : "none";
+    return lv <= 5 ? "all" : lv <= 7 ? "quarters" : "none";
+  }
+  function parseTime(text, h24) {
+    var t = String(text || "").trim().replace(/\s/g, "").replace(/[.;h]/g, ":");
+    var m = /^(\d{1,2}):(\d{2})$/.exec(t) || /^(\d{1,2})(\d{2})$/.exec(t);
+    if (!m) return NaN;
+    var hh = Number(m[1]), mm = Number(m[2]);
+    if (mm > 59) return NaN;
+    if (h24) return hh <= 23 ? hh * 60 + mm : NaN;
+    if (hh < 1 || hh > 12) return NaN;
+    return (hh % 12) * 60 + mm;
+  }
+  var PARTS = [["the morning", 0], ["the afternoon", 12], ["the evening", 12]];
+  function makeTimeQuestion(game, lv) {
+    var q = { measure: "time", mode: game, level: lv, kind: "time", unitText: "", placeholder: "" };
+    var h = rint(1, 12), m, nums = timeNumbers(lv, game);
+    q.numbers = nums;
+    if (game === "read") {
+      m = lv === 1 ? 0 : lv === 2 ? pickOne([0, 30]) : lv === 3 ? pickOne([0, 15, 30, 45]) : lv <= 5 ? 5 * rint(0, 11) : rint(0, 59);
+      q.h = h; q.m = m;
+      if (lv > MAX_LEVEL) {
+        var part = lv <= 10 ? PARTS[1] : pickOne(PARTS);
+        if (part[1] === 0 && h === 12) h = q.h = 11;
+        if (part[1] === 12 && part[0] === "the evening" && h < 5) h = q.h = h + 5;
+        var h24 = part[1] === 0 ? h % 12 : (h % 12) + 12;
+        if (part[0] === "the afternoon" && h === 12) h24 = 12;
+        q.h24 = true; q.answer = h24 * 60 + m; q.shown24 = two(h24) + ":" + two(m);
+        q.ask = "It is " + part[0] + ". What is the time in 24-hour time?";
+        q.placeholder = "15:45";
+      } else {
+        q.answer = (h % 12) * 60 + m;
+        q.ask = "What time is it?";
+        q.placeholder = "3:45";
+      }
+      q.timeAns = true;
+      q.sig = "tr" + h + ":" + m + lv;
+      return q;
+    }
+    if (game === "step") {
+      var to = lv >= 6 && (lv <= 8 ? true : Math.random() < 0.5);
+      m = lv === 1 ? pickOne([15, 30, 45]) : (lv <= 3 || lv === 6) ? 5 * rint(1, 11) : rint(1, 59);
+      if (to && m < 31) m = 60 - m;
+      q.h = h; q.m = m; q.to = to; q.minuteLabels = lv === 2 || lv === 4;
+      q.answer = to ? 60 - m : m;
+      q.ask = to ? "How many minutes to " + NUM_WORDS[h % 12 + 1] + " o'clock?" : "How many minutes past " + NUM_WORDS[h] + "?";
+      q.unitText = "min"; q.sig = "ts" + h + ":" + m + to;
+      return q;
+    }
+    if (game === "add") {
+      var steps = lv <= 5 ? 5 : 1;
+      var dmax = [0, 30, 55, 60, 90, 120, 120, 150, 180][Math.min(lv, 8)] || 300;
+      var dmin = lv <= 2 ? 5 : 10;
+      var d = steps * rint(Math.ceil(dmin / steps), Math.floor(dmax / steps));
+      var start;
+      if (lv <= 2) { var sm = steps * rint(0, Math.floor((59 - d) / steps)); start = h * 60 + sm; }
+      else if (lv === 7) start = 11 * 60 + steps * rint(Math.ceil(30 / steps), Math.floor(55 / steps));
+      else start = h * 60 + steps * rint(0, Math.floor(59 / steps));
+      if (lv <= 3 && lv > 2) { start = h * 60 + 5 * rint(7, 11); d = 5 * rint(Math.ceil((60 - start % 60 + 5) / 5), 12); }
+      var end = start + d;
+      q.ah = Math.floor(start / 60) % 12 || 12; q.am = start % 60; q.bh = Math.floor(end / 60) % 12 || 12; q.bm = end % 60;
+      q.answer = d; q.unitText = "min";
+      if (lv > MAX_LEVEL) {
+        var s24 = rint(7, 15) * 60 + rint(0, 59), d2 = rint(25, 300);
+        q.digital = true; q.from24 = two(Math.floor(s24 / 60)) + ":" + two(s24 % 60); q.to24 = two(Math.floor((s24 + d2) / 60) % 24) + ":" + two((s24 + d2) % 60);
+        q.answer = d2;
+        q.ask = "It started at " + q.from24 + " and finished at " + q.to24 + ". How many minutes did it take?";
+      } else {
+        q.ask = "How many minutes from the first clock to the second?";
+      }
+      q.sig = "ta" + start + "/" + d;
+      return q;
+    }
+    if (game === "about") {
+      var quarter = lv >= 5 && lv <= 8;
+      do { m = rint(0, 59); } while (m % 5 === 0 || (quarter && (m % 15 === 0)));
+      q.h = h; q.m = m; q.quarter = quarter;
+      var unit = quarter ? 15 : 5, r = Math.round(m / unit) * unit, rh = h;
+      if (r === 60) { r = 0; rh = h % 12 + 1; }
+      q.rh = rh; q.rm = r;
+      q.answer = (rh % 12) * 60 + r; q.timeAns = true; q.placeholder = "3:45";
+      q.ask = quarter ? "What is the time to the nearest quarter of an hour?" : "What is the time to the nearest 5 minutes?";
+      q.sig = "tb" + h + ":" + m;
+      return q;
+    }
+    /* set the clock: the hour is given, the child moves the minute hand */
+    q.snap = (lv <= 4 || lv === 7) ? 5 : 1;
+    m = lv === 1 ? pickOne([0, 30]) : lv === 2 ? pickOne([15, 30, 45]) : q.snap === 5 ? 5 * rint(1, 11) : rint(1, 59);
+    q.h = h; q.answer = m; q.m = m;
+    var words = lv === 1 || lv === 2 || lv === 4 || lv === 6;
+    if (lv > MAX_LEVEL) {
+      var pm = Math.random() < 0.6, hh24 = pm ? (h % 12) + 12 : h % 12;
+      q.ask = "Set the clock to " + two(hh24) + ":" + two(m) + ".";
+    } else {
+      q.ask = "Set the clock to " + (words ? timeWords(h, m) : clockText(h, m)) + ".";
+    }
+    q.sig = "tz" + h + ":" + m;
+    var startAt = (m + 20 + q.snap * rint(0, 3)) % 60;
+    state.setAt = startAt - startAt % q.snap;
+    return q;
+  }
+
+  /* ---------------------------------------------------------------- converting units */
+  var CONVERT_PAIRS = {
+    capacity: [["L", "mL", 1000]],
+    mass: [["kg", "g", 1000]],
+    length: [["m", "cm", 100], ["cm", "mm", 10], ["m", "mm", 1000], ["km", "m", 1000]],
+    time: [["h", "min", 60], ["min", "s", 60], ["days", "h", 24]]
+  };
+  var UNIT_LONG = { L: "litres", mL: "millilitres", kg: "kilograms", g: "grams", m: "metres", cm: "centimetres", mm: "millimetres",
+                    km: "kilometres", h: "hours", min: "minutes", s: "seconds", days: "days" };
+  function cvPair(measure, lv) {
+    var list = CONVERT_PAIRS[measure];
+    if (measure === "length") {
+      if (lv <= 2) return list[0];
+      if (lv === 3) return list[1];
+      if (lv <= 5) return pickOne([list[0], list[1]]);
+      return pickOne(list);
+    }
+    if (measure === "time") return lv <= 2 ? pickOne([list[0], list[1]]) : pickOne(list);
+    return list[0];
+  }
+  function makeConvertQuestion(measure, lv) {
+    var p = cvPair(measure, lv), big = p[0], small = p[1], per = p[2], tm = measure === "time";
+    if (tm && lv >= 8) { p = CONVERT_PAIRS.time[0]; big = p[0]; small = p[1]; per = p[2]; }
+    var q = { measure: measure, mode: "convert", level: lv, kind: "convert", big: big, small: small, per: per };
+    var L = lv > MAX_LEVEL ? pickOne([6, 7, 8, 9]) : lv, bigV, toSmall = true, v, a2, b2;
+    function fin(fromV, fromU, toU, ans, picture) {
+      q.fromV = fromV; q.fromU = fromU; q.toU = toU; q.answer = round3(ans); q.unitText = toU; q.picture = picture;
+      q.ask = "How many " + UNIT_LONG[toU] + " is " + fromV + " " + fromU + "?";
+      q.sig = "cv" + fromV + fromU + toU;
+      return q;
+    }
+    if (L === 1) { bigV = rint(1, 9); return fin(bigV, big, small, bigV * per, true); }
+    if (L === 2) { bigV = rint(2, 9); return fin(bigV * per, small, big, bigV, true); }
+    if (L === 3) {
+      if (per % 2) { bigV = rint(1, 9); return fin(bigV, big, small, bigV * per, true); }
+      bigV = rint(0, 6) + 0.5; return Math.random() < 0.6 ? fin(bigV, big, small, bigV * per, true) : fin(round3(bigV * per), small, big, bigV, true);
+    }
+    if (L === 4) {
+      if (per % 4) { bigV = rint(1, 5) + 0.5; return fin(round3(bigV * per), small, big, bigV, true); }
+      bigV = rint(0, 4) + pickOne([0.25, 0.75]); return Math.random() < 0.5 ? fin(bigV, big, small, bigV * per, true) : fin(round3(bigV * per), small, big, bigV, true);
+    }
+    if (L === 5) {
+      if (tm) { a2 = rint(1, 4); b2 = per === 24 ? rint(1, 23) : 5 * rint(1, 11);
+        q.mixed = true; return fin(a2 + " " + big + " " + b2, small, small, a2 * per + b2, false); }
+      if (per < 100) { bigV = rint(1, 9) + 0.5; return fin(bigV, big, small, bigV * per, true); }
+      bigV = rint(0, 4) + rint(1, 9) / 10; return Math.random() < 0.5 ? fin(round3(bigV), big, small, bigV * per, true) : fin(round3(bigV * per), small, big, round3(bigV), true);
+    }
+    if (L === 6) {
+      if (tm) { a2 = rint(1, 4); b2 = per === 24 ? rint(1, 23) : rint(1, 59); v = a2 * per + b2;
+        q.leftover = true; q.fromV = v; q.fromU = small; q.toU = small; q.answer = b2; q.unitText = small; q.picture = false; q.wholeBig = a2;
+        q.ask = v + " " + small + " is " + a2 + " " + big + " and how many " + UNIT_LONG[small] + "?"; q.sig = "cvl" + v; return q; }
+      v = rint(1, per * 4 - 1); if (per === 1000) v = rint(1, 3999); if (per === 10) v = rint(11, 99);
+      return Math.random() < 0.5 ? fin(v, small, big, round3(v / per), false) : fin(round3(v / per), big, small, v, false);
+    }
+    if (L === 7) {
+      a2 = rint(1, 5); b2 = rint(1, per - 1); if (per === 1000) b2 = rint(1, 999);
+      q.mixed = true; return fin(a2 + " " + big + " " + b2, small, small, a2 * per + b2, false);
+    }
+    /* L 8 and above: two amounts in different units put together */
+    var x = rint(1, 9) * (per >= 100 ? per / 20 : 1), y = rint(1, 4) + (per % 2 ? 0 : 0.5);
+    if (tm) { x = 5 * rint(3, 11); y = rint(1, 2); }
+    var total = x + y * per, inBig = lv > MAX_LEVEL && Math.random() < 0.5 && !tm;
+    q.sum = true; q.x = x; q.y = y;
+    q.fromV = x + " " + small + " + " + y; q.fromU = big; q.toU = inBig ? big : small;
+    q.answer = round3(inBig ? total / per : total); q.unitText = q.toU; q.picture = false;
+    q.ask = "What is " + x + " " + small + " + " + y + " " + big + " altogether, in " + UNIT_LONG[q.toU] + "?";
+    q.sig = "cvs" + x + "+" + y + q.toU;
+    return q;
+  }
+  function doubleLineSVG(q) {
+    var bigVal = q.fromU === q.big ? Number(q.fromV) : q.answer;
+    var max = Math.max(1, Math.ceil(bigVal + 0.001)), W = 600, x0 = 40, x1 = 560;
+    var X = function (b) { return (x0 + (x1 - x0) * b / max).toFixed(1); };
+    var out = '<svg viewBox="0 0 ' + W + ' 150" width="' + W + '" height="150" aria-hidden="true">';
+    out += '<line class="glass" x1="' + x0 + '" y1="50" x2="' + x1 + '" y2="50" stroke-width="3"/><line class="glass" x1="' + x0 + '" y1="110" x2="' + x1 + '" y2="110" stroke-width="3"/>';
+    for (var i = 0; i <= max; i++) {
+      out += '<line class="grad" x1="' + X(i) + '" y1="42" x2="' + X(i) + '" y2="58" stroke-width="2"/><line class="grad" x1="' + X(i) + '" y1="102" x2="' + X(i) + '" y2="118" stroke-width="2"/>';
+      if (max <= 10 || i % 2 === 0) {
+        out += '<text class="lab" x="' + X(i) + '" y="34" text-anchor="middle" font-size="14" font-weight="700">' + i + " " + q.big + "</text>";
+        out += '<text class="lab" x="' + X(i) + '" y="138" text-anchor="middle" font-size="14" font-weight="700">' + (i * q.per) + " " + q.small + "</text>";
+      }
+    }
+    var at = X(bigVal), topKnown = q.fromU === q.big;
+    out += '<line x1="' + at + '" y1="38" x2="' + at + '" y2="122" stroke="#E5484D" stroke-width="3" stroke-dasharray="5 4"/>';
+    out += '<circle cx="' + at + '" cy="50" r="7" fill="#E5484D"/><circle cx="' + at + '" cy="110" r="7" fill="#E5484D"/>';
+    var right = bigVal / max > 0.5;
+    out += '<text x="' + (Number(at) + (right ? -12 : 12)) + '" y="85" text-anchor="' + (right ? "end" : "start") + '" font-size="16" font-weight="800" fill="#E5484D">' +
+           (topKnown ? q.fromV + " " + q.big + " = ?" : "? = " + q.fromV + " " + q.small) + "</text>";
+    return out + "</svg>";
+  }
+
+  /* ---------------------------------------------------------------- real life */
+  var LIFE = {
+    capacity: [["🥄", "a teaspoon", 5], ["🥛", "a glass of milk", 250], ["🥤", "a can of drink", 375], ["🧴", "a water bottle", 600],
+               ["☕", "a mug of hot chocolate", 300], ["🪣", "a bucket", 10000], ["🛁", "a bathtub", 150000], ["🐟", "a fish tank", 40000],
+               ["🫖", "a teapot", 1000], ["🍼", "a baby's bottle", 250]],
+    mass: [["📎", "a paperclip", 1], ["🍓", "a strawberry", 15], ["🥚", "an egg", 60], ["🍌", "a banana", 120], ["🍎", "an apple", 150],
+           ["🍞", "a loaf of bread", 700], ["🍉", "a watermelon", 5000], ["🎒", "a full school bag", 4000], ["🐈", "a cat", 4000],
+           ["🐕", "a big dog", 30000], ["🧱", "a house brick", 3000], ["✏️", "a pencil", 5], ["📱", "a phone", 200], ["🍍", "a pineapple", 1000]],
+    length: [["🐜", "an ant", 3, "long"], ["✏️", "a new pencil", 180, "long"], ["📏", "a school ruler", 300, "long"], ["🚪", "a door", 2000, "tall"],
+             ["🦒", "a giraffe", 5000, "tall"], ["🚌", "a bus", 12000, "long"], ["🍌", "a banana", 180, "long"], ["🐌", "a snail", 30, "long"],
+             ["🪑", "a chair", 900, "tall"], ["🛏️", "a bed", 2000, "long"], ["🏊", "an Olympic pool", 50000, "long"], ["👟", "a shoe", 250, "long"]],
+    temperature: [["❄️", "inside a freezer", -18], ["🧃", "a drink from the fridge", 4], ["🏫", "a classroom", 22], ["☀️", "a hot Adelaide summer day", 40],
+                  ["🌡️", "your body", 37], ["☕", "a hot chocolate", 60], ["🫖", "boiling water", 100],
+                  ["🌧️", "a cold winter morning", 6], ["🏖️", "the sea at the beach", 19]],
+    time: [["🪥", "brushing your teeth", 120], ["👟", "tying your shoelaces", 10], ["🎵", "a song", 180], ["🎬", "a movie", 7200],
+           ["😴", "a night's sleep", 36000], ["🥚", "boiling an egg", 360], ["🤧", "a sneeze", 1], ["🏫", "a school day", 21600],
+           ["🚶", "walking 1 kilometre", 900], ["📖", "reading a picture book", 600], ["✈️", "flying from Adelaide to Sydney", 7200]]
+  };
+  function sig2(v) { if (v === 0) return 0; var p = Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1); return Math.round(v / p) * p; }
+  function niceAmount(measure, v) {
+    v = round3(v);
+    if (measure === "temperature") return v + " °C";
+    if (measure === "time") {
+      if (v < 60) { v = Math.max(1, Math.round(v)); return v + (v === 1 ? " second" : " seconds"); }
+      if (v < 3600) { var mn = Math.round(v / 60); return mn + (mn === 1 ? " minute" : " minutes"); }
+      if (v < 86400 * 2) { var hr = Math.round(v / 1800) / 2; return hr + (hr === 1 ? " hour" : " hours"); }
+      return Math.round(v / 86400) + " days";
+    }
+    if (measure === "length") {
+      if (v < 10) return v + " mm";
+      if (v < 1000) return round3(v / 10) + " cm";
+      if (v < 1000000) return round3(v / 1000) + " m";
+      return round3(v / 1000000) + " km";
+    }
+    var small = measure === "mass" ? " g" : " mL", big = measure === "mass" ? " kg" : " L";
+    return v < 1000 ? v + small : round3(v / 1000) + big;
+  }
+  function makeLifeQuestion(measure, lv) {
+    var item = pickOne(LIFE[measure]), v = item[2];
+    var q = { measure: measure, mode: "life", level: lv, kind: "life", item: item, unitText: "" };
+    var opts = [v], f;
+    if (measure === "temperature") {
+      var d = lv <= 2 ? 50 : lv <= 4 ? 35 : lv <= 6 ? 25 : lv <= 8 ? 20 : 15;
+      opts.push(v + d, v - d); if (lv > MAX_LEVEL) opts.push(v + 2 * d);
+    } else {
+      var factors = lv <= 2 ? [100, 0.01] : lv <= 4 ? [10, 0.1] : lv <= 6 ? ["trick", 10] : lv <= 8 ? [3, 1 / 3] : ["trick", 2, 0.5];
+      var up = measure === "time" ? 60 : measure === "length" ? (v < 1000 ? 10 : 1000) : 1000;
+      factors.forEach(function (fc) {
+        var o = fc === "trick" ? v * up : sig2(v * fc);
+        /* nothing smaller than one of the smallest unit: a tiny thing gets a far bigger wrong answer instead */
+        if (o < 1) o = sig2(v / fc * 10);
+        opts.push(o);
+      });
+    }
+    var texts = [];
+    opts.forEach(function (o) { var t = niceAmount(measure, o); if (texts.indexOf(t) < 0) texts.push(t); });
+    while (texts.length < (lv > MAX_LEVEL ? 4 : 3)) { f = niceAmount(measure, sig2(v * (5 + texts.length * 7))); if (texts.indexOf(f) < 0) texts.push(f); else break; }
+    var right = texts[0];
+    q.choices = shuffle(texts.slice());
+    q.answer = q.choices.indexOf(right) + 1;
+    q.rightText = right;
+    var verb = { capacity: "How much does " + item[1] + " hold?", mass: "How heavy is " + item[1] + "?", length: "How " + (item[3] || "long") + " is " + item[1] + "?",
+                 temperature: "How hot or cold is " + item[1] + "?", time: "How long does " + item[1] + " take?" }[measure];
+    if (measure === "time" && /^a (song|movie|school day|night)/.test(item[1])) verb = "How long is " + item[1] + "?";
+    q.ask = "About " + verb.charAt(0).toLowerCase() + verb.slice(1);
+    q.sig = "lf" + item[1] + q.choices.join("|");
+    return q;
+  }
+
+  /* ---------------------------------------------------------------- drawing, hints and the worked example */
+  function drawCustom(q, reveal) {
+    if (q.kind === "time") {
+      if (q.mode === "add") {
+        if (q.digital) return '<div class="digi"><span>' + q.from24 + '</span><b>→</b><span>' + q.to24 + "</span></div>";
+        return '<div class="twoclocks">' + clockSVG({ h: q.ah, m: q.am, numbers: q.numbers, gaps: state.showGaps }) +
+               '<b class="arrow">→</b>' + clockSVG({ h: q.bh, m: q.bm, numbers: q.numbers, gaps: state.showGaps }) + "</div>";
+      }
+      if (q.mode === "set") {
+        var at = reveal ? q.answer : (state.setAt | 0);
+        return clockSVG({ h: q.h, m: at, numbers: q.numbers, setting: !reveal, gaps: state.showGaps });
+      }
+      return clockSVG({ h: q.h, m: q.m, numbers: q.numbers, minuteLabels: q.minuteLabels, gaps: state.showGaps });
+    }
+    if (q.kind === "convert") {
+      return q.picture ? doubleLineSVG(q) : '<div class="cvbig">' + q.fromV + " " + q.fromU + ' <span>= ? ' + q.toU + "</span></div>";
+    }
+    var out = '<div class="lifepic" aria-hidden="true">' + q.item[0] + '</div><div class="lifeopts" role="group" aria-label="Choose one">';
+    q.choices.forEach(function (c, i) {
+      var cls = reveal ? (i + 1 === q.answer ? " right" : " dim") : "";
+      out += '<button type="button" class="lifeopt' + cls + '" data-opt="' + (i + 1) + '"' + (reveal ? " disabled" : "") + ">" + esc(c) + "</button>";
+    });
+    return out + "</div>";
+  }
+  function customFact(q) {
+    if (q.kind === "time") {
+      if (q.mode === "read") return q.h24 ? "It is " + clockText(q.h, q.m) + " " + "on the clock, which is <b>" + q.shown24 + "</b> in 24-hour time." : "It is <b>" + clockText(q.h, q.m) + "</b>, or " + timeWords(q.h, q.m) + ".";
+      if (q.mode === "step") return q.to ? "The minute hand is on " + q.m + ", so it is <b>" + q.answer + " minutes</b> to the hour." : "The minute hand is on <b>" + q.m + " minutes</b> past.";
+      if (q.mode === "add") return "From the first time to the second is <b>" + q.answer + " minutes</b>.";
+      if (q.mode === "about") return "It is " + clockText(q.h, q.m) + ", which is closest to <b>" + clockText(q.rh, q.rm) + "</b>.";
+      return "The minute hand goes on <b>" + q.answer + "</b>.";
+    }
+    if (q.kind === "convert") return q.fromV + " " + q.fromU + (q.leftover ? " is " + q.wholeBig + " " + q.big + " and <b>" + q.answer + " " + q.small + "</b>." : " is <b>" + q.answer + " " + q.toU + "</b>.");
+    return "About <b>" + esc(q.rightText) + "</b> for " + esc(q.item[1]) + ".";
+  }
+  function customSentence(q) {
+    if (q.kind === "time" && q.mode !== "set") return q.mode === "add" && !q.digital ? "The first clock is when it started, the second when it finished." : "The short hand shows the hour, the long hand the minutes.";
+    if (q.kind === "convert" && q.big) return "1 " + q.big.replace(/s$/, "") + " = " + q.per + " " + q.small + ".";
+    if (q.kind === "life") return "Picture it in front of you. Which amount fits?";
+    return "";
+  }
+  function customHint(q, tries) {
+    if (q.kind === "time") {
+      if (tries >= 3) return "Not quite. " + customFact(q).replace(/<[^>]+>/g, "");
+      if (q.mode === "read" || q.mode === "about") return tries === 1 ? "Start with the short hand: which number has it just gone past? That is the hour." : "Now the long hand: count in 5s from the 12. Each number is 5 more minutes.";
+      if (q.mode === "step") return tries === 1 ? (q.to ? "Count on from the minute hand to the 12." : "Count in 5s from the 12 to the minute hand.") : "Each number on the clock is 5 minutes. The little marks in between are 1 minute each.";
+      if (q.mode === "add") return tries === 1 ? "Count on from the first time to the next o'clock, then on to the second time." : "Add the jumps together: to the hour, then whole hours, then the minutes left.";
+      return tries === 1 ? "The long hand shows the minutes. Each number is 5 minutes." : "Count in 5s from the 12 until you reach the minutes you need.";
+    }
+    if (q.kind === "convert") {
+      if (tries >= 3) return "Not quite. " + customFact(q).replace(/<[^>]+>/g, "");
+      var one = "1 " + q.big.replace(/s$/, "") + " = " + q.per + " " + q.small + ". ";
+      if (q.leftover) return one + "Take away the whole " + UNIT_LONG[q.big] + " and see what is left.";
+      if (q.sum || q.mixed) return one + "Change everything into " + UNIT_LONG[q.toU] + " first, then add.";
+      return one + (q.toU === q.small ? "Going to the smaller unit, the number gets bigger: multiply by " + q.per + "." : "Going to the bigger unit, the number gets smaller: divide by " + q.per + ".");
+    }
+    if (tries >= 3) return "Not quite. " + customFact(q).replace(/<[^>]+>/g, "");
+    return tries === 1 ? "Think about holding it, or seeing it. Which amount would really fit?" : "Two of these are far too big or far too small. Which one is left?";
+  }
+  function customWhy(q) {
+    if (q.kind === "time" && (q.mode === "read" || q.mode === "about")) {
+      var out = ["The short hand has just gone past <b>" + q.h + "</b>, so it is " + q.h + " o'clock and a bit.",
+                 "The long hand is on the " + (q.m % 5 === 0 ? q.m / 5 : "mark after " + Math.floor(q.m / 5)) + ". Count in 5s from the 12" + (q.m % 5 ? " then add the little marks" : "") + ": <b>" + q.m + " minutes</b>.",
+                 "So it is <b>" + clockText(q.h, q.m) + "</b>."];
+      if (q.mode === "about") out.push("The nearest " + (q.quarter ? "quarter hour" : "5 minutes") + " is <b>" + clockText(q.rh, q.rm) + "</b>.");
+      if (q.h24) out.push("It is " + (q.answer >= 720 ? "after midday, so add 12 to the hour" : "the morning, so the hour stays") + ": <b>" + q.shown24 + "</b>.");
+      return out;
+    }
+    if (q.kind === "time" && (q.mode === "step" || q.mode === "set")) {
+      var mins = q.m, five = Math.floor(mins / 5), ones = mins % 5;
+      var how = ["Each number on the clock is 5 minutes. The little marks in between are 1 minute each.",
+                 (five ? "Count in 5s from the 12 to the " + five + ": " + (five * 5) + " minutes" : "Start at the 12") + (ones ? ", then " + ones + " little mark" + (ones === 1 ? "" : "s") + " more" : "") + ": <b>" + mins + " minutes</b>."];
+      if (q.mode === "step" && q.to) how.push("To the next hour: 60 \u2212 " + mins + " = <b>" + q.answer + " minutes</b>.");
+      if (q.mode === "set") how.push("So the long hand goes on that mark, and the short hand moves along with it.");
+      return how;
+    }
+    if (q.kind === "time" && q.mode === "add" && !q.digital) {
+      var toHour = (60 - q.am) % 60;
+      return ["Start at <b>" + clockText(q.ah, q.am) + "</b>.", toHour && q.answer > toHour ? "Jump " + toHour + " minutes to " + clockText(q.ah % 12 + 1, 0) + "." : "Count on in minutes.",
+              "Keep counting to <b>" + clockText(q.bh, q.bm) + "</b>. Altogether: <b>" + q.answer + " minutes</b>."];
+    }
+    if (q.kind === "convert") {
+      var w = ["Remember: 1 " + q.big.replace(/s$/, "") + " = <b>" + q.per + " " + q.small + "</b>."];
+      if (q.leftover) w.push(q.wholeBig + " " + q.big + " is " + q.wholeBig * q.per + " " + q.small + ".", q.fromV + " − " + q.wholeBig * q.per + " = <b>" + q.answer + "</b> left over.");
+      else if (q.sum) w.push(q.y + " " + q.big + " = " + round3(q.y * q.per) + " " + q.small + ".", q.x + " + " + round3(q.y * q.per) + " = " + round3(q.x + q.y * q.per) + " " + q.small + (q.toU === q.big ? ", which is <b>" + q.answer + " " + q.big + "</b>." : ". So <b>" + q.answer + " " + q.small + "</b>."));
+      else if (q.mixed) w.push("Change the " + q.big + " into " + q.small + ", then add the " + q.small + " that are already there: <b>" + q.answer + " " + q.small + "</b>.");
+      else if (q.toU === q.small) w.push(q.fromV + " × " + q.per + " = <b>" + q.answer + " " + q.small + "</b>.");
+      else w.push(q.fromV + " ÷ " + q.per + " = <b>" + q.answer + " " + q.big + "</b>.");
+      return w;
+    }
+    if (q.kind === "life") return ["Picture " + esc(q.item[1]) + " in front of you.", "The sensible amount is <b>" + esc(q.rightText) + "</b>. The others are much too big or too small."];
+    return [];
+  }
+  var CUSTOM_NOTES = {
+    time: {
+      read: ["o'clock", "half past", "quarter past and quarter to", "5-minute times", "5-minute times, fewer numbers", "any minute", "any minute, fewer numbers", "any minute, no numbers",
+             "24-hour time, afternoon", "24-hour time, afternoon", "24-hour time, any part of the day", "24-hour time, no numbers", "24-hour time, Roman numerals", "24-hour time, Roman numerals"],
+      step: ["quarters", "5s, minutes shown", "5s", "any minute, minutes shown", "any minute", "minutes to the hour, 5s", "minutes to the hour", "minutes to, no numbers"],
+      add: ["within an hour, 5s", "within an hour", "across the hour", "up to 90 minutes", "up to 2 hours", "any minute", "across midday", "up to 3 hours"],
+      about: ["nearest 5 minutes", "nearest 5 minutes", "nearest 5 minutes", "nearest 5, fewer numbers", "nearest quarter hour", "nearest quarter hour", "nearest quarter, no numbers", "nearest quarter, no numbers"],
+      set: ["o'clock and half past", "quarters", "5-minute times", "5-minute times in words", "any minute", "any minute in words", "no numbers, 5s", "no numbers, any minute"]
+    },
+    convert: ["whole big units to small", "small units to whole big ones", "halves", "quarters", "tenths", "any amount", "mixed units", "putting two amounts together"],
+    life: ["very different amounts", "very different amounts", "ten times apart", "ten times apart", "same number, different unit", "same number, different unit", "close amounts", "close amounts"]
+  };
+  function customNote(measure, mode, lv) {
+    var list = measure === "time" && CUSTOM_NOTES.time[mode] ? CUSTOM_NOTES.time[mode] : CUSTOM_NOTES[mode];
+    if (!list) return "";
+    return list[Math.min(lv, list.length) - 1] + (lv > MAX_LEVEL ? " (stretch)" : "");
+  }
+  function isCustom(measure, mode) { return measure === "time" || mode === "convert" || mode === "life"; }
+
+  /* ---------------------------------------------------------------- real objects on the instruments */
+  var LIQUIDS = [["🥛", "milk"], ["🧃", "apple juice"], ["🍋", "lemonade"], ["💧", "water"]];
+  function addObject(q) {
+    if (!q || q.kind || q.mode !== "read" || !q.s || q.s.ask || q.s.face || Math.random() < 0.5) return;
+    var v = valueAt(q.s, q.at);
+    if (q.measure === "capacity") { var l = pickOne(LIQUIDS); q.obj = { e: l[0], ask: "How much " + l[1] + " is in the jug?" }; return; }
+    var base = q.measure === "mass" ? (q.s.unit === "kg" ? v * 1000 : v) : q.measure === "temperature" ? v : null;
+    if (base == null) return;
+    var fits = LIFE[q.measure].filter(function (it) {
+      return q.measure === "temperature" ? Math.abs(it[2] - base) <= 4 : it[2] >= base * 0.6 && it[2] <= base * 1.5;
+    });
+    if (!fits.length) return;
+    var it = pickOne(fits);
+    q.obj = { e: it[0], ask: q.measure === "mass" ? "How heavy is " + it[1] + "?" : "How warm is " + it[1] + "?" };
+  }
+
+  /* ---------------------------------------------------------------- warm-up from the weak spot */
+  var warm = { pending: true, active: false, done: 0, back: null, m: "", g: "" };
+  function planWarm() {
+    if (!state.name) return false;          // wait for a child to sign in
+    warm.pending = false;
+    if (TEACHER || classState.focus || duel.on || round.on) return false;
+    var worst = null, acc = 1;
+    CORE_MEASURES.forEach(function (m) {
+      var t = state.tally[m]; if (!t) return;
+      var n = t.right + t.wrong; if (n < 8) return;
+      var a = t.right / n; if (a < acc) { acc = a; worst = m; }
+    });
+    if (!worst || acc >= 0.85) return false;
+    /* The trickiest game is the lowest one they have actually climbed in; a
+       ladder still at level 1 may simply never have been played. */
+    var g = "read", low = 99;
+    (worst === "number" ? ["step", "read", "add", "about"] : CORE_GAMES).forEach(function (k) {
+      var lv = safeLevel(state.levels[worst][k]); if (lv > 1 && lv < low) { low = lv; g = k; }
+    });
+    warm.active = true; warm.done = 0; warm.back = { m: state.measure, g: state.mode }; warm.m = worst; warm.g = g;
+    state.measure = worst; state.mode = g;
+    document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === g)); });
+    return true;
+  }
+  function drawWarm() {
+    var el = document.getElementById("warmnote");
+    if (!el) {
+      el = document.createElement("p"); el.id = "warmnote"; el.className = "focusnote warm";
+      var modes = document.querySelector(".mode"); if (modes && modes.parentNode) modes.parentNode.parentNode.insertBefore(el, modes.parentNode);
+    }
+    el.hidden = !warm.active;
+    if (warm.active) {
+      var gl = gameLabel(warm.m, warm.g);
+      el.innerHTML = "<b>Warm-up " + (warm.done + 1) + " of 3</b>: " + esc(MEASURES[warm.m].label) + " · " + esc(gl ? gl.label : warm.g) +
+                     ", the one you find trickiest. Then you are back to what you were playing.";
+    }
+  }
+  function endWarm(restore) {
+    if (!warm.active) return;
+    warm.active = false;
+    if (restore && warm.back) { state.measure = warm.back.m; state.mode = warm.back.g; }
+    document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)); });
+    drawWarm();
+  }
+  window.__warm = function () { return warm; };
+  window.__parseTime = parseTime;
+
+  /* ================================================ mistake detective
+     A wrong answer is usually one of a handful of misreadings, and which one
+     matters more to a teacher than how many. These are recognised from the
+     number given and the question's own scale:
+       gaps   one mark out, or the step worked out by dividing by the lines
+       ones   every mark taken as worth 1
+       label  a number printed on the scale given instead of the reading
+       step   counted correctly from a label, but in the wrong size of step
+       unit   the right reading in the other unit (the game already spots this)
+     Only the first wrong try at a question is counted, like a miss. */
+  function nearlyEq(a, b) { return Math.abs(a - b) < 1e-6 * Math.max(1, Math.abs(b)); }
+  function knownMarks(q, s) {
+    var k = (q.shown || []).concat([0, s.n]).filter(function (x, i, a) { return a.indexOf(x) === i; });
+    return k.sort(function (x, y) { return x - y; });
+  }
+  function classifyMistake(q, given) {
+    if (!q || q.kind || q.measure === "number" || !isFinite(given)) return "";
+    try {
+      if (unitMixUp(q, given)) return "unit";
+      if (q.mode === "add") {
+        var sum = q.answer, sa = q.a.ask ? q.a.per : 1;
+        var gs = given * sa, truth = (q.answer) * sa;
+        if (nearlyEq(gs, truth + q.a.step) || nearlyEq(gs, truth - q.a.step) ||
+            nearlyEq(gs, truth + q.b.step) || nearlyEq(gs, truth - q.b.step)) return "gaps";
+        return "";
+      }
+      var s = q.s; if (!s) return "";
+      var g = s.ask ? given * s.per : given;
+      var known = knownMarks(q, s), i, k;
+      if (q.mode === "step") {
+        var want = q.want || 1, each = g / want;
+        if (s.step !== 1 && nearlyEq(each, 1)) return "ones";
+        for (i = 1; i < known.length; i++) {
+          var span = known[i] - known[i - 1], diff = span * s.step;
+          if (span >= 2 && (nearlyEq(each, diff / (span - 1)) || nearlyEq(each, diff / (span + 1)))) return "gaps";
+        }
+        for (i = 0; i < known.length; i++) if (known[i] && nearlyEq(g, valueAt(s, known[i]))) return "label";
+        return "";
+      }
+      if (q.mode !== "read" && q.mode !== "set") return "";
+      var at = q.mode === "set" ? q.target : q.at, real = valueAt(s, at);
+      if (nearlyEq(g, real + s.step) || nearlyEq(g, real - s.step)) return "gaps";
+      for (i = 0; i < known.length; i++) if (known[i] !== at && nearlyEq(g, valueAt(s, known[i]))) return "label";
+      if (s.step !== 1) for (i = 0; i < known.length; i++) if (nearlyEq(g, valueAt(s, known[i]) + (at - known[i]))) return "ones";
+      var tries = [1, 2, 5, 10, 20, 25, 50, 100, 0.5];
+      for (k = 0; k < tries.length; k++) {
+        if (tries[k] === s.step) continue;
+        for (i = 0; i < known.length; i++) if (nearlyEq(g, valueAt(s, known[i]) + (at - known[i]) * tries[k])) return "step";
+      }
+    } catch (e) { /* an unusual question: just not classified */ }
+    return "";
+  }
+  /* What the child is told straight away, on their first or second try. */
+  var MIST_TIP = {
+    gaps: function (q) { return "So close: you are one " + MEASURES[q.measure].markWord + " out. Count the gaps between the lines, not the lines themselves."; },
+    ones: function (q) { return "Careful: each " + MEASURES[q.measure].markWord + " is not worth 1 here. Work out what one gap is worth first."; },
+    label: function (q) { return "That number is printed on the scale, but the " + MEASURES[q.measure].pointer + " is not on it. Start from a number you can see and count the gaps."; },
+    step: function () { return "You counted the gaps, but each one is worth a different amount. Pick two numbers, count the gaps between them, and share the difference out."; },
+    unit: function () { return ""; }
+  };
+  /* What the teacher is told about it, and what to try. */
+  var MIST_INFO = {
+    gaps:  ["counts the lines, not the gaps", "Have them put a finger in each gap and count the jumps, not the marks."],
+    ones:  ["counts every mark as 1", "Before any counting, ask: what is one jump worth on this scale?"],
+    label: ["copies a nearby number instead of reading the mark", "Cover the printed numbers except one, and count on from it."],
+    step:  ["uses the wrong size of step", "Practise Find the step on that measure."],
+    unit:  ["mixes up the units", "Revise 1000 mL = 1 L, 1000 g = 1 kg and 100 cm = 1 m."]
+  };
+  var MIST_KINDS = ["gaps", "ones", "label", "step", "unit"];
+  function noteMistake(kind) {
+    var wk = weekKey();
+    if (state.mistOf !== wk) { state.mist = {}; state.mistOf = wk; }
+    state.mist[kind] = (state.mist[kind] | 0) + 1;
+  }
+  function mistText() {
+    if (state.mistOf !== weekKey()) return "";
+    var parts = MIST_KINDS.filter(function (k) { return state.mist[k]; }).map(function (k) { return k + ":" + state.mist[k]; });
+    return parts.length ? state.mistOf + "|" + parts.join(",") : "";
+  }
+  function parseMist(text) {
+    var t = String(text || ""), bar = t.indexOf("|"), out = {};
+    if (bar < 0 || t.slice(0, bar) !== weekKey()) return out;
+    t.slice(bar + 1).split(",").forEach(function (pr) {
+      var kv = pr.split(":");
+      if (MIST_KINDS.indexOf(kv[0]) > -1) out[kv[0]] = Number(kv[1]) | 0;
+    });
+    return out;
+  }
+  function mergeMistFrom(text) {
+    var got = parseMist(text), wk = weekKey();
+    if (state.mistOf !== wk) { state.mist = {}; state.mistOf = wk; }
+    MIST_KINDS.forEach(function (k) { if ((got[k] | 0) > (state.mist[k] | 0)) state.mist[k] = got[k]; });
+  }
+
+  /* ================================================ show me why
+     Once a question has been given away, a worked example of how to get there:
+     find two numbers, count the gaps, share the difference out, count on.
+     The gaps on the instrument are numbered while it is open. */
+  var whyBox = null;
+  function clearWhy() {
+    if (whyBox) { whyBox.hidden = true; whyBox.innerHTML = ""; }
+    if (state.whyGaps) { state.showGaps = false; state.whyGaps = false; var gb = document.getElementById("gaps"); if (gb) gb.setAttribute("aria-pressed", "false"); }
+  }
+  function offerWhy() {
+    var q = state.q;
+    if (!q || q.measure === "number" || !whySteps(q).length) return;
+    if (!whyBox) {
+      whyBox = document.createElement("div");
+      whyBox.className = "why"; whyBox.id = "why";
+      verdict.parentNode.insertBefore(whyBox, verdict.nextSibling);
+    }
+    whyBox.hidden = false;
+    whyBox.innerHTML = '<button type="button" class="action ghost" id="whybtn">Show me why</button>';
+    document.getElementById("whybtn").addEventListener("click", function () {
+      var steps = whySteps(state.q);
+      whyBox.innerHTML = "<b>How to work it out</b><ol>" + steps.map(function (t) { return "<li>" + t + "</li>"; }).join("") + "</ol>";
+      if (!state.showGaps) { state.showGaps = true; state.whyGaps = true; var gb = document.getElementById("gaps"); if (gb) gb.setAttribute("aria-pressed", "true"); render(true); }
+    });
+  }
+  function fmt(v) { return String(Math.round(v * 1000) / 1000); }
+  function readSteps(q, s, at, label) {
+    var M = MEASURES[q.measure], known = knownMarks(q, s), a = 0, b = s.n, i;
+    for (i = 0; i < known.length; i++) if (known[i] <= Math.floor(at)) a = known[i];
+    for (i = known.length - 1; i >= 0; i--) if (known[i] > a) b = known[i];
+    /* At the very top mark there is nothing above to pair it with, so pair it
+       with the number below instead. */
+    if (b <= a) { b = a; a = 0; for (i = 0; i < known.length; i++) if (known[i] < b) a = known[i]; }
+    var A = valueAt(s, a), B = valueAt(s, b), gaps = b - a, past = at - a;
+    var pastWords = past === 0.5 ? "half a gap" : fmt(past) + (past === 1 ? " gap" : " gaps");
+    var out = [
+      (label ? label + ": f" : "F") + "ind two numbers you can see: <b>" + amount(s, A) + "</b> and <b>" + amount(s, B) + "</b>.",
+      "Count the gaps between them: <b>" + gaps + "</b>.",
+      "Share out the difference: (" + fmt(B) + " \u2212 " + (A < 0 ? "(" + fmt(A) + ")" : fmt(A)) + ") \u00f7 " + gaps + " = <b>" + fmt(s.step) + "</b>. Every gap is worth " + amount(s, s.step) + "."
+    ];
+    if (past !== 0 || q.mode !== "step") {
+      out.push("The " + M.pointer + " is " + pastWords + " past " + amount(s, A) + ", so " + fmt(A) + " + " + fmt(past) + " \u00d7 " + fmt(s.step) +
+               " = <b>" + amount(s, valueAt(s, at)) + "</b>.");
+    }
+    return out;
+  }
+  function whySteps(q) {
+    try {
+      if (q.kind) return customWhy(q);
+      var s = q.s, out;
+      if (q.mode === "add") {
+        var M = MEASURES[q.measure];
+        out = readSteps(q, q.a, q.aAt, "First " + M.thing).slice(0, 1).concat(["The first one reads <b>" + amount(q.a, q.aVal) + "</b> and the second reads <b>" + amount(q.b, q.bVal) + "</b>."]);
+        out.push((M.diff ? "The difference is " + fmt(q.bVal) + " \u2212 " + (q.aVal < 0 ? "(" + fmt(q.aVal) + ")" : fmt(q.aVal)) : "Together that is " + fmt(q.aVal) + " + " + fmt(q.bVal)) + " = <b>" + answerAmount(q.a, q.answer) + "</b>.");
+        return out;
+      }
+      if (!s) return [];
+      if (q.mode === "step") {
+        out = readSteps(q, s, 0, "").slice(0, 3);
+        if ((q.want || 1) > 1) out.push("The question asks about " + q.want + " of them: " + q.want + " \u00d7 " + fmt(s.step) + " = <b>" + amount(s, s.step * q.want) + "</b>.");
+      } else if (q.mode === "about") {
+        out = readSteps(q, s, Math.floor(q.at), "").slice(0, 3);
+        out.push("The " + MEASURES[q.measure].pointer + " is between " + amount(s, valueAt(s, Math.floor(q.at))) + " and " + amount(s, valueAt(s, Math.ceil(q.at))) +
+                 ". It is closer to <b>" + amount(s, valueAt(s, q.nearest)) + "</b>.");
+      } else {
+        out = readSteps(q, s, q.mode === "set" ? q.target : q.at, "");
+      }
+      if (unitSwitch(s) && s.ask) out.push("The question wants " + unitWord(askUnit(s)) + ", so that is <b>" + answerAmount(s, q.answer) + "</b>.");
+      return out;
+    } catch (e) { return []; }
+  }
+
   /* ================================================ hints */
   function hintFor(tries) {
     var q = state.q, M = MEASURES[q.measure];
+    if (q.kind) return customHint(q, tries);
     /* Number has no scale, so everything below this line would be reading
        fields that are not there. Two of its four games threw outright and the
        child saw nothing happen at all; the other two printed a hint about
@@ -6545,11 +7603,19 @@
       ? String(setValue())
       : input.value.replace(/[^0-9.\-]/g, "");
     if (raw === "") {
-      setVerdict("Type a number in the box first.", "hint");
+      setVerdict(state.q && state.q.timeAns ? "Type the time with numbers, like " + (state.q.h24 ? "15:45" : "3:45") + "." : "Type a number in the box first.", "hint");
       input.focus();
       return;
     }
     var given = Number(raw), q = state.q;
+    if (q && q.timeAns) {
+      given = parseTime(input.value, q.h24);
+      if (!isFinite(given)) {
+        setVerdict(q.h24 ? "Write it in 24-hour time, like 15:45." : "Write the hours, then the minutes, like 3:45.", "hint");
+        input.focus();
+        return;
+      }
+    }
     // they are playing now, so a late reply from the sheet must not reach in
     // and change the score or the level underneath them
     state.resuming = false;
@@ -6662,6 +7728,7 @@
       }
       msg += " Press Enter for another one.";
       setVerdict(msg, "good");
+      playSound(moved ? "up" : "right");
       flyPoints(points);
       noteForDay("right", q.measure, q.mode);
       checkBadges();
@@ -6672,6 +7739,7 @@
     } else {
       state.tries++;
       state.streak = 0;
+      playSound("wrong");
       bumpTally(q.measure, "wrong");
       var miss = state.misses[q.measure];
       var placedRow = state.placed[q.measure];
@@ -6713,7 +7781,10 @@
          cannot read a jug; told "that is the right reading, now in litres",
          they learn the thing the question is actually about. */
       var swap = unitMixUp(q, given);
-      setVerdict(swap || hintFor(state.tries), state.tries >= 3 ? "hint" : "bad");
+      var kind = classifyMistake(q, given);
+      if (firstMiss && kind) noteMistake(kind);
+      var tip = !swap && state.tries < 3 && kind ? MIST_TIP[kind](q) : "";
+      setVerdict(swap || tip || hintFor(state.tries), state.tries >= 3 ? "hint" : "bad");
       verdict.classList.remove("shake");
       void verdict.offsetWidth;
       verdict.classList.add("shake");
@@ -6722,6 +7793,7 @@
         roundNote(false);
         render(true);
         checkBtn.textContent = "Next";
+        offerWhy();
       }
       updateChrome();
       saveProgress();       // wrong answers count towards the class stats too
@@ -6731,6 +7803,8 @@
   }
 
   function next() {
+    clearWhy();
+    if (warm.active) { warm.done++; if (warm.done >= 3) endWarm(true); }
     input.value = "";
     checkBtn.textContent = "Check";
     setVerdict("Type your answer, then press Check.", "");
@@ -6782,6 +7856,7 @@
     /* The four game buttons are renamed when Number is chosen: the keys behind
        them do not change, only the words, so levels carry across untouched. */
     document.querySelectorAll(".mode").forEach(function (b) {
+      b.hidden = !gameAvailable(shown, b.dataset.mode);
       var g = gameLabel(shown, b.dataset.mode);
       if (!g) return;
       b.querySelector("strong").textContent = g.label;
@@ -6791,7 +7866,7 @@
     /* "Show the gaps" counts the spaces between the lines on a scale. There
        are no lines on the number bench, so the button would be a dead thing
        sitting next to a live one. */
-    document.getElementById("gaps").hidden = shown === "number";
+    document.getElementById("gaps").hidden = shown === "number" || state.mode === "convert" || state.mode === "life";
 
     var lv = level(shown, state.mode);
     var pips = "";
@@ -6812,6 +7887,8 @@
            : lv <= 6 ? "one group drawn, the rest as a number"
            : "no counters, just the numbers";
       if (isStretch(lv)) help += " \u00b7 above the year level";
+    } else if (isCustom(shown, state.mode)) {
+      help = isStretch(lv) ? "above the year level" : "practice at your level";
     } else {
       help = state.mode === "step"
         ? (lv <= 2 ? "only the first number missing"
@@ -6842,7 +7919,7 @@
     document.getElementById("levelnote").textContent =
       (isStretch(lv) ? "Stretch " + (lv - MAX_LEVEL) + " of " + (STRETCH_MAX - MAX_LEVEL)
                      : lv + " of " + MAX_LEVEL) + ": " +
-      (shown === "number" ? NUMBER_NOTE[lv - 1] : levelNote(lv, state.mode, shown)) +
+      (shown === "number" ? NUMBER_NOTE[lv - 1] : isCustom(shown, state.mode) ? customNote(shown, state.mode, lv) : levelNote(lv, state.mode, shown)) +
       " · " + help + climb +
       (CONFIG.LEVEL_BONUS ? " · worth " + basePoints(lv) + " points" : "");
     document.getElementById("railname").textContent = MEASURES[shown].label + " level";
@@ -7062,7 +8139,8 @@
                 daysPlayed: 0, lastDay: "", challenges: 0,
                 avatar: "jug", team: "", weekScore: 0, weekOf: "",
                 dayScore: 0,
-    leftToday: 0, dayOf: "", wins: 0, losses: 0, draws: 0 };
+    leftToday: 0,
+    mist: {}, mistOf: "", dayOf: "", wins: 0, losses: 0, draws: 0 };
       list.push(found);
     }
     found.name = state.name;
@@ -7310,7 +8388,18 @@
   }
 
   function takeRows(data) {
+    /* The sheet turned a post down because the PIN did not match: the PIN was
+       reset or changed on another iPad. Ask for it again. */
+    if (data && data.pinBad && state.name && !TEACHER) { pinRefused(); return false; }
     var wiped = obeyReset(data);
+    if (data && "vs" in data && data.vs !== null && typeof data.vs === "object") shared.vs = data.vs;
+    else if (data && data.vs === null && Array.isArray(data.rows)) shared.vs = null;
+    if (data && data.chal && typeof data.chal === "object") {
+      var hadParty = partyOn();
+      shared.chal = data.chal;
+      noteChallenge();
+      if (partyOn() !== hadParty) { reapplyWantedSkin(); if (typeof drawRewards === "function" && state.name) drawRewards(); }
+    }
     if (data && data.jar && typeof data.jar.goal === "number") {
       shared.jar = data.jar;
       fillGoalBoxes();
@@ -7435,9 +8524,10 @@
       cleared: seenReset(),
       badges: state.badges.join(","), days: state.daysPlayed,
       lastDay: state.lastDay, challenges: state.challenges,
-      avatar: state.avatar, team: state.team,
+      avatar: avatarWithSkin(), team: state.team,
+      pin: state.pin || "", pinv: 1,
       weekScore: state.weekScore, weekOf: state.weekOf,
-      dayScore: state.dayScore, dayOf: state.dayOf, left: state.leftToday | 0,
+      dayScore: state.dayScore, dayOf: state.dayOf, left: state.leftToday | 0, mist: mistText(),
       wins: state.duelWins | 0, losses: state.duelLosses | 0,
       draws: state.duelDraws | 0
     });
@@ -7468,6 +8558,72 @@
     return e;
   }
 
+  /* ================================================ the teacher's focus and pause
+     Every reply from the sheet carries the class's state, and each device also
+     asks for it on its own every 20 seconds, which reads two settings and no
+     sheet. The teacher's own device is never paused or locked. */
+  var classState = { paused: false, focus: null, season: "auto", pins: false };
+  function applyClassState(cs) {
+    if (!cs || typeof cs !== "object") return;
+    var was = JSON.stringify(classState);
+    classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
+                   season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true };
+    if (JSON.stringify(classState) === was && !TEACHER) { lockToFocus(); return; }
+    if (JSON.parse(was).season !== classState.season) {
+      reapplyWantedSkin();
+      if (typeof drawRewards === "function" && state.name) drawRewards();
+    }
+    drawPause();
+    lockToFocus();
+    if (TEACHER) drawBoard();
+  }
+  function drawPause() {
+    var cover = document.getElementById("pausecover");
+    var on = classState.paused && !TEACHER && !!state.name;
+    if (!cover && on) {
+      cover = document.createElement("div");
+      cover.id = "pausecover"; cover.className = "pausecover"; cover.setAttribute("role", "alertdialog");
+      cover.setAttribute("aria-label", "Paused by your teacher");
+      document.body.appendChild(cover);
+    }
+    if (!cover) return;
+    cover.innerHTML = '<div><div class="pc-eyes" aria-hidden="true">\ud83d\udc40</div><h2>Eyes on ' + esc(TEACHER_NAME || "your teacher") + '</h2>' +
+                      "<p>Your game is paused. It carries on as soon as your teacher unpauses it.</p></div>";
+    cover.hidden = !on;
+    document.body.classList.toggle("paused", on);
+    if (on && document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  }
+  function lockToFocus() {
+    var f = classState.focus, lock = !!f && !TEACHER && !duel.on;
+    if (lock) endWarm(false);
+    document.querySelectorAll(".measure").forEach(function (b) { b.disabled = lock && b.dataset.measure !== f.measure; });
+    document.querySelectorAll(".mode").forEach(function (b) { b.disabled = lock && b.dataset.mode !== f.game; });
+    var banner = document.getElementById("focusnote");
+    if (!banner) {
+      banner = document.createElement("p"); banner.id = "focusnote"; banner.className = "focusnote";
+      var modes = document.querySelector(".mode"); if (modes && modes.parentNode) modes.parentNode.parentNode.insertBefore(banner, modes.parentNode);
+    }
+    banner.hidden = !lock;
+    if (!lock) return;
+    var g = gameLabel(f.measure, f.game);
+    banner.innerHTML = "<b>Today's focus</b> from " + esc(TEACHER_NAME || "your teacher") + ": " + esc(MEASURES[f.measure] ? MEASURES[f.measure].label : f.measure) + " \u00b7 " + esc(g ? g.label : f.game);
+    if (state.measure !== f.measure || state.mode !== f.game) {
+      state.measure = f.measure; state.mode = f.game; state.tries = 0;
+      document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === f.game)); });
+      next();
+    }
+  }
+  function pollClassState() {
+    if (!shared.on || !CLASS || document.hidden) return;
+    fetchSheet(CONFIG.SHARED_URL + "?action=status&room=" + encodeURIComponent(CLASS), {}, 12000)
+      .then(function () {}, function () {});
+  }
+  function teacherClassAction(body) {
+    body.room = CLASS; body.teacher = TEACHER_CODE;
+    return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+  }
+
   function fetchSheet(url, opts, ms) {
     var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0;
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
@@ -7482,7 +8638,7 @@
           clearTimeout(timer);
           var data = null;
           try { data = JSON.parse(txt); } catch (e) { data = null; }
-          if (data && typeof data === "object") return data;
+          if (data && typeof data === "object") { if (data.cs) applyClassState(data.cs); return data; }
           var said = String(txt || "").replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, " ")
                        .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 90);
           if (!r.ok) throw sheetError("http", "HTTP " + r.status + (said ? ": " + said : ""));
@@ -7668,7 +8824,7 @@
                lastDay: String(r.lastDay || ""), challenges: r.challenges | 0,
                avatar: String(r.avatar || "jug"), team: String(r.team || ""),
                weekScore: r.weekScore | 0, weekOf: String(r.weekOf || ""),
-               dayScore: r.dayScore | 0, dayOf: String(r.dayOf || ""), left: r.left | 0,
+               dayScore: r.dayScore | 0, dayOf: String(r.dayOf || ""), left: r.left | 0, mist: String(r.mist || ""),
                wins: r.wins | 0, losses: r.losses | 0 };
     });
     if (TEACHER && !teacherShown && shared.on) {
@@ -7737,7 +8893,7 @@
   /* Where the points came from, measure by measure, with the level reached
      in that measure alongside. */
   function breakdown(row) {
-    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number" };
+    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number", time: "Time" };
     var bits = [];
     for (var i = 0; i < MEASURE_KEYS.length; i++) {
       var k = MEASURE_KEYS[i];
@@ -7805,6 +8961,9 @@
       badge.textContent = "this device only";
       badge.className = "badge";
     }
+
+    drawChalBox();
+    drawVsBox();
 
     var teamBox = document.getElementById("teams");
     if (teamBox) {
@@ -7884,7 +9043,7 @@
     }
     ol.innerHTML = list.slice(0, shown).map(function (row, i) {
       var mine = state.name && row.name.toLowerCase() === state.name.toLowerCase();
-      return '<li class="rank' + (mine ? " me" : "") + '">' +
+      return '<li class="rank' + (mine ? " me" : "") + '" tabindex="0" data-who="' + esc(row.name) + '" aria-label="' + esc(row.name) + ', open profile">' +
              '<span class="pos">' + (i + 1) + '</span>' +
              '<span class="avibox">' + avatarArt(row.avatar) + '</span>' +
              '<span class="nm"><span class="nmtext' + nameClass(row) + '">' + esc(row.name) + '</span>' + champMark(row) +
@@ -7900,6 +9059,317 @@
              '</li>';
     }).join("");
   }
+
+
+  /* ================================================================ stage 3 */
+
+  function fmtNum(n) { return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+  /* A first target for the class challenge: about 300 points a child who has
+     played this week, rounded to a tidy number. The teacher can type anything. */
+  function suggestTarget(list) {
+    var n = 0, wk = state.weekOf || "";
+    for (var i = 0; i < list.length; i++) if (list[i].weekOf === wk || (list[i].weekScore | 0) > 0) n++;
+    return Math.max(1000, Math.round(Math.max(n, 10) * 300 / 500) * 500);
+  }
+
+  /* ---- the class challenge on the board ---- */
+  function drawChalBox() {
+    var box = document.getElementById("chalbox");
+    if (!box) return;
+    var c = shared.on ? shared.chal : null;
+    if (!c || (!c.target && !c.party)) { box.hidden = true; return; }
+    box.hidden = false;
+    box.className = "chalbox" + (c.met ? " met" : "");
+    if (!c.target) {
+      box.innerHTML = "<h3>Class challenge</h3><p>Party colours are on for your class this week. Well done, everyone.</p>";
+      return;
+    }
+    var pct = Math.max(0, Math.min(100, Math.round(c.now / c.target * 100)));
+    box.innerHTML = "<h3><span>Class challenge</span><small>" + fmtNum(c.now) + " of " + fmtNum(c.target) + " points this week</small></h3>" +
+      '<div class="chalbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+      "<p>" + (c.met ? "Done! The Party colours are open for your class this week and next. Find them in Colours."
+               : c.party ? "You beat last week's challenge, so Party colours are on. " + fmtNum(c.target - c.now) + " points to go this week."
+               : fmtNum(c.target - c.now) + " points to go. Every point anyone scores this week counts.") + "</p>";
+  }
+
+  /* The first time this iPad sees the challenge beaten, everyone hears about it. */
+  function noteChallenge() {
+    var c = shared.chal;
+    if (!c || !c.met || !state.name) return;
+    var key = "juglab.chalmet." + CLASS + "." + (state.weekOf || "");
+    try { if (localStorage.getItem(key) === "1") return; localStorage.setItem(key, "1"); } catch (e) { return; }
+    if (typeof announce === "function") announce([{ art: "star", label: "Party colours are open for this week and next", name: "Class challenge beaten" }]);
+  }
+
+  /* ---- class against class ---- */
+  function drawVsBox() {
+    var box = document.getElementById("vsbox");
+    if (!box) return;
+    var v = shared.on ? shared.vs : null;
+    if (!v || !v.classes || v.classes.length < 2) { box.hidden = true; return; }
+    box.hidden = false;
+    var top = 1;
+    for (var i = 0; i < v.classes.length; i++) top = Math.max(top, v.classes[i].avg | 0);
+    var lead = v.classes[0].avg > 0 && v.classes[0].avg > (v.classes[1].avg | 0) ? v.classes[0].room : "";
+    box.innerHTML = "<h3><span>Class against class</span><small>average points per player this week</small></h3>" +
+      v.classes.map(function (c) {
+        var mine = String(c.room).toLowerCase() === String(CLASS).toLowerCase();
+        return '<div class="vsrow' + (mine ? " mine" : "") + '"><b>' + (c.room === lead ? "🏆 " : "") + esc(c.room) + "</b>" +
+               '<div class="vsbar"><i style="width:' + Math.round((c.avg | 0) / top * 100) + '%"></i></div>' +
+               "<span>" + fmtNum(c.avg) + "</span></div>";
+      }).join("") +
+      (v.last && v.last.room ? '<p class="vslast">Last week: ' + esc(v.last.room) + " won with " + fmtNum(v.last.avg) + " a player.</p>" : "");
+  }
+
+  /* ---- the profile card ----
+     Tap a name on the board. Everything on it is already on the board row, so
+     opening it asks the sheet nothing. */
+  var profileFor = "";
+  function openProfile(name) {
+    var list = boardRows(), row = null;
+    for (var i = 0; i < list.length; i++) if (String(list[i].name).toLowerCase() === String(name).toLowerCase()) row = list[i];
+    if (!row) return;
+    profileFor = row.name;
+    var levels = row.levels || {};
+    var lv = MEASURE_ORDER.map(function (m) {
+      var t = 1;
+      try { if (levels[m]) t = topLevel(levels, m); } catch (e) { t = 1; }
+      return '<span>' + esc(MEASURES[m].label) + ' <b class="' + (isStretch(t) ? "gold" : "") + '">' + (isStretch(t) ? "S" + (t - MAX_LEVEL) : "L" + t) + "</b></span>";
+    }).join("");
+    var got = String(row.badges || "").split(",").filter(Boolean), art = "";
+    for (var b = 0; b < BADGES.length; b++) {
+      if (got.indexOf(BADGES[b].id) > -1) art += '<span title="' + esc(BADGES[b].name) + '">' + badgeArt(BADGES[b].art) + "</span>";
+    }
+    var sk = skinById(avatarSkin(row.avatar));
+    var champ = shared.champ && shared.champ.name && String(shared.champ.name).toLowerCase() === String(row.name).toLowerCase();
+    var s = row.bestStreak | 0;
+    var nameCls = s >= 150 ? " namerainbow" : s >= 100 ? " namegold" : s >= 50 ? " namesilver" : "";
+    var duels = (row.wins | 0) + (row.losses | 0) + (row.draws | 0);
+    var canReset = TEACHER && shared.on && classState.pins && !isTeacherName(row.name);
+    var html =
+      '<div class="pf-top">' + avatarArt(row.avatar, "avi pf-avi") +
+        '<div><h2 id="pf-name"><span class="nmtext' + nameCls + '">' + esc(row.name) + "</span></h2>" +
+        "<p>" + esc(titleFor(levels)) + (row.team ? " · " + esc(row.team) : "") + "</p></div></div>" +
+      (champ ? '<p class="pf-look">🏆 Most improved last week (+' + fmtNum(shared.champ.gain) + " points)</p>" : "") +
+      '<p class="pf-look"><span class="sw sw-' + esc(sk ? sk.id : "classic") + '"></span> Colours: ' + esc(sk ? sk.name : "Classic") + "</p>" +
+      '<div class="pf-stats">' +
+        "<div><b>" + fmtNum(row.best) + "</b><small>points</small></div>" +
+        "<div><b>" + fmtNum(row.right) + "</b><small>right answers</small></div>" +
+        "<div><b>" + fmtNum(s) + "</b><small>best streak</small></div>" +
+        "<div><b>" + fmtNum(row.days) + "</b><small>days played</small></div>" +
+        "<div><b>" + fmtNum(row.challenges) + "</b><small>daily challenges</small></div>" +
+        "<div><b>" + (duels ? (row.wins | 0) + "-" + (row.losses | 0) + "-" + (row.draws | 0) : "0") + "</b><small>duels won-lost-drawn</small></div>" +
+      "</div>" +
+      "<h3>Highest levels</h3><div class=\"pf-levels\">" + lv + "</div>" +
+      "<h3>Badges (" + got.length + " of " + BADGES.length + ")</h3>" +
+      (art ? '<div class="pf-badges">' + art + "</div>" : '<p class="pf-note">No badges yet.</p>') +
+      '<div class="pf-foot"><span class="pf-note" id="pf-note"></span>' +
+        (canReset ? '<button class="action ghost small" type="button" id="pf-pin">Reset PIN</button>' : "") +
+        '<button class="action small" type="button" id="pf-close">Close</button></div>';
+    var card = document.getElementById("pf-card");
+    card.innerHTML = html;
+    var pane = document.getElementById("profile");
+    pane.hidden = false;
+    document.getElementById("pf-close").addEventListener("click", closeProfile);
+    document.getElementById("pf-close").focus();
+    var rp = document.getElementById("pf-pin");
+    if (rp) rp.addEventListener("click", function () {
+      rp.disabled = true;
+      teacherClassAction({ action: "pinreset", name: row.name }).then(function (d) {
+        document.getElementById("pf-note").textContent = d && d.ok
+          ? row.name + " can choose a new PIN next time they sign in."
+          : "That did not work. Try again.";
+      }, function () { rp.disabled = false; document.getElementById("pf-note").textContent = "Could not reach the sheet."; });
+    });
+  }
+  function closeProfile() {
+    document.getElementById("profile").hidden = true;
+    var back = document.querySelector('.rank[data-who="' + (window.CSS && CSS.escape ? CSS.escape(profileFor) : profileFor) + '"]');
+    if (back) back.focus();
+  }
+  document.getElementById("pf-scrim").addEventListener("click", closeProfile);
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !document.getElementById("profile").hidden) closeProfile();
+  });
+  (function () {
+    var ol = document.getElementById("ranks");
+    function pick(e) {
+      var li = e.target.closest ? e.target.closest(".rank[data-who]") : null;
+      if (!li || e.target.closest("button, a")) return;
+      openProfile(li.getAttribute("data-who"));
+    }
+    ol.addEventListener("click", pick);
+    ol.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e); } });
+  })();
+  window.__profile = openProfile;
+  window.__activeSeason = activeSeason;
+  window.__seasonByDate = seasonByDate;
+  window.__shared3 = function () { return { vs: shared.vs, chal: shared.chal, cs: classState, pin: state.pin }; };
+
+
+  /* ================================================================ stage 4 */
+
+  /* ---- report cards ----
+     One page a child, from what is already on the board: points, levels in
+     every game, badges, what they keep getting wrong, and lines for a comment.
+     Printed or saved the same way as the worksheets. */
+  function reportView(list) {
+    var who = list.slice().sort(byName).map(function (r) {
+      return '<option value="' + esc(r.name) + '">' + esc(r.name) + "</option>";
+    }).join("");
+    return '<p class="rules">A one page report for each child: points, the level they have reached in every game, ' +
+      "badges, the mistakes the game has noticed this week, and space for your comment. Prints from the browser.</p>" +
+      '<div class="wsform">' +
+      '<label>For<select id="rc-who"><option value="*">Everyone</option>' + who + "</select></label>" +
+      '<button class="action" type="button" id="rc-make">Make the reports</button>' +
+      '<span class="note" id="rc-said"></span></div>';
+  }
+  function wireReports(list) {
+    var btn = document.getElementById("rc-make");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var pick = document.getElementById("rc-who").value, said = document.getElementById("rc-said");
+      var who = pick === "*" ? list.slice().sort(byName) : list.filter(function (r) { return r.name === pick; });
+      if (!who.length) { said.textContent = "Nobody to print for."; return; }
+      said.textContent = "Building…";
+      setTimeout(function () {
+        try { showPrintPages("Report cards: " + who.length + (who.length === 1 ? " page" : " pages"), who.map(reportPage).join(""), "Report cards"); said.textContent = ""; }
+        catch (e) { said.textContent = "Could not build those."; }
+      }, 30);
+    });
+  }
+  function rcLevel(lv) { return isStretch(lv) ? "S" + (lv - MAX_LEVEL) : String(lv); }
+  function reportPage(row) {
+    var levels = row.levels || {};
+    var head = "<tr><th>Game</th>" + MEASURE_ORDER.map(function (m) { return "<th>" + esc(MEASURES[m].label) + "</th>"; }).join("") + "</tr>";
+    var body = "", best = null, low = null;
+    GAME_KEYS.forEach(function (g) {
+      var cells = "", anyGame = false;
+      MEASURE_ORDER.forEach(function (m) {
+        if (!gameAvailable(m, g)) { cells += '<td class="na">–</td>'; return; }
+        anyGame = true;
+        var lv = safeLevel((levels[m] || {})[g]);
+        cells += "<td" + (lv >= MAX_LEVEL ? ' class="top"' : "") + ">" + rcLevel(lv) + "</td>";
+        var label = MEASURES[m].label + ", " + (gameLabel(m, g) || {}).label;
+        if (!best || lv > best.lv) best = { lv: lv, label: label };
+        if (CORE_MEASURES.indexOf(m) > -1 && CORE_GAMES.indexOf(g) > -1 && (!low || lv < low.lv)) low = { lv: lv, label: label };
+      });
+      if (anyGame) body += "<tr><td>" + esc((GAME_LABELS[g] || gameLabel("capacity", g) || { label: g }).label) + "</td>" + cells + "</tr>";
+    });
+    var got = String(row.badges || "").split(",").filter(Boolean);
+    var names = BADGES.filter(function (b) { return got.indexOf(b.id) > -1; }).map(function (b) { return b.name; });
+    var wk = weekKey(), t = String(row.mist || ""), bar = t.indexOf("|"), mist = [];
+    if (bar > 0 && t.slice(0, bar) === wk) {
+      t.slice(bar + 1).split(",").forEach(function (pr) {
+        var kv = pr.split(":"), n = Number(kv[1]) | 0;
+        if (MIST_INFO[kv[0]] && n >= 2) mist.push({ k: kv[0], n: n });
+      });
+      mist.sort(function (a, b) { return b.n - a.n; });
+    }
+    var d = new Date(), date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+    var duels = (row.wins | 0) + (row.losses | 0) + (row.draws | 0);
+    return '<section class="ws-page rc-page"><header class="ws-head"><h1>' + esc(row.name) + " · Measuring Lab report</h1>" +
+      "<p>" + esc(CLASS || "") + " · " + esc(titleFor(levels)) + " · " + date + "</p></header>" +
+      '<div class="rc-grid">' +
+        "<div><b>" + fmtNum(row.right) + "</b>right answers</div>" +
+        "<div><b>" + fmtNum(row.best) + "</b>points in all</div>" +
+        "<div><b>" + fmtNum(row.days) + "</b>days played</div>" +
+        "<div><b>" + fmtNum(row.bestStreak) + "</b>best streak</div>" +
+      "</div>" +
+      '<h2 class="rc-h">Levels reached</h2>' +
+      '<p class="rc-key">Each game has 8 levels. Bold means the child has finished that ladder. S1 to S6 are stretch levels, Year 5 and 6 work and beyond.</p>' +
+      '<table class="rc-table">' + head + body + "</table>" +
+      (best ? '<p class="rc-p"><b>Strongest:</b> ' + esc(best.label) + " (level " + rcLevel(best.lv) + ")." +
+        (low && low.lv < MAX_LEVEL ? " <b>Next step:</b> " + esc(low.label) + " (level " + rcLevel(low.lv) + ")." : "") + "</p>" : "") +
+      '<p class="rc-p"><b>Badges:</b> ' + got.length + " of " + BADGES.length + (names.length ? " (" + esc(names.slice(-8).join(", ")) + (names.length > 8 ? " and more" : "") + ")" : "") + "." +
+        (row.challenges ? " Daily challenges done: " + fmtNum(row.challenges) + "." : "") +
+        (duels ? " Duels: won " + (row.wins | 0) + ", lost " + (row.losses | 0) + ", drawn " + (row.draws | 0) + "." : "") + "</p>" +
+      (mist.length ? '<h2 class="rc-h">To work on</h2>' + mist.map(function (m) {
+        return '<p class="rc-p">' + esc(MIST_INFO[m.k][0].charAt(0).toUpperCase() + MIST_INFO[m.k][0].slice(1)) + " (" + m.n + " times this week). " + esc(MIST_INFO[m.k][1]) + "</p>";
+      }).join("") : "") +
+      '<h2 class="rc-h">Comment</h2><div class="rc-lines"></div><div class="rc-lines"></div><div class="rc-lines"></div><div class="rc-lines"></div>' +
+      "</section>";
+  }
+  /* The worksheet preview, reused: a bar with Print, Save as a file and Close
+     over the pages. */
+  function showPrintPages(title, out) {
+    var sheet = document.getElementById("worksheet");
+    if (sheet.parentNode !== document.body) document.body.appendChild(sheet);
+    lastSheets = out;
+    sheet.innerHTML = '<div class="ws-bar" role="toolbar" aria-label="' + esc(title) + '">' +
+      "<b>" + esc(title) + "</b>" +
+      '<button type="button" class="go" id="ws-print">Print</button>' +
+      '<button type="button" id="ws-save">Save as a file</button>' +
+      '<button type="button" id="ws-close">Close</button>' +
+      '<small id="ws-tip"></small></div>' + out;
+    openSheets(sheet);
+  }
+
+  /* ---- reading support and sounds ----
+     All per iPad, in this browser's storage, and all off to begin with. */
+  var AA_KEY = "juglab.aa";
+  var aa = { size: "", space: "", easy: "", sound: "" };
+  try { var aaSaved = JSON.parse(localStorage.getItem(AA_KEY) || "null"); if (aaSaved && typeof aaSaved === "object") for (var ak in aa) if (typeof aaSaved[ak] === "string") aa[ak] = aaSaved[ak]; } catch (e) { /* blocked */ }
+  function applyAa() {
+    var b = document.body.classList;
+    b.toggle("rs-big", aa.size === "big");
+    b.toggle("rs-bigger", aa.size === "bigger");
+    b.toggle("rs-space", aa.space === "on");
+    b.toggle("rs-easy", aa.easy === "on");
+    document.querySelectorAll(".aa-seg").forEach(function (seg) {
+      var k = seg.getAttribute("data-aa");
+      seg.querySelectorAll("button").forEach(function (btn) { btn.setAttribute("aria-pressed", String(btn.getAttribute("data-v") === aa[k])); });
+    });
+  }
+  function saveAa() { try { localStorage.setItem(AA_KEY, JSON.stringify(aa)); } catch (e) { /* blocked */ } }
+  document.querySelectorAll(".aa-seg").forEach(function (seg) {
+    seg.addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      aa[seg.getAttribute("data-aa")] = btn.getAttribute("data-v");
+      applyAa(); saveAa();
+      if (seg.getAttribute("data-aa") === "sound" && aa.sound === "on") playSound("right");
+    });
+  });
+  function closeAa() { document.getElementById("aapanel").hidden = true; document.getElementById("aabtn").focus(); }
+  document.getElementById("aabtn").addEventListener("click", function () {
+    document.getElementById("aapanel").hidden = false; applyAa();
+    document.getElementById("aa-close").focus();
+  });
+  document.getElementById("aa-close").addEventListener("click", closeAa);
+  document.getElementById("aa-scrim").addEventListener("click", closeAa);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !document.getElementById("aapanel").hidden) closeAa(); });
+  applyAa();
+
+  /* Short tones made on the spot with Web Audio, so there are no sound files
+     to download. Quiet, and never on unless a child turns them on. */
+  var audio = null;
+  var TUNES = { right: [[660, 0, .09], [880, .08, .12]], wrong: [[220, 0, .16]],
+                up: [[523, 0, .09], [659, .08, .09], [784, .16, .09], [1047, .24, .18]],
+                badge: [[784, 0, .1], [988, .1, .1], [1319, .2, .22]] };
+  function playSound(kind) {
+    if (aa.sound !== "on" || !TUNES[kind]) return;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      audio = audio || new AC();
+      if (audio.state === "suspended") audio.resume();
+      var t0 = audio.currentTime + .01;
+      TUNES[kind].forEach(function (n) {
+        var o = audio.createOscillator(), g = audio.createGain();
+        o.type = kind === "wrong" ? "triangle" : "sine";
+        o.frequency.value = n[0];
+        g.gain.setValueAtTime(0.0001, t0 + n[1]);
+        g.gain.exponentialRampToValueAtTime(kind === "wrong" ? .07 : .09, t0 + n[1] + .015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
+        o.connect(g); g.connect(audio.destination);
+        o.start(t0 + n[1]); o.stop(t0 + n[1] + n[2] + .02);
+      });
+    } catch (e) { /* no sound is fine */ }
+  }
+  window.__aa = function () { return aa; };
+  window.__report = function (n) { var l = boardRows().filter(function (r) { return r.name === n; }); return l.length ? reportPage(l[0]) : ""; };
 
   /* ================================================ teacher progress view */
   var progressOpen = false;
@@ -7918,13 +9388,43 @@
 
     if (!list.length) { box.innerHTML = '<p class="empty">No one has played yet.</p>'; return; }
 
-    var tabs = [["levels", "Who is where"], ["help", "Who needs me"], ["week", "This week"], ["sheets", "Worksheets"]];
+    var tabs = [["levels", "Who is where"], ["help", "Who needs me"], ["week", "This week"], ["sheets", "Worksheets"], ["reports", "Report cards"]];
     var showLine = shared.on
       ? '<p class="tshow">You are <b>' + (teacherShown ? "on" : "hidden from") + '</b> the leaderboard. ' +
         '<button type="button" class="linky" id="tshowbtn"' + (showBusy ? " disabled" : "") + '>' +
         (showBusy ? "Saving..." : teacherShown ? "Hide me" : "Show me") + "</button></p>"
       : "";
-    var bar = showLine + '<div class="tviews">' + tabs.map(function (t) {
+    var fsel = '<select id="tc-measure">' + ["capacity", "mass", "length", "temperature", "time", "number"].map(function (m) {
+                 return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>"; }).join("") + "</select>" +
+               '<select id="tc-game">' + ["step", "read", "add", "about", "set", "convert", "life"].map(function (g) {
+                 var gl = gameLabel("capacity", g); return '<option value="' + g + '">' + esc(gl ? gl.label : g) + "</option>"; }).join("") + "</select>";
+    var fNow = classState.focus;
+    var controls = shared.on
+      ? '<div class="tcontrols">' +
+          '<div><b>Focus for today.</b> ' + (fNow
+            ? "Every iPad is on <b>" + esc(MEASURES[fNow.measure].label) + " \u00b7 " + esc((gameLabel(fNow.measure, fNow.game) || {}).label || fNow.game) + "</b>. " +
+              '<button type="button" class="linky" id="tc-unfocus">Clear it</button>'
+            : "Lock every iPad to one game until the end of the day. " + fsel + ' <button type="button" class="linky" id="tc-focus">Set the focus</button>') + "</div>" +
+          '<div><b>Pause.</b> ' + (classState.paused
+            ? 'The class is paused. <button type="button" class="linky" id="tc-pause" data-on="0">Unpause</button>'
+            : 'Freeze every iPad on an "Eyes on ' + esc(TEACHER_NAME || "me") + '" screen. <button type="button" class="linky" id="tc-pause" data-on="1">Pause the class</button>') +
+          ' <span class="tc-note">Takes up to 20 seconds to reach every iPad.</span></div>' +
+          '<div><b>Class challenge.</b> ' + (shared.chal && shared.chal.target
+            ? "This week: " + fmtNum(shared.chal.now) + " of " + fmtNum(shared.chal.target) + " points. "
+            : "A points target the whole class works towards this week. Beat it and the class gets the Party colours for this week and next. ") +
+            '<input class="tc-num" id="tc-target" type="number" min="0" step="100" inputmode="numeric" value="' + ((shared.chal && shared.chal.target) || suggestTarget(list)) + '"> ' +
+            '<button type="button" class="linky" id="tc-chal">' + (shared.chal && shared.chal.target ? "Change it" : "Set the challenge") + "</button>" +
+            (shared.chal && shared.chal.target ? ' <button type="button" class="linky" id="tc-chaloff">Turn it off</button>' : "") + "</div>" +
+          '<div><b>Seasonal colours.</b> <select id="tc-season">' +
+            [["auto", "By the date"], ["festive", "Festive now"], ["bookweek", "Book Week now"], ["spring", "Spring Bloom now"], ["none", "None"]].map(function (o) {
+              return '<option value="' + o[0] + '"' + (classState.season === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") +
+            '</select> <span class="tc-note">' + (activeSeason() ? "On now: " + esc((skinById(activeSeason()) || {}).name || "") + "." : "None on now.") + "</span></div>" +
+          '<div><b>PINs.</b> ' + (classState.pins
+            ? 'Each child signs in with their own 4 digit PIN. To reset one, tap the child on the board. <button type="button" class="linky" id="tc-pins" data-on="0">Turn PINs off</button>'
+            : 'Off. Anyone can type any name. <button type="button" class="linky" id="tc-pins" data-on="1">Turn PINs on</button>') + "</div>" +
+        "</div>"
+      : "";
+    var bar = showLine + controls + '<div class="tviews">' + tabs.map(function (t) {
       return '<button type="button" data-tview="' + t[0] + '"' +
              (teacherView === t[0] ? ' class="on"' : "") + ">" + t[1] + "</button>";
     }).join("") + "</div>";
@@ -7933,10 +9433,44 @@
       (teacherView === "help" ? needsHelpView(list)
        : teacherView === "week" ? weekCompareView(list)
        : teacherView === "sheets" ? worksheetView(list)
+       : teacherView === "reports" ? reportView(list)
        : levelsView(list));
 
+    var tcf = document.getElementById("tc-focus");
+    if (tcf) tcf.addEventListener("click", function () {
+      tcf.disabled = true;
+      teacherClassAction({ action: "focus", measure: document.getElementById("tc-measure").value, game: document.getElementById("tc-game").value })
+        .then(function () { drawBoard(); }, function () { tcf.disabled = false; });
+    });
+    var tcu = document.getElementById("tc-unfocus");
+    if (tcu) tcu.addEventListener("click", function () { tcu.disabled = true; teacherClassAction({ action: "focus", measure: "" }).then(function () { drawBoard(); }, function () { tcu.disabled = false; }); });
+    var tcp = document.getElementById("tc-pause");
+    if (tcp) tcp.addEventListener("click", function () { tcp.disabled = true; teacherClassAction({ action: "pause", on: tcp.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { tcp.disabled = false; }); });
     var tsb = document.getElementById("tshowbtn");
     if (tsb) tsb.addEventListener("click", function () { setTeacherShown(!teacherShown); });
+    var tch = document.getElementById("tc-chal");
+    if (tch) tch.addEventListener("click", function () {
+      var v = Math.max(0, Math.round(Number(document.getElementById("tc-target").value) || 0));
+      tch.disabled = true;
+      teacherClassAction({ action: "challenge", target: v }).then(function () { return pullShared(true); })
+        .then(function () { drawBoard(); }, function () { tch.disabled = false; });
+    });
+    var tco = document.getElementById("tc-chaloff");
+    if (tco) tco.addEventListener("click", function () {
+      tco.disabled = true;
+      teacherClassAction({ action: "challenge", target: 0 }).then(function () { return pullShared(true); })
+        .then(function () { drawBoard(); }, function () { tco.disabled = false; });
+    });
+    var tse = document.getElementById("tc-season");
+    if (tse) tse.addEventListener("change", function () {
+      tse.disabled = true;
+      teacherClassAction({ action: "season", season: tse.value }).then(function () { drawBoard(); }, function () { tse.disabled = false; });
+    });
+    var tpi = document.getElementById("tc-pins");
+    if (tpi) tpi.addEventListener("click", function () {
+      tpi.disabled = true;
+      teacherClassAction({ action: "pins", on: tpi.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { tpi.disabled = false; });
+    });
     box.querySelectorAll("[data-tview]").forEach(function (b) {
       b.addEventListener("click", function () {
         teacherView = b.getAttribute("data-tview");
@@ -7944,6 +9478,7 @@
       });
     });
     if (teacherView === "sheets") wireWorksheets(list);
+    if (teacherView === "reports") wireReports(list);
   }
 
   /* ---- This week, against last week ----
@@ -8013,16 +9548,15 @@
     /* The header used to write four columns per measure and the body five, so
        every heading sat above the wrong game and the last column had none at
        all. Both are built from the same list now. */
+    var avail = function (mk) { return GAME_KEYS.filter(function (gk) { return gameAvailable(mk, gk); }); };
     var head = '<tr><th>Name</th>';
     for (var m = 0; m < MEASURE_KEYS.length; m++) {
-      head += '<th colspan="' + GAME_KEYS.length + '">' +
+      head += '<th colspan="' + avail(MEASURE_KEYS[m]).length + '">' +
               esc(MEASURES[MEASURE_KEYS[m]].label) + "</th>";
     }
     head += '<th>Right</th></tr><tr class="sub"><th></th>';
     for (var k = 0; k < MEASURE_KEYS.length; k++) {
-      for (var g2 = 0; g2 < GAME_KEYS.length; g2++) {
-        head += "<th>" + esc(shortGame(MEASURE_KEYS[k], GAME_KEYS[g2])) + "</th>";
-      }
+      avail(MEASURE_KEYS[k]).forEach(function (gk) { head += "<th>" + esc(shortGame(MEASURE_KEYS[k], gk)) + "</th>"; });
     }
     head += "<th></th></tr>";
 
@@ -8031,6 +9565,7 @@
       for (var m = 0; m < MEASURE_KEYS.length; m++) {
         var lv = row.levels[MEASURE_KEYS[m]] || {};
         for (var g = 0; g < GAME_KEYS.length; g++) {
+          if (!gameAvailable(MEASURE_KEYS[m], GAME_KEYS[g])) continue;
           var v = safeLevel(lv[GAME_KEYS[g]]);
           var band = v > MAX_LEVEL ? "top" : v <= 2 ? "low" : v <= 5 ? "mid" : "high";
           cells += '<td class="lvlcell ' + band + '">' +
@@ -8041,7 +9576,7 @@
     }).join("");
 
     return '<p class="rules">Level reached in each game. Anyone sitting on 1 or 2 is ' +
-      'still counting lines instead of gaps. S1 to S" + (STRETCH_MAX - MAX_LEVEL) + " are the stretch levels above the ladder.</p>' +
+      'still counting lines instead of gaps. S1 to S' + (STRETCH_MAX - MAX_LEVEL) + ' are the stretch levels above the ladder.</p>' +
       '<div class="tablewrap"><table class="progress"><thead>' + head +
       "</thead><tbody>" + body + "</tbody></table></div>";
   }
@@ -8085,10 +9620,10 @@
   }
 
   function worksheetView(list) {
-    var meas = MEASURE_ORDER.map(function (m) {
+    var meas = MEASURE_ORDER.filter(function (m) { return m !== "time"; }).map(function (m) {
       return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>";
     }).join("");
-    var games = GAME_KEYS.map(function (g) {
+    var games = CORE_GAMES.map(function (g) {
       return '<option value="' + g + '">' + esc(GAME_LABELS[g].label) + "</option>";
     }).join("");
     var who = list.slice().sort(byName).map(function (r) {
@@ -8330,8 +9865,28 @@
                  '<span class="hs-num"></span></li>';
         }).join("") + "</ul>";
     }
+    /* The mistake detective: what each child keeps getting wrong this week. */
+    var wk = weekKey(), byKind = {}, mistakers = [];
+    list.forEach(function (r) {
+      var t = String(r.mist || ""), bar2 = t.indexOf("|");
+      if (bar2 < 0 || t.slice(0, bar2) !== wk) return;
+      var m = {}; t.slice(bar2 + 1).split(",").forEach(function (pr) { var kv = pr.split(":"); m[kv[0]] = Number(kv[1]) | 0; });
+      var top = "", n = 0;
+      MIST_KINDS.forEach(function (k) { if ((m[k] | 0) > n) { n = m[k]; top = k; } });
+      if (top && n >= 2) { mistakers.push({ name: r.name, kind: top, n: n }); byKind[top] = (byKind[top] || 0) + 1; }
+    });
+    if (mistakers.length) {
+      mistakers.sort(function (a, b) { return b.n - a.n; });
+      var common = Object.keys(byKind).sort(function (a, b) { return byKind[b] - byKind[a]; })[0];
+      out += '<p class="rules"' + (leavers.length ? ' style="margin-top:14px"' : "") + '><b>Mistakes this week.</b> The most common: <b>' +
+             MIST_INFO[common][0] + "</b> (" + byKind[common] + (byKind[common] === 1 ? " child" : " children") + "). Try: " + MIST_INFO[common][1] + '</p><ul class="helplist">' +
+        mistakers.slice(0, 14).map(function (mk) {
+          return '<li class="' + (mk.n >= 6 ? "hot" : mk.n >= 3 ? "warm" : "fine") + '"><b>' + esc(mk.name) + "</b>" +
+                 '<span class="hs-why">' + MIST_INFO[mk.kind][0] + " (" + mk.n + " times)</span>" + '<span class="hs-num"></span></li>';
+        }).join("") + "</ul>";
+    }
     if (idle.length) {
-      out += '<p class="rules"' + (leavers.length ? ' style="margin-top:14px"' : "") + '><b>Barely started.</b> Fewer than eight answers so far.</p><ul class="helplist">' +
+      out += '<p class="rules"' + (leavers.length || mistakers.length ? ' style="margin-top:14px"' : "") + '><b>Barely started.</b> Fewer than eight answers so far.</p><ul class="helplist">' +
         idle.map(function (r) {
           return line(r, r.tried ? r.tried + " answered" : "nothing yet");
         }).join("") + "</ul>";
@@ -8597,15 +10152,15 @@
     /* Built from the measure list rather than typed out, so a measure added
        later cannot quietly leave a badge reading undefined. */
     var done = {};
-    for (var d = 0; d < MEASURE_KEYS.length; d++) done[MEASURE_KEYS[d]] = 0;
-    for (var m = 0; m < MEASURE_KEYS.length; m++) {
-      for (var g = 0; g < GAME_KEYS.length; g++) {
-        var lv = safeLevel(state.levels[MEASURE_KEYS[m]][GAME_KEYS[g]]);
+    for (var d = 0; d < CORE_MEASURES.length; d++) done[CORE_MEASURES[d]] = 0;
+    for (var m = 0; m < CORE_MEASURES.length; m++) {
+      for (var g = 0; g < CORE_GAMES.length; g++) {
+        var lv = safeLevel(state.levels[CORE_MEASURES[m]][CORE_GAMES[g]]);
         if (lv < lowest) lowest = lv;
         if (lv > top) top = lv;
         total += lv;
         // ladders finished, all together and one measure at a time
-        if (lv >= MAX_LEVEL) { eights++; done[MEASURE_KEYS[m]]++; }
+        if (lv >= MAX_LEVEL) { eights++; done[CORE_MEASURES[m]]++; }
       }
     }
     var wrong = 0, skipped = 0;
@@ -8653,6 +10208,7 @@
      three seconds. Three or more now arrive as one, and the queue never holds
      more than three. The badge panel still lists every one. */
   function announce(list) {
+    if (list && list.length) playSound("badge");
     if (list.length >= 3) {
       var names = list.map(function (b) { return b.name; });
       list = [{ art: "star", label: list.length + " new unlocks",
@@ -8840,14 +10396,62 @@
     { id: "sub", name: "Submarine", need: "streak200", how: "Two hundred in a row badge" },
     { id: "graffiti", name: "Street Art", need: "daily50", how: "Fifty challenges badge" },
     { id: "origami", name: "Origami", need: "tenthou", how: "Ten thousand badge" },
-    { id: "dragon", name: "Dragon Hoard", need: "lvl14", how: "Everything at the top badge", legendary: true }
+    { id: "dragon", name: "Dragon Hoard", need: "lvl14", how: "Everything at the top badge", legendary: true },
+    /* Seasonal: open to everyone while the season lasts, then gone until next
+       year. Party comes to the whole class for beating the class challenge. */
+    { id: "festive",  name: "Festive",      season: "festive",  how: "1 Dec to 31 Jan" },
+    { id: "bookweek", name: "Book Week",    season: "bookweek", how: "15 Aug to 5 Sep" },
+    { id: "spring",   name: "Spring Bloom", season: "spring",   how: "20 Sep to 31 Oct" },
+    { id: "party",    name: "Party",        party: true,        how: "Beat a class challenge" }
   ];
+
+  /* Which season it is. The teacher can force one on, or turn them off, from
+     the teacher panel; otherwise it goes by the date on this iPad. */
+  function seasonByDate(d) {
+    d = d || new Date();
+    var m = d.getMonth() + 1, day = d.getDate(), md = m * 100 + day;
+    if (m === 12 || m === 1) return "festive";
+    if (md >= 815 && md <= 905) return "bookweek";
+    if (md >= 920 && md <= 1031) return "spring";
+    return "";
+  }
+  function activeSeason() {
+    var o = classState && classState.season;
+    if (o && o !== "auto") return o === "none" ? "" : o;
+    return seasonByDate();
+  }
+  function partyOn() { return !!(shared.chal && shared.chal.party); }
+  function skinEarned(skin) {
+    if (skin.season) return activeSeason() === skin.season;
+    if (skin.party) return partyOn();
+    if (skin.need) return hasBadge(skin.need);
+    if (skin.jars) return classProgress().filled >= skin.jars;
+    return state.badges.length >= skin.at;
+  }
+  function skinById(id) {
+    for (var i = 0; i < SKINS.length; i++) if (SKINS[i].id === id) return SKINS[i];
+    return null;
+  }
+  /* The colours a child chose, kept even while they are locked (the class
+     board has not arrived yet, or the season is over), so they come back by
+     themselves as soon as they are open again. */
+  function wantedSkin() {
+    try { return localStorage.getItem("juglab.skin") || "classic"; } catch (e) { return "classic"; }
+  }
+  function reapplyWantedSkin() {
+    if (!state.name) return;
+    var want = wantedSkin();
+    if (want !== state.skin) { var sk = skinById(want); if (sk && skinUnlocked(sk)) applySkin(want); }
+    else { var cur = skinById(state.skin); if (cur && !skinUnlocked(cur)) applySkin("classic", true); }
+  }
 
   /* The teacher has every colour from the start - not as a perk, but because
      you cannot show a class what they are working towards if you can only
      show them the one they already have. */
   function skinUnlocked(skin) {
     if (TEACHER) return true;
+    if (skin.season) return activeSeason() === skin.season;
+    if (skin.party) return partyOn();
     if (skin.need) return hasBadge(skin.need);
     if (skin.jars) return classProgress().filled >= skin.jars;
     return state.badges.length >= skin.at;
@@ -8898,13 +10502,15 @@
     try { localStorage.setItem("juglab.bg", found.id); } catch (e) { /* blocked */ }
   }
 
-  function applySkin(id) {
+  function applySkin(id, keepWish) {
     var found = null;
     for (var i = 0; i < SKINS.length; i++) if (SKINS[i].id === id) found = SKINS[i];
-    if (!found || !skinUnlocked(found)) found = SKINS[0];
+    var ok = !!found && skinUnlocked(found);
+    if (!ok) found = SKINS[0];
     state.skin = found.id;
     document.body.dataset.skin = found.id;
-    try { localStorage.setItem("juglab.skin", found.id); } catch (e) { /* blocked */ }
+    /* A locked choice falls back to Classic for now but is not forgotten. */
+    if (ok && !keepWish) { try { localStorage.setItem("juglab.skin", found.id); } catch (e) { /* blocked */ } }
   }
 
   /* ---------------------------------------------------------- class goal
@@ -8975,6 +10581,7 @@
       out += '<div class="lad-group"><b>' + esc(MEASURES[mk].label) + "</b>";
       for (var g = 0; g < GAME_KEYS.length; g++) {
         var gk = GAME_KEYS[g];
+        if (!gameAvailable(mk, gk)) continue;
         var lv = safeLevel(state.levels[mk] && state.levels[mk][gk]);
         var here = mk === state.measure && gk === state.mode;
         var pips = "";
@@ -9102,20 +10709,22 @@
 
     var jarWord = function (n) { return n === 1 ? "fill the jar" : "fill the jar " + n + " times"; };
 
-    var skins = "", badgeSkins = "";
+    var skins = "", badgeSkins = "", seasonSkins = "";
     for (var k = 0; k < SKINS.length; k++) {   // g is the class jug, read above
       var sk = SKINS[k], open = skinUnlocked(sk);
-      var earned = sk.need ? hasBadge(sk.need) : sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
-      var how = sk.need ? sk.how : sk.jars ? jarWord(sk.jars) : sk.at + " badges";
+      var earned = sk.season || sk.party ? skinEarned(sk) : sk.need ? hasBadge(sk.need) : sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
+      var how = sk.season || sk.party || sk.need ? sk.how : sk.jars ? jarWord(sk.jars) : sk.at + " badges";
       var chip = '<button class="skin' + (open ? "" : " locked") +
                (open && !earned ? " teacheronly" : "") +
-               (sk.jars ? " jarchip" : "") + (sk.need ? " badgechip" : "") + (sk.legendary ? " legendary" : "") +
+               (sk.jars ? " jarchip" : "") + (sk.need ? " badgechip" : "") + (sk.season || sk.party ? " seasonchip" : "") + (sk.legendary ? " legendary" : "") +
                (state.skin === sk.id ? " on" : "") + '" data-skin="' + sk.id + '"' +
                (open ? "" : " disabled") + '>' +
                '<span class="sw sw-' + sk.id + '"></span>' + esc(sk.name) +
                (earned ? "" : '<small>' + how + "</small>") + '</button>';
-      if (sk.need) badgeSkins += chip; else skins += chip;
+      if (sk.season || sk.party) seasonSkins += chip; else if (sk.need) badgeSkins += chip; else skins += chip;
     }
+    var seasonBox = document.getElementById("seasonskins");
+    if (seasonBox) seasonBox.innerHTML = seasonSkins;
     document.getElementById("skins").innerHTML = skins;
     var badgeBox = document.getElementById("badgeskins");
     if (badgeBox) badgeBox.innerHTML = badgeSkins;
@@ -9250,6 +10859,13 @@
      there is one: "owl" or "owl.goldring". It travels to the sheet and back in
      the one avatar field, so a frame is seen on everyone's board and no new
      column is needed. A word that is not a frame is ignored, never printed. */
+  /* The colours a child is using travel to the board on the end of their
+     character ("owl.goldring.circuit"), so the profile card can show them. */
+  function avatarSkin(s) { return String(s || "").split(".")[2] || ""; }
+  function avatarWithSkin() {
+    var a = String(state.avatar || "jug").split(".");
+    return a[0] + "." + (a[1] || "") + "." + (state.skin && state.skin !== "classic" ? state.skin : "");
+  }
   function avatarBase(s) { return String(s || "jug").split(".")[0] || "jug"; }
   function avatarFrame(s) {
     var f = String(s || "").split(".")[1] || "";
@@ -10103,7 +11719,7 @@
   /* ---------------------------------------------------- through the sheet */
   function duelPost(fields) {
     if (!shared.on) return Promise.reject(new Error("no sheet"));
-    var body = { action: "duel", room: CLASS };
+    var body = { action: "duel", room: CLASS, pin: state.pin || "", pinv: 1 };
     for (var k in fields) if (fields.hasOwnProperty(k)) body[k] = fields[k];
     return fetch(CONFIG.SHARED_URL, {
       method: "POST", redirect: "follow",
@@ -10112,6 +11728,7 @@
     }).then(function (r) { return r.json(); })
       .then(function (data) {
         if (data && data.ok) { takeRows(data); drawBoard(); }
+        if (data && data.pinBad) pinRefused();
         return data;
       });
   }
@@ -10394,7 +12011,7 @@
     state.daysPlayed = r.daysPlayed;
     state.lastDay = r.lastDay;
     state.challenges = r.challenges;
-    state.avatar = r.avatar || state.avatar || "jug";
+    state.avatar = String(r.avatar || state.avatar || "jug").split(".").slice(0, 2).join(".").replace(/\.$/, "");
     // a table picked on the way in wins - they may have moved seats today
     state.team = state.team || r.team || "";
     /* The week's and the day's scores come back with the rest, so a child who
@@ -10406,6 +12023,7 @@
     var d = datedPick(state, r, "dayOf", "dayScore");
     state.dayOf = d.of; state.dayScore = d.score;
     if (String(r.dayOf || "") === state.dayOf) state.leftToday = Math.max(state.leftToday | 0, r.left | 0);
+    mergeMistFrom(r.mist);
     state.bestStreak = r.bestStreak;
     state.correct = r.correct;
     state.duelWins = r.duelWins | 0;
@@ -10509,9 +12127,11 @@
   var checkingCode = false;
 
   function gateStep(which) {
-    var code = which === "code", teacher = which === "teacher";
+    var code = which === "code", teacher = which === "teacher", pin = which === "pin";
     document.getElementById("gate-code-step").hidden = !code;
-    document.getElementById("gate-name-step").hidden = code || teacher;
+    document.getElementById("gate-pin-step").hidden = !pin;
+    document.getElementById("gate-name-step").hidden = code || teacher || pin;
+    if (pin) return;
     document.getElementById("gate-teacher-step").hidden = !teacher;
     document.getElementById("gate-title").textContent = code ? "Which class are you in?"
       : teacher ? "Teacher sign in" : "Who is playing?";
@@ -10573,6 +12193,7 @@
           var changed = data.room !== CLASS;
           CLASS = String(data.room);
           TEACHER_NAME = String(data.teacherName || "");
+          if (data.cs) applyClassState(data.cs);
           classReady = true;
           try { localStorage.setItem(KEY_CLASS, CLASS); } catch (e) { /* blocked */ }
           if (changed) { shared.rows = []; shared.loaded = false; shared.jar = null; shared.duels = []; shared.settled = []; }
@@ -10817,17 +12438,148 @@
       b.type = "button";
       b.className = "action";
       b.textContent = "Yes, I'm " + n;
-      b.addEventListener("click", function () { hideAsk(); startWith(n); });
+      b.addEventListener("click", function () { hideAsk(); playerIn(n); });
       askBtns.appendChild(b);
     });
     var no = document.createElement("button");
     no.type = "button";
     no.className = "action ghost";
     no.textContent = "No, my name is " + typed;
-    no.addEventListener("click", function () { hideAsk(); startWith(typed); });
+    no.addEventListener("click", function () { hideAsk(); playerIn(typed); });
     askBtns.appendChild(no);
     goBtn.hidden = true;
     askBox.hidden = false;
+  }
+
+
+  /* ---- PINs ----
+     With PINs on, a child picks 4 digits the first time they sign in, and types
+     them each time after. This iPad remembers it for that name, so on their own
+     iPad they are not asked again. The sheet keeps it and checks every post. */
+  var pinBox = document.getElementById("pinbox");
+  var pinBox2 = document.getElementById("pinbox2");
+  var pinErr = document.getElementById("pin-err");
+  var pinGo = document.getElementById("pin-go");
+  var pinName = "", pinMode = "", pinBusy = false;
+  function pinKey(name) { return "juglab.pin." + String(CLASS).toLowerCase() + "." + String(name).toLowerCase(); }
+  function savedPin(name) { try { return localStorage.getItem(pinKey(name)) || ""; } catch (e) { return ""; } }
+  function savePin(name, pin) { try { localStorage.setItem(pinKey(name), pin); } catch (e) { /* blocked */ } }
+  function forgetPin(name) { try { localStorage.removeItem(pinKey(name)); } catch (e) { /* blocked */ } }
+  function pinPost(body) {
+    body.room = CLASS;
+    return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) }, 12000);
+  }
+  function pinsWanted() { return shared.on && classState.pins === true; }
+
+  function playerIn(name) {
+    if (!pinsWanted() || isTeacherName(name)) { state.pin = ""; startWith(name); return; }
+    pinName = name;
+    var saved = savedPin(name);
+    goBtn.disabled = true;
+    var was = goBtn.textContent;
+    goBtn.textContent = "Checking...";
+    function done() { goBtn.disabled = false; goBtn.textContent = was; }
+    pinPost({ action: "pincheck", name: name, pin: saved }).then(function (d) {
+      done();
+      var r = d && d.ok ? d.pin : "";
+      if (r === "off") { state.pin = ""; startWith(name); return; }
+      if (r === "ok") { state.pin = saved; startWith(name); return; }
+      if (r === "none" && saved) {
+        return pinPost({ action: "pinset", name: name, pin: saved }).then(function (s) {
+          if (s && s.pinset === "ok") { state.pin = saved; startWith(name); } else { forgetPin(name); showPinStep("enter"); }
+        });
+      }
+      if (r === "none") { showPinStep("new"); return; }
+      if (saved) forgetPin(name);
+      showPinStep("enter", r === "locked" ? "locked" : "");
+    }, function () {
+      /* The sheet cannot be reached. Let them play: their points wait on this
+         iPad, and the sheet checks the PIN when they arrive. */
+      done();
+      state.pin = saved;
+      startWith(name);
+    });
+  }
+
+  function showPinStep(mode, why) {
+    pinMode = mode;
+    gateStep("pin");
+    pinBox.value = ""; pinBox2.value = "";
+    pinBox2.hidden = mode !== "new";
+    document.getElementById("gate-title").textContent = mode === "new" ? "Choose your PIN" : "Type your PIN";
+    document.getElementById("gate-lead").textContent = mode === "new"
+      ? "Hi " + pinName + ". Pick 4 numbers you will remember and type them twice. You type them each time you sign in, so nobody else can play as you. Keep it secret."
+      : "Hi " + pinName + ". Type your 4 digit PIN.";
+    pinErr.hidden = !why;
+    if (why === "locked") pinErr.textContent = "Too many wrong tries. Wait 5 minutes, or ask your teacher to reset your PIN.";
+    setTimeout(function () { pinBox.focus(); }, 40);
+  }
+  function pinSay(t) { pinErr.textContent = t; pinErr.hidden = false; }
+  var EASY_PINS = ["0000", "1111", "2222", "3333", "4444", "5555", "6666", "7777", "8888", "9999", "1234", "4321", "0123", "9876"];
+
+  function submitPin() {
+    if (pinBusy) return;
+    var a = pinBox.value.trim();
+    if (!/^[0-9]{4}$/.test(a)) { pinSay("Your PIN is 4 numbers."); pinBox.focus(); return; }
+    if (pinMode === "new") {
+      if (EASY_PINS.indexOf(a) > -1) { pinSay("That one is too easy to guess. Pick another 4 numbers."); pinBox.value = ""; pinBox2.value = ""; pinBox.focus(); return; }
+      if (pinBox2.value.trim() !== a) { pinSay("The two don't match. Type it again."); pinBox2.value = ""; pinBox2.focus(); return; }
+    }
+    pinBusy = true; pinGo.disabled = true; pinGo.textContent = "Checking..."; pinErr.hidden = true;
+    var ask = pinMode === "new" ? pinPost({ action: "pinset", name: pinName, pin: a })
+                                : pinPost({ action: "pincheck", name: pinName, pin: a });
+    ask.then(function (d) {
+      pinBusy = false; pinGo.disabled = false; pinGo.textContent = "Continue";
+      if (pinMode === "new") {
+        if (d && d.pinset === "ok") { savePin(pinName, a); state.pin = a; startWith(pinName); return; }
+        if (d && d.pinset === "taken") { showPinStep("enter"); pinSay("Someone has just made a PIN for this name. Type that PIN, or ask your teacher."); return; }
+        pinSay("That did not work. Try again.");
+        return;
+      }
+      var r = d && d.ok ? d.pin : "";
+      if (r === "ok" || r === "off") { savePin(pinName, a); state.pin = a; startWith(pinName); return; }
+      if (r === "none") { showPinStep("new"); return; }
+      if (r === "locked") { pinSay("Too many wrong tries. Wait 5 minutes, or ask your teacher to reset your PIN."); return; }
+      pinBox.value = "";
+      pinSay("That PIN is not right." + (d && d.left ? " " + d.left + (d.left === 1 ? " try" : " tries") + " left." : ""));
+      pinBox.focus();
+    }, function () {
+      pinBusy = false; pinGo.disabled = false; pinGo.textContent = "Continue";
+      pinSay("Could not reach the class sheet. Check the internet and try again.");
+    });
+  }
+  pinGo.addEventListener("click", function (e) { e.preventDefault(); submitPin(); });
+  [pinBox, pinBox2].forEach(function (el) {
+    el.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      if (el === pinBox && !pinBox2.hidden && !pinBox2.value) { pinBox2.focus(); return; }
+      submitPin();
+    });
+    el.addEventListener("input", function () {
+      el.value = el.value.replace(/[^0-9]/g, "").slice(0, 4);
+      if (el === pinBox && el.value.length === 4 && !pinBox2.hidden) pinBox2.focus();
+    });
+  });
+  document.getElementById("pin-back").addEventListener("click", function () {
+    nameInput.value = "";
+    gateStep("name");
+  });
+
+  /* The sheet turned a post down: the PIN was reset, or changed on another
+     iPad. The points stay on this iPad and go up once they sign in again. */
+  var pinRefusedAt = 0;
+  function pinRefused() {
+    if (!state.name || TEACHER || Date.now() - pinRefusedAt < 5000) return;
+    pinRefusedAt = Date.now();
+    var who = state.name;
+    forgetPin(who);
+    state.pin = "";
+    openGate(who);
+    pinName = who;
+    showPinStep("enter");
+    pinSay("Your PIN needs typing again. Your points are safe.");
   }
 
   var settling = false;
@@ -10840,9 +12592,9 @@
       done = true;
       settling = false;
       var same = sameNameAs(name);
-      if (same) { startWith(same); return; }
+      if (same) { playerIn(same); return; }
       var maybe = similarNames(name);
-      if (maybe.length) showAsk(name, maybe); else startWith(name);
+      if (maybe.length) showAsk(name, maybe); else playerIn(name);
     }
     // the class list has to be in hand to compare against, but never worth a long wait
     if (shared.on && !shared.loaded) {
@@ -10897,6 +12649,7 @@
   /* ================================================ wiring */
   document.querySelectorAll(".measure").forEach(function (btn) {
     btn.addEventListener("click", function () {
+      endWarm(false);
       state.measure = btn.dataset.measure;
       next();
     });
@@ -10907,6 +12660,7 @@
       document.querySelectorAll(".mode").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b === btn));
       });
+      endWarm(false);
       state.mode = btn.dataset.mode;
       state.tries = 0;
       next();
@@ -11041,7 +12795,7 @@
     if (k === "ArrowUp" || k === "ArrowRight") { nudge(1); e.preventDefault(); }
     else if (k === "ArrowDown" || k === "ArrowLeft") { nudge(-1); e.preventDefault(); }
     else if (k === "Home") { state.setAt = 0; redrawSetter(); e.preventDefault(); }
-    else if (k === "End") { state.setAt = state.q.s.n; redrawSetter(); e.preventDefault(); }
+    else if (k === "End") { state.setAt = state.q.s ? state.q.s.n : 55; redrawSetter(); e.preventDefault(); }
     else if (k === "Enter") { check(); e.preventDefault(); }
   });
 
@@ -11272,6 +13026,9 @@
       "asks for more of them the higher you climb. Two wrong in a row moves you back down, but never more than two levels below your best. Scores from every device go to the same " +
       "class sheet. Scores start again from 0 every Monday at 8am, Adelaide time. Version " + GAME_VERSION + ".";
     pullShared(true);
+    (function pollState() {
+      setTimeout(function () { pollClassState(); pollState(); }, 18000 + Math.floor(Math.random() * 6000));
+    })();
     (function poll() {
       setTimeout(function () {
         if (!shared.pending && !document.hidden) pullShared(true);
