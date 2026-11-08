@@ -192,6 +192,127 @@
   body.rs-space p, body.rs-space .verdict, body.rs-space .why, body.rs-space li { line-height: 1.75 !important; }
   body.rs-easy, body.rs-easy button, body.rs-easy input, body.rs-easy select, body.rs-easy h1, body.rs-easy h2, body.rs-easy h3,
   body.rs-easy .verdict, body.rs-easy .stage svg text { font-family: Verdana, Tahoma, "Trebuchet MS", sans-serif !important; }
+
+  /* ================================================= more seasons (v48) */
+  /* Summer Beach: sand, sea and a wave that rolls along the bottom of the card. */
+  body[data-skin="summer"] { --paper: #FFF3D6; --card: #FFFFFF; --card-sunk: #FFF8E8; --edge: #EBD5A4;
+    --ink: #1B2A33; --ink-soft: #3F5560; --ink-faint: #5F6F75; --water: #0B7285; --water-deep: #075261;
+    --water-fill: #9FE3EC; --water-lite: #E3F7FA; --zest: #C8432E; --zest-soft: #FCE6E1; }
+  body[data-skin="summer"]:not([data-bg]), body[data-skin="summer"][data-bg="plain"] {
+    background-image: radial-gradient(circle at 20% 30%, rgba(214,170,90,.18) 0 1.5px, transparent 2px), radial-gradient(circle at 70% 75%, rgba(214,170,90,.18) 0 1.5px, transparent 2px);
+    background-size: 22px 22px, 31px 31px; }
+  body[data-skin="summer"] .stage, body[data-skin="summer"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="summer"] .stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 34px; z-index: -1; pointer-events: none; opacity: .5;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 34%22%3E%3Cpath d=%22M0 14q15-12 30 0t30 0 30 0 30 0V34H0z%22 fill=%22%239FE3EC%22/%3E%3Cpath d=%22M0 22q15-10 30 0t30 0 30 0 30 0V34H0z%22 fill=%22%230B7285%22 opacity=%22.55%22/%3E%3C/svg%3E") 0 100% / 120px 34px repeat-x;
+    animation: surf 6s linear infinite; }
+  @keyframes surf { from { background-position: 0 100%; } to { background-position: 120px 100%; } }
+  body[data-skin="summer"] .glass, body[data-skin="summer"] .rulerbody, body[data-skin="summer"] .face, body[data-skin="summer"] .dialtrack { stroke: #0B7285; }
+  .sw-summer { background: linear-gradient(180deg, #9FE3EC 0 48%, #0B7285 48% 62%, #F2D49A 62%); }
+
+  /* Lunar New Year: red and gold, with two lanterns swinging over the card. */
+  body[data-skin="lunar"] { --paper: #FFF0E4; --card: #FFFFFF; --card-sunk: #FFF6EE; --edge: #EBC7A6;
+    --ink: #2A100C; --ink-soft: #5A2A20; --ink-faint: #7A4A3C; --water: #B01C1C; --water-deep: #7E1212;
+    --water-fill: #F8D477; --water-lite: #FDEBD2; --zest: #8A5A00; --zest-soft: #FBEFCF; }
+  body[data-skin="lunar"]:not([data-bg]), body[data-skin="lunar"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22%3E%3Cpath d=%22M24 6a18 18 0 0 1 18 18M24 12a12 12 0 0 1 12 12M6 24A18 18 0 0 0 24 42M12 24a12 12 0 0 0 12 12%22 fill=%22none%22 stroke=%22rgba%28176,28,28,.10%29%22 stroke-width=%222%22/%3E%3C/svg%3E"); background-size: 48px 48px; }
+  body[data-skin="lunar"] .stage, body[data-skin="lunar"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="lunar"] .stage::after { content: ""; position: absolute; top: -4px; right: 18px; width: 138px; height: 105px; z-index: -1; pointer-events: none; background-size: 100% 100% !important;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 92 70%22%3E%3Cg%3E%3Cpath d=%22M22 0v12M66 0v6%22 stroke=%22%238A5A00%22 stroke-width=%221.5%22/%3E%3Cellipse cx=%2222%22 cy=%2228%22 rx=%2216%22 ry=%2214%22 fill=%22%23D62828%22/%3E%3Cpath d=%22M14 15h16M14 41h16M22 42v14%22 stroke=%22%23E0A100%22 stroke-width=%223%22/%3E%3Cpath d=%22M16 28q6-12 12 0q-6 12-12 0%22 fill=%22none%22 stroke=%22%23F8D477%22 opacity=%22.7%22/%3E%3Cellipse cx=%2266%22 cy=%2220%22 rx=%2212%22 ry=%2210.5%22 fill=%22%23D62828%22/%3E%3Cpath d=%22M60 10h12M60 30h12M66 31v11%22 stroke=%22%23E0A100%22 stroke-width=%222.5%22/%3E%3C/g%3E%3C/svg%3E") no-repeat;
+    transform-origin: top center; animation: lantern 3.6s ease-in-out infinite; }
+  @keyframes lantern { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+  body[data-skin="lunar"] .glass, body[data-skin="lunar"] .rulerbody, body[data-skin="lunar"] .face, body[data-skin="lunar"] .dialtrack { stroke: #B01C1C; }
+  body[data-skin="lunar"] .liquid { fill: url(#sk-gold); }
+  .sw-lunar { background: radial-gradient(ellipse at 50% 55%, #F8D477 0 22%, transparent 24%), #B01C1C; }
+
+  /* Easter: pastel eggs on the page and speckled eggs inside the jug. */
+  body[data-skin="easter"] { --paper: #F8F3FF; --card: #FFFFFF; --card-sunk: #F6F1FD; --edge: #DCCFF0;
+    --ink: #24183A; --ink-soft: #4C3E66; --ink-faint: #6A5C84; --water: #6B4FA0; --water-deep: #4A3478;
+    --water-fill: #FFE08A; --water-lite: #F1EAFB; --zest: #23794D; --zest-soft: #E0F3E8; }
+  body[data-skin="easter"]:not([data-bg]), body[data-skin="easter"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 90 90%22%3E%3Cellipse cx=%2218%22 cy=%2222%22 rx=%227%22 ry=%229.5%22 fill=%22%23F9C6DB%22 opacity=%22.55%22/%3E%3Cellipse cx=%2262%22 cy=%2254%22 rx=%227%22 ry=%229.5%22 fill=%22%23BFE3F7%22 opacity=%22.6%22/%3E%3Cellipse cx=%2236%22 cy=%2274%22 rx=%226%22 ry=%228%22 fill=%22%23CDEFC2%22 opacity=%22.6%22/%3E%3Cellipse cx=%2276%22 cy=%2214%22 rx=%226%22 ry=%228%22 fill=%22%23FFE3A3%22 opacity=%22.6%22/%3E%3C/svg%3E"); background-size: 90px 90px; }
+  body[data-skin="easter"] .liquid { fill: url(#sk-egg); }
+  body[data-skin="easter"] .glass, body[data-skin="easter"] .rulerbody, body[data-skin="easter"] .face, body[data-skin="easter"] .dialtrack { stroke: #6B4FA0; }
+  body[data-skin="easter"] .stage { box-shadow: 0 0 0 3px #F9C6DB, 0 0 0 6px #BFE3F7, var(--shadow); }
+  .sw-easter { background: radial-gradient(ellipse 30% 40% at 30% 45%, #F9C6DB 0 95%, transparent), radial-gradient(ellipse 30% 40% at 70% 55%, #BFE3F7 0 95%, transparent), #FFE08A; }
+
+  /* Autumn Leaves: warm browns, leaves drifting down behind the question. */
+  body[data-skin="autumn"] { --paper: #FBF0E2; --card: #FFFDF8; --card-sunk: #F9EEDF; --edge: #E3C9A6;
+    --ink: #2B1A0F; --ink-soft: #5A3B25; --ink-faint: #75563F; --water: #A0461A; --water-deep: #6E2F10;
+    --water-fill: #F4C27A; --water-lite: #FBEBD6; --zest: #556316; --zest-soft: #ECF0D4; }
+  body[data-skin="autumn"] .stage, body[data-skin="autumn"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="autumn"] .stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .45;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 240 240%22%3E%3Cg%3E%3Cpath d=%22M30 40q10-14 20 0q-10 14-20 0z%22 fill=%22%23D9622B%22 transform=%22rotate%2830 40 40%29%22/%3E%3Cpath d=%22M150 30q9-12 18 0q-9 12-18 0z%22 fill=%22%23B83A1E%22 transform=%22rotate%28-40 159 30%29%22/%3E%3Cpath d=%22M200 140q10-14 20 0q-10 14-20 0z%22 fill=%22%23E8A33A%22 transform=%22rotate%2870 210 140%29%22/%3E%3Cpath d=%22M80 180q9-12 18 0q-9 12-18 0z%22 fill=%22%23C9541F%22 transform=%22rotate%28-15 89 180%29%22/%3E%3Cpath d=%22M110 100q8-10 16 0q-8 10-16 0z%22 fill=%22%23E8A33A%22 transform=%22rotate%2810 118 100%29%22/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 240px 240px; animation: leaves 14s linear infinite; }
+  @keyframes leaves { from { background-position: 0 0; } to { background-position: -80px 240px; } }
+  body[data-skin="autumn"] .glass, body[data-skin="autumn"] .rulerbody, body[data-skin="autumn"] .face, body[data-skin="autumn"] .dialtrack { stroke: #6E2F10; }
+  .sw-autumn { background: radial-gradient(ellipse 35% 22% at 40% 40%, #D9622B 0 95%, transparent), radial-gradient(ellipse 30% 20% at 65% 68%, #E8A33A 0 95%, transparent), #FBEBD6; }
+
+  /* Rainy Day: grey-blue, with rain running down behind the question. */
+  body[data-skin="rainy"] { --paper: #E6ECF2; --card: #FFFFFF; --card-sunk: #F1F5F9; --edge: #C9D5E1;
+    --ink: #16222E; --ink-soft: #3B4B5B; --ink-faint: #56677A; --water: #2F5F8A; --water-deep: #1E4264;
+    --water-fill: #BCD3E8; --water-lite: #E5EFF8; --zest: #B8322A; --zest-soft: #F8E2E0; }
+  body[data-skin="rainy"] .stage, body[data-skin="rainy"] .board { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="rainy"] .stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .35;
+    background-image: repeating-linear-gradient(105deg, transparent 0 22px, rgba(47,95,138,.55) 22px 23.5px, transparent 23.5px 47px);
+    background-size: 100% 60px; animation: rain .7s linear infinite; }
+  @keyframes rain { from { background-position: 0 0; } to { background-position: -16px 60px; } }
+  body[data-skin="rainy"] .glass, body[data-skin="rainy"] .rulerbody, body[data-skin="rainy"] .face, body[data-skin="rainy"] .dialtrack { stroke: #1E4264; }
+  .sw-rainy { background: repeating-linear-gradient(105deg, #BCD3E8 0 3px, #2F5F8A 3px 4px), #BCD3E8; }
+
+  /* Footy Finals: a mown oval and a centre square, in no team's colours. */
+  body[data-skin="footy"] { --paper: #E4F0DC; --card: #FFFFFF; --card-sunk: #F1F7EC; --edge: #C3DDB6;
+    --ink: #13240F; --ink-soft: #3A5233; --ink-faint: #56704D; --water: #1F6B2A; --water-deep: #134A1B;
+    --water-fill: #C8E6C0; --water-lite: #E5F3E0; --zest: #A3271F; --zest-soft: #F7E1DE; }
+  body[data-skin="footy"]:not([data-bg]), body[data-skin="footy"][data-bg="plain"] {
+    background-image: repeating-linear-gradient(90deg, rgba(31,107,42,.07) 0 60px, transparent 60px 120px); }
+  body[data-skin="footy"] .stage { position: relative; isolation: isolate; overflow: hidden;
+    background-image: radial-gradient(ellipse 46% 40% at 50% 50%, transparent 98%, rgba(31,107,42,.16) 98.5% 100%, transparent 100.5%),
+      radial-gradient(circle at 50% 50%, transparent 54px, rgba(31,107,42,.14) 55px 57px, transparent 58px); }
+  body[data-skin="footy"] .glass, body[data-skin="footy"] .rulerbody, body[data-skin="footy"] .face, body[data-skin="footy"] .dialtrack { stroke: #134A1B; }
+  .sw-footy { background: radial-gradient(ellipse 30% 20% at 50% 50%, #A3271F 0 92%, transparent), repeating-linear-gradient(90deg, #6FB25B 0 5px, #5DA04A 5px 10px); }
+
+  /* Halloween: night colours, a moon and bats, and a glowing pumpkin liquid. */
+  body[data-skin="halloween"] { --paper: #130E1B; --card: #1F1830; --card-sunk: #191326; --edge: #3D2E57;
+    --ink: #FFF3E6; --ink-soft: #E8D6C8; --ink-faint: #B9A6C9; --water: #FF8A1F; --water-deep: #FFC07A;
+    --water-fill: #5A320C; --water-lite: #2D1E12; --zest: #9BE15D; --zest-soft: #22331A;
+    --leaf-soft: #17402B; --berry-soft: #4A1A24; --gold: #FFC07A; }
+  body[data-skin="halloween"] button.action:not(.ghost) { color: #130E1B; }
+  body[data-skin="halloween"] .measure[aria-pressed="true"], body[data-skin="halloween"] .mode[aria-pressed="true"], body[data-skin="halloween"] .chal-flag { color: #130E1B; }
+  body[data-skin="halloween"] .measure[aria-pressed="true"] small, body[data-skin="halloween"] .mode[aria-pressed="true"] em,
+  body[data-skin="halloween"] .mode[aria-pressed="true"] .lvl { color: #130E1B; opacity: .85; }
+  body[data-skin="halloween"]:not([data-bg]), body[data-skin="halloween"][data-bg="plain"] {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 120%22%3E%3Cpath d=%22M30 30q6-6 10 0q4-4 6 1q2-5 6-1q4-6 10 0q-6 0-8 5q-4-3-8 1q-4-4-8-1q-2-5-8-5z%22 fill=%22rgba%28185,166,201,.18%29%22/%3E%3Cpath d=%22M110 84q4-4 7 0q3-3 4 1q1-4 4-1q3-4 7 0q-4 0-6 3q-3-2-5 1q-3-3-5-1q-1-3-6-3z%22 fill=%22rgba%28185,166,201,.14%29%22/%3E%3C/svg%3E"); background-size: 160px 120px; }
+  body[data-skin="halloween"] .stage { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="halloween"] .stage::after { content: ""; position: absolute; top: 14px; right: 18px; width: 54px; height: 54px; border-radius: 50%; z-index: -1; pointer-events: none;
+    background: radial-gradient(circle at 38% 38%, #FFF6D8, #F3D98C 70%); box-shadow: 0 0 30px 8px rgba(255,214,120,.25); animation: moonglow 4s ease-in-out infinite; }
+  @keyframes moonglow { 0%, 100% { box-shadow: 0 0 24px 6px rgba(255,214,120,.2); } 50% { box-shadow: 0 0 38px 12px rgba(255,214,120,.32); } }
+  body[data-skin="halloween"] .stage::before { content: ""; position: absolute; top: 0; left: 0; width: 120px; height: 120px; z-index: -1; pointer-events: none; opacity: .35;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Cg fill=%22none%22 stroke=%22%23E8D6C8%22 stroke-width=%221%22%3E%3Cpath d=%22M0 0L120 40M0 0L90 90M0 0L40 120%22/%3E%3Cpath d=%22M30 10Q26 26 10 30M60 20Q52 52 20 60M90 30Q78 78 30 90M110 37Q100 100 37 110%22/%3E%3C/g%3E%3C/svg%3E") no-repeat; }
+  body[data-skin="halloween"] .liquid { animation: pumpkin 3s ease-in-out infinite; }
+  @keyframes pumpkin { 0%, 100% { fill: #5A320C; } 50% { fill: #7A4410; } }
+  body[data-skin="halloween"] .glass, body[data-skin="halloween"] .rulerbody, body[data-skin="halloween"] .face, body[data-skin="halloween"] .dialtrack { filter: drop-shadow(0 0 5px rgba(255,138,31,.55)); }
+  .sw-halloween { background: radial-gradient(circle at 70% 30%, #F3D98C 0 18%, transparent 20%), #1F1830; }
+
+  body[data-skin="summer"] .wave, body[data-skin="lunar"] .wave, body[data-skin="easter"] .wave, body[data-skin="autumn"] .wave,
+  body[data-skin="rainy"] .wave, body[data-skin="footy"] .wave, body[data-skin="halloween"] .wave { animation: none; }
+  body.lowfx[data-skin="summer"] .stage::after, body.lowfx[data-skin="lunar"] .stage::after, body.lowfx[data-skin="autumn"] .stage::after,
+  body.lowfx[data-skin="rainy"] .stage::after, body.lowfx[data-skin="halloween"] .stage::after, body.lowfx[data-skin="halloween"] .liquid { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    body[data-skin="summer"] .stage::after, body[data-skin="lunar"] .stage::after, body[data-skin="autumn"] .stage::after,
+    body[data-skin="rainy"] .stage::after, body[data-skin="halloween"] .stage::after, body[data-skin="halloween"] .liquid { animation: none; }
+  }
+
+  /* A round close button in the top corner of every pop-up. It is drawn in the
+     reverse of the card's own colours, so it stands out on every colour set. */
+  .xclose { position: absolute; top: 10px; right: 10px; z-index: 6; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+    border: 2px solid var(--card); background: var(--ink); color: var(--card); font: 700 26px/1 Karla, sans-serif;
+    display: grid; place-items: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+  .xclose:hover { filter: brightness(1.15); }
+  .xclose:focus-visible { outline: 3px solid var(--water); outline-offset: 2px; }
+  .duel-card, .aa-card, .pf-card, .sp-card { position: relative; }
+  .duel-card > h2, .aa-card > h2, .pf-top { padding-right: 46px; }
+  #sp-close { display: none; }
+  .sp-head { padding-right: 62px; }
 </style>
 
 <!-- Fonts come from this website, not from Google, so nothing third-party can hold the page up. -->
@@ -3516,6 +3637,10 @@
     <rect width="16" height="16" fill="#FFFFFF"/><rect width="5" height="16" fill="#D2263F"/><rect x="8" width="2" height="16" fill="#2FA05A"/></pattern>
   <pattern id="sk-ink" width="40" height="12" patternUnits="userSpaceOnUse">
     <rect width="40" height="12" fill="#C9D7EC"/><path d="M0 11.5H40" stroke="#2B4C7E" stroke-width="1" opacity=".35"/></pattern>
+  <pattern id="sk-gold" width="18" height="18" patternUnits="userSpaceOnUse">
+    <rect width="18" height="18" fill="#F8D477"/><circle cx="9" cy="9" r="3.2" fill="none" stroke="#E0A100" stroke-width="1.2"/></pattern>
+  <pattern id="sk-egg" width="26" height="26" patternUnits="userSpaceOnUse">
+    <rect width="26" height="26" fill="#FFE08A"/><ellipse cx="7" cy="8" rx="3" ry="4" fill="#F9C6DB"/><ellipse cx="19" cy="19" rx="3" ry="4" fill="#BFE3F7"/><circle cx="20" cy="6" r="1.4" fill="#CDEFC2"/><circle cx="6" cy="20" r="1.4" fill="#C9B6EE"/></pattern>
 </defs></svg>
 <div class="bgfx" aria-hidden="true"><i class="l1"></i><i class="l2"></i><i class="l3"></i></div>
 <div class="wrap">
@@ -3720,6 +3845,7 @@
   <section class="shelfpanel" id="shelfpanel" hidden aria-hidden="true">
     <div class="sp-scrim" id="sp-scrim"></div>
     <div class="sp-card" role="dialog" aria-modal="true" aria-labelledby="sp-title">
+      <button type="button" class="xclose" data-x="sp-close" aria-label="Close">&times;</button>
       <div class="sp-head">
         <h2 id="sp-title">Your badges <span class="badge" id="sp-count">0</span></h2>
         <button class="action ghost small" type="button" id="sp-close">Close</button>
@@ -3740,7 +3866,7 @@
         <div class="skins" id="skins"></div>
         <p class="rules" style="margin-top:18px"><b>Badge colours.</b> The hardest to get. Each one comes with one of the toughest badges, and each changes the whole screen. Dragon Hoard is legendary: it needs Stretch 6 in every game.</p>
         <div class="skins" id="badgeskins"></div>
-        <p class="rules" style="margin-top:18px"><b>Seasonal colours.</b> Only here for part of the year. Party arrives for the whole class when you beat your teacher's class challenge.</p>
+        <p class="rules" style="margin-top:18px"><b>Seasonal colours.</b> Only here for part of the year, and some years two overlap. Party arrives for the whole class when you beat your teacher's class challenge.</p>
         <div class="skins" id="seasonskins"></div>
         </div>
         <div class="sppane" data-sp="backs" hidden>
@@ -3763,6 +3889,7 @@
   <section class="aapanel" id="aapanel" hidden>
     <div class="aa-scrim" id="aa-scrim"></div>
     <div class="aa-card" role="dialog" aria-modal="true" aria-labelledby="aa-title">
+      <button type="button" class="xclose" data-x="aa-close" aria-label="Close">&times;</button>
       <h2 id="aa-title">Reading and sound</h2>
       <div class="aa-row"><span>Text size</span><span class="aa-seg" data-aa="size">
         <button type="button" data-v="">Normal</button><button type="button" data-v="big">Big</button><button type="button" data-v="bigger">Bigger</button></span></div>
@@ -3791,6 +3918,7 @@
 
   <section class="duel" id="duel" hidden>
     <div class="duel-card" id="duel-setup" hidden>
+      <button type="button" class="xclose" data-x="duel-cancel" aria-label="Close">&times;</button>
       <!-- Whoever has duelled this child, at the top of the panel they open
            from the question. Nothing to scroll to and nothing to find. -->
       <div class="dw" id="duel-waiting" hidden>
@@ -3830,6 +3958,7 @@
     </div>
 
     <div class="duel-card" id="duel-swap" hidden>
+      <button type="button" class="xclose" data-x="duel-give2" aria-label="Close">&times;</button>
       <h2>Time</h2>
       <p class="rules" id="duel-swapline"></p>
       <div class="duel-do">
@@ -3839,6 +3968,7 @@
     </div>
 
     <div class="duel-card" id="duel-done" hidden>
+      <button type="button" class="xclose" data-x="duel-close" aria-label="Close">&times;</button>
       <h2>Result</h2>
       <div id="duel-said"></div>
       <div class="duel-do">
@@ -3886,7 +4016,7 @@
       </div>
     </details>
 
-    <p class="rules">Every correct answer is worth the same, whatever level you are on. Three right in a row doubles your points, five triples them, eight in a row is quadruple. One wrong answer sends the streak back to zero.</p>
+    <p class="rules">Every correct answer is worth the same, whatever level you are on. Three right in a row doubles your points, and six in a row triples them. One wrong answer sends the streak back to zero.</p>
     <div class="chalbox" id="chalbox" hidden></div>
     <div class="vsbox" id="vsbox" hidden></div>
     <div class="teams" id="teams" hidden></div>
@@ -5177,7 +5307,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "47";
+  var GAME_VERSION = "53";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -5938,19 +6068,18 @@
   function basePoints(lv) {
     return CONFIG.LEVEL_BONUS ? 5 + 5 * lv : CONFIG.POINTS;
   }
+  /* Gentler than it was. Up to five times the points let a few children run
+     away with the board (one class had three children holding 70% of its
+     points), so a streak now tops out at three times: still worth chasing, but
+     a child answering steadily on a lower level is not left behind. */
   function streakMultiplier(s) {
-    if (s >= 12) return 5;
-    if (s >= 8) return 4;
-    if (s >= 5) return 3;
+    if (s >= 6) return 3;
     if (s >= 3) return 2;
     return 1;
   }
   var TRY_SHARE = [1, 0.4, 0.2];
-  /* The streak bonus is capped by the level the question is on, so a long
-     streak on easy questions is worth less than the same streak on hard ones:
-     levels 1 and 2 can reach double points, 3 and 4 triple, 5 and 6 four
-     times, and level 7 and above the full five times. */
-  function multCap(lv) { lv = lv | 0; return lv <= 2 ? 2 : lv <= 4 ? 3 : lv <= 6 ? 4 : 5; }
+  /* Levels 1 and 2 can reach double points; level 3 and above triple. */
+  function multCap(lv) { lv = lv | 0; return lv <= 2 ? 2 : 3; }
 
   /* ================================================ questions
      A reading is a position along the scale, measured in gaps from the
@@ -9067,30 +9196,30 @@
 
   /* A first target for the class challenge: about 300 points a child who has
      played this week, rounded to a tidy number. The teacher can type anything. */
-  function suggestTarget(list) {
-    var n = 0, wk = state.weekOf || "";
-    for (var i = 0; i < list.length; i++) if (list[i].weekOf === wk || (list[i].weekScore | 0) > 0) n++;
-    return Math.max(1000, Math.round(Math.max(n, 10) * 300 / 500) * 500);
-  }
+  /* A first suggestion: about two thirds of the class. */
+  function suggestNeed(list) { return Math.max(1, Math.round(list.length * 2 / 3)); }
 
   /* ---- the class challenge on the board ---- */
   function drawChalBox() {
     var box = document.getElementById("chalbox");
     if (!box) return;
     var c = shared.on ? shared.chal : null;
-    if (!c || (!c.target && !c.party)) { box.hidden = true; return; }
+    if (!c || (!c.need && !c.party)) { box.hidden = true; return; }
     box.hidden = false;
     box.className = "chalbox" + (c.met ? " met" : "");
-    if (!c.target) {
+    if (!c.need) {
       box.innerHTML = "<h3>Class challenge</h3><p>Party colours are on for your class this week. Well done, everyone.</p>";
       return;
     }
-    var pct = Math.max(0, Math.min(100, Math.round(c.now / c.target * 100)));
-    box.innerHTML = "<h3><span>Class challenge</span><small>" + fmtNum(c.now) + " of " + fmtNum(c.target) + " points this week</small></h3>" +
-      '<div class="chalbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '"><i style="width:' + pct + '%"></i></div>' +
+    var over = Math.min(c.over | 0, c.need), pct = Math.round(over / c.need * 100);
+    var mine = state.weekScore | 0, left = c.need - (c.over | 0);
+    var me = !state.name || TEACHER ? ""
+           : mine >= c.line ? " You are over the line."
+           : " You have " + fmtNum(mine) + ", so " + fmtNum(c.line - mine) + " more to go.";
+    box.innerHTML = "<h3><span>Class challenge: " + c.need + " of you reach " + fmtNum(c.line) + " points this week</span><small>" + (c.over | 0) + " of " + c.need + " so far</small></h3>" +
+      '<div class="chalbar" role="progressbar" aria-valuemin="0" aria-valuemax="' + c.need + '" aria-valuenow="' + over + '"><i style="width:' + pct + '%"></i></div>' +
       "<p>" + (c.met ? "Done! The Party colours are open for your class this week and next. Find them in Colours."
-               : c.party ? "You beat last week's challenge, so Party colours are on. " + fmtNum(c.target - c.now) + " points to go this week."
-               : fmtNum(c.target - c.now) + " points to go. Every point anyone scores this week counts.") + "</p>";
+               : (c.party ? "Party colours are on from last week. " : "") + left + (left === 1 ? " more person needs" : " more people need") + " to get over the line." + me) + "</p>";
   }
 
   /* The first time this iPad sees the challenge beaten, everyone hears about it. */
@@ -9147,7 +9276,7 @@
     var nameCls = s >= 150 ? " namerainbow" : s >= 100 ? " namegold" : s >= 50 ? " namesilver" : "";
     var duels = (row.wins | 0) + (row.losses | 0) + (row.draws | 0);
     var canReset = TEACHER && shared.on && classState.pins && !isTeacherName(row.name);
-    var html =
+    var html = '<button type="button" class="xclose" data-x="pf-close" aria-label="Close">&times;</button>' +
       '<div class="pf-top">' + avatarArt(row.avatar, "avi pf-avi") +
         '<div><h2 id="pf-name"><span class="nmtext' + nameCls + '">' + esc(row.name) + "</span></h2>" +
         "<p>" + esc(titleFor(levels)) + (row.team ? " · " + esc(row.team) : "") + "</p></div></div>" +
@@ -9205,6 +9334,7 @@
   window.__profile = openProfile;
   window.__activeSeason = activeSeason;
   window.__seasonByDate = seasonByDate;
+  window.__seasonsByDate = function (y, m, d) { return seasonsByDate(new Date(y, m - 1, d)); };
   window.__shared3 = function () { return { vs: shared.vs, chal: shared.chal, cs: classState, pin: state.pin }; };
 
 
@@ -9371,6 +9501,15 @@
   window.__aa = function () { return aa; };
   window.__report = function (n) { var l = boardRows().filter(function (r) { return r.name === n; }); return l.length ? reportPage(l[0]) : ""; };
 
+
+  /* Every corner X presses the pop-up's own close button, so closing does
+     exactly what it always did. */
+  document.addEventListener("click", function (e) {
+    var x = e.target.closest ? e.target.closest(".xclose") : null;
+    if (!x) return;
+    var t = document.getElementById(x.getAttribute("data-x"));
+    if (t) t.click();
+  });
   /* ================================================ teacher progress view */
   var progressOpen = false;
 
@@ -9409,16 +9548,17 @@
             ? 'The class is paused. <button type="button" class="linky" id="tc-pause" data-on="0">Unpause</button>'
             : 'Freeze every iPad on an "Eyes on ' + esc(TEACHER_NAME || "me") + '" screen. <button type="button" class="linky" id="tc-pause" data-on="1">Pause the class</button>') +
           ' <span class="tc-note">Takes up to 20 seconds to reach every iPad.</span></div>' +
-          '<div><b>Class challenge.</b> ' + (shared.chal && shared.chal.target
-            ? "This week: " + fmtNum(shared.chal.now) + " of " + fmtNum(shared.chal.target) + " points. "
-            : "A points target the whole class works towards this week. Beat it and the class gets the Party colours for this week and next. ") +
-            '<input class="tc-num" id="tc-target" type="number" min="0" step="100" inputmode="numeric" value="' + ((shared.chal && shared.chal.target) || suggestTarget(list)) + '"> ' +
-            '<button type="button" class="linky" id="tc-chal">' + (shared.chal && shared.chal.target ? "Change it" : "Set the challenge") + "</button>" +
-            (shared.chal && shared.chal.target ? ' <button type="button" class="linky" id="tc-chaloff">Turn it off</button>' : "") + "</div>" +
+          '<div><b>Class challenge.</b> ' + (shared.chal && shared.chal.need
+            ? "This week: " + (shared.chal.over | 0) + " of " + shared.chal.need + " children are over " + fmtNum(shared.chal.line) + " points. "
+            : "How many children have to reach a points line this week. Do it and the class gets the Party colours for this week and next. ") +
+            '<input class="tc-num" id="tc-need" type="number" min="1" step="1" inputmode="numeric" aria-label="How many children" value="' + ((shared.chal && shared.chal.need) || suggestNeed(list)) + '"> children reach ' +
+            '<input class="tc-num" id="tc-line" type="number" min="100" step="500" inputmode="numeric" aria-label="Points each" value="' + ((shared.chal && shared.chal.line) || 5000) + '"> points. ' +
+            '<button type="button" class="linky" id="tc-chal">' + (shared.chal && shared.chal.need ? "Change it" : "Set the challenge") + "</button>" +
+            (shared.chal && shared.chal.need ? ' <button type="button" class="linky" id="tc-chaloff">Turn it off</button>' : "") + "</div>" +
           '<div><b>Seasonal colours.</b> <select id="tc-season">' +
-            [["auto", "By the date"], ["festive", "Festive now"], ["bookweek", "Book Week now"], ["spring", "Spring Bloom now"], ["none", "None"]].map(function (o) {
+            [["auto", "By the date"]].concat(SKINS.filter(function (s) { return s.season; }).map(function (s) { return [s.id, s.name + " now too"]; }), [["none", "None at all"]]).map(function (o) {
               return '<option value="' + o[0] + '"' + (classState.season === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") +
-            '</select> <span class="tc-note">' + (activeSeason() ? "On now: " + esc((skinById(activeSeason()) || {}).name || "") + "." : "None on now.") + "</span></div>" +
+            '</select> <span class="tc-note">' + (activeSeasons().length ? "On now: " + esc(activeSeasons().map(function (id) { return (skinById(id) || {}).name || id; }).join(", ")) + "." : "None on now.") + "</span></div>" +
           '<div><b>PINs.</b> ' + (classState.pins
             ? 'Each child signs in with their own 4 digit PIN. To reset one, tap the child on the board. <button type="button" class="linky" id="tc-pins" data-on="0">Turn PINs off</button>'
             : 'Off. Anyone can type any name. <button type="button" class="linky" id="tc-pins" data-on="1">Turn PINs on</button>') + "</div>" +
@@ -9450,15 +9590,16 @@
     if (tsb) tsb.addEventListener("click", function () { setTeacherShown(!teacherShown); });
     var tch = document.getElementById("tc-chal");
     if (tch) tch.addEventListener("click", function () {
-      var v = Math.max(0, Math.round(Number(document.getElementById("tc-target").value) || 0));
+      var need = Math.max(0, Math.round(Number(document.getElementById("tc-need").value) || 0));
+      var line = Math.max(0, Math.round(Number(document.getElementById("tc-line").value) || 0));
       tch.disabled = true;
-      teacherClassAction({ action: "challenge", target: v }).then(function () { return pullShared(true); })
+      teacherClassAction({ action: "challenge", need: need, line: line }).then(function () { return pullShared(true); })
         .then(function () { drawBoard(); }, function () { tch.disabled = false; });
     });
     var tco = document.getElementById("tc-chaloff");
     if (tco) tco.addEventListener("click", function () {
       tco.disabled = true;
-      teacherClassAction({ action: "challenge", target: 0 }).then(function () { return pullShared(true); })
+      teacherClassAction({ action: "challenge", need: 0, line: 0 }).then(function () { return pullShared(true); })
         .then(function () { drawBoard(); }, function () { tco.disabled = false; });
     });
     var tse = document.getElementById("tc-season");
@@ -10402,27 +10543,62 @@
     { id: "festive",  name: "Festive",      season: "festive",  how: "1 Dec to 31 Jan" },
     { id: "bookweek", name: "Book Week",    season: "bookweek", how: "15 Aug to 5 Sep" },
     { id: "spring",   name: "Spring Bloom", season: "spring",   how: "20 Sep to 31 Oct" },
+    { id: "summer",   name: "Summer Beach", season: "summer",   how: "1 Feb to 15 Mar" },
+    { id: "lunar",    name: "Lunar New Year", season: "lunar",  how: "Around Lunar New Year" },
+    { id: "easter",   name: "Easter",       season: "easter",   how: "Two weeks round Easter" },
+    { id: "autumn",   name: "Autumn Leaves", season: "autumn",  how: "15 Apr to 31 May" },
+    { id: "rainy",    name: "Rainy Day",    season: "rainy",    how: "1 Jun to 31 Jul" },
+    { id: "footy",    name: "Footy Finals", season: "footy",    how: "25 Aug to 30 Sep" },
+    { id: "halloween", name: "Halloween",   season: "halloween", how: "20 Oct to 31 Oct" },
     { id: "party",    name: "Party",        party: true,        how: "Beat a class challenge" }
   ];
 
   /* Which season it is. The teacher can force one on, or turn them off, from
      the teacher panel; otherwise it goes by the date on this iPad. */
-  function seasonByDate(d) {
+  /* Easter Sunday for a year (the usual Gregorian reckoning). */
+  function easterSunday(y) {
+    var a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4,
+        f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30,
+        i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+    var month = Math.floor((h + l - 7 * m + 114) / 31), day = ((h + l - 7 * m + 114) % 31) + 1;
+    return new Date(y, month - 1, day);
+  }
+  /* Lunar New Year moves about; these are the dates for the years ahead. */
+  var LUNAR_NY = { 2026: [2, 17], 2027: [2, 6], 2028: [1, 26], 2029: [2, 13], 2030: [2, 3], 2031: [1, 23], 2032: [2, 11], 2033: [1, 31], 2034: [2, 19], 2035: [2, 8] };
+  function daysFrom(d, other) { return Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - other) / 86400000); }
+  /* Every season on today, by the date. More than one can be on at once. */
+  function seasonsByDate(d) {
     d = d || new Date();
-    var m = d.getMonth() + 1, day = d.getDate(), md = m * 100 + day;
-    if (m === 12 || m === 1) return "festive";
-    if (md >= 815 && md <= 905) return "bookweek";
-    if (md >= 920 && md <= 1031) return "spring";
-    return "";
+    var m = d.getMonth() + 1, day = d.getDate(), md = m * 100 + day, y = d.getFullYear(), out = [];
+    if (m === 12 || m === 1) out.push("festive");
+    if (md >= 201 && md <= 315) out.push("summer");
+    var ln = LUNAR_NY[y];
+    if (ln) { var lg = daysFrom(d, new Date(y, ln[0] - 1, ln[1])); if (lg >= -7 && lg <= 14) out.push("lunar"); }
+    var eg = daysFrom(d, easterSunday(y));
+    if (eg >= -14 && eg <= 7) out.push("easter");
+    if (md >= 415 && md <= 531) out.push("autumn");
+    if (md >= 601 && md <= 731) out.push("rainy");
+    if (md >= 815 && md <= 905) out.push("bookweek");
+    if (md >= 825 && md <= 930) out.push("footy");
+    if (md >= 920 && md <= 1031) out.push("spring");
+    if (md >= 1020 && md <= 1031) out.push("halloween");
+    return out;
   }
-  function activeSeason() {
+  function seasonByDate(d) { return seasonsByDate(d)[0] || ""; }
+  /* By the date, plus whichever one the teacher has switched on early. "None"
+     turns them all off. */
+  function activeSeasons() {
     var o = classState && classState.season;
-    if (o && o !== "auto") return o === "none" ? "" : o;
-    return seasonByDate();
+    if (o === "none") return [];
+    var list = seasonsByDate();
+    if (o && o !== "auto" && list.indexOf(o) < 0) list.push(o);
+    return list;
   }
+  function activeSeason() { return activeSeasons()[0] || ""; }
+  function seasonOn(id) { return activeSeasons().indexOf(id) > -1; }
   function partyOn() { return !!(shared.chal && shared.chal.party); }
   function skinEarned(skin) {
-    if (skin.season) return activeSeason() === skin.season;
+    if (skin.season) return seasonOn(skin.season);
     if (skin.party) return partyOn();
     if (skin.need) return hasBadge(skin.need);
     if (skin.jars) return classProgress().filled >= skin.jars;
@@ -10450,7 +10626,7 @@
      show them the one they already have. */
   function skinUnlocked(skin) {
     if (TEACHER) return true;
-    if (skin.season) return activeSeason() === skin.season;
+    if (skin.season) return seasonOn(skin.season);
     if (skin.party) return partyOn();
     if (skin.need) return hasBadge(skin.need);
     if (skin.jars) return classProgress().filled >= skin.jars;
