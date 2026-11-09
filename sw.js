@@ -7,20 +7,29 @@
   fails. Fonts and icons come from the saved copy. Requests to the Google
   sheet are never touched: scores always go straight to the sheet.
 
-  Change the version below whenever index.html changes, so iPads drop the old copy.
+  The page and config.js update on their own. Change the version below whenever
+  anything else changes (fonts, icons, fonts.css, the manifest), and it does no
+  harm to change it with every release.
 */
-var CACHE = "measuring-lab-v53";
+var CACHE = "measuring-lab-v58";
+var CORE = ["./", "index.html", "config.js"];   // without these the update is not taken
 var FILES = [
-  "./", "index.html", "config.js", "manifest.webmanifest",
+  "manifest.webmanifest",
   "icon-192.png", "icon-512.png", "apple-touch-icon.png",
   "fonts.css", "karla-latin-400-normal.woff2", "karla-latin-600-normal.woff2",
   "karla-latin-700-normal.woff2", "fraunces-latin-opsz-normal.woff2"
 ];
 
 self.addEventListener("install", function (e) {
-  // Each file is saved on its own, so one missing file never stops the update.
+  // The page itself must arrive, or the old version stays in charge and this
+  // install is tried again later. Fonts and icons are saved one by one, so one
+  // missing file never stops the update. "reload" skips the browser's own cache,
+  // which could otherwise hand back the file this update is replacing.
+  var fresh = function (f) { return new Request(f, { cache: "reload" }); };
   e.waitUntil(caches.open(CACHE).then(function (c) {
-    return Promise.all(FILES.map(function (f) { return c.add(f).catch(function () { /* skip it */ }); }));
+    return c.addAll(CORE.map(fresh)).then(function () {
+      return Promise.all(FILES.map(function (f) { return c.add(fresh(f)).catch(function () { /* skip it */ }); }));
+    });
   }).then(function () { return self.skipWaiting(); }));
 });
 
@@ -41,11 +50,16 @@ self.addEventListener("fetch", function (e) {
     // Try the network for up to 4 seconds, then fall back to the saved copy.
     e.respondWith(new Promise(function (resolve) {
       var done = false;
-      var fallback = function () {
+      // failed: the network has already given up, so with nothing saved the
+      // request ends with an error rather than waiting for ever
+      var fallback = function (failed) {
         if (done) return;
         caches.match(req, { ignoreSearch: true }).then(function (hit) {
-          if (hit && !done) { done = true; resolve(hit); }
-          else if (!hit && req.mode === "navigate") caches.match("index.html").then(function (h) { if (h && !done) { done = true; resolve(h); } });
+          return hit || (req.mode === "navigate" ? caches.match("index.html") : null);
+        }).then(function (hit) {
+          if (done || (!hit && !failed)) return;
+          done = true;
+          resolve(hit || Response.error());
         });
       };
       var timer = setTimeout(fallback, 4000);
@@ -56,7 +70,7 @@ self.addEventListener("fetch", function (e) {
           caches.open(CACHE).then(function (c) { c.put(req, copy); });
         }
         if (!done) { done = true; resolve(res); }
-      }).catch(function () { clearTimeout(timer); fallback(); });
+      }).catch(function () { clearTimeout(timer); fallback(true); });
     }));
     return;
   }

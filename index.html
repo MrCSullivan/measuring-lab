@@ -302,6 +302,29 @@
     body[data-skin="rainy"] .stage::after, body[data-skin="halloween"] .stage::after, body[data-skin="halloween"] .liquid { animation: none; }
   }
 
+  /* ================================================= English (v49) */
+  .subjects[hidden] { display: none !important; }
+  .subjects { display: flex; gap: 6px; margin: 0 0 10px; padding: 4px; background: var(--card-sunk); border: 1px solid var(--edge); border-radius: 14px; width: max-content; max-width: 100%; }
+  .subject { font: 800 16px/1 Karla, sans-serif; padding: 10px 22px; min-height: 44px; border-radius: 10px; border: 0; background: transparent; color: var(--ink-soft); cursor: pointer; }
+  .subject[aria-pressed="true"] { background: var(--water); color: #fff; }
+  body[data-skin="circuit"] .subject[aria-pressed="true"], body[data-skin="party"] .subject[aria-pressed="true"], body[data-skin="halloween"] .subject[aria-pressed="true"] { color: #111; }
+  .subject:disabled { opacity: .45; cursor: not-allowed; }
+  .bench.eng { display: block; width: 100%; }
+  body.english nav.measures { display: none !important; }
+  body.english #prompt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .engask { margin: 0; font: 700 24px/1.25 Fraunces, Georgia, serif; color: var(--ink); text-align: center; }
+  .engcard { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 640px; margin: 0 auto; }
+  .engtext { background: var(--card-sunk); border: 1px solid var(--edge); border-radius: 12px; padding: 14px 16px; font: 500 18px/1.6 Karla, sans-serif; color: var(--ink); }
+  .engsent { font: 600 22px/1.5 Karla, sans-serif; margin: 0; color: var(--ink); text-align: center; }
+  .enggap { display: inline-block; min-width: 3.4em; border-bottom: 3px solid var(--water); text-align: center; color: var(--water-deep); }
+  .engfill { color: #1F7A4C; border-bottom: 3px solid #3BA272; }
+  .engsay { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .engopts { gap: 10px; }
+  .engopts .lifeopt { font-size: 21px; min-width: 140px; }
+  .engopts.long { flex-direction: column; align-items: stretch; }
+  .engopts.long .lifeopt { text-align: left; font: 600 18px/1.4 Karla, sans-serif; padding: 14px 16px; }
+  body.rs-easy .engopts .lifeopt, body.rs-easy .engtext, body.rs-easy .engsent { font-family: Verdana, Tahoma, sans-serif !important; }
+
   /* A round close button in the top corner of every pop-up. It is drawn in the
      reverse of the card's own colours, so it stands out on every colour set. */
   .xclose { position: absolute; top: 10px; right: 10px; z-index: 6; width: 40px; height: 40px; padding: 0; border-radius: 50%;
@@ -446,6 +469,11 @@
     background: none;
     border: 0;
     padding: 0 0 1px;
+    /* Small text, but a finger-sized place to tap. */
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 0;
     font: inherit;
     font-size: 14px;
     color: var(--water);
@@ -1966,7 +1994,6 @@
   body[data-skin="neon"] button.action:not(.ghost) { color: #07060F; }
   body[data-skin="galaxy"] button.action:not(.ghost) { color: #05060F; }
   body[data-skin="blueprint"] button.action:not(.ghost) { color: #0A2342; }
-  body[data-skin="oceandeep"] button.action:not(.ghost) { color: #031A1F; }
   body[data-skin="chalk"] button.action:not(.ghost) { color: #1B2621; }
   body[data-skin="circuit"] button.action:not(.ghost) { color: #050A06; }
   body[data-skin="borealis"] button.action:not(.ghost) { color: #04141A; }
@@ -3661,6 +3688,11 @@
     </div>
   </header>
 
+  <nav class="subjects" aria-label="Choose a subject" hidden>
+    <button class="subject" type="button" data-subject="maths" aria-pressed="true">Maths</button>
+    <button class="subject" type="button" data-subject="english" aria-pressed="false">English</button>
+  </nav>
+
   <nav class="measures" aria-label="Choose what to measure">
     <button class="measure" data-measure="capacity" aria-pressed="true">Capacity<small>jugs · mL and L</small></button>
     <button class="measure" data-measure="mass" aria-pressed="false">Mass<small>scales · g and kg</small></button>
@@ -4955,6 +4987,19 @@
      the levels climb: millilitres give way to litres, grams to kilograms,
      centimetres to millimetres and metres. */
   var MEASURES = {
+    /* English: a subject, not a measure, but it lives in the same table so
+       levels, points and the sheet treat it the same way. Its five games use
+       the five maths slots. */
+    english: {
+      label: "English", short: "words", shape: "eng", layout: "wide", thing: "word", things: "words",
+      games: {
+        step:  { label: "Spelling",    blurb: "Which way is it spelt?" },
+        read:  { label: "Punctuation", blurb: "Capitals, commas, apostrophes." },
+        add:   { label: "Vocabulary",  blurb: "What does the word mean?" },
+        about: { label: "Reading",     blurb: "Read it, then answer." },
+        set:   { label: "Right word",  blurb: "Which word fits the gap?" }
+      }
+    },
     capacity: {
       label: "Capacity", short: "jugs", shape: "jug", layout: "side",
       thing: "jug", things: "jugs",
@@ -5241,8 +5286,9 @@
      lists are the original ladders, which every badge is still counted on. */
   var CORE_MEASURES = ["capacity", "mass", "length", "number", "temperature"];
   var CORE_GAMES = ["step", "read", "add", "about", "set"];
-  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time"];
-  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number"];
+  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time", "english"];
+  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "english"];
+  var MATHS_ORDER = ["capacity", "mass", "length", "temperature", "time", "number"];
   var GAME_KEYS = ["step", "read", "add", "about", "set", "convert", "life"];
 
   /* How many ladders there are altogether. Titles and several badges are
@@ -5307,7 +5353,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "53";
+  var GAME_VERSION = "58";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -6225,6 +6271,7 @@
     updateChrome();
     drawWarm();
     if (state.q.kind === "life") setVerdict("Tap the one that makes sense.", "");
+    else if (state.q.kind === "eng") setVerdict(state.q.textAns ? "Type the word, then press Check." : "Tap your answer.", "");
     else if (state.q.timeAns && /^Type your answer/.test(verdict.textContent)) setVerdict("Type the time, like " + (state.q.h24 ? "15:45" : "3:45") + ", then press Check.", "");
     if (state.q.mode === "set" && /^Type your answer/.test(verdict.textContent)) {
       setVerdict("Set it, then press Check.", "");
@@ -6235,6 +6282,7 @@
   }
 
   function buildQuestion() {
+    if (state.measure === "english" && !englishOn()) { state.measure = "capacity"; if (!gameAvailable("capacity", state.mode)) state.mode = "read"; }
     if (warm.pending) planWarm();
     if (!gameAvailable(questionMeasure(), state.mode)) {
       state.mode = "read";
@@ -6243,7 +6291,8 @@
     var m = questionMeasure();
     var lv = level(m, state.mode);
     if (isCustom(m, state.mode)) {
-      state.q = m === "time" && CORE_GAMES.indexOf(state.mode) > -1 ? makeTimeQuestion(state.mode, lv)
+      state.q = m === "english" && englishOn() ? makeEnglishQuestion(state.mode, lv)
+              : m === "time" && CORE_GAMES.indexOf(state.mode) > -1 ? makeTimeQuestion(state.mode, lv)
               : state.mode === "convert" ? makeConvertQuestion(m, lv) : makeLifeQuestion(m, lv);
       state.tries = 0;
       state.answered = false;
@@ -6641,23 +6690,49 @@
     redrawSetter();
   }
 
+  /* Two labels side by side on the same line can land on top of each other,
+     for example the "?" under the arrow right next to "100 cm" at the end of a
+     ruler. When that happens one of them goes: a "?" first (the arrow already
+     marks the spot), otherwise whichever is not an end of the scale. */
+  function declutterLabels() {
+    /* Measured on the page. The page has to lay itself out to be drawn anyway,
+       so asking where the labels landed costs no more than drawing them. */
+    var t = bench.querySelectorAll("svg text.lab");
+    if (t.length < 2) return;
+    var box = [];
+    for (var i = 0; i < t.length; i++) { var r = t[i].getBoundingClientRect(); if (r.width) box.push({ el: t[i], r: r, i: i }); }
+    for (var a = 0; a < box.length; a++) for (var b = a + 1; b < box.length; b++) {
+      var A = box[a], B = box[b];
+      if (A.el.style.display === "none" || B.el.style.display === "none") continue;
+      if (Math.abs(A.r.top - B.r.top) > 3 || Math.min(A.r.right, B.r.right) - Math.max(A.r.left, B.r.left) <= 1) continue;
+      var aq = A.el.textContent.trim() === "?", bq = B.el.textContent.trim() === "?";
+      var drop = aq && !bq ? A : bq && !aq ? B : (A.i === 0 || A.i === t.length - 1) ? B : A;
+      drop.el.style.display = "none";
+    }
+  }
+
   function render(reveal) {
     var q = state.q;
     if (q && q.kind) { renderCustom(q, reveal); return; }
     input.placeholder = "?";
     checkBtn.hidden = false;
     renderInner(reveal);
+    declutterLabels();
     if (q && q.obj) {
       promptEl.textContent = q.obj.ask;
       bench.insertAdjacentHTML("beforeend", '<span class="objtag" aria-hidden="true">' + q.obj.e + "</span>");
     }
   }
   function renderCustom(q, reveal) {
-    stage.className = "stage" + (q.kind === "convert" && q.picture ? " wide" : "");
-    checkBtn.hidden = q.kind === "life" && !state.answered;
+    var picks = q.kind === "life" || (q.kind === "eng" && !q.textAns);
+    stage.className = "stage" + ((q.kind === "convert" && q.picture) || q.kind === "eng" ? " wide" : "");
+    checkBtn.hidden = picks && !state.answered;
     bench.dataset.shape = q.kind === "time" ? "clock" : q.kind;
     bench.className = "bench custom " + q.kind + (q.mode === "set" && q.kind === "time" ? " setting" : "");
-    input.hidden = (q.kind === "time" && q.mode === "set") || q.kind === "life";
+    input.hidden = (q.kind === "time" && q.mode === "set") || picks;
+    /* A typed word wants the letter keyboard; every other answer is a number. */
+    input.setAttribute("inputmode", q.textAns ? "text" : "decimal");
+    input.setAttribute("autocapitalize", q.textAns ? "off" : "none");
     bench.innerHTML = drawCustom(q, reveal);
     promptEl.textContent = q.ask;
     scaleEl.innerHTML = reveal ? customFact(q) : customSentence(q);
@@ -6665,7 +6740,12 @@
     unit.textContent = q.unitText || "";
     unit.hidden = !q.unitText;
     input.placeholder = q.placeholder || "?";
-    if (q.kind === "life" && !reveal) {
+    if (q.textAns && !reveal) {
+      bench.querySelectorAll("[data-say]").forEach(function (b) {
+        b.addEventListener("click", function () { speak(b.getAttribute("data-say") === "word" ? q.word : q.sentence.replace("___", q.word)); input.focus(); });
+      });
+    }
+    if (picks && !reveal) {
       bench.querySelectorAll(".lifeopt").forEach(function (b) {
         b.addEventListener("click", function () {
           if (state.answered) return;
@@ -6678,6 +6758,7 @@
   }
   function renderInner(reveal) {
     var q = state.q, M = MEASURES[q.measure], html = "";
+    if (!q.kind) input.setAttribute("inputmode", "decimal");
 
     stage.className = "stage" + (M.layout === "wide" ? " wide" : "");
     bench.dataset.shape = M.shape;
@@ -6837,6 +6918,7 @@
      tries, points, streaks, badges, the sheet) treats them like any other.
      Badges keep counting only the original ladders, so none got harder. */
   function gameAvailable(m, g) {
+    if (m === "english") return CORE_GAMES.indexOf(g) > -1;
     if (CORE_GAMES.indexOf(g) > -1) return true;
     if (g === "convert") return m === "capacity" || m === "mass" || m === "length" || m === "time";
     if (g === "life") return m !== "number";
@@ -6949,6 +7031,23 @@
       q.sig = "tr" + h + ":" + m + lv;
       return q;
     }
+    if (game === "step" && lv > MAX_LEVEL) {
+      /* Stretch: read the clock, then work out how long until another time.
+         S1-S2 the next quarter mark, S3-S4 any time up to 2 hours away,
+         S5-S6 a 24-hour time up to 3 hours away. */
+      var pmS = lv >= 13;
+      if (pmS) h = pickOne([12, 1, 2, 3, 4, 5, 6, 7, 8]);
+      m = rint(1, 59);
+      var gap = lv <= 10 ? Math.ceil((m + 5) / 15) * 15 - m : lv <= 12 ? rint(15, 120) : rint(30, 180);
+      var nowM = (h % 12) * 60 + m, tgt = nowM + gap, th = Math.floor(tgt / 60) % 12 || 12, tm = tgt % 60;
+      q.h = h; q.m = m; q.until = true; q.answer = gap; q.th = th; q.tm = tm; q.unitText = "min";
+      if (lv <= 10) q.targetText = tm === 0 ? NUM_WORDS[th] + " o'clock" : tm === 30 ? "half past " + NUM_WORDS[th] : tm === 15 ? "quarter past " + NUM_WORDS[th] : "quarter to " + NUM_WORDS[th % 12 + 1];
+      else if (!pmS) q.targetText = clockText(th, tm);
+      else { var t24 = (h === 12 ? 12 * 60 : (h + 12) * 60) + m + gap; q.targetText = two(Math.floor(t24 / 60)) + ":" + two(t24 % 60); q.nowText = two(h === 12 ? 12 : h + 12) + ":" + two(m); }
+      q.ask = (pmS ? "It is the afternoon. " : "") + "How many minutes until " + q.targetText + "?";
+      q.sig = "tu" + h + ":" + m + "+" + gap;
+      return q;
+    }
     if (game === "step") {
       var to = lv >= 6 && (lv <= 8 ? true : Math.random() < 0.5);
       m = lv === 1 ? pickOne([15, 30, 45]) : (lv <= 3 || lv === 6) ? 5 * rint(1, 11) : rint(1, 59);
@@ -6973,10 +7072,15 @@
       q.ah = Math.floor(start / 60) % 12 || 12; q.am = start % 60; q.bh = Math.floor(end / 60) % 12 || 12; q.bm = end % 60;
       q.answer = d; q.unitText = "min";
       if (lv > MAX_LEVEL) {
-        var s24 = rint(7, 15) * 60 + rint(0, 59), d2 = rint(25, 300);
-        q.digital = true; q.from24 = two(Math.floor(s24 / 60)) + ":" + two(s24 % 60); q.to24 = two(Math.floor((s24 + d2) / 60) % 24) + ":" + two((s24 + d2) % 60);
-        q.answer = d2;
-        q.ask = "It started at " + q.from24 + " and finished at " + q.to24 + ". How many minutes did it take?";
+        /* S1-S2 up to 3 hours, S3-S4 up to 6 hours, S5-S6 overnight. */
+        var s24, d2;
+        if (lv <= 10) { s24 = rint(7, 15) * 60 + rint(0, 59); d2 = rint(25, 180); }
+        else if (lv <= 12) { s24 = rint(6, 16) * 60 + rint(0, 59); d2 = rint(60, 360); }
+        else { s24 = rint(19, 23) * 60 + rint(0, 59); d2 = rint(90, 540); }
+        var e24 = s24 + d2, nextDay = e24 >= 1440;
+        q.digital = true; q.from24 = two(Math.floor(s24 / 60)) + ":" + two(s24 % 60); q.to24 = two(Math.floor(e24 / 60) % 24) + ":" + two(e24 % 60);
+        q.answer = d2; q.nextDay = nextDay;
+        q.ask = "It started at " + q.from24 + " and finished at " + q.to24 + (nextDay ? " the next morning" : "") + ". How many minutes did it take?";
       } else {
         q.ask = "How many minutes from the first clock to the second?";
       }
@@ -6984,7 +7088,9 @@
       return q;
     }
     if (game === "about") {
-      var quarter = lv >= 5 && lv <= 8;
+      var quarter = lv >= 5;
+      var partA = lv > MAX_LEVEL ? pickOne(PARTS) : null;
+      if (partA) { h = partA[0] === "the afternoon" ? pickOne([12, 1, 2, 3, 4]) : rint(1, 10); if (partA[0] === "the evening" && h < 5) h += 5; }
       do { m = rint(0, 59); } while (m % 5 === 0 || (quarter && (m % 15 === 0)));
       q.h = h; q.m = m; q.quarter = quarter;
       var unit = quarter ? 15 : 5, r = Math.round(m / unit) * unit, rh = h;
@@ -6992,10 +7098,35 @@
       q.rh = rh; q.rm = r;
       q.answer = (rh % 12) * 60 + r; q.timeAns = true; q.placeholder = "3:45";
       q.ask = quarter ? "What is the time to the nearest quarter of an hour?" : "What is the time to the nearest 5 minutes?";
+      if (partA) {
+        /* Stretch: round to the quarter hour, then give it in 24-hour time. */
+        var rh24 = partA[1] === 0 ? rh % 12 : (rh % 12) + 12;
+        q.h24 = true; q.answer = rh24 * 60 + r; q.shown24 = two(rh24) + ":" + two(r); q.placeholder = "15:45";
+        q.ask = "It is " + partA[0] + ". What is the time to the nearest quarter of an hour, in 24-hour time?";
+      }
       q.sig = "tb" + h + ":" + m;
       return q;
     }
     /* set the clock: the hour is given, the child moves the minute hand */
+    if (lv > MAX_LEVEL) {
+      /* Stretch: work out a time some minutes later, then set it. */
+      var sm, dl, pmT = lv >= 13;
+      if (pmT) h = pickOne([12, 1, 2, 3, 4, 5, 6, 7, 8]);
+      if (lv <= 10) { sm = 5 * rint(0, 11); dl = 5 * rint(3, 11); }
+      else if (lv <= 12) { sm = rint(0, 59); dl = rint(10, 90); }
+      else { sm = rint(0, 59); dl = rint(20, 150); }
+      var st = (h % 12) * 60 + sm, en = st + dl, eh = Math.floor(en / 60) % 12 || 12, em = en % 60;
+      var base24 = h === 12 ? 12 : h + 12;
+      q.snap = lv <= 10 ? 5 : 1;
+      q.h = eh; q.m = em; q.answer = em; q.later = dl;
+      q.fromText = pmT ? two(base24) + ":" + two(sm) : clockText(h, sm);
+      q.endText = pmT ? two(Math.floor((base24 * 60 + sm + dl) / 60)) + ":" + two(em) : clockText(eh, em);
+      q.ask = "It is " + q.fromText + ". Set the clock to " + dl + " minutes later.";
+      q.sig = "tl" + h + ":" + sm + "+" + dl;
+      var sa = (em + 20 + q.snap * rint(0, 3)) % 60;
+      state.setAt = sa - sa % q.snap;
+      return q;
+    }
     q.snap = (lv <= 4 || lv === 7) ? 5 : 1;
     m = lv === 1 ? pickOne([0, 30]) : lv === 2 ? pickOne([15, 30, 45]) : q.snap === 5 ? 5 * rint(1, 11) : rint(1, 59);
     q.h = h; q.answer = m; q.m = m;
@@ -7086,10 +7217,14 @@
     var max = Math.max(1, Math.ceil(bigVal + 0.001)), W = 600, x0 = 40, x1 = 560;
     var X = function (b) { return (x0 + (x1 - x0) * b / max).toFixed(1); };
     var out = '<svg viewBox="0 0 ' + W + ' 150" width="' + W + '" height="150" aria-hidden="true">';
+    /* Only label as many marks as fit: "480 min" is wide, and nine of them
+       side by side ran into each other. */
+    var widest = String(max * q.per).length + 1 + String(q.small).length;
+    var labelEvery = Math.max(1, Math.ceil((widest * 9 + 10) / ((x1 - x0) / max)));
     out += '<line class="glass" x1="' + x0 + '" y1="50" x2="' + x1 + '" y2="50" stroke-width="3"/><line class="glass" x1="' + x0 + '" y1="110" x2="' + x1 + '" y2="110" stroke-width="3"/>';
     for (var i = 0; i <= max; i++) {
       out += '<line class="grad" x1="' + X(i) + '" y1="42" x2="' + X(i) + '" y2="58" stroke-width="2"/><line class="grad" x1="' + X(i) + '" y1="102" x2="' + X(i) + '" y2="118" stroke-width="2"/>';
-      if (max <= 10 || i % 2 === 0) {
+      if (i === max || (i % labelEvery === 0 && (max % labelEvery === 0 || max - i >= labelEvery))) {
         out += '<text class="lab" x="' + X(i) + '" y="34" text-anchor="middle" font-size="14" font-weight="700">' + i + " " + q.big + "</text>";
         out += '<text class="lab" x="' + X(i) + '" y="138" text-anchor="middle" font-size="14" font-weight="700">' + (i * q.per) + " " + q.small + "</text>";
       }
@@ -7174,6 +7309,7 @@
 
   /* ---------------------------------------------------------------- drawing, hints and the worked example */
   function drawCustom(q, reveal) {
+    if (q.kind === "eng") return drawEnglish(q, reveal);
     if (q.kind === "time") {
       if (q.mode === "add") {
         if (q.digital) return '<div class="digi"><span>' + q.from24 + '</span><b>→</b><span>' + q.to24 + "</span></div>";
@@ -7197,9 +7333,12 @@
     return out + "</div>";
   }
   function customFact(q) {
+    if (q.kind === "eng") return q.textAns ? "The word is <b>" + esc(q.word) + "</b>." : "The answer is <b>" + esc(q.rightText) + "</b>.";
     if (q.kind === "time") {
       if (q.mode === "read") return q.h24 ? "It is " + clockText(q.h, q.m) + " " + "on the clock, which is <b>" + q.shown24 + "</b> in 24-hour time." : "It is <b>" + clockText(q.h, q.m) + "</b>, or " + timeWords(q.h, q.m) + ".";
+      if (q.mode === "step" && q.until) return "It is " + (q.nowText || clockText(q.h, q.m)) + ". Until " + q.targetText + " is <b>" + q.answer + " minutes</b>.";
       if (q.mode === "step") return q.to ? "The minute hand is on " + q.m + ", so it is <b>" + q.answer + " minutes</b> to the hour." : "The minute hand is on <b>" + q.m + " minutes</b> past.";
+      if (q.mode === "set" && q.later) return q.fromText + " and " + q.later + " minutes is " + q.endText + ", so the minute hand goes on <b>" + q.answer + "</b>.";
       if (q.mode === "add") return "From the first time to the second is <b>" + q.answer + " minutes</b>.";
       if (q.mode === "about") return "It is " + clockText(q.h, q.m) + ", which is closest to <b>" + clockText(q.rh, q.rm) + "</b>.";
       return "The minute hand goes on <b>" + q.answer + "</b>.";
@@ -7208,15 +7347,19 @@
     return "About <b>" + esc(q.rightText) + "</b> for " + esc(q.item[1]) + ".";
   }
   function customSentence(q) {
+    if (q.kind === "eng") return q.textAns ? "Press a speaker to hear it. Type the word, then press Check." : "";
     if (q.kind === "time" && q.mode !== "set") return q.mode === "add" && !q.digital ? "The first clock is when it started, the second when it finished." : "The short hand shows the hour, the long hand the minutes.";
     if (q.kind === "convert" && q.big) return "1 " + q.big.replace(/s$/, "") + " = " + q.per + " " + q.small + ".";
     if (q.kind === "life") return "Picture it in front of you. Which amount fits?";
     return "";
   }
   function customHint(q, tries) {
+    if (q.kind === "eng") return englishHint(q, tries);
     if (q.kind === "time") {
       if (tries >= 3) return "Not quite. " + customFact(q).replace(/<[^>]+>/g, "");
       if (q.mode === "read" || q.mode === "about") return tries === 1 ? "Start with the short hand: which number has it just gone past? That is the hour." : "Now the long hand: count in 5s from the 12. Each number is 5 more minutes.";
+      if (q.mode === "step" && q.until) return tries === 1 ? "Read the clock first. Then jump to the next o'clock." : "Add the jumps: up to the o'clock, whole hours, then the minutes after.";
+      if (q.mode === "set" && q.later) return tries === 1 ? "Work out the new time first: add the minutes on, going past the o'clock if you need to." : "Then put the long hand on the minutes of the new time.";
       if (q.mode === "step") return tries === 1 ? (q.to ? "Count on from the minute hand to the 12." : "Count in 5s from the 12 to the minute hand.") : "Each number on the clock is 5 minutes. The little marks in between are 1 minute each.";
       if (q.mode === "add") return tries === 1 ? "Count on from the first time to the next o'clock, then on to the second time." : "Add the jumps together: to the hour, then whole hours, then the minutes left.";
       return tries === 1 ? "The long hand shows the minutes. Each number is 5 minutes." : "Count in 5s from the 12 until you reach the minutes you need.";
@@ -7232,6 +7375,7 @@
     return tries === 1 ? "Think about holding it, or seeing it. Which amount would really fit?" : "Two of these are far too big or far too small. Which one is left?";
   }
   function customWhy(q) {
+    if (q.kind === "eng") return q.why || [];
     if (q.kind === "time" && (q.mode === "read" || q.mode === "about")) {
       var out = ["The short hand has just gone past <b>" + q.h + "</b>, so it is " + q.h + " o'clock and a bit.",
                  "The long hand is on the " + (q.m % 5 === 0 ? q.m / 5 : "mark after " + Math.floor(q.m / 5)) + ". Count in 5s from the 12" + (q.m % 5 ? " then add the little marks" : "") + ": <b>" + q.m + " minutes</b>.",
@@ -7239,6 +7383,17 @@
       if (q.mode === "about") out.push("The nearest " + (q.quarter ? "quarter hour" : "5 minutes") + " is <b>" + clockText(q.rh, q.rm) + "</b>.");
       if (q.h24) out.push("It is " + (q.answer >= 720 ? "after midday, so add 12 to the hour" : "the morning, so the hour stays") + ": <b>" + q.shown24 + "</b>.");
       return out;
+    }
+    if (q.kind === "time" && q.mode === "step" && q.until) {
+      var toTop = 60 - q.m, rest = q.answer - toTop;
+      return ["The clock shows <b>" + (q.nowText || clockText(q.h, q.m)) + "</b>.",
+              rest > 0 ? "Jump to the next o'clock: 60 \u2212 " + q.m + " = " + toTop + " minutes." : "Count on from the minute hand.",
+              rest > 0 ? "Then " + rest + " more minutes to " + q.targetText + ". " + toTop + " + " + rest + " = <b>" + q.answer + " minutes</b>." : "That is <b>" + q.answer + " minutes</b> to " + q.targetText + "."];
+    }
+    if (q.kind === "time" && q.mode === "set" && q.later) {
+      return ["Start at <b>" + q.fromText + "</b> and add " + q.later + " minutes.",
+              "That makes <b>" + q.endText + "</b>.",
+              "So the long hand goes on <b>" + q.answer + "</b> minutes, and the short hand moves along with it."];
     }
     if (q.kind === "time" && (q.mode === "step" || q.mode === "set")) {
       var mins = q.m, five = Math.floor(mins / 5), ones = mins % 5;
@@ -7269,20 +7424,24 @@
     time: {
       read: ["o'clock", "half past", "quarter past and quarter to", "5-minute times", "5-minute times, fewer numbers", "any minute", "any minute, fewer numbers", "any minute, no numbers",
              "24-hour time, afternoon", "24-hour time, afternoon", "24-hour time, any part of the day", "24-hour time, no numbers", "24-hour time, Roman numerals", "24-hour time, Roman numerals"],
-      step: ["quarters", "5s, minutes shown", "5s", "any minute, minutes shown", "any minute", "minutes to the hour, 5s", "minutes to the hour", "minutes to, no numbers"],
-      add: ["within an hour, 5s", "within an hour", "across the hour", "up to 90 minutes", "up to 2 hours", "any minute", "across midday", "up to 3 hours"],
-      about: ["nearest 5 minutes", "nearest 5 minutes", "nearest 5 minutes", "nearest 5, fewer numbers", "nearest quarter hour", "nearest quarter hour", "nearest quarter, no numbers", "nearest quarter, no numbers"],
-      set: ["o'clock and half past", "quarters", "5-minute times", "5-minute times in words", "any minute", "any minute in words", "no numbers, 5s", "no numbers, any minute"]
+      step: ["quarters", "5s, minutes shown", "5s", "any minute, minutes shown", "any minute", "minutes to the hour, 5s", "minutes to the hour", "minutes to, no numbers",
+             "minutes to the next quarter", "minutes to the next quarter", "minutes until a time, up to 2 hours", "minutes until a time, up to 2 hours", "24-hour time, up to 3 hours", "24-hour time, up to 3 hours"],
+      add: ["within an hour, 5s", "within an hour", "across the hour", "up to 90 minutes", "up to 2 hours", "any minute", "across midday", "up to 3 hours",
+             "24-hour time, up to 3 hours", "24-hour time, up to 3 hours", "24-hour time, up to 6 hours", "24-hour time, up to 6 hours", "overnight", "overnight"],
+      about: ["nearest 5 minutes", "nearest 5 minutes", "nearest 5 minutes", "nearest 5, fewer numbers", "nearest quarter hour", "nearest quarter hour", "nearest quarter, no numbers", "nearest quarter, no numbers", "nearest quarter in 24-hour time", "nearest quarter in 24-hour time", "nearest quarter in 24-hour time", "nearest quarter in 24-hour time", "nearest quarter in 24-hour time", "nearest quarter in 24-hour time"],
+      set: ["o'clock and half past", "quarters", "5-minute times", "5-minute times in words", "any minute", "any minute in words", "no numbers, 5s", "no numbers, any minute",
+             "minutes later, 5s", "minutes later, 5s", "minutes later, any minute", "minutes later, any minute", "minutes later from 24-hour time", "minutes later from 24-hour time"]
     },
     convert: ["whole big units to small", "small units to whole big ones", "halves", "quarters", "tenths", "any amount", "mixed units", "putting two amounts together"],
     life: ["very different amounts", "very different amounts", "ten times apart", "ten times apart", "same number, different unit", "same number, different unit", "close amounts", "close amounts"]
   };
   function customNote(measure, mode, lv) {
+    if (measure === "english") return englishNote(mode, lv);
     var list = measure === "time" && CUSTOM_NOTES.time[mode] ? CUSTOM_NOTES.time[mode] : CUSTOM_NOTES[mode];
     if (!list) return "";
-    return list[Math.min(lv, list.length) - 1] + (lv > MAX_LEVEL ? " (stretch)" : "");
+    return list[Math.min(lv, list.length) - 1] + (lv > list.length ? " (stretch)" : "");
   }
-  function isCustom(measure, mode) { return measure === "time" || mode === "convert" || mode === "life"; }
+  function isCustom(measure, mode) { return measure === "english" || measure === "time" || mode === "convert" || mode === "life"; }
 
   /* ---------------------------------------------------------------- real objects on the instruments */
   var LIQUIDS = [["🥛", "milk"], ["🧃", "apple juice"], ["🍋", "lemonade"], ["💧", "water"]];
@@ -7305,7 +7464,7 @@
   function planWarm() {
     if (!state.name) return false;          // wait for a child to sign in
     warm.pending = false;
-    if (TEACHER || classState.focus || duel.on || round.on) return false;
+    if (TEACHER || classState.focus || duel.on || round.on || state.measure === "english") return false;
     var worst = null, acc = 1;
     CORE_MEASURES.forEach(function (m) {
       var t = state.tally[m]; if (!t) return;
@@ -7346,6 +7505,571 @@
   }
   window.__warm = function () { return warm; };
   window.__parseTime = parseTime;
+
+
+  /* ================================================================ English
+     A second subject on the same board. Five games, auto-marked, eight levels
+     and the stretch tier, exactly like the measuring ladders. They sit in the
+     same slots as the maths games (step, read, add, about, set), so levels,
+     points, duels and the sheet all work without knowing it is English.
+     Australian spelling throughout. */
+
+  /* ---- spelling: word | sentence with ___ | three wrong spellings ----
+     The wrong ones are the mistakes children really make, and never another
+     real word, so there is only ever one right answer. */
+  var SPELL = [
+    /* A: Year 2 and 3 words */
+    ["because", "We stayed inside ___ it was raining.", "becuase,becos,beacause"],
+    ["friend", "My best ___ sits next to me.", "freind,frend,friennd"],
+    ["said", "“Come here,” ___ the coach.", "sed,siad,sayed"],
+    ["again", "Can you read it ___?", "agian,agen,aggain"],
+    ["people", "Lots of ___ came to the fair.", "peple,poeple,peeple"],
+    ["school", "We walk to ___ every morning.", "scool,skool,shcool"],
+    ["would", "I ___ like a drink, please.", "wuold,woud,whould"],
+    ["could", "She ___ hear the birds singing.", "cuold,coud,culd"],
+    ["there", "Put the box over ___.", "thare,ther,thair"],
+    ["where", "___ are my shoes?", "whare,wher,whear"],
+    ["know", "I ___ the answer.", "kno,nkow,knowe"],
+    ["always", "He ___ eats toast for breakfast.", "allways,alwase,alwys"],
+    ["every", "We swim ___ Friday.", "evry,everey,evrey"],
+    ["many", "How ___ apples are left?", "meny,manny,mony"],
+    ["they", "Are ___ coming to the party?", "thay,tehy,thei"],
+    ["house", "Our ___ has a red door.", "howse,hous,huose"],
+    ["water", "Drink some ___ after running.", "warter,watter,wotter"],
+    ["little", "The ___ puppy fell asleep.", "litle,littel,littl"],
+    ["before", "Wash your hands ___ lunch.", "befor,beafore,befour"],
+    ["laugh", "That joke made me ___.", "laff,larf,lagh"],
+    /* B: Year 3 and 4 words */
+    ["beautiful", "The sunset was ___.", "beatiful,beutiful,beautifull"],
+    ["different", "Each leaf is a ___ shape.", "diffrent,diferent,differant"],
+    ["favourite", "Pizza is my ___ food.", "faverite,favourit,favrite"],
+    ["February", "My birthday is in ___.", "Febuary,Febraury,Feburary"],
+    ["library", "We borrowed books from the ___.", "libary,liberry,librery"],
+    ["probably", "It will ___ rain tomorrow.", "probly,probaly,probabley"],
+    ["surprise", "The party was a big ___.", "suprise,surprice,serprise"],
+    ["believe", "I ___ you can do it.", "beleive,belive,beleve"],
+    ["thought", "I ___ it was Monday.", "thougt,thort,thougth"],
+    ["enough", "Is there ___ cake for everyone?", "enuf,enogh,enougth"],
+    ["caught", "The goalie ___ the ball.", "cought,caugt,cort"],
+    ["answer", "Write your ___ in the box.", "anser,awnser,ansewr"],
+    ["minute", "Wait a ___, please.", "minite,minnute,mintue"],
+    ["quarter", "It is a ___ past three.", "quater,qaurter,corter"],
+    ["neighbour", "Our ___ has a big dog.", "nieghbour,naybour,neihbour"],
+    ["colour", "What ___ is your bag?", "culler,colur,coulor"],
+    ["centre", "Stand in the ___ of the circle.", "centar,senter,centere"],
+    ["straight", "Draw a ___ line.", "straigt,strayt,staight"],
+    ["interesting", "That was an ___ book.", "intresting,interisting,intersting"],
+    ["island", "We sailed to a small ___.", "iland,ilend,islend"],
+    /* C: Year 5 and 6 words */
+    ["necessary", "Is it ___ to bring a hat?", "neccessary,necesary,neccesary"],
+    ["separate", "Keep the paper and plastic ___.", "seperate,separete,seprate"],
+    ["definitely", "I will ___ be there.", "definately,definitly,defenitely"],
+    ["government", "The ___ makes new laws.", "goverment,govenment,guvernment"],
+    ["environment", "We must look after the ___.", "enviroment,envirnment,environmant"],
+    ["exercise", "Running is good ___.", "excercise,exersize,exercize"],
+    ["especially", "I love fruit, ___ mangoes.", "especialy,expecially,espeshally"],
+    ["immediately", "Come inside ___!", "immediatly,imediately,immeditely"],
+    ["temperature", "The ___ dropped below zero.", "temprature,temperture,tempreture"],
+    ["restaurant", "We had dinner at a ___.", "resturant,restaraunt,restuarant"],
+    ["recommend", "Would you ___ this book?", "reccomend,recomend,reccommend"],
+    ["occasion", "A birthday is a special ___.", "ocasion,occassion,ocassion"],
+    ["disappear", "Watch the magician make it ___.", "dissapear,disapear,dissappear"],
+    ["embarrass", "Please don’t ___ me in front of my friends.", "embarass,embarras,embaras"],
+    ["committee", "The ___ voted yes.", "commitee,comittee,committe"],
+    ["achieve", "You can ___ your goal.", "acheive,achive,acheve"],
+    ["rhythm", "Clap to the ___ of the song.", "rythm,rhythym,rhthym"],
+    ["sincerely", "Yours ___, Sam.", "sincerly,sincerley,sinserely"],
+    ["accommodation", "We booked ___ for the holiday.", "accomodation,acommodation,accommadation"],
+    ["conscience", "Her ___ told her to own up.", "concience,consience,conscence"],
+    /* D: stretch */
+    ["mischievous", "The ___ puppy chewed my shoe.", "mischievious,mischevious,mischivous"],
+    ["privilege", "It is a ___ to lead the assembly.", "priviledge,privelege,privilage"],
+    ["parliament", "Australia’s laws are made in ___.", "parliment,parlament,parliamant"],
+    ["questionnaire", "Please fill in the ___.", "questionaire,questionnair,questionnare"],
+    ["conscious", "He was ___ of the time.", "concious,consious,conscous"],
+    ["guarantee", "The shop gives a one-year ___.", "guarentee,garantee,guarante"],
+    ["vehicle", "A bus is a large ___.", "vehical,vehicel,veicle"],
+    ["foreign", "She speaks a ___ language.", "foriegn,foreighn,forein"],
+    ["sufficient", "We have ___ food for the camp.", "suficient,sufficiant,sufficent"],
+    ["pronunciation", "Check the ___ of the word.", "pronounciation,pronuncation,pronunsiation"],
+    ["occurred", "The accident ___ last night.", "occured,ocurred,ocured"],
+    ["playwright", "The ___ wrote a new play.", "playwrite,playrite,plawright"]
+  ];
+  var SPELL_TIER = { A: [0, 20], B: [20, 40], C: [40, 60], D: [60, 72] };
+  /* ---- silent letters: word | sentence | three wrong spellings | which letter is silent ----
+     Picked by the teacher as the class spelling list. Wrong spellings are never
+     real words (no "night" for knight, no "rite" for write). */
+  var SILENT = [
+    /* A: kn, wr, mb */
+    ["knee", "I hurt my ___ when I fell over.", "nee,kne,knea", "the k in kn"],
+    ["knock", "Please ___ before you come in.", "nock,knok,konck", "the k in kn"],
+    ["knife", "Cut the apple with a ___.", "nife,knif,knyfe", "the k in kn"],
+    ["know", "Do you ___ the way home?", "kno,nkow,knowe", "the k in kn"],
+    ["knot", "Tie a ___ in the rope.", "nott,knott,konot", "the k in kn"],
+    ["write", "___ your name at the top.", "wirte,wrihte,wryte", "the w in wr"],
+    ["wrong", "That answer is ___.", "rong,wrongg,wrogn", "the w in wr"],
+    ["wrap", "Help me ___ the present.", "rapp,wrapp,wrop", "the w in wr"],
+    ["lamb", "The ___ followed its mother.", "lamn,lamm,lambe", "the b in mb"],
+    ["thumb", "I hurt my ___ on the door.", "thum,thumm,thumbe", "the b in mb"],
+    ["climb", "We like to ___ the big tree.", "clim,climbe,clymb", "the b in mb"],
+    ["comb", "Use a ___ to tidy your hair.", "kome,comm,coam", "the b in mb"],
+    /* B: kn, gn, wr, mb, t, l */
+    ["knight", "The ___ rode a white horse.", "kniht,knite,nkight", "the k in kn, and the gh"],
+    ["knuckle", "He grazed his ___ on the wall.", "nuckle,knuckel,knukle", "the k in kn"],
+    ["kneel", "___ down on the mat.", "neel,kneal,knele", "the k in kn"],
+    ["gnome", "There is a ___ in the garden.", "nome,gnoam,gnom", "the g in gn"],
+    ["gnaw", "Dogs like to ___ on bones.", "naw,gnore,gnau", "the g in gn"],
+    ["sign", "Read the ___ on the door.", "sigen,sighn,siegn", "the g in gn"],
+    ["wrist", "She wears a watch on her ___.", "rist,wirst,wrizt", "the w in wr"],
+    ["wriggle", "The worm began to ___.", "riggle,wrigle,wriggel", "the w in wr"],
+    ["crumb", "There is a ___ on your face.", "crum,crumm,crumbe", "the b in mb"],
+    ["listen", "___ carefully to the story.", "lisen,lissen,listin", "the t in st"],
+    ["castle", "The king lived in a ___.", "casle,cassle,castel", "the t in st"],
+    ["half", "Cut the orange in ___.", "haf,harf,halff", "the l"],
+    ["walk", "We ___ to school.", "wark,wauk,walck", "the l"],
+    ["talk", "Please don’t ___ in the library.", "tork,tauk,talck", "the l"],
+    /* C: harder ones */
+    ["autumn", "Leaves fall in ___.", "autum,awtumn,autumm", "the n in mn"],
+    ["column", "Add up each ___ of numbers.", "colum,collumn,colunm", "the n in mn"],
+    ["whistle", "The referee blew the ___.", "whisle,wissle,whistel", "the t in st"],
+    ["fasten", "___ your seatbelt.", "fasen,fassen,fastin", "the t in st"],
+    ["often", "I ___ ride my bike.", "offen,ofen,oftin", "the t (for most people)"],
+    ["island", "Kangaroo ___ is in South Australia.", "iland,ilend,islend", "the s"],
+    ["honest", "Always tell the truth and be ___.", "onest,honist,honnest", "the h at the start"],
+    ["hour", "The movie lasted an ___.", "owr,houre,hower", "the h at the start"],
+    ["rhyme", "Cat and hat ___.", "ryme,rhime,rhym", "the h after r"],
+    ["scissors", "Cut the paper with ___.", "sissors,scisors,scissers", "the c after s"],
+    ["doubt", "I ___ it will rain today.", "dout,doubte,dowt", "the b in bt"],
+    ["design", "We will ___ a new poster.", "desine,desighn,desing", "the g in gn"],
+    ["calm", "Stay ___ and breathe slowly.", "carm,calme,cawm", "the l"],
+    /* D: stretch */
+    ["knowledge", "Reading builds your ___.", "nowledge,knowlege,knoledge", "the k in kn"],
+    ["foreign", "We tried some ___ food.", "foriegn,foreighn,forein", "the g in gn"],
+    ["reign", "The queen had a long ___.", "reighn,rene,riegn", "the g in gn"],
+    ["debt", "He paid back his ___.", "det,dett,debte", "the b in bt"],
+    ["solemn", "It was a quiet, ___ moment.", "solem,sollemn,solumn", "the n in mn"],
+    ["muscle", "He pulled a ___ in his leg.", "mussle,muscel,mucsle", "the c after s"],
+    ["science", "We did an experiment in ___.", "sience,scince,syence", "the c after s"],
+    ["glisten", "Dew drops ___ in the sun.", "glissen,glisen,glistin", "the t in st"],
+    ["campaign", "They ran a ___ to save the trees.", "campain,campagn,campaine", "the g in gn"],
+    ["guitar", "She plays the ___.", "gitar,guiter,gitarr", "the u after g"],
+    ["biscuit", "Would you like a ___?", "biskit,bisquit,biscit", "the u after c"],
+    ["salmon", "We had ___ for dinner.", "sammon,samon,salmen", "the l"],
+    ["plumber", "The ___ fixed the leak.", "plummer,plumer,plumbur", "the b in mb"]
+  ];
+  var SILENT_TIER = { A: [0, 12], B: [12, 26], C: [26, 39], D: [39, 52] };
+  /* Silent letter words join the ordinary lists from level 3 up: the easier
+     ones with the Year 3 and 4 words, the harder ones with Year 5 and 6, the
+     hardest in the stretch levels. Level 1 and 2 stay as they were. */
+  var SPELL_MIX = { A: [0, 0], B: [0, 26], C: [26, 39], D: [39, 52] };
+  function spellPool(tier) {
+    var s = SPELL_TIER[tier], m = SPELL_MIX[tier];
+    return SPELL.slice(s[0], s[1]).concat(SILENT.slice(m[0], m[1]));
+  }
+
+
+  /* ---- punctuation: [rule, the right sentence, three wrong ones] ---- */
+  var PUNCT = [
+    /* band 1: capitals, full stops, question and exclamation marks */
+    [1, "q", "Where is my hat?", ["where is my hat?", "Where is my hat.", "Where is my hat"]],
+    [1, "cap", "We went to Adelaide on Sunday.", ["We went to adelaide on Sunday.", "we went to Adelaide on Sunday.", "We went to Adelaide on sunday."]],
+    [1, "cap", "My dog Max loves the beach.", ["My dog max loves the beach.", "my dog Max loves the beach.", "My dog Max loves the beach"]],
+    [1, "ex", "Look out for the ball!", ["look out for the ball!", "Look out for the ball?", "Look out For the ball!"]],
+    [1, "q", "Can you help me, please?", ["Can you help me, please.", "can you help me, please?", "Can you help me, Please?"]],
+    [1, "cap", "Mia and I went to the park.", ["Mia and i went to the park.", "mia and I went to the park.", "Mia and I went to the Park."]],
+    [1, "cap", "It was a hot day in January.", ["It was a hot day in january.", "It was a Hot day in January.", "it was a hot day in January."]],
+    [1, "q", "What time does the bus leave?", ["What time does the bus leave.", "what time does the bus leave?", "What Time does the bus leave?"]],
+    [1, "cap", "Our class visited the Murray River.", ["Our class visited the murray river.", "our class visited the Murray River.", "Our Class visited the Murray River."]],
+    [1, "ex", "Wow, that is a huge wave!", ["wow, that is a huge wave!", "Wow, that is a huge wave?", "Wow, That is a huge wave!"]],
+    /* band 2: commas in lists, apostrophes for missing letters */
+    [2, "list", "I packed a hat, a towel and some sunscreen.", ["I packed a hat a towel and some sunscreen.", "I packed, a hat, a towel and some sunscreen.", "I packed a hat, a towel, and, some sunscreen."]],
+    [2, "short", "We can’t go outside yet.", ["We cant go outside yet.", "We ca’nt go outside yet.", "We can,t go outside yet."]],
+    [2, "short", "She doesn’t like spiders.", ["She does’nt like spiders.", "She doesnt like spiders.", "She dos’nt like spiders."]],
+    [2, "short", "I’m going to the shop.", ["Im going to the shop.", "I’am going to the shop.", "Im’ going to the shop."]],
+    [2, "list", "We need eggs, flour, milk and butter.", ["We need eggs flour milk and butter.", "We need eggs, flour, milk, and, butter.", "We need, eggs, flour, milk and butter."]],
+    [2, "short", "They’re late for the bus.", ["Theyre late for the bus.", "They’are late for the bus.", "The’yre late for the bus."]],
+    [2, "short", "It’s going to rain today.", ["Its going to rain today.", "It,s going to rain today.", "Its’ going to rain today."]],
+    [2, "short", "You’ll need a jumper tonight.", ["Youll need a jumper tonight.", "You’ill need a jumper tonight.", "Yo’ull need a jumper tonight."]],
+    [2, "list", "Red, blue, green and yellow are colours.", ["Red blue green and yellow are colours.", "Red, blue, green, and, yellow are colours.", "Red, blue green and, yellow are colours."]],
+    [2, "short", "I won’t forget your birthday.", ["I wont forget your birthday.", "I wo’nt forget your birthday.", "I willn’t forget your birthday."]],
+    /* band 3: apostrophes for belonging, speech marks */
+    [3, "own", "The dog’s bone was under its kennel.", ["The dogs bone was under its kennel.", "The dog,s bone was under its kennel.", "The do’gs bone was under its kennel."]],
+    [3, "own", "Sam’s bike has a flat tyre.", ["Sams bike has a flat tyre.", "Sams’ bike has a flat tyre.", "Sam,s bike has a flat tyre."]],
+    [3, "speech", "“Close the door,” said Mum.", ["“Close the door” said Mum.", "Close the door,” said Mum.", "“Close the door, said Mum.”"]],
+    [3, "speech", "“Are you ready?” asked the teacher.", ["“Are you ready”? asked the teacher.", "“Are you ready?” Asked the teacher.", "Are you ready? asked the teacher."]],
+    [3, "own", "The children’s paintings are on the wall.", ["The childrens paintings are on the wall.", "The childrens’ paintings are on the wall.", "The children,s paintings are on the wall."]],
+    [3, "own", "My two brothers’ room is very messy.", ["My two brothers room is very messy.", "My two brother’s room is very messy.", "My two brothers’s room is very messy."]],
+    [3, "speech", "Jack shouted, “Run for the bus!”", ["Jack shouted, “run for the bus!”", "Jack shouted “Run for the bus”!", "Jack shouted, Run for the bus!"]],
+    [3, "own", "The teacher’s desk is by the window.", ["The teachers desk is by the window.", "The teache’rs desk is by the window.", "The teacher,s desk is by the window."]],
+    [3, "speech", "“We won!” cried the team.", ["“We won”! cried the team.", "We won! cried the team.", "“We won!” Cried the team."]],
+    [3, "its", "The cat licked its paw.", ["The cat licked it’s paw.", "The cat licked its’ paw.", "The cat licked it,s paw."]],
+    /* band 4: commas after an opening phrase, colons, brackets */
+    [4, "front", "After lunch, we played cricket.", ["After lunch we, played cricket.", "After, lunch we played cricket.", "After lunch; we played cricket."]],
+    [4, "colon", "You will need: a pencil, a ruler and an eraser.", ["You will need a pencil: a ruler and an eraser.", "You will: need a pencil, a ruler and an eraser.", "You will need; a pencil, a ruler and an eraser."]],
+    [4, "front", "Although it was cold, we went swimming.", ["Although, it was cold we went swimming.", "Although it was cold we, went swimming.", "Although it was cold. We went swimming."]],
+    [4, "own", "The girls’ change room is next to the pool.", ["The girl’s’ change room is next to the pool.", "The girls’s change room is next to the pool.", "The gir’ls change room is next to the pool."]],
+    [4, "brackets", "My uncle (who lives in Perth) is visiting.", ["My uncle (who lives in Perth is visiting.)", "My uncle, (who lives in Perth) is visiting.", "My uncle (who lives in Perth), is visiting."]],
+    [4, "front", "Quietly, the cat crept towards the bird.", ["Quietly the cat, crept towards the bird.", "Quietly the cat crept, towards the bird.", "Quietly; the cat crept towards the bird."]],
+    [4, "front", "If it rains tomorrow, the game will be cancelled.", ["If it rains tomorrow the game, will be cancelled.", "If, it rains tomorrow the game will be cancelled.", "If it rains tomorrow. The game will be cancelled."]],
+    [4, "own", "All the players’ boots were covered in mud.", ["All the players’s boots were covered in mud.", "All the playe’rs boots were covered in mud.", "All the players,s boots were covered in mud."]],
+    [4, "front", "However, the bus was late.", ["However the bus, was late.", "However; the bus was late.", "However the, bus was late."]],
+    [4, "commas", "Lucy, my best friend, is moving to Darwin.", ["Lucy, my best, friend is moving to Darwin.", "Lucy my, best friend, is moving to Darwin.", "Lucy, my best friend, is, moving to Darwin."]]
+  ];
+  var PUNCT_TIP = {
+    q: "A question ends with a question mark, and every sentence starts with a capital letter.",
+    cap: "Capital letters go at the start of a sentence, on I, and on names of people, places, days and months.",
+    ex: "An exclamation mark shows strong feeling. Only the first word and names need capitals.",
+    list: "In a list, commas go between the things, but not before ‘and’ and not after the word that starts the list.",
+    "short": "An apostrophe goes exactly where the letters were taken out: do not → don’t.",
+    own: "An apostrophe shows who owns something. One owner: dog’s. A plural ending in s: brothers’. A plural without s: children’s.",
+    speech: "The words spoken go inside the speech marks, and so does the comma, ? or ! that ends them.",
+    its: "It’s means ‘it is’. Its (no apostrophe) means ‘belonging to it’.",
+    front: "When a sentence starts with a phrase like ‘After lunch’ or ‘Although it was cold’, put a comma after that phrase.",
+    colon: "A colon can come before a list, straight after the words that introduce it.",
+    brackets: "Brackets go around the extra information, and the sentence should still make sense without it.",
+    commas: "Extra information in the middle of a sentence has a comma on both sides of it."
+  };
+
+  /* ---- vocabulary: [band, kind, word, right, wrong, wrong, wrong] ---- */
+  var VOCAB = [
+    [1, "same", "big", "large", "tiny", "quick", "soft"],
+    [1, "same", "happy", "glad", "sad", "tired", "late"],
+    [1, "same", "fast", "quick", "slow", "loud", "heavy"],
+    [1, "same", "start", "begin", "finish", "stop", "sleep"],
+    [1, "same", "shut", "close", "open", "wide", "clean"],
+    [1, "same", "angry", "cross", "calm", "kind", "shy"],
+    [1, "same", "shout", "yell", "whisper", "sing", "smile"],
+    [1, "same", "jump", "leap", "sit", "crawl", "fall"],
+    [1, "same", "easy", "simple", "hard", "long", "early"],
+    [1, "same", "scared", "afraid", "brave", "proud", "bored"],
+    [2, "same", "enormous", "huge", "tiny", "narrow", "gentle"],
+    [2, "same", "ancient", "very old", "brand new", "broken", "famous"],
+    [2, "same", "furious", "very angry", "very calm", "very tired", "very lucky"],
+    [2, "same", "fragile", "easily broken", "very strong", "very heavy", "very shiny"],
+    [2, "same", "exhausted", "very tired", "very excited", "very hungry", "very cold"],
+    [2, "same", "curious", "wanting to know", "bored", "sleepy", "rude"],
+    [2, "same", "peculiar", "strange", "ordinary", "friendly", "quiet"],
+    [2, "same", "vanish", "disappear", "appear", "grow", "shout"],
+    [2, "same", "assist", "help", "stop", "ignore", "chase"],
+    [2, "same", "glimpse", "a quick look", "a long stare", "a loud noise", "a short nap"],
+    [2, "opp", "hot", "cold", "warm", "spicy", "sunny"],
+    [2, "opp", "include", "leave out", "add in", "count", "share"],
+    [3, "opp", "ancient", "modern", "old", "huge", "broken"],
+    [3, "opp", "generous", "selfish", "kind", "rich", "helpful"],
+    [3, "opp", "ascend", "descend", "climb", "rise", "travel"],
+    [3, "opp", "victory", "defeat", "win", "prize", "match"],
+    [3, "opp", "expand", "shrink", "grow", "stretch", "spread"],
+    [3, "opp", "cautious", "reckless", "careful", "nervous", "slow"],
+    [3, "opp", "permanent", "temporary", "lasting", "strong", "fixed"],
+    [3, "opp", "artificial", "natural", "fake", "plastic", "made"],
+    [3, "opp", "scarce", "plentiful", "rare", "scary", "empty"],
+    [3, "same", "reluctant", "unwilling", "eager", "early", "lucky"],
+    [3, "same", "conceal", "hide", "show", "find", "build"],
+    [3, "same", "abundant", "plentiful", "rare", "tiny", "empty"],
+    [4, "part", "un- in ‘unhappy’", "not", "again", "before", "very"],
+    [4, "part", "re- in ‘rewrite’", "again", "not", "under", "badly"],
+    [4, "part", "pre- in ‘preview’", "before", "after", "again", "against"],
+    [4, "part", "mis- in ‘misspell’", "wrongly", "again", "before", "together"],
+    [4, "part", "sub- in ‘submarine’", "under", "over", "around", "far"],
+    [4, "part", "tele- in ‘telescope’", "far away", "very small", "under water", "two"],
+    [4, "part", "-less in ‘fearless’", "without", "full of", "a little", "more than"],
+    [4, "part", "-ful in ‘careful’", "full of", "without", "again", "not"],
+    [4, "part", "bi- in ‘bicycle’", "two", "one", "three", "many"],
+    [4, "part", "semi- in ‘semicircle’", "half", "whole", "double", "round"],
+    [4, "part", "inter- in ‘international’", "between", "inside", "against", "without"],
+    [4, "part", "auto- in ‘autograph’", "self", "car", "many", "written"]
+  ];
+  /* in context: [band, sentence with the word in *stars*, right, wrongs] */
+  var CONTEXT = [
+    [3, "The path was so *narrow* that we had to walk in single file.", "not wide", "very long", "very dark", "very steep"],
+    [3, "The puppy was *timid* and hid behind the couch.", "shy and easily scared", "very noisy", "very hungry", "fast and strong"],
+    [3, "After the long hike, we *devoured* our sandwiches.", "ate quickly", "threw away", "shared", "forgot"],
+    [3, "The water was so *murky* that we could not see the bottom.", "cloudy", "freezing", "shallow", "salty"],
+    [4, "Ben was *reluctant* to jump in, so he stood at the edge for ages.", "not keen", "excited", "angry", "proud"],
+    [4, "The sign was *legible* even from the back of the hall.", "easy to read", "very big", "upside down", "bright red"],
+    [4, "Mia *hesitated* before answering, unsure what to say.", "paused", "shouted", "laughed", "ran away"],
+    [4, "The rules were *flexible*, so we could change the game a bit.", "able to change", "very strict", "written down", "brand new"],
+    [4, "The desert is *arid*, with hardly any rain all year.", "very dry", "very cold", "very flat", "very busy"],
+    [4, "The noise was *constant*: it did not stop all night.", "never stopping", "very quiet", "very sudden", "coming and going"]
+  ];
+
+  /* ---- reading: passages, each with questions [band, question, right, wrongs...] ---- */
+  var READ = [
+    { text: "Ella planted three sunflower seeds in a pot. She watered them every morning. After two weeks, small green shoots poked out of the soil. Ella was so excited that she ran to show her grandpa.",
+      qs: [[1, "How many seeds did Ella plant?", "three", "two", "four", "five"],
+           [1, "When did Ella water the seeds?", "every morning", "every night", "once a week", "only on Sunday"],
+           [2, "What did Ella do when the shoots came up?", "ran to show her grandpa", "planted more seeds", "moved the pot outside", "picked the flowers"]] },
+    { text: "The bell rang and the playground went quiet. Mr Lee held up a box with holes in the lid. “Nobody touch it,” he said, smiling. Something inside the box scratched and squeaked.",
+      qs: [[1, "What was in the lid of the box?", "holes", "a lock", "a handle", "a picture"],
+           [2, "What is most likely inside the box?", "a small animal", "a book", "a sandwich", "a ball"],
+           [2, "How was Mr Lee feeling?", "cheerful", "angry", "frightened", "sad"]] },
+    { text: "Kangaroos cannot walk backwards. Their strong tail and big back feet help them hop forwards very fast. A red kangaroo can hop at more than 50 kilometres an hour.",
+      qs: [[1, "What can kangaroos not do?", "walk backwards", "hop forwards", "use their tail", "move fast"],
+           [1, "What helps kangaroos hop fast?", "their tail and back feet", "their ears", "their front paws", "their fur"],
+           [3, "What is this text mostly about?", "how kangaroos move", "what kangaroos eat", "where kangaroos sleep", "how big baby kangaroos are"]] },
+    { text: "Leo’s umbrella turned inside out as he ran down the street. By the time he reached the bus stop, his shoes squelched with every step. He sighed and looked up at the dark clouds.",
+      qs: [[2, "What was the weather like?", "windy and rainy", "hot and sunny", "snowing", "calm and dry"],
+           [2, "How did Leo probably feel?", "fed up", "proud", "excited", "sleepy"],
+           [3, "What does ‘squelched’ most likely mean here?", "made a wet, sucking sound", "became very hot", "broke into pieces", "became shiny"]] },
+    { text: "Every year, millions of bogong moths fly from Queensland and New South Wales to the Australian Alps. They rest in cool caves over summer. In autumn, they fly back to breed. Mountain pygmy possums eat the moths, so the possums depend on this long journey.",
+      qs: [[1, "Where do the moths rest over summer?", "in cool caves", "in the ocean", "in city parks", "in hollow logs by the sea"],
+           [3, "What does ‘depend on’ mean here?", "need", "ignore", "fear", "chase"],
+           [4, "Why would fewer moths be a problem for pygmy possums?", "the possums would have less food", "the possums would get too hot", "the caves would close", "the possums would fly away"]] },
+    { text: "Grace stared at the diving board. Everyone else in her class had jumped. Her hands felt sweaty, and her knees shook. She took a deep breath, walked to the end and stepped off.",
+      qs: [[1, "Who had already jumped?", "everyone else in her class", "nobody", "only her teacher", "her little brother"],
+           [2, "How did Grace feel before she jumped?", "nervous", "bored", "angry", "sleepy"],
+           [3, "What does the last sentence show about Grace?", "she was brave enough to try", "she gave up", "she pushed someone", "she was the first to jump"]] },
+    { text: "To make a paper boat, start with a rectangle of paper. Fold it in half from top to bottom. Next, fold the top corners down to the middle to make a triangle. Then fold the bottom strips up on both sides. Finally, open it out and press it flat into a boat shape.",
+      qs: [[1, "What do you do first with the paper?", "fold it in half", "fold the corners down", "open it out", "press it flat"],
+           [1, "What shape do the folded corners make?", "a triangle", "a circle", "a square", "a star"],
+           [4, "Why does the writer use words like ‘Next’, ‘Then’ and ‘Finally’?", "to show the order of the steps", "to make it funny", "to describe the boat’s colour", "to ask the reader a question"]] },
+    { text: "Our school should have a vegetable garden. Students would learn where food comes from. The vegetables could be used in the canteen. Best of all, gardening is a fun way to spend time outside.",
+      qs: [[3, "What is the writer trying to do?", "persuade the reader", "tell a funny story", "give instructions", "describe a holiday"],
+           [3, "Which is NOT a reason the writer gives?", "it would save money on uniforms", "students would learn where food comes from", "the vegetables could go to the canteen", "gardening is fun outside"],
+           [4, "‘Best of all’ shows the writer thinks this reason is…", "the strongest one", "the last step", "a fact from history", "not very important"]] },
+    { text: "The old lighthouse keeper had not missed a single night in forty years. Each evening he climbed the 120 steps, lit the great lamp and watched the dark sea. Ships passing the rocky point trusted his light to guide them safely home.",
+      qs: [[1, "How many steps did he climb?", "120", "40", "12", "400"],
+           [2, "Why was the light important?", "it helped ships stay off the rocks", "it lit up the town", "it kept the keeper warm", "it showed the time"],
+           [4, "Which word best describes the keeper?", "dependable", "lazy", "forgetful", "careless"]] },
+    { text: "Tom raced into the kitchen. “Have you seen my library book? It’s due today!” Mum pointed at the couch without looking up. Tom dug under the cushions and pulled out a squashed book. “Found it,” he grinned.",
+      qs: [[1, "Where was the book?", "under the couch cushions", "in the kitchen", "at the library", "in his schoolbag"],
+           [2, "Why was Tom in a hurry?", "the book was due back that day", "he was late for dinner", "he wanted to watch TV", "Mum was calling him"],
+           [4, "Mum points without looking up. What does this suggest?", "she was busy but knew where it was", "she was angry with Tom", "she had lost the book herself", "she was asleep"]] },
+    { text: "Bees do a ‘waggle dance’ to tell other bees where to find flowers. The direction of the dance shows which way to fly. The longer the bee waggles, the further away the flowers are.",
+      qs: [[1, "Why do bees do the waggle dance?", "to share where flowers are", "to keep warm", "to scare birds", "to clean the hive"],
+           [2, "What does a long waggle mean?", "the flowers are far away", "the flowers are close", "the bee is tired", "it is going to rain"],
+           [3, "What does the direction of the dance show?", "which way to fly", "how many flowers there are", "what colour the flowers are", "how old the bee is"]] },
+    { text: "The village had argued about the bridge for months. Some wanted it built of stone, which was strong but slow and costly. Others preferred timber, which was cheap and quick but might rot within twenty years. In the end, they chose stone, hoping their grandchildren would cross it too.",
+      qs: [[3, "What was a problem with timber?", "it might rot", "it was too expensive", "it was too slow to build", "nobody liked the colour"],
+           [3, "What does ‘costly’ mean?", "expensive", "strong", "quick", "heavy"],
+           [4, "Why did the village choose stone?", "they wanted the bridge to last a very long time", "it was the cheapest", "it was the quickest", "there was no timber"]] }
+  ];
+
+  /* ---- the right word: [band, sentence with ___, right, wrongs..., tip key] ---- */
+  var RIGHTWORD = [
+    [1, "I have ___ apples.", "two", ["to", "too"], "two"],
+    [1, "Can I come ___?", "too", ["to", "two"], "two"],
+    [1, "We walked ___ the park.", "to", ["too", "two"], "two"],
+    [1, "___ is my bag?", "Where", ["Were", "Wear"], "where"],
+    [1, "We ___ at the zoo last week.", "were", ["where", "wear"], "where"],
+    [1, "The children ate ___ lunch.", "their", ["there", "they’re"], "their"],
+    [1, "Look over ___!", "there", ["their", "they’re"], "their"],
+    [1, "I ___ to the shop yesterday.", "went", ["goed", "gone"], "past"],
+    [1, "She ___ her lunch at recess.", "ate", ["eated", "eaten"], "past"],
+    [1, "I can ___ the birds singing.", "hear", ["here", "hair"], "hear"],
+    [1, "Come ___ and sit down.", "here", ["hear", "hair"], "hear"],
+    [2, "___ going to be late!", "You’re", ["Your", "Yore"], "your"],
+    [2, "Is this ___ jumper?", "your", ["you’re", "yore"], "your"],
+    [2, "___ playing soccer after school.", "They’re", ["Their", "There"], "their"],
+    [2, "Mia and ___ went to the movies.", "I", ["me", "myself"], "me"],
+    [2, "Dad drove Sam and ___ to school.", "me", ["I", "myself"], "me"],
+    [2, "My brother is ___ than me.", "taller", ["more tall", "tallest"], "er"],
+    [2, "This is the ___ day of my life!", "best", ["goodest", "better"], "er"],
+    [2, "We ___ a new puppy last week.", "bought", ["brought", "buyed"], "bought"],
+    [2, "Can you ___ your hat tomorrow?", "bring", ["bought", "brung"], "bought"],
+    [2, "The wind ___ the door shut.", "blew", ["blue", "blowed"], "past"],
+    [3, "We drove ___ the school.", "past", ["passed", "pasted"], "passed"],
+    [3, "She ___ the ball to me.", "passed", ["past", "pased"], "passed"],
+    [3, "The dog wagged ___ tail.", "its", ["it’s", "its’"], "its"],
+    [3, "___ a lovely day.", "It’s", ["Its", "Its’"], "its"],
+    [3, "There are ___ cars on the road today.", "fewer", ["less", "lesser"], "fewer"],
+    [3, "I drank ___ water than you.", "less", ["fewer", "lesser"], "fewer"],
+    [3, "She sings ___ than her sister.", "better", ["more good", "best"], "er"],
+    [3, "You should ___ told me!", "have", ["of", "off"], "have"],
+    [3, "The ___ of the storm was huge.", "effect", ["affect", "effort"], "effect"],
+    [3, "The noise did not ___ my sleep.", "affect", ["effect", "afect"], "effect"],
+    [3, "Get ___ the table, please!", "off", ["of", "orf"], "have"],
+    [4, "___ bag is this?", "Whose", ["Who’s", "Whos"], "whose"],
+    [4, "___ coming to the party?", "Who’s", ["Whose", "Whos"], "whose"],
+    [4, "I’d rather swim ___ run.", "than", ["then", "that"], "than"],
+    [4, "Finish your work, ___ you can go out.", "then", ["than", "that"], "than"],
+    [4, "Honesty is an important ___.", "principle", ["principal", "principel"], "principle"],
+    [4, "Don’t ___ your keys.", "lose", ["loose", "loss"], "lose"],
+    [4, "My tooth is ___.", "loose", ["lose", "lost"], "lose"],
+    [4, "We bought pens from the ___ shop.", "stationery", ["stationary", "stationry"], "stationery"],
+    [4, "The bus was ___ at the lights.", "stationary", ["stationery", "stationry"], "stationery"],
+    [4, "I would love to ___ your invitation.", "accept", ["except", "expect"], "accept"],
+    [4, "Everyone came ___ Tom.", "except", ["accept", "expect"], "accept"]
+  ];
+  var WORD_TIP = {
+    two: "two is the number 2, too means ‘also’ or ‘very’, and to is for going somewhere.",
+    where: "where asks about a place (it has ‘here’ in it). were is the past of ‘are’.",
+    their: "their means belonging to them, there is a place, they’re is ‘they are’.",
+    past: "This happened before, so use the past tense. Some verbs change completely: go → went, eat → ate.",
+    hear: "You hear with your ear. Here is a place.",
+    your: "you’re is ‘you are’. your means belonging to you.",
+    me: "Take the other person out and try it: ‘I went to the movies’, ‘Dad drove me’.",
+    er: "Short words take -er and -est: tall, taller, tallest. Good is special: good, better, best.",
+    bought: "bought is from buy (shops). brought is from bring (carry). bring is for now.",
+    passed: "passed is a doing word (she passed it). past means beyond, or time gone by.",
+    its: "it’s means ‘it is’. its means belonging to it, like his or her.",
+    fewer: "fewer for things you can count (cars). less for things you cannot count (water).",
+    have: "Say it slowly: ‘should have’, never ‘should of’. ‘off’ means away from.",
+    effect: "affect is the doing word. effect is the thing (the result).",
+    whose: "who’s means ‘who is’. whose asks who owns something.",
+    than: "than compares (bigger than). then is about time (and then…).",
+    principle: "a principle is a rule or belief. A principal is the head of a school.",
+    lose: "lose rhymes with ‘shoes’ (to not have any more). loose rhymes with ‘goose’ (not tight).",
+    stationery: "stationery with an e is pens and paper (e for envelopes). stationary with an a means standing still.",
+    accept: "accept means to take or agree. except means ‘but not’."
+  };
+
+  /* Which band of each bank a level draws from, and how many choices. Every
+     level adds something: more choices, then a harder band, then typing. */
+  function engBand(lv) { return lv <= 2 ? 1 : lv <= 4 ? 2 : lv <= 6 ? 3 : 4; }
+  function engChoices(lv) { return lv === 1 || lv === 3 || lv === 5 ? 3 : 4; }
+  function canSpeak() { return typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance === "function"; }
+  function speak(text) {
+    if (!canSpeak()) return;
+    try {
+      var u = new SpeechSynthesisUtterance(String(text).replace(/_+/g, "blank"));
+      var vs = window.speechSynthesis.getVoices() || [], pick = null;
+      for (var i = 0; i < vs.length; i++) { if (/en-AU/i.test(vs[i].lang)) { pick = vs[i]; break; } }
+      if (!pick) for (var j = 0; j < vs.length; j++) { if (/^en/i.test(vs[j].lang)) { pick = vs[j]; break; } }
+      if (pick) u.voice = pick;
+      u.lang = pick ? pick.lang : "en-AU"; u.rate = 0.85;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    } catch (e) { /* no voice */ }
+  }
+  var engRecent = [];
+  function engPick(list, key) {
+    var fresh = list.filter(function (x) { return engRecent.indexOf(key(x)) < 0; });
+    var it = pickOne(fresh.length ? fresh : list);
+    engRecent.push(key(it)); if (engRecent.length > 12) engRecent.shift();
+    return it;
+  }
+  function engFinish(q, right, wrongs, n) {
+    var opts = [right].concat(shuffle(wrongs.slice()).slice(0, n - 1));
+    q.choices = shuffle(opts.slice());
+    q.answer = q.choices.indexOf(right) + 1;
+    q.rightText = right;
+    q.sig = "en" + q.mode + right + "|" + q.ask;
+    return q;
+  }
+
+  function makeEnglishQuestion(game, lv) {
+    var q = { measure: "english", mode: game, level: lv, kind: "eng", unitText: "" };
+    var band = engBand(Math.min(lv, MAX_LEVEL)), n = lv > MAX_LEVEL ? 4 : engChoices(lv);
+    if (game === "step") {
+      /* spelling: choose at 1-4 and 7, type it at 5, 6 and 8 (when this iPad can speak) */
+      var tier = lv <= 2 ? "A" : lv <= 4 ? "B" : lv === 5 ? "A" : lv === 6 ? "B" : lv <= 8 ? "C" : "D";
+      var typed = canSpeak() && (lv === 5 || lv === 6 || lv === 8 || lv >= 11);
+      if (lv <= 4 || lv === 7) n = lv % 2 ? 3 : 4;
+      var w = engPick(spellPool(tier), function (x) { return x[0]; });
+      q.word = w[0]; q.sentence = w[1]; q.game = "spell"; q.silent = w[3] || "";
+      if (typed) {
+        q.textAns = true; q.answer = 1;
+        q.ask = "Listen, then type the missing word.";
+        q.sig = "ens" + w[0];
+        q.why = ["The word is <b>" + esc(w[0]) + "</b>." + (q.silent ? " The silent letter is " + esc(q.silent) + "." : ""), "Common mistakes: " + w[2].split(",").map(esc).join(", ") + ". Look at the letters that are different."];
+        return q;
+      }
+      q.ask = "Which spelling is right?";
+      q.why = ["<b>" + esc(w[0]) + "</b> is the right spelling.", q.silent ? "The silent letter is " + esc(q.silent) + ". You don’t hear it, but it is there." : "The others are the usual mistakes. Say it slowly in parts and picture each part."];
+      return engFinish(q, w[0], w[2].split(","), n);
+    }
+    if (game === "read") {
+      var pool = PUNCT.filter(function (p) { return p[0] === band; });
+      var it = engPick(pool, function (x) { return x[2]; });
+      q.game = "punct"; q.rule = it[1];
+      q.ask = "Which sentence is punctuated correctly?";
+      q.why = [esc(PUNCT_TIP[it[1]]), "So it is: <b>" + esc(it[2]) + "</b>"];
+      return engFinish(q, it[2], it[3], n);
+    }
+    if (game === "add") {
+      q.game = "vocab";
+      if (band >= 3 && Math.random() < 0.4) {
+        var c = engPick(CONTEXT.filter(function (x) { return x[0] <= band; }), function (x) { return x[1]; });
+        var wd = /\*([^*]+)\*/.exec(c[1])[1];
+        q.passage = c[1].replace(/\*([^*]+)\*/, "<b>$1</b>");
+        q.ask = "What does ‘" + wd + "’ mean in this sentence?";
+        q.tip = "Read the whole sentence. The other words give clues to what it means.";
+        q.why = ["The clue is in the rest of the sentence.", "‘" + esc(wd) + "’ means <b>" + esc(c[2]) + "</b> here."];
+        return engFinish(q, c[2], c.slice(3), n);
+      }
+      var vb = VOCAB.filter(function (x) { return x[0] === band || (band === 4 && x[0] === 3 && Math.random() < 0.3); });
+      var v = engPick(vb, function (x) { return x[1] + x[2]; });
+      q.ask = v[1] === "same" ? "Which means the same as ‘" + v[2] + "’?"
+            : v[1] === "opp" ? "Which means the opposite of ‘" + v[2] + "’?"
+            : "What does " + v[2] + " mean?";
+      q.tip = v[1] === "same" ? "Try each one in a sentence in place of ‘" + v[2] + "’. Which keeps the meaning?"
+            : v[1] === "opp" ? "Opposite means the meaning flips, like up and down."
+            : "Think of other words that start or end the same way, like unkind, untidy, unlock.";
+      q.why = [v[1] === "part" ? "<b>" + esc(v[2].split(" in ")[0]) + "</b> means <b>" + esc(v[3]) + "</b>." :
+               "‘" + esc(v[2]) + "’ and ‘" + esc(v[3]) + "’ " + (v[1] === "same" ? "mean the same." : "are opposites.")];
+      return engFinish(q, v[3], v.slice(4), n);
+    }
+    if (game === "about") {
+      var cand = [];
+      READ.forEach(function (p, pi) { p.qs.forEach(function (x, qi) { if (x[0] <= band && x[0] >= band - 1) cand.push([pi, qi]); }); });
+      if (!cand.length) READ.forEach(function (p, pi) { p.qs.forEach(function (x, qi) { cand.push([pi, qi]); }); });
+      var pk = engPick(cand, function (x) { return x[0] + "." + x[1]; });
+      var P = READ[pk[0]], Q = P.qs[pk[1]];
+      q.game = "reading"; q.passage = esc(P.text);
+      q.ask = Q[1];
+      q.tip = Q[0] <= 1 ? "The answer is in the text. Find the sentence that talks about it."
+            : "The answer is not written word for word. Look for clues in what people do and say.";
+      q.why = ["<b>" + esc(Q[2].charAt(0).toUpperCase() + Q[2].slice(1)) + "</b>.", Q[0] <= 1 ? "It says so in the text." : "The text does not say it straight out, but the clues point to it."];
+      return engFinish(q, Q[2], Q.slice(3), n);
+    }
+    /* set: the right word for the gap */
+    var rw = engPick(RIGHTWORD.filter(function (x) { return x[0] === band || (lv > MAX_LEVEL && x[0] >= 3); }), function (x) { return x[1]; });
+    q.game = "word"; q.sentence = rw[1];
+    q.ask = "Which word fits the gap?";
+    q.tip = WORD_TIP[rw[4]] || "Read the sentence with each word in the gap.";
+    q.why = [esc(q.tip.charAt(0).toUpperCase() + q.tip.slice(1)), "So: " + esc(rw[1].replace("___", rw[2]))];
+    return engFinish(q, rw[2], rw[3], Math.min(n, 3));
+  }
+
+  function drawEnglish(q, reveal) {
+    var out = '<div class="engcard"><h2 class="engask">' + esc(q.ask) + "</h2>";
+    if (q.passage) out += '<div class="engtext">' + q.passage + "</div>";
+    if (q.sentence) {
+      var parts = esc(q.sentence).split("___");
+      var fill = reveal ? '<b class="engfill">' + esc(q.textAns ? q.word : q.rightText) + "</b>" : '<span class="enggap">' + (q.textAns ? "?" : " ") + "</span>";
+      out += '<p class="engsent">' + parts.join(fill) + "</p>";
+    }
+    if (q.textAns) {
+      out += '<div class="engsay"><button type="button" class="action ghost small" data-say="word">🔊 Hear the word</button>' +
+             '<button type="button" class="action ghost small" data-say="sent">🔊 Hear the sentence</button></div>';
+      return out + "</div>";
+    }
+    out += '<div class="lifeopts engopts' + (q.game === "punct" || q.game === "reading" ? " long" : "") + '" role="group" aria-label="Choose one">';
+    q.choices.forEach(function (c, i) {
+      var cls = reveal ? (i + 1 === q.answer ? " right" : " dim") : "";
+      out += '<button type="button" class="lifeopt' + cls + '" data-opt="' + (i + 1) + '"' + (reveal ? " disabled" : "") + ">" + esc(c) + "</button>";
+    });
+    return out + "</div></div>";
+  }
+  function englishHint(q, tries) {
+    if (tries >= 3) return "Not quite. The answer is " + (q.textAns ? q.word : q.rightText) + ".";
+    if (q.game === "spell" && q.silent && tries === 1) return "This word has a silent letter: " + q.silent + ".";
+    if (q.game === "spell") {
+      if (q.textAns) return tries === 1 ? "It starts with ‘" + q.word.charAt(0) + "’ and has " + q.word.length + " letters." : "Listen again and say it slowly in parts. It ends with ‘" + q.word.slice(-2) + "’.";
+      return tries === 1 ? "Say each one slowly in your head. Which one looks right?" : "Look for the letters that are missing or swapped around.";
+    }
+    if (q.game === "punct") return tries === 1 ? PUNCT_TIP[q.rule] : "Check every capital letter, comma and apostrophe, one sentence at a time.";
+    return tries === 1 ? q.tip : "Cross out the ones that cannot be right, then choose from what is left.";
+  }
+  var ENG_NOTES = {
+    step: ["Year 2–3 words, 3 choices", "Year 2–3 words, 4 choices", "Year 3–4 words and silent letters, 3 choices", "Year 3–4 words and silent letters, 4 choices",
+           "type Year 2–3 words", "type Year 3–4 words and silent letters", "Year 5–6 words and silent letters, choose", "type Year 5–6 words and silent letters"],
+    read: ["capitals and question marks", "capitals and question marks", "lists and short forms", "lists and short forms",
+           "owning apostrophes and speech", "owning apostrophes and speech", "opening phrases, colons, brackets", "opening phrases, colons, brackets"],
+    add: ["same meaning, easy words", "same meaning, easy words", "harder words and opposites", "harder words and opposites",
+          "opposites and words in a sentence", "opposites and words in a sentence", "prefixes, suffixes and meaning", "prefixes, suffixes and meaning"],
+    about: ["finding facts", "finding facts", "facts and clues", "facts and clues", "clues and word meaning", "clues and word meaning", "why the writer did it", "why the writer did it"],
+    set: ["to, two, too and friends", "to, two, too and friends", "your, you’re, I and me", "your, you’re, I and me",
+          "its, fewer, affect", "its, fewer, affect", "whose, than, lose, accept", "whose, than, lose, accept"]
+  };
+  function englishNote(mode, lv) {
+    var l = ENG_NOTES[mode]; if (!l) return "";
+    var t = l[Math.min(lv, l.length) - 1] + (lv > l.length ? " (stretch)" : "");
+    return mode === "step" && !canSpeak() ? t.replace(/^type (.*)/, "$1, choose") : t;
+  }
+  if (/[?&]test=1(&|$)/.test(location.search)) window.__eng = function (game, lv) { return makeEnglishQuestion(game, lv); };
+  if (/[?&]test=1(&|$)/.test(location.search)) window.__engBanks = function () { return { SILENT: SILENT, SPELL: SPELL, PUNCT: PUNCT, VOCAB: VOCAB, CONTEXT: CONTEXT, READ: READ, RIGHTWORD: RIGHTWORD }; };
 
   /* ================================================ mistake detective
      A wrong answer is usually one of a handful of misreadings, and which one
@@ -7728,15 +8452,18 @@
 
   function check() {
     if (state.answered) { next(); return; }
-    var raw = state.q && state.q.mode === "set"
+    var raw = state.q && state.q.textAns ? (input.value.trim() ? "1" : "")
+      : state.q && state.q.mode === "set" && state.q.kind !== "eng"
       ? String(setValue())
       : input.value.replace(/[^0-9.\-]/g, "");
+    if (raw === "" && state.q && state.q.textAns) { setVerdict("Type the word in the box first.", "hint"); input.focus(); return; }
     if (raw === "") {
       setVerdict(state.q && state.q.timeAns ? "Type the time with numbers, like " + (state.q.h24 ? "15:45" : "3:45") + "." : "Type a number in the box first.", "hint");
       input.focus();
       return;
     }
     var given = Number(raw), q = state.q;
+    if (q && q.textAns) given = input.value.trim().toLowerCase().replace(/\s+/g, "") === q.word.toLowerCase() ? q.answer : -1;
     if (q && q.timeAns) {
       given = parseTime(input.value, q.h24);
       if (!isFinite(given)) {
@@ -7745,6 +8472,7 @@
         return;
       }
     }
+    if (!isFinite(given)) { setVerdict("That isn't a number I can read. Check it and try again.", "hint"); input.focus(); return; }
     // they are playing now, so a late reply from the sheet must not reach in
     // and change the score or the level underneath them
     state.resuming = false;
@@ -7853,7 +8581,7 @@
                 : to === STRETCH_MAX
                   ? " Stretch level " + (to - MAX_LEVEL) + " now, the top of everything in this game."
                   : " Stretch level " + (to - MAX_LEVEL) + " now, past Year 6 work.")
-          : " Level " + to + " on " + MEASURES[q.measure].label.toLowerCase() + " now.";
+          : " Level " + to + " on " + (q.measure === "english" ? gameLabel("english", q.mode).label.toLowerCase() : MEASURES[q.measure].label.toLowerCase()) + " now.";
       }
       msg += " Press Enter for another one.";
       setVerdict(msg, "good");
@@ -7949,11 +8677,13 @@
      after every question and has to Tab back. Focusing a slider opens no
      on-screen keyboard on an iPad, which is the right outcome there too. */
   function focusAnswer() {
-    if (state.q && state.q.mode === "set") {
+    if (state.q && state.q.mode === "set" && state.q.kind !== "eng") {
       var s = bench.querySelector("svg.settable");
       if (s && s.focus) { try { s.focus({ preventScroll: true }); } catch (e) { s.focus(); } }
       return;
     }
+    var opt = input.hidden && bench.querySelector(".lifeopt:not([disabled])");
+    if (opt) { try { opt.focus({ preventScroll: true }); } catch (e) { opt.focus(); } return; }
     input.focus();
   }
 
@@ -7970,6 +8700,11 @@
     document.querySelectorAll(".measure").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.measure === state.measure));
     });
+    var isEng = state.measure === "english";
+    document.querySelector("nav.subjects").hidden = !englishOn();
+    document.querySelectorAll(".subject").forEach(function (b) { b.setAttribute("aria-pressed", String((b.dataset.subject === "english") === isEng)); });
+    document.querySelector("nav.measures").hidden = isEng;
+    document.body.classList.toggle("english", isEng);
 
     var shown = state.measure;
 
@@ -7995,7 +8730,7 @@
     /* "Show the gaps" counts the spaces between the lines on a scale. There
        are no lines on the number bench, so the button would be a dead thing
        sitting next to a live one. */
-    document.getElementById("gaps").hidden = shown === "number" || state.mode === "convert" || state.mode === "life";
+    document.getElementById("gaps").hidden = shown === "number" || shown === "english" || state.mode === "convert" || state.mode === "life";
 
     var lv = level(shown, state.mode);
     var pips = "";
@@ -8015,9 +8750,8 @@
       help = lv <= 4 ? "every counter drawn"
            : lv <= 6 ? "one group drawn, the rest as a number"
            : "no counters, just the numbers";
-      if (isStretch(lv)) help += " \u00b7 above the year level";
     } else if (isCustom(shown, state.mode)) {
-      help = isStretch(lv) ? "above the year level" : "practice at your level";
+      help = "";
     } else {
       help = state.mode === "step"
         ? (lv <= 2 ? "only the first number missing"
@@ -8028,7 +8762,6 @@
           : lv <= 4 ? "half the numbers shown"
           : lv <= 6 ? "one number shown"
           : "only the two ends shown");
-      if (isStretch(lv)) help += " \u00b7 above the year level";
     }
     /* Below the top of the ladder this still counts to eight, because eight is
        still what finishing means. Above it the count starts again, so a child
@@ -8042,14 +8775,14 @@
     if (lv < STRETCH_MAX) {
       var run = (state.runs[shown] && state.runs[shown][state.mode]) | 0;
       var need = climbNeeded(lv);
-      climb = " · " + run + " of " + need + " in a row to move up";
+      climb = " · " + run + " of " + need + " right in a row to move up";
     }
 
     document.getElementById("levelnote").textContent =
       (isStretch(lv) ? "Stretch " + (lv - MAX_LEVEL) + " of " + (STRETCH_MAX - MAX_LEVEL)
                      : lv + " of " + MAX_LEVEL) + ": " +
       (shown === "number" ? NUMBER_NOTE[lv - 1] : isCustom(shown, state.mode) ? customNote(shown, state.mode, lv) : levelNote(lv, state.mode, shown)) +
-      " · " + help + climb +
+      (help ? " · " + help : "") + climb +
       (CONFIG.LEVEL_BONUS ? " · worth " + basePoints(lv) + " points" : "");
     document.getElementById("railname").textContent = MEASURES[shown].label + " level";
     drawLadders();
@@ -8155,7 +8888,7 @@
       duelWins: Math.max(local ? local.wins | 0 : 0, remote ? remote.wins | 0 : 0),
       duelLosses: Math.max(local ? local.losses | 0 : 0, remote ? remote.losses | 0 : 0),
       duelDraws: Math.max(local ? local.draws | 0 : 0, remote ? remote.draws | 0 : 0),
-      levels: mergeLevels(local && local.levels, remote && remote.levels)
+      levels: mergeLevels(local && local.levels, local && lb >= rb ? null : remote && remote.levels)
     };
   }
 
@@ -8564,6 +9297,8 @@
       return true;
     }
     if (data && data.ok && Array.isArray(data.rows)) {
+      // a reply meant for everyone leaves those two out: keep the teacher's copy
+      if (TEACHER) data.rows.forEach(function (r) { var o = !("mist" in r) && sharedEntryFor(r.name); if (o) { r.mist = o.mist; r.left = o.left; } });
       shared.rows = data.rows;
       shared.loaded = true;
       shared.status = "";
@@ -8635,7 +9370,10 @@
   function pullShared(quiet) {
     if (!shared.on || !classReady) return Promise.resolve();
     if (!quiet) { shared.status = "reading"; drawBoard(); }
-    return fetchSheet(sharedUrl({ action: "list", room: CLASS }), { method: "GET", redirect: "follow" })
+    return (TEACHER ? fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "list", room: CLASS, teacher: TEACHER_CODE }) })
+      : fetchSheet(sharedUrl({ action: "list", room: CLASS }), { method: "GET", redirect: "follow" }))
       .then(function (data) { if (takeRows(data)) noteOk(); })
       .catch(function (err) { noteFail(err); shared.status = "offline"; })
       .then(function () { drawBoard(); });
@@ -8691,13 +9429,22 @@
      Every reply from the sheet carries the class's state, and each device also
      asks for it on its own every 20 seconds, which reads two settings and no
      sheet. The teacher's own device is never paused or locked. */
-  var classState = { paused: false, focus: null, season: "auto", pins: false };
+  var classState = { paused: false, focus: null, season: "auto", pins: false, english: false };
+  /* English is one switch in the teacher panel, per class. Off until the
+     teacher turns it on. Without a class sheet (one iPad on its own) it is on. */
+  function englishOn() { return !shared.on || classState.english === true; }
   function applyClassState(cs) {
     if (!cs || typeof cs !== "object") return;
     var was = JSON.stringify(classState);
     classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
-                   season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true };
+                   season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
+                   english: cs.english === true };
     if (JSON.stringify(classState) === was && !TEACHER) { lockToFocus(); return; }
+    if (!englishOn() && state.measure === "english" && state.name) {
+      state.measure = "capacity"; state.mode = "read";
+      document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)); });
+      next();
+    } else if (JSON.parse(was).english !== classState.english && state.name) { updateChrome(); drawLadders(); }
     if (JSON.parse(was).season !== classState.season) {
       reapplyWantedSkin();
       if (typeof drawRewards === "function" && state.name) drawRewards();
@@ -8726,6 +9473,7 @@
     var f = classState.focus, lock = !!f && !TEACHER && !duel.on;
     if (lock) endWarm(false);
     document.querySelectorAll(".measure").forEach(function (b) { b.disabled = lock && b.dataset.measure !== f.measure; });
+    document.querySelectorAll(".subject").forEach(function (b) { b.disabled = lock && (b.dataset.subject === "english") !== (f.measure === "english"); });
     document.querySelectorAll(".mode").forEach(function (b) { b.disabled = lock && b.dataset.mode !== f.game; });
     var banner = document.getElementById("focusnote");
     if (!banner) {
@@ -8841,7 +9589,7 @@
     })
       .then(function (data) {
         if (takeRows(data)) { noteOk(); shared.log.splice(0, sentN); }   // the sheet has the list now
-        else retryPush();
+        else if (!data || !data.pinBad) retryPush();
       })
       .catch(function (err) { noteFail(err); shared.status = "offline"; retryPush(); })
       .then(function () { shared.outLog = []; drawBoard(); });
@@ -9022,7 +9770,7 @@
   /* Where the points came from, measure by measure, with the level reached
      in that measure alongside. */
   function breakdown(row) {
-    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number", time: "Time" };
+    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number", time: "Time", english: "English" };
     var bits = [];
     for (var i = 0; i < MEASURE_KEYS.length; i++) {
       var k = MEASURE_KEYS[i];
@@ -9261,7 +10009,7 @@
     if (!row) return;
     profileFor = row.name;
     var levels = row.levels || {};
-    var lv = MEASURE_ORDER.map(function (m) {
+    var lv = MEASURE_ORDER.filter(function (m) { return m !== "english" || englishOn(); }).map(function (m) {
       var t = 1;
       try { if (levels[m]) t = topLevel(levels, m); } catch (e) { t = 1; }
       return '<span>' + esc(MEASURES[m].label) + ' <b class="' + (isStretch(t) ? "gold" : "") + '">' + (isStretch(t) ? "S" + (t - MAX_LEVEL) : "L" + t) + "</b></span>";
@@ -9372,11 +10120,11 @@
   function rcLevel(lv) { return isStretch(lv) ? "S" + (lv - MAX_LEVEL) : String(lv); }
   function reportPage(row) {
     var levels = row.levels || {};
-    var head = "<tr><th>Game</th>" + MEASURE_ORDER.map(function (m) { return "<th>" + esc(MEASURES[m].label) + "</th>"; }).join("") + "</tr>";
+    var head = "<tr><th>Game</th>" + MATHS_ORDER.map(function (m) { return "<th>" + esc(MEASURES[m].label) + "</th>"; }).join("") + "</tr>";
     var body = "", best = null, low = null;
     GAME_KEYS.forEach(function (g) {
       var cells = "", anyGame = false;
-      MEASURE_ORDER.forEach(function (m) {
+      MATHS_ORDER.forEach(function (m) {
         if (!gameAvailable(m, g)) { cells += '<td class="na">–</td>'; return; }
         anyGame = true;
         var lv = safeLevel((levels[m] || {})[g]);
@@ -9410,6 +10158,9 @@
       '<h2 class="rc-h">Levels reached</h2>' +
       '<p class="rc-key">Each game has 8 levels. Bold means the child has finished that ladder. S1 to S6 are stretch levels, Year 5 and 6 work and beyond.</p>' +
       '<table class="rc-table">' + head + body + "</table>" +
+      (CORE_GAMES.some(function (g) { return safeLevel((levels.english || {})[g]) > 1 || (row.scores && row.scores.english > 0); })
+        ? '<table class="rc-table"><tr><th>English</th>' + CORE_GAMES.map(function (g) { return "<th>" + esc(gameLabel("english", g).label) + "</th>"; }).join("") + "</tr><tr><td>Level</td>" +
+          CORE_GAMES.map(function (g) { var l = safeLevel((levels.english || {})[g]); return "<td" + (l >= MAX_LEVEL ? ' class="top"' : "") + ">" + rcLevel(l) + "</td>"; }).join("") + "</tr></table>" : "") +
       (best ? '<p class="rc-p"><b>Strongest:</b> ' + esc(best.label) + " (level " + rcLevel(best.lv) + ")." +
         (low && low.lv < MAX_LEVEL ? " <b>Next step:</b> " + esc(low.label) + " (level " + rcLevel(low.lv) + ")." : "") + "</p>" : "") +
       '<p class="rc-p"><b>Badges:</b> ' + got.length + " of " + BADGES.length + (names.length ? " (" + esc(names.slice(-8).join(", ")) + (names.length > 8 ? " and more" : "") + ")" : "") + "." +
@@ -9533,7 +10284,7 @@
         '<button type="button" class="linky" id="tshowbtn"' + (showBusy ? " disabled" : "") + '>' +
         (showBusy ? "Saving..." : teacherShown ? "Hide me" : "Show me") + "</button></p>"
       : "";
-    var fsel = '<select id="tc-measure">' + ["capacity", "mass", "length", "temperature", "time", "number"].map(function (m) {
+    var fsel = '<select id="tc-measure">' + ["capacity", "mass", "length", "temperature", "time", "number"].concat(englishOn() ? ["english"] : []).map(function (m) {
                  return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>"; }).join("") + "</select>" +
                '<select id="tc-game">' + ["step", "read", "add", "about", "set", "convert", "life"].map(function (g) {
                  var gl = gameLabel("capacity", g); return '<option value="' + g + '">' + esc(gl ? gl.label : g) + "</option>"; }).join("") + "</select>";
@@ -9559,6 +10310,9 @@
             [["auto", "By the date"]].concat(SKINS.filter(function (s) { return s.season; }).map(function (s) { return [s.id, s.name + " now too"]; }), [["none", "None at all"]]).map(function (o) {
               return '<option value="' + o[0] + '"' + (classState.season === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") +
             '</select> <span class="tc-note">' + (activeSeasons().length ? "On now: " + esc(activeSeasons().map(function (id) { return (skinById(id) || {}).name || id; }).join(", ")) + "." : "None on now.") + "</span></div>" +
+          '<div><b>English.</b> ' + (classState.english
+            ? 'On: children see a Maths | English switch. <button type="button" class="linky" id="tc-eng" data-on="0">Turn English off</button>'
+            : 'Off: maths only. <button type="button" class="linky" id="tc-eng" data-on="1">Turn English on</button> <span class="tc-note">Spelling, punctuation, vocabulary, reading and right word.</span>') + "</div>" +
           '<div><b>PINs.</b> ' + (classState.pins
             ? 'Each child signs in with their own 4 digit PIN. To reset one, tap the child on the board. <button type="button" class="linky" id="tc-pins" data-on="0">Turn PINs off</button>'
             : 'Off. Anyone can type any name. <button type="button" class="linky" id="tc-pins" data-on="1">Turn PINs on</button>') + "</div>" +
@@ -9606,6 +10360,11 @@
     if (tse) tse.addEventListener("change", function () {
       tse.disabled = true;
       teacherClassAction({ action: "season", season: tse.value }).then(function () { drawBoard(); }, function () { tse.disabled = false; });
+    });
+    var ten = document.getElementById("tc-eng");
+    if (ten) ten.addEventListener("click", function () {
+      ten.disabled = true;
+      teacherClassAction({ action: "english", on: ten.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { ten.disabled = false; });
     });
     var tpi = document.getElementById("tc-pins");
     if (tpi) tpi.addEventListener("click", function () {
@@ -9761,7 +10520,7 @@
   }
 
   function worksheetView(list) {
-    var meas = MEASURE_ORDER.filter(function (m) { return m !== "time"; }).map(function (m) {
+    var meas = MATHS_ORDER.filter(function (m) { return m !== "time"; }).map(function (m) {
       return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>";
     }).join("");
     var games = CORE_GAMES.map(function (g) {
@@ -10754,6 +11513,7 @@
     var out = "";
     for (var m = 0; m < MEASURE_ORDER.length; m++) {
       var mk = MEASURE_ORDER[m];
+      if (mk === "english" && !englishOn()) continue;
       out += '<div class="lad-group"><b>' + esc(MEASURES[mk].label) + "</b>";
       for (var g = 0; g < GAME_KEYS.length; g++) {
         var gk = GAME_KEYS[g];
@@ -10774,6 +11534,10 @@
       }
       out += "</div>";
     }
+    /* Called after every question, and nearly always nothing has changed:
+       skip rebuilding hundreds of pips when the result would be the same. */
+    if (body._last === out) return;
+    body._last = out;
     body.innerHTML = out;
 
     /* The subtitle only mentions the tier once somebody in front of this
@@ -10874,7 +11638,11 @@
                '<b>' + esc(b.name) + '</b>' +
                '<small>' + esc(got ? "Unlocked" : b.want) + '</small></li>';
     }
-    document.getElementById("shelf").innerHTML = shelf;
+    /* Everything below lives inside the badges panel, which is shut nearly all
+       the time and is redrawn the moment it opens. Building it on every answer
+       was hundreds of elements nobody could see. */
+    var shelfOpen = !document.getElementById("shelfpanel").hidden;
+    if (shelfOpen) document.getElementById("shelf").innerHTML = shelf;
     /* The count sits on the button in the column and again in the heading of
        the panel it opens, so both are written here rather than one of them
        being right and the other being whatever it said last. */
@@ -10882,6 +11650,7 @@
     document.getElementById("badge-count").textContent = count;
     var spCount = document.getElementById("sp-count");
     if (spCount) spCount.textContent = count;
+    if (!shelfOpen) return;
 
     var jarWord = function (n) { return n === 1 ? "fill the jar" : "fill the jar " + n + " times"; };
 
@@ -12440,12 +13209,11 @@
     teacherBtn.disabled = true;
     teacherBtn.textContent = "Checking...";
     teacherErr.hidden = true;
-    fetch(CONFIG.SHARED_URL, {
+    fetchSheet(CONFIG.SHARED_URL, {
       method: "POST", redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ action: "teacherlogin", room: CLASS, teacher: pw })
-    })
-      .then(function (r) { return r.json(); })
+    }, 12000)
       .then(function (data) {
         if (data && data.ok) {
           TEACHER_CODE = pw;
@@ -12462,8 +13230,8 @@
         teacherErr.hidden = false;
         teacherPass.select();
       })
-      .catch(function () {
-        teacherErr.textContent = "Could not reach the class sheet. Check the internet and try again.";
+      .catch(function (err) {
+        teacherErr.textContent = "Could not reach the class sheet (" + ((err && err.detail) || "no answer") + "). Check the internet and try again.";
         teacherErr.hidden = false;
       })
       .then(function () {
@@ -12638,6 +13406,9 @@
   var pinGo = document.getElementById("pin-go");
   var pinName = "", pinMode = "", pinBusy = false;
   function pinKey(name) { return "juglab.pin." + String(CLASS).toLowerCase() + "." + String(name).toLowerCase(); }
+  /* Each child has their own iPad, so the iPad remembers the PIN for the
+     names that have signed in on it and does not ask again. On any other
+     iPad the PIN is asked. */
   function savedPin(name) { try { return localStorage.getItem(pinKey(name)) || ""; } catch (e) { return ""; } }
   function savePin(name, pin) { try { localStorage.setItem(pinKey(name), pin); } catch (e) { /* blocked */ } }
   function forgetPin(name) { try { localStorage.removeItem(pinKey(name)); } catch (e) { /* blocked */ } }
@@ -12831,6 +13602,23 @@
     });
   });
 
+  /* Maths or English. Each remembers where it was, so switching back lands on
+     the same measure and game. */
+  var lastMaths = { m: "capacity", g: "step" }, lastEng = "step";
+  document.querySelectorAll(".subject").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var toEng = btn.dataset.subject === "english";
+      if (toEng === (state.measure === "english")) return;
+      if (btn.disabled) return;
+      endWarm(false);
+      if (toEng) { lastMaths = { m: state.measure, g: state.mode }; state.measure = "english"; state.mode = lastEng; }
+      else { lastEng = state.mode; state.measure = lastMaths.m; state.mode = gameAvailable(lastMaths.m, lastMaths.g) ? lastMaths.g : "read"; }
+      document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)); });
+      state.tries = 0;
+      next();
+    });
+  });
+
   document.querySelectorAll(".mode").forEach(function (btn) {
     btn.addEventListener("click", function () {
       document.querySelectorAll(".mode").forEach(function (b) {
@@ -12930,7 +13718,8 @@
     document.body.classList.toggle("shelfopen", on);
     if (on) {
       drawRewards();                       // the counts can have moved since it was last open
-      document.getElementById("sp-close").focus();
+      var spx = document.querySelector(".sp-card .xclose");
+      if (spx) spx.focus();
     } else {
       document.getElementById("shelfbtn").focus();
     }
@@ -12947,7 +13736,7 @@
      anywhere on the scale jumps the handle there, which matters more than drag
      does: a child on a trackpad would rather point at 350 than drag to it. */
   bench.addEventListener("pointerdown", function (e) {
-    if (!state.q || state.q.mode !== "set") return;
+    if (!state.q || state.q.mode !== "set" || state.q.kind === "eng") return;
     dragging = true;
     if (e.target && e.target.setPointerCapture && e.pointerId != null) {
       try { e.target.setPointerCapture(e.pointerId); } catch (err) { /* fine */ }
@@ -12966,7 +13755,7 @@
      child this game is for. The instrument takes focus and the arrows walk it
      one mark at a time. */
   bench.addEventListener("keydown", function (e) {
-    if (!state.q || state.q.mode !== "set") return;
+    if (!state.q || state.q.mode !== "set" || state.q.kind === "eng") return;
     var k = e.key;
     if (k === "ArrowUp" || k === "ArrowRight") { nudge(1); e.preventDefault(); }
     else if (k === "ArrowDown" || k === "ArrowLeft") { nudge(-1); e.preventDefault(); }
@@ -13093,8 +13882,8 @@
         return;
       }
       btn.dataset.armed = "1";
-      btn.textContent = deep ? "Tap again: wipe scores, levels and badges"
-                             : "Tap again: wipe every score";
+      btn.textContent = deep ? "Tap again: wipe scores, levels, badges and PINs"
+                             : "Tap again: wipe every score and PIN";
       setTimeout(function () {
         btn.dataset.armed = "";
         btn.textContent = label;
@@ -13241,6 +14030,20 @@
   window.__applyBackdrop = function (id) { return applyBackdrop(id); };
   window.__backdrops = function () { return BACKDROPS; };
   window.__setMeasure = function (m) { state.measure = m; next(); return m; };
+  /* For the release check: the right way to answer whatever is on screen. */
+  if (/[?&]test=1(&|$)/.test(location.search)) window.__solve = function () {
+    var q = state.q;
+    if (!q) return null;
+    if (q.choices) return { click: q.answer };
+    if (q.textAns) return { type: q.word };
+    if (q.mode === "set" && q.kind !== "eng") {
+      if (q.kind === "time") { state.setAt = q.answer; return { check: 1 }; }
+      for (var at = 0; at <= 20000; at++) { state.setAt = at; if (Math.abs(setValue() - q.answer) < 1e-9) return { check: 1 }; }
+      return { fail: "no position gives " + q.answer };
+    }
+    if (q.timeAns) { var hh = Math.floor(q.answer / 60), mm = q.answer % 60; return { type: q.h24 ? two(hh) + ":" + two(mm) : ((hh % 12) || 12) + ":" + two(mm) }; }
+    return { type: String(q.answer) };
+  };
   window.__title = function (levels) { return titleStanding(levels); };
   window.__duel = function () { return duel; };
   window.__duelSeconds = function () { return DUEL_SECONDS; };
