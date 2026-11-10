@@ -11,7 +11,7 @@
   anything else changes (fonts, icons, fonts.css, the manifest), and it does no
   harm to change it with every release.
 */
-var CACHE = "measuring-lab-v58";
+var CACHE = "measuring-lab-v60";
 var CORE = ["./", "index.html", "config.js"];   // without these the update is not taken
 var FILES = [
   "manifest.webmanifest",

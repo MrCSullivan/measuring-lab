@@ -4130,6 +4130,10 @@
 <script>
 (function () {
   "use strict";
+  /* The release check's way in. Only with ?test=1 on the address do these reach
+     window; otherwise they land on an object nobody can see, so a child at a
+     laptop console cannot read the answer, set their own score or end a duel. */
+  var hooks = /[?&]test=1(&|$)/.test(location.search) ? window : {};
 
   /* ==========================================================================
      SHARED CLASS LEADERBOARD. The only settings you ever need to touch.
@@ -5353,7 +5357,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "58";
+  var GAME_VERSION = "60";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -6260,13 +6264,48 @@
             q.want || ""].join("/");
   }
 
-  var lastSig = "";
+  /* ---- no repeats ----
+     Each child's last few hundred questions are remembered on this iPad, with
+     when each was last answered right. A new question is drawn up to a hundred
+     times until it is one they have not had (thirty missed the last unseen
+     question on a ten-question rung about one time in twenty-five); only a rung too small to have one
+     left repeats. A question answered right in the last half hour earns no
+     points and does not grow the streak, so learning a small rung's answers by
+     heart is not a way to farm points. */
+  var SEEN_MAX = 400, REST_MS = 30 * 60 * 1000, seen = { who: null, map: {} };
+  function seenStore() { return "juglab.seen." + String(CLASS).toLowerCase() + "." + String(state.name || "").toLowerCase(); }
+  function seenMap() {
+    if (seen.who !== state.name) {
+      seen = { who: state.name, map: {} };
+      try { seen.map = JSON.parse(localStorage.getItem(seenStore()) || "{}") || {}; } catch (e) { /* none yet */ }
+    }
+    return seen.map;
+  }
+  function qKey(q) {
+    var sig = q.kind === "life" ? (q.reverse ? "r:" : "") + q.item[1] : questionSig(q);
+    return sig ? q.measure + "|" + q.mode + "|" + sig : "";
+  }
+  function noteSeen(q, right) {
+    var k = qKey(q), map = seenMap(), now = Date.now();
+    if (!k) return;
+    map[k] = [now, right ? now : (map[k] || [0, 0])[1]];
+    var keys = Object.keys(map);
+    if (keys.length > SEEN_MAX) {
+      keys.sort(function (a, b) { return map[a][0] - map[b][0]; });
+      keys.slice(0, keys.length - SEEN_MAX).forEach(function (old) { delete map[old]; });
+    }
+    try { localStorage.setItem(seenStore(), JSON.stringify(map)); } catch (e) { /* full or blocked */ }
+  }
 
   function newQuestion() {
-    buildQuestion();
-    var sig = questionSig(state.q);
-    if (sig && sig === lastSig) buildQuestion();      // one retry, never a loop
-    lastSig = questionSig(state.q);
+    var map = seenMap();
+    for (var tries = 0; tries < 100; tries++) {
+      buildQuestion();
+      if (!map[qKey(state.q)]) break;
+    }
+    var had = map[qKey(state.q)];
+    state.q.stale = !!(had && had[1] && Date.now() - had[1] < REST_MS);
+    noteSeen(state.q, false);
     render();
     updateChrome();
     drawWarm();
@@ -6888,10 +6927,10 @@
     if (stage) { stage.classList.add("roar"); setTimeout(function () { stage.classList.remove("roar"); }, 650); }
     setTimeout(function () { made.forEach(function (x) { if (x.parentNode) x.parentNode.removeChild(x); }); }, 1500);
   }
-  window.__classify = function (g) { return classifyMistake(state.q, g); };
-  window.__why = function () { return whySteps(state.q); };
-  window.__classState = function (cs) { if (cs) applyClassState(cs); return classState; };
-  window.__dragonFire = function () { dragonFire(); return document.querySelectorAll(".dfire").length; };
+  hooks.__classify = function (g) { return classifyMistake(state.q, g); };
+  hooks.__why = function () { return whySteps(state.q); };
+  hooks.__classState = function (cs) { if (cs) applyClassState(cs); return classState; };
+  hooks.__dragonFire = function () { dragonFire(); return document.querySelectorAll(".dfire").length; };
 
   /* Did they give the right amount in the unit the scale is marked in, when
      the question asked for the other one? Or the other way about? */
@@ -7165,7 +7204,7 @@
   }
   function makeConvertQuestion(measure, lv) {
     var p = cvPair(measure, lv), big = p[0], small = p[1], per = p[2], tm = measure === "time";
-    if (tm && lv >= 8) { p = CONVERT_PAIRS.time[0]; big = p[0]; small = p[1]; per = p[2]; }
+    if (tm && lv >= 8) { p = pickOne(CONVERT_PAIRS.time.slice(0, 2)); big = p[0]; small = p[1]; per = p[2]; }
     var q = { measure: measure, mode: "convert", level: lv, kind: "convert", big: big, small: small, per: per };
     var L = lv > MAX_LEVEL ? pickOne([6, 7, 8, 9]) : lv, bigV, toSmall = true, v, a2, b2;
     function fin(fromV, fromU, toU, ans, picture) {
@@ -7174,8 +7213,8 @@
       q.sig = "cv" + fromV + fromU + toU;
       return q;
     }
-    if (L === 1) { bigV = rint(1, 9); return fin(bigV, big, small, bigV * per, true); }
-    if (L === 2) { bigV = rint(2, 9); return fin(bigV * per, small, big, bigV, true); }
+    if (L === 1) { bigV = rint(1, tm ? 12 : 9); return fin(bigV, big, small, bigV * per, true); }
+    if (L === 2) { bigV = rint(2, tm ? 12 : 9); return fin(bigV * per, small, big, bigV, true); }
     if (L === 3) {
       if (per % 2) { bigV = rint(1, 9); return fin(bigV, big, small, bigV * per, true); }
       bigV = rint(0, 6) + 0.5; return Math.random() < 0.6 ? fin(bigV, big, small, bigV * per, true) : fin(round3(bigV * per), small, big, bigV, true);
@@ -7203,7 +7242,7 @@
     }
     /* L 8 and above: two amounts in different units put together */
     var x = rint(1, 9) * (per >= 100 ? per / 20 : 1), y = rint(1, 4) + (per % 2 ? 0 : 0.5);
-    if (tm) { x = 5 * rint(3, 11); y = rint(1, 2); }
+    if (tm) { x = 5 * rint(1, 11); y = rint(1, 3); }
     var total = x + y * per, inBig = lv > MAX_LEVEL && Math.random() < 0.5 && !tm;
     q.sum = true; q.x = x; q.y = y;
     q.fromV = x + " " + small + " + " + y; q.fromU = big; q.toU = inBig ? big : small;
@@ -7242,19 +7281,29 @@
   var LIFE = {
     capacity: [["🥄", "a teaspoon", 5], ["🥛", "a glass of milk", 250], ["🥤", "a can of drink", 375], ["🧴", "a water bottle", 600],
                ["☕", "a mug of hot chocolate", 300], ["🪣", "a bucket", 10000], ["🛁", "a bathtub", 150000], ["🐟", "a fish tank", 40000],
-               ["🫖", "a teapot", 1000], ["🍼", "a baby's bottle", 250]],
+               ["🫖", "a teapot", 1000], ["🍼", "a baby's bottle", 250], ["🥛", "a big bottle of milk", 2000], ["⛽", "a car's petrol tank", 50000],
+               ["🪴", "a watering can", 5000], ["☕", "an espresso", 30], ["🏊", "a backyard pool", 50000000], ["🥫", "a can of soup", 400]],
     mass: [["📎", "a paperclip", 1], ["🍓", "a strawberry", 15], ["🥚", "an egg", 60], ["🍌", "a banana", 120], ["🍎", "an apple", 150],
            ["🍞", "a loaf of bread", 700], ["🍉", "a watermelon", 5000], ["🎒", "a full school bag", 4000], ["🐈", "a cat", 4000],
-           ["🐕", "a big dog", 30000], ["🧱", "a house brick", 3000], ["✏️", "a pencil", 5], ["📱", "a phone", 200], ["🍍", "a pineapple", 1000]],
+           ["🐕", "a big dog", 30000], ["🧱", "a house brick", 3000], ["✏️", "a pencil", 5], ["📱", "a phone", 200], ["🍍", "a pineapple", 1000],
+           ["🐘", "an elephant", 5000000], ["🚗", "a car", 1500000], ["🧒", "a Year 5 student", 35000], ["🪙", "a $1 coin", 9],
+           ["🥔", "a potato", 200], ["⚽", "a soccer ball", 430]],
     length: [["🐜", "an ant", 3, "long"], ["✏️", "a new pencil", 180, "long"], ["📏", "a school ruler", 300, "long"], ["🚪", "a door", 2000, "tall"],
              ["🦒", "a giraffe", 5000, "tall"], ["🚌", "a bus", 12000, "long"], ["🍌", "a banana", 180, "long"], ["🐌", "a snail", 30, "long"],
-             ["🪑", "a chair", 900, "tall"], ["🛏️", "a bed", 2000, "long"], ["🏊", "an Olympic pool", 50000, "long"], ["👟", "a shoe", 250, "long"]],
+             ["🪑", "a chair", 900, "tall"], ["🛏️", "a bed", 2000, "long"], ["🏊", "an Olympic pool", 50000, "long"], ["👟", "a shoe", 250, "long"],
+             ["🧑‍🏫", "a grown-up", 1700, "tall"], ["🏉", "an AFL oval", 165000, "long"], ["📄", "a sheet of A4 paper", 297, "long"],
+             ["🐊", "a saltwater crocodile", 5000, "long"], ["🦘", "a red kangaroo", 1500, "tall"], ["🏢", "a 10-storey building", 30000, "tall"]],
     temperature: [["❄️", "inside a freezer", -18], ["🧃", "a drink from the fridge", 4], ["🏫", "a classroom", 22], ["☀️", "a hot Adelaide summer day", 40],
                   ["🌡️", "your body", 37], ["☕", "a hot chocolate", 60], ["🫖", "boiling water", 100],
-                  ["🌧️", "a cold winter morning", 6], ["🏖️", "the sea at the beach", 19]],
-    time: [["🪥", "brushing your teeth", 120], ["👟", "tying your shoelaces", 10], ["🎵", "a song", 180], ["🎬", "a movie", 7200],
-           ["😴", "a night's sleep", 36000], ["🥚", "boiling an egg", 360], ["🤧", "a sneeze", 1], ["🏫", "a school day", 21600],
-           ["🚶", "walking 1 kilometre", 900], ["📖", "reading a picture book", 600], ["✈️", "flying from Adelaide to Sydney", 7200]]
+                  ["🌧️", "a cold winter morning", 6], ["🏖️", "the sea at the beach", 19],
+                  ["🍕", "a wood-fired pizza oven", 400], ["🧊", "melting ice", 0], ["🍪", "an oven baking biscuits", 180], ["🛁", "a warm bath", 38]],
+    time: [["🪥", "brushing your teeth", 120], ["👟", "tying your shoelaces", 10], ["🎵", "a song", 180, "is"], ["🎬", "a movie", 7200, "is"],
+           ["😴", "a night's sleep", 36000, "is"], ["🥚", "boiling an egg", 360], ["🤧", "a sneeze", 1], ["🏫", "a school day", 21600, "is"],
+           ["🚶", "walking 1 kilometre", 900], ["📖", "reading a picture book", 600], ["✈️", "flying from Adelaide to Sydney", 7200],
+           ["🍎", "recess", 1200, "is"], ["🍿", "microwaving popcorn", 180], ["🏃", "an Olympic 100 m sprint", 10], ["🏖️", "the summer holidays", 3628800, "are"],
+           ["🗓️", "a weekend", 172800, "is"], ["🎂", "baking a cake", 2700], ["📺", "a cartoon episode", 1320, "is"], ["🚗", "driving from Adelaide to Melbourne", 30600],
+           ["🏏", "a cricket Test match", 432000, "is"], ["🍞", "making toast", 120], ["⚽", "a soccer match", 5400, "is"], ["🌬️", "one deep breath", 4],
+           ["🏊", "swimming one lap of a 50 m pool", 60]]
   };
   function sig2(v) { if (v === 0) return 0; var p = Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1); return Math.round(v / p) * p; }
   function niceAmount(measure, v) {
@@ -7275,8 +7324,31 @@
     var small = measure === "mass" ? " g" : " mL", big = measure === "mass" ? " kg" : " L";
     return v < 1000 ? v + small : round3(v / 1000) + big;
   }
+  /* Items built from a quantity: [picture, words with {k}, amount for one, fewest, most, "is"/"are" or "long"].
+     A fixed list is learnt by heart in a lesson; "walking 7 kilometres" against
+     "walking 3 kilometres" is the same idea at a different size, and asks the
+     child to reason rather than remember. Most real-life questions come from here. */
+  var LIFE_MANY = {
+    time: [["🚶", "walking {k} kilometres", 900, 2, 12], ["🚲", "riding a bike {k} kilometres", 240, 3, 30], ["🎵", "listening to {k} songs", 180, 2, 15],
+           ["📺", "watching {k} cartoon episodes", 1320, 2, 6], ["🏊", "swimming {k} laps of a 50 m pool", 60, 2, 20], ["📖", "reading {k} picture books", 600, 2, 8],
+           ["🏃", "running {k} laps of the school oval", 120, 2, 10], ["🪥", "brushing your teeth {k} times", 120, 2, 14], ["🎬", "watching {k} movies in a row", 7200, 2, 4],
+           ["😴", "{k} nights of sleep", 36000, 2, 7, "are"], ["🏫", "{k} school days", 21600, 2, 5, "are"]],
+    mass: [["🍎", "a bag of {k} apples", 150, 2, 12], ["🥔", "a bag of {k} potatoes", 200, 3, 15], ["🍌", "a bunch of {k} bananas", 120, 3, 8],
+           ["🧱", "a stack of {k} house bricks", 3000, 2, 10], ["📚", "a pile of {k} library books", 400, 2, 12], ["🥚", "a bowl of {k} eggs", 60, 3, 12],
+           ["🪙", "a pile of {k} $1 coins", 9, 5, 50], ["🍉", "a crate of {k} watermelons", 5000, 2, 6]],
+    length: [["📏", "a line of {k} school rulers", 300, 2, 10, "long"], ["✏️", "a line of {k} new pencils", 180, 2, 10, "long"], ["🚌", "a row of {k} buses", 12000, 2, 8, "long"],
+             ["🐜", "a line of {k} ants", 3, 3, 20, "long"], ["👟", "a line of {k} shoes, toe to heel", 250, 2, 12, "long"], ["📄", "a row of {k} sheets of A4 paper", 297, 2, 10, "long"]],
+    capacity: [["🫖", "a jug that fills {k} glasses", 250, 2, 8], ["🛢️", "a tank that fills {k} buckets", 10000, 2, 20],
+               ["🍲", "a pot that fills {k} soup bowls", 400, 2, 10], ["🛁", "a bath that takes {k} buckets to fill", 10000, 5, 20]]
+  };
+  function lifeItem(measure) {
+    var fam = LIFE_MANY[measure];
+    if (!fam || Math.random() < 0.35) return pickOne(LIFE[measure]);
+    var f = pickOne(fam), k = rint(f[3], f[4]);
+    return [f[0], f[1].replace("{k}", k), f[2] * k, f[5]];
+  }
   function makeLifeQuestion(measure, lv) {
-    var item = pickOne(LIFE[measure]), v = item[2];
+    var item = lifeItem(measure), v = item[2];
     var q = { measure: measure, mode: "life", level: lv, kind: "life", item: item, unitText: "" };
     var opts = [v], f;
     if (measure === "temperature") {
@@ -7300,10 +7372,26 @@
     q.answer = q.choices.indexOf(right) + 1;
     q.rightText = right;
     var verb = { capacity: "How much does " + item[1] + " hold?", mass: "How heavy is " + item[1] + "?", length: "How " + (item[3] || "long") + " is " + item[1] + "?",
-                 temperature: "How hot or cold is " + item[1] + "?", time: "How long does " + item[1] + " take?" }[measure];
-    if (measure === "time" && /^a (song|movie|school day|night)/.test(item[1])) verb = "How long is " + item[1] + "?";
+                 temperature: "How hot or cold is " + item[1] + "?",
+                 time: "How long " + (item[3] ? item[3] + " " + item[1] : "does " + item[1] + " take") + "?" }[measure];
     q.ask = "About " + verb.charAt(0).toLowerCase() + verb.slice(1);
     q.sig = "lf" + item[1] + q.choices.join("|");
+    /* Half the time the other way round: the amount is given and the child picks
+       the thing, from things far enough from it for this level to be fair. */
+    var far = lv <= 2 ? 30 : lv <= 4 ? 10 : lv <= 6 ? 4 : lv <= 8 ? 2.5 : 1.8;
+    var others = Math.random() < 0.5 ? shuffle(LIFE[measure]).filter(function (x) {
+      return measure === "temperature" ? Math.abs(x[2] - v) >= d : x[2] > v * far || x[2] < v / far;
+    }).slice(0, q.choices.length - 1) : [];
+    if (others.length === q.choices.length - 1) {
+      var label = function (x) { return x[0] + " " + x[1]; };
+      q.reverse = right;
+      q.choices = shuffle([item].concat(others)).map(label);
+      q.answer = q.choices.indexOf(label(item)) + 1;
+      q.rightText = label(item);
+      q.ask = { capacity: "Which of these holds about ", mass: "Which of these weighs about ", length: "Which of these is about ",
+                temperature: "Which of these is about ", time: "Which of these takes about " }[measure] + right + (measure === "length" ? " " + (item[3] || "long") : "") + "?";
+      q.sig = "lr" + item[1] + q.choices.join("|");
+    }
     return q;
   }
 
@@ -7325,7 +7413,7 @@
     if (q.kind === "convert") {
       return q.picture ? doubleLineSVG(q) : '<div class="cvbig">' + q.fromV + " " + q.fromU + ' <span>= ? ' + q.toU + "</span></div>";
     }
-    var out = '<div class="lifepic" aria-hidden="true">' + q.item[0] + '</div><div class="lifeopts" role="group" aria-label="Choose one">';
+    var out = '<div class="lifepic" aria-hidden="true">' + (q.reverse ? '<span style="font:800 32px/1.2 Fraunces,Georgia,serif">' + esc(q.reverse) + "</span>" : q.item[0]) + '</div><div class="lifeopts" role="group" aria-label="Choose one">';
     q.choices.forEach(function (c, i) {
       var cls = reveal ? (i + 1 === q.answer ? " right" : " dim") : "";
       out += '<button type="button" class="lifeopt' + cls + '" data-opt="' + (i + 1) + '"' + (reveal ? " disabled" : "") + ">" + esc(c) + "</button>";
@@ -7344,13 +7432,13 @@
       return "The minute hand goes on <b>" + q.answer + "</b>.";
     }
     if (q.kind === "convert") return q.fromV + " " + q.fromU + (q.leftover ? " is " + q.wholeBig + " " + q.big + " and <b>" + q.answer + " " + q.small + "</b>." : " is <b>" + q.answer + " " + q.toU + "</b>.");
-    return "About <b>" + esc(q.rightText) + "</b> for " + esc(q.item[1]) + ".";
+    return q.reverse ? "<b>" + esc(q.item[1]) + "</b> is about " + esc(q.reverse) + "." : "About <b>" + esc(q.rightText) + "</b> for " + esc(q.item[1]) + ".";
   }
   function customSentence(q) {
     if (q.kind === "eng") return q.textAns ? "Press a speaker to hear it. Type the word, then press Check." : "";
     if (q.kind === "time" && q.mode !== "set") return q.mode === "add" && !q.digital ? "The first clock is when it started, the second when it finished." : "The short hand shows the hour, the long hand the minutes.";
     if (q.kind === "convert" && q.big) return "1 " + q.big.replace(/s$/, "") + " = " + q.per + " " + q.small + ".";
-    if (q.kind === "life") return "Picture it in front of you. Which amount fits?";
+    if (q.kind === "life") return q.reverse ? "Picture each one in front of you. Which one is about that much?" : "Picture it in front of you. Which amount fits?";
     return "";
   }
   function customHint(q, tries) {
@@ -7417,7 +7505,8 @@
       else w.push(q.fromV + " ÷ " + q.per + " = <b>" + q.answer + " " + q.big + "</b>.");
       return w;
     }
-    if (q.kind === "life") return ["Picture " + esc(q.item[1]) + " in front of you.", "The sensible amount is <b>" + esc(q.rightText) + "</b>. The others are much too big or too small."];
+    if (q.kind === "life") return q.reverse ? ["Picture each one in front of you.", "<b>" + esc(q.item[1]) + "</b> is about <b>" + esc(q.reverse) + "</b>. The others are much bigger or much smaller."]
+                                            : ["Picture " + esc(q.item[1]) + " in front of you.", "The sensible amount is <b>" + esc(q.rightText) + "</b>. The others are much too big or too small."];
     return [];
   }
   var CUSTOM_NOTES = {
@@ -7503,8 +7592,8 @@
     document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)); });
     drawWarm();
   }
-  window.__warm = function () { return warm; };
-  window.__parseTime = parseTime;
+  hooks.__warm = function () { return warm; };
+  hooks.__parseTime = parseTime;
 
 
   /* ================================================================ English
@@ -7662,9 +7751,47 @@
      ones with the Year 3 and 4 words, the harder ones with Year 5 and 6, the
      hardest in the stretch levels. Level 1 and 2 stay as they were. */
   var SPELL_MIX = { A: [0, 0], B: [0, 26], C: [26, 39], D: [39, 52] };
+  var SPELL_MORE = {
+    A: [["want", "I ___ a new bike.", "whant,wnat,wantt"], ["come", "Can you ___ to my party?", "kome,comme,cume"], ["some", "Can I have ___ grapes?", "som,somme,soome"],
+        ["was", "It ___ a sunny day.", "wos,wass,whas"], ["what", "___ is your name?", "whot,whut,whatt"], ["one", "I have ___ sister.", "wun,wonn,onne"],
+        ["once", "We ___ saw a whale.", "wunce,onse,wonce"], ["very", "The cake was ___ yummy.", "verry,vey,veri"], ["pretty", "What a ___ flower!", "prety,pritty,prettey"],
+        ["eight", "My sister is ___ years old.", "eigt,eihgt,iegt"], ["animal", "A wombat is an Australian ___.", "aminal,animle,anamal"], ["birthday", "Happy ___!", "brithday,birthdey,berthday"],
+        ["butterfly", "A ___ landed on the flower.", "buterfly,butterflie,buttafly"], ["holiday", "We went camping in the ___.", "holliday,holaday,hollyday"], ["morning", "I eat toast every ___.", "mornin,morming,moning"],
+        ["teacher", "Our ___ reads to us.", "teecher,techer,teacha"], ["yellow", "The sun is ___.", "yello,yelow,yelloe"], ["kangaroo", "The ___ hopped away.", "kangaru,kangeroo,kangarro"],
+        ["chicken", "We had ___ for dinner.", "chiken,chickin,chickun"], ["window", "Open the ___, please.", "windo,windoe,windowe"], ["jumped", "The frog ___ into the pond.", "jumpt,jumpped,jumpd"],
+        ["played", "We ___ outside all day.", "playd,plaied,plaed"], ["family", "My ___ went to the beach.", "famly,familly,fammily"], ["breakfast", "We had pancakes for ___.", "brekfast,breckfast,breakfest"],
+        ["garden", "Mum grows tomatoes in the ___.", "gardin,gardan,gardden"], ["sister", "My ___ is in Year 1.", "sistor,sistar,sisster"], ["brother", "My big ___ plays footy.", "bruther,brotha,brothor"],
+        ["walked", "We ___ to school.", "walkt,wolked,wakled"], ["happily", "The dog wagged its tail ___.", "happyly,happly,hapily"]],
+    B: [["through", "We walked ___ the forest.", "throught,throgh,thruogh"], ["although", "I went, ___ I was tired.", "allthough,althogh,alhtough"], ["question", "Put up your hand to ask a ___.", "questin,qestion,quession"],
+        ["important", "This is an ___ message.", "importent,inportant,importint"], ["remember", "Do you ___ my name?", "remeber,rememmber,rimember"], ["opposite", "Hot is the ___ of cold.", "oposite,opposit,oppersite"],
+        ["calendar", "Mark the date on the ___.", "calandar,callendar,calendur"], ["actually", "I ___ like broccoli.", "actualy,acually,actully"], ["address", "Write your ___ on the envelope.", "adress,addres,adddress"],
+        ["certain", "Are you ___ it was Tuesday?", "certin,sertain,cirtain"], ["experiment", "We did a science ___.", "experament,expirement,experimint"], ["famous", "She is a ___ singer.", "famus,faimous,famouse"],
+        ["guard", "A dog can ___ a house.", "gaurd,gard,guared"], ["heard", "I ___ a strange noise.", "hurd,heared,haerd"], ["height", "Measure your ___ against the wall.", "hieght,heigth,heigt"],
+        ["knowledge", "Reading adds to your ___.", "knowlege,nolledge,knowledg"], ["natural", "Honey is a ___ food.", "nateral,natral,natchural"], ["often", "We ___ go to the beach.", "offen,ofen,oftin"],
+        ["popular", "Footy is a ___ sport.", "populer,poppular,populur"], ["promise", "I ___ to be home by five.", "promis,promiss,prommise"], ["sentence", "Write a ___ about your weekend.", "sentance,sentense,sentince"],
+        ["special", "Today is a ___ day.", "speshal,specal,speciel"], ["strength", "It takes ___ to lift that box.", "strenth,strengh,strenght"], ["suppose", "I ___ we could go tomorrow.", "supose,suppoze,sepose"],
+        ["weight", "What is the ___ of the parcel?", "wieght,weigth,waight"], ["women", "The ___ won the relay.", "womin,wemen,wommen"]],
+    C: [["accidentally", "I ___ knocked the vase over.", "acidentally,accidentaly,accidentlly"], ["aggressive", "The dog was not ___.", "agressive,aggresive,agresive"], ["apparent", "It was ___ that she was tired.", "apparant,aparent,apparrent"],
+        ["appreciate", "I ___ your help.", "apreciate,appreceate,appriciate"], ["available", "Is the hall ___ on Friday?", "availible,avaliable,availabel"], ["average", "The ___ score was 7.", "avrage,averige,averege"],
+        ["bruise", "I have a ___ on my knee.", "bruse,brewse,bruize"], ["community", "Our ___ held a fair.", "comunity,communitty,comminity"], ["competition", "She won the art ___.", "compitition,competetion,competision"],
+        ["curiosity", "___ made him open the box.", "curiousity,curiosaty,curiocity"], ["desperate", "The thirsty dog was ___ for water.", "desparate,desprate,desperite"], ["dictionary", "Look it up in the ___.", "dictionery,dictionairy,dictonary"],
+        ["equipment", "Put the sports ___ away.", "equiptment,equipmant,equippment"], ["explanation", "Give an ___ for your answer.", "explaination,explanasion,explination"], ["familiar", "That song sounds ___.", "familar,famillar,familliar"],
+        ["frequently", "It ___ rains in winter.", "frequantly,frequentley,freqently"], ["interrupt", "Please don’t ___ me.", "interupt,inturrupt,interrupd"], ["language", "French is a ___.", "langauge,languge,langwage"],
+        ["marvellous", "What a ___ idea!", "marvelus,marvalous,marvellus"], ["muscle", "Lifting weights builds ___.", "muscel,musle,mussle"], ["nuisance", "The flies were a ___.", "nusiance,nuisence,newsance"],
+        ["opportunity", "This is a great ___.", "oppertunity,oportunity,opportunaty"], ["persuade", "Try to ___ your parents.", "persaude,pursuade,perswade"], ["physical", "We have ___ education on Friday.", "phisical,fysical,physicle"],
+        ["relevant", "Only include ___ facts.", "relevent,revelant,relavant"], ["secretary", "The ___ answered the phone.", "secetary,secratary,secretery"], ["signature", "Write your ___ here.", "signiture,signatur,sigature"],
+        ["soldier", "The ___ marched past.", "soilder,soldeir,souldier"]],
+    D: [["acquaintance", "He is an ___ from school.", "aquaintance,acquaintence,acquantance"], ["conscientious", "She is a ___ worker.", "consciencious,conscientous,consientious"],
+        ["correspondence", "Keep all ___ in this folder.", "correspondance,corispondence,corresspondence"], ["exaggerate", "Don’t ___ the story.", "exagerate,exaggarate,exxagerate"],
+        ["hierarchy", "Who is at the top of the ___?", "heirarchy,hierachy,hierarcy"], ["millennium", "A ___ is a thousand years.", "millenium,milennium,millenniam"],
+        ["miniature", "He built a ___ train.", "minature,miniture,minniature"], ["noticeable", "The stain was barely ___.", "noticable,noticible,notisable"],
+        ["occurrence", "Snow in Adelaide is a rare ___.", "occurence,ocurrence,occurrance"], ["perseverance", "Her ___ paid off.", "perseverence,perserverance,persevereance"],
+        ["silhouette", "We saw the ___ of a tree.", "silouette,silhouete,silhuette"], ["thorough", "Give the room a ___ clean.", "thurough,thourough,thorogh"],
+        ["unnecessary", "That noise is ___.", "unecessary,unneccessary,unnecesary"], ["bureaucracy", "The council’s ___ slowed everything down.", "beaurocracy,bureacracy,bureaucrasy"]]
+  };
   function spellPool(tier) {
     var s = SPELL_TIER[tier], m = SPELL_MIX[tier];
-    return SPELL.slice(s[0], s[1]).concat(SILENT.slice(m[0], m[1]));
+    return SPELL.slice(s[0], s[1]).concat(SILENT.slice(m[0], m[1]), SPELL_MORE[tier] || []);
   }
 
 
@@ -7777,7 +7904,88 @@
     [4, "part", "bi- in ‘bicycle’", "two", "one", "three", "many"],
     [4, "part", "semi- in ‘semicircle’", "half", "whole", "double", "round"],
     [4, "part", "inter- in ‘international’", "between", "inside", "against", "without"],
-    [4, "part", "auto- in ‘autograph’", "self", "car", "many", "written"]
+    [4, "part", "auto- in ‘autograph’", "self", "car", "many", "written"],
+    [1, "same", "small", "little", "huge", "loud", "wet"],
+    [1, "same", "finish", "end", "begin", "open", "win"],
+    [1, "same", "giggle", "laugh", "cry", "yawn", "sneeze"],
+    [1, "same", "unhappy", "sad", "glad", "proud", "busy"],
+    [1, "same", "gift", "present", "box", "card", "party"],
+    [1, "same", "rock", "stone", "stick", "leaf", "sand"],
+    [1, "same", "chilly", "cold", "hot", "wet", "dark"],
+    [1, "same", "grin", "smile", "frown", "shout", "nod"],
+    [1, "same", "tired", "sleepy", "awake", "hungry", "noisy"],
+    [2, "same", "gigantic", "huge", "tiny", "heavy", "bright"],
+    [2, "same", "delighted", "very pleased", "very upset", "very bored", "very sleepy"],
+    [2, "same", "courageous", "brave", "scared", "lazy", "clumsy"],
+    [2, "same", "swift", "fast", "slow", "silent", "heavy"],
+    [2, "same", "damp", "slightly wet", "very dry", "very hot", "very dark"],
+    [2, "same", "weary", "tired", "lively", "angry", "shiny"],
+    [2, "same", "observe", "watch", "ignore", "forget", "throw"],
+    [2, "same", "sprint", "run fast", "walk slowly", "jump high", "sit down"],
+    [2, "same", "mend", "fix", "break", "paint", "sell"],
+    [2, "opp", "early", "late", "soon", "first", "quick"],
+    [2, "opp", "empty", "full", "clean", "light", "small"],
+    [2, "opp", "noisy", "quiet", "busy", "loud", "happy"],
+    [2, "opp", "rough", "smooth", "bumpy", "hard", "heavy"],
+    [2, "opp", "arrive", "leave", "come", "enter", "reach"],
+    [2, "opp", "remember", "forget", "know", "think", "learn"],
+    [3, "opp", "borrow", "lend", "take", "keep", "buy"],
+    [3, "opp", "shallow", "deep", "wide", "narrow", "wet"],
+    [3, "opp", "polite", "rude", "kind", "gentle", "quiet"],
+    [3, "opp", "accept", "refuse", "take", "agree", "receive"],
+    [3, "opp", "visible", "invisible", "clear", "bright", "seen"],
+    [3, "opp", "frequent", "rare", "often", "regular", "many"],
+    [3, "opp", "maximum", "minimum", "most", "total", "middle"],
+    [3, "opp", "exterior", "interior", "outside", "surface", "front"],
+    [3, "same", "vacant", "empty", "full", "busy", "locked"],
+    [3, "same", "fatigue", "tiredness", "energy", "hunger", "anger"],
+    [3, "same", "accurate", "exactly right", "nearly wrong", "very quick", "very slow"],
+    [3, "same", "annual", "once a year", "once a week", "every day", "twice a year"],
+    [3, "same", "compassion", "kindness", "anger", "pride", "fear"],
+    [3, "same", "obstacle", "something in the way", "a shortcut", "a prize", "a map"],
+    [4, "part", "dis- in ‘disagree’", "not", "again", "before", "very"],
+    [4, "part", "over- in ‘overcook’", "too much", "not enough", "again", "before"],
+    [4, "part", "non- in ‘nonstop’", "not", "very", "again", "half"],
+    [4, "part", "-ology in ‘biology’", "the study of", "a fear of", "a lack of", "a type of animal"],
+    [4, "part", "micro- in ‘microscope’", "very small", "very far", "very old", "very loud"],
+    [4, "part", "tri- in ‘triangle’", "three", "two", "four", "many"],
+    [4, "part", "-er in ‘teacher’", "a person who does it", "more than", "in the past", "not"],
+    [4, "part", "anti- in ‘antiseptic’", "against", "before", "between", "after"],
+    [4, "part", "trans- in ‘transport’", "across", "under", "inside", "without"],
+    [4, "part", "multi- in ‘multicoloured’", "many", "one", "half", "no"],
+    [4, "part", "post- in ‘postpone’", "after", "before", "again", "not"],
+    [4, "part", "-able in ‘washable’", "able to be", "not able to be", "done before", "done badly"],
+    [1, "same", "below", "under", "above", "beside", "after"],
+    [1, "same", "neat", "tidy", "messy", "quick", "loud"],
+    [1, "same", "unwell", "sick", "healthy", "hungry", "late"],
+    [1, "same", "toss", "throw", "catch", "kick", "hold"],
+    [1, "same", "huge", "very big", "very small", "very loud", "very fast"],
+    [1, "same", "shiny", "bright", "dull", "wet", "soft"],
+    [1, "same", "silly", "foolish", "clever", "sad", "quiet"],
+    [1, "same", "speak", "talk", "listen", "run", "sleep"],
+    [1, "same", "choose", "pick", "drop", "lose", "forget"],
+    [1, "same", "correct", "right", "wrong", "late", "slow"],
+    [1, "same", "street", "road", "house", "river", "tree"],
+    [1, "opp", "up", "down", "over", "on", "in"],
+    [1, "opp", "wet", "dry", "damp", "cold", "soft"],
+    [1, "opp", "day", "night", "morning", "week", "sun"],
+    [1, "opp", "happy", "sad", "glad", "funny", "kind"],
+    [1, "opp", "big", "small", "huge", "tall", "wide"],
+    [1, "opp", "open", "shut", "wide", "door", "empty"],
+    [2, "same", "rapid", "fast", "slow", "quiet", "late"],
+    [2, "same", "shiver", "shake with cold", "sweat", "laugh", "sneeze"],
+    [2, "same", "drowsy", "sleepy", "awake", "angry", "noisy"],
+    [2, "same", "timid", "shy", "brave", "loud", "rude"],
+    [2, "same", "gaze", "look for a long time", "shout", "run away", "sleep"],
+    [2, "same", "wealthy", "rich", "poor", "kind", "busy"],
+    [2, "same", "gloomy", "dark and sad", "bright and happy", "loud", "fast"],
+    [2, "same", "chuckle", "laugh quietly", "cry", "shout", "whisper"],
+    [2, "same", "soar", "fly high", "sink", "crawl", "swim"],
+    [2, "opp", "brave", "cowardly", "bold", "strong", "kind"],
+    [2, "opp", "asleep", "awake", "tired", "dreaming", "resting"],
+    [2, "opp", "heavy", "light", "full", "big", "hard"],
+    [2, "opp", "tight", "loose", "small", "short", "firm"],
+    [2, "opp", "wide", "narrow", "long", "big", "flat"]
   ];
   /* in context: [band, sentence with the word in *stars*, right, wrongs] */
   var CONTEXT = [
@@ -7790,11 +7998,37 @@
     [4, "Mia *hesitated* before answering, unsure what to say.", "paused", "shouted", "laughed", "ran away"],
     [4, "The rules were *flexible*, so we could change the game a bit.", "able to change", "very strict", "written down", "brand new"],
     [4, "The desert is *arid*, with hardly any rain all year.", "very dry", "very cold", "very flat", "very busy"],
-    [4, "The noise was *constant*: it did not stop all night.", "never stopping", "very quiet", "very sudden", "coming and going"]
+    [4, "The noise was *constant*: it did not stop all night.", "never stopping", "very quiet", "very sudden", "coming and going"],
+    [3, "We had to *whisper* in the library so we didn’t disturb anyone.", "speak very quietly", "shout loudly", "sing a song", "run quickly"],
+    [3, "The *drought* meant the farmers’ dams were almost empty.", "a long time without rain", "a big storm", "a busy market", "a cold winter"],
+    [3, "Dad was *astonished* when he saw the size of the fish.", "very surprised", "very bored", "very angry", "very sleepy"],
+    [3, "The gate *creaked* as it swung open in the wind.", "made a squeaky sound", "fell over", "turned blue", "locked itself"],
+    [4, "The scientist made a *prediction* about tomorrow’s weather.", "a guess about what will happen", "a photo of the sky", "a list of rules", "a report about yesterday"],
+    [4, "The two teams *collaborated* to build one big sandcastle.", "worked together", "argued", "competed", "gave up"],
+    [4, "The *fertile* soil helped the vegetables grow quickly.", "good for growing plants", "very dry", "full of rocks", "frozen"],
+    [4, "She gave a *brief* speech, only a minute long.", "short", "loud", "boring", "funny"],
+    [4, "The old house was *dilapidated*, with broken windows and a sagging roof.", "falling apart", "brand new", "freshly painted", "very tall"],
+    [4, "We had to *evacuate* the building when the fire alarm rang.", "leave quickly for safety", "clean", "lock", "decorate"]
   ];
 
   /* ---- reading: passages, each with questions [band, question, right, wrongs...] ---- */
   var READ = [
+    { text: "Max has a red kite. On Saturday, he took it to the beach. The wind was strong, and the kite flew high above the waves. Max held the string tight with both hands.",
+      qs: [[1, "What colour is the kite?", "red", "blue", "yellow", "green"],
+           [1, "Where did Max take the kite?", "to the beach", "to school", "to the park", "to the shops"],
+           [2, "Why did Max hold the string tight?", "the wind was strong", "he was cold", "the kite was broken", "his hands were wet"]] },
+    { text: "Zara’s class has a pet stick insect called Twiggy. Twiggy eats gum leaves and likes to hang from the lid of her tank. She is very hard to spot because she looks just like a twig.",
+      qs: [[1, "What is Twiggy?", "a stick insect", "a lizard", "a bird", "a fish"],
+           [1, "What does Twiggy eat?", "gum leaves", "grass", "seeds", "worms"],
+           [2, "Why is Twiggy hard to spot?", "she looks like a twig", "she is very fast", "she hides under the sand", "she sleeps all day"]] },
+    { text: "It was Hugo’s first day at a new school. He did not know anyone. At recess, a girl called Ivy asked him to play handball. By lunchtime, Hugo had three new friends.",
+      qs: [[1, "Who asked Hugo to play?", "Ivy", "his teacher", "his brother", "nobody"],
+           [1, "What game did they play?", "handball", "soccer", "tag", "chess"],
+           [2, "How did Hugo probably feel at the end of the day?", "happy", "lonely", "angry", "bored"]] },
+    { text: "Dad and Lily made a bird feeder from an old milk carton. They cut a hole in the side, filled it with seeds and hung it from the lemon tree. The next morning, two rosellas were eating from it.",
+      qs: [[1, "What did they make the feeder from?", "a milk carton", "a shoe box", "a plastic bottle", "a tin can"],
+           [1, "Where did they hang it?", "from the lemon tree", "on the fence", "in the garage", "on the window"],
+           [2, "How do we know the feeder worked?", "birds were eating from it the next morning", "Dad said so", "it was painted red", "Lily bought more seeds"]] },
     { text: "Ella planted three sunflower seeds in a pot. She watered them every morning. After two weeks, small green shoots poked out of the soil. Ella was so excited that she ran to show her grandpa.",
       qs: [[1, "How many seeds did Ella plant?", "three", "two", "four", "five"],
            [1, "When did Ella water the seeds?", "every morning", "every night", "once a week", "only on Sunday"],
@@ -7842,7 +8076,39 @@
     { text: "The village had argued about the bridge for months. Some wanted it built of stone, which was strong but slow and costly. Others preferred timber, which was cheap and quick but might rot within twenty years. In the end, they chose stone, hoping their grandchildren would cross it too.",
       qs: [[3, "What was a problem with timber?", "it might rot", "it was too expensive", "it was too slow to build", "nobody liked the colour"],
            [3, "What does ‘costly’ mean?", "expensive", "strong", "quick", "heavy"],
-           [4, "Why did the village choose stone?", "they wanted the bridge to last a very long time", "it was the cheapest", "it was the quickest", "there was no timber"]] }
+           [4, "Why did the village choose stone?", "they wanted the bridge to last a very long time", "it was the cheapest", "it was the quickest", "there was no timber"]] },
+    { text: "Echidnas are one of only two kinds of mammal that lay eggs. The other is the platypus. A mother echidna keeps her egg in a pouch. When the baby, called a puggle, hatches, it stays in the pouch until its spines begin to grow.",
+      qs: [[1, "What is a baby echidna called?", "a puggle", "a joey", "a kitten", "a pup"],
+           [2, "Where does the mother keep her egg?", "in a pouch", "in a nest", "under a rock", "in the water"],
+           [3, "What makes echidnas unusual among mammals?", "they lay eggs", "they have fur", "they eat insects", "they live in Australia"]] },
+    { text: "Ruby counted the coins in her jar for the third time. Still only eighteen dollars. The skateboard in the shop window cost forty. She looked at the long grass in her yard, then at the neighbours’ yards, and smiled. She went to find a pen and paper.",
+      qs: [[1, "How much money did Ruby have?", "eighteen dollars", "forty dollars", "three dollars", "twenty dollars"],
+           [2, "What did Ruby want to buy?", "a skateboard", "a lawn mower", "a jar", "a pen"],
+           [4, "What is Ruby most likely planning?", "to earn money mowing lawns", "to borrow the skateboard", "to give up", "to buy a new jar"]] },
+    { text: "Making damper is easy. Mix three cups of self-raising flour with a pinch of salt. Add a cup of milk and stir until it forms a soft dough. Shape it into a round loaf and bake it in a hot oven for about 30 minutes, until it sounds hollow when you tap it.",
+      qs: [[1, "How much flour do you need?", "three cups", "one cup", "a pinch", "thirty cups"],
+           [2, "How do you know when it is cooked?", "it sounds hollow when tapped", "it turns black", "the milk boils", "it gets smaller"],
+           [3, "What kind of text is this?", "a recipe", "a poem", "a letter", "a news report"]] },
+    { text: "Dear Principal, Our class would like a longer lunch break. Many students do not finish eating before the bell. A longer break would also give us more time to play, which helps us concentrate in the afternoon. Please consider our idea. From, Year 4",
+      qs: [[1, "Who is the letter to?", "the principal", "Year 4", "the parents", "the canteen"],
+           [3, "What does the class want?", "a longer lunch break", "more homework", "a new playground", "a shorter school day"],
+           [4, "Which reason do they give?", "playing helps them concentrate later", "the canteen is too small", "it is too hot outside", "teachers need a rest"]] },
+    { text: "The lights flickered and went out. Somewhere downstairs, a door banged. Jai pulled the blanket up to his chin and listened. Then he heard it: the soft thump, thump of paws on the stairs, and a cold wet nose pressed against his hand. He laughed with relief.",
+      qs: [[2, "What happened to the lights?", "they went out", "they turned red", "they got brighter", "they were switched on"],
+           [3, "What came up the stairs?", "an animal, probably his dog", "a burglar", "his sister", "the wind"],
+           [4, "Why did Jai laugh?", "he realised it was only his pet", "he heard a joke", "the lights came back on", "he was dreaming"]] },
+    { text: "The Great Barrier Reef stretches more than 2,300 kilometres along the coast of Queensland. It is made by billions of tiny animals called coral polyps. When the ocean gets too warm, corals can turn white. This is called bleaching, and it can make the coral sick.",
+      qs: [[1, "Where is the Great Barrier Reef?", "along the coast of Queensland", "in South Australia", "in the middle of the desert", "in New Zealand"],
+           [2, "What makes the reef?", "tiny animals called coral polyps", "rocks and sand", "seaweed", "shells from the beach"],
+           [3, "What causes bleaching?", "the ocean getting too warm", "too many fish", "boats", "cold winters"]] },
+    { text: "Every morning at six, Mr Patel unlocks his corner shop. He sweeps the footpath, stacks the newspapers and puts fresh bread on the shelves. By seven, the first customers arrive, yawning, for milk and coffee.",
+      qs: [[1, "What time does Mr Patel unlock the shop?", "six", "seven", "eight", "nine"],
+           [2, "What do the first customers buy?", "milk and coffee", "bread and jam", "newspapers and lollies", "fruit"],
+           [3, "Why are the customers yawning?", "it is early in the morning", "they are bored", "the shop is hot", "they are hungry"]] },
+    { text: "The superb lyrebird is a champion copycat. As well as other birds’ songs, it can copy car alarms, camera clicks and even chainsaws. Males sing and dance on mounds of earth to attract a mate.",
+      qs: [[1, "Which of these can a lyrebird copy?", "car alarms", "thunder", "a trumpet", "ocean waves"],
+           [3, "What does ‘copycat’ mean here?", "something that copies sounds", "a kind of cat", "a lazy bird", "a very loud singer"],
+           [3, "Why do the males dance?", "to attract a mate", "to keep warm", "to find food", "to scare snakes"]] }
   ];
 
   /* ---- the right word: [band, sentence with ___, right, wrongs..., tip key] ---- */
@@ -7916,6 +8182,221 @@
 
   /* Which band of each bank a level draws from, and how many choices. Every
      level adds something: more choices, then a harder band, then typing. */
+
+  /* ================================================ English, made to order
+     The banks above are hand-written, so a child who plays long enough meets
+     every item. These build punctuation and right-word questions from parts
+     instead (names, places, days, months, things) with the mistakes children
+     really make, which gives thousands of different sentences per level. The
+     hand-written items stay in the mix. */
+  var EN = {
+    name: ["Mia", "Tom", "Ava", "Jack", "Ruby", "Leo", "Zara", "Noah", "Isla", "Kai", "Aisha", "Ella", "Sam", "Priya", "Oliver",
+           "Chloe", "Ethan", "Mei", "Hamish", "Tahlia", "Jasper", "Amira", "Finn", "Lily", "Arjun", "Grace", "Hugo", "Sienna", "Max", "Ivy"],
+    place: ["Adelaide", "Darwin", "Perth", "Hobart", "Brisbane", "Sydney", "Melbourne", "Canberra", "Broome", "Cairns",
+            "Alice Springs", "Victor Harbor", "Port Lincoln", "Mount Gambier", "Kangaroo Island", "Coober Pedy"],
+    day: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    month: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    thing: ["hat", "bag", "ball", "book", "drink bottle", "jumper", "pencil case", "scooter", "kite", "skateboard", "lunchbox", "torch", "library book", "footy"],
+    things: ["pencils", "marbles", "stickers", "shells", "books", "apples", "puppies", "kittens", "cards", "balloons", "feathers", "rocks"],
+    food: ["apples", "bananas", "grapes", "pears", "carrots", "crackers", "sultanas", "oranges", "mangoes", "muffins", "tomatoes", "biscuits"],
+    pack: ["a hat", "a towel", "some sunscreen", "a drink bottle", "a jumper", "a torch", "a sleeping bag", "some snacks", "a map", "a raincoat", "a pillow", "a book"],
+    animal: ["dog", "cat", "horse", "rabbit", "cow", "puppy", "kitten", "koala", "wombat", "magpie", "goat", "chicken"],
+    part: ["paw", "leg", "tail", "ear", "nose", "foot"],
+    relative: ["uncle", "aunty", "grandma", "grandpa", "cousin", "neighbour"],
+    cloth: ["jumper", "hat", "raincoat", "school shirt", "belt", "watch"],
+    uncount: ["water", "milk", "sugar", "noise", "sand", "juice", "time"],
+    weather: ["sunny", "windy", "cold", "raining", "hot", "cloudy"],
+    act: ["played cricket", "read a book", "went to the beach", "fed the animals", "packed the car", "cleaned the classroom", "built a cubby", "went for a swim", "made pancakes", "walked the dog"]
+  };
+  /* {name} is one pick used everywhere it appears; {name2} is a different one. */
+  function enFill(t) {
+    var used = {};
+    return t.replace(/\{(\w+?)(2?)\}/g, function (m, k, two) {
+      if (!EN[k]) return m;               // {L} and {N} are filled in by the caller
+      if (two) return pickOne(EN[k].filter(function (x) { return x !== used[k]; }));
+      if (!(k in used)) used[k] = pickOne(EN[k]);
+      return used[k];
+    });
+  }
+  function enList(items) { return items.slice(0, -1).join(", ") + " and " + items[items.length - 1]; }
+  function capFirst(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  /* Three different wrong ones, none the same as the right one. */
+  function enWrongs(right, cands) {
+    var out = [];
+    shuffle(cands).forEach(function (c) { if (c && c !== right && out.indexOf(c) < 0 && out.length < 3) out.push(c); });
+    return out;
+  }
+  /* The usual capital-letter slips: a lower-case start, each name in lower
+     case, a capital on an ordinary word, and the end mark changed. */
+  function capSlips(s, marks) {
+    var c = [s.charAt(0).toLowerCase() + s.slice(1)];
+    s.slice(1).replace(/\b([A-Z][a-z]+|I)\b/g, function (w, x, at) { c.push(s.slice(0, at + 1) + w.toLowerCase() + s.slice(at + 1 + w.length)); return w; });
+    var plain = s.split(" ").filter(function (w, i) { return i && /^[a-z]{4,}$/.test(w); });
+    if (plain.length) { var w = pickOne(plain); c.push(s.replace(" " + w, " " + capFirst(w))); }
+    marks.forEach(function (m) { c.push(s.replace(/[.?!]$/, m)); });
+    return c;
+  }
+
+  var CONTRACT = [
+    ["don’t", "dont|do’nt|don,t", ["I don’t like {food}.", "We don’t have school on {day}."]],
+    ["can’t", "cant|ca’nt|can,t", ["{name} can’t find the {thing}.", "We can’t go to {place} this year."]],
+    ["won’t", "wont|wo’nt|willn’t", ["{name} won’t be at school on {day}.", "The {animal} won’t come inside."]],
+    ["didn’t", "didnt|did’nt|didn,t", ["{name} didn’t bring a {thing}.", "We didn’t go to {place} in {month}."]],
+    ["isn’t", "isnt|is’nt|isn,t", ["The {thing} isn’t in my bag.", "{name} isn’t feeling well."]],
+    ["wasn’t", "wasnt|was’nt|wasn,t", ["{name} wasn’t at school on {day}.", "The {animal} wasn’t hungry."]],
+    ["I’m", "Im|I’am|Im’", ["I’m going to {place} in {month}.", "{name}, I’m ready now."]],
+    ["they’re", "theyre|they’are|the’yre", ["{name} and {name2} said they’re hungry.", "I think they’re at the park."]],
+    ["it’s", "its|it,s|its’", ["I think it’s going to rain on {day}.", "{name} says it’s too cold to swim."]],
+    ["couldn’t", "couldnt|could’nt|couldn,t", ["{name} couldn’t reach the {thing}.", "We couldn’t see the {animal}."]],
+    ["haven’t", "havent|have’nt|haven,t", ["I haven’t been to {place}.", "We haven’t had lunch yet."]],
+    ["you’ll", "youll|you’ill|yo’ull", ["{name}, you’ll need a {thing}.", "I hope you’ll come in {month}."]],
+    ["she’s", "shes|she,s|she’es", ["Mum says she’s nearly ready.", "I think she’s in {place}."]]
+  ];
+  var SPEECH = {
+    tell: ["Close the door", "Wait for me", "Pass the ball", "Hurry up", "Sit down, please", "Put your hat on", "Come and look"],
+    ask: ["Are you ready", "Can I come too", "Where is my hat", "Is it lunchtime yet", "Who wants a turn", "What is for dinner"],
+    cry: ["Run for the bus", "We won", "Watch out", "Look at that", "I found it", "Happy birthday"]
+  };
+  var OPENER = {
+    phrase: ["After lunch", "Before school", "Later that day", "On {day} morning", "Without warning", "In {month}", "At the end of the day", "During the holidays"],
+    clause: ["Although it was raining", "When the bell rang", "Because the bus was late", "As soon as we got home", "While Dad cooked dinner"],
+    word: ["Suddenly", "Quietly", "Luckily", "Finally", "Carefully"]
+  };
+  var PLURAL_OWN = [["players", "boots"], ["girls", "bags"], ["boys", "jumpers"], ["teachers", "cars"], ["birds", "nests"], ["horses", "saddles"], ["dogs", "bowls"], ["cats", "toys"]];
+  var IRREG_OWN = [["children", "childrens’", "childrens", "children,s"], ["people", "peoples’", "peoples", "people,s"], ["women", "womens’", "womens", "women,s"], ["men", "mens’", "mens", "men,s"]];
+
+  /* One punctuation question for a band: [band, rule, right, three wrong]. */
+  function punctGen(band) {
+    var r, w, kind;
+    if (band === 1) {
+      kind = pickOne(["cap", "cap", "q", "ex"]);
+      if (kind === "cap") r = enFill(pickOne(["{name} and {name2} went to {place} on {day}.", "My cousin {name} lives in {place}.", "We are going to {place} in {month}.",
+          "{name} has swimming every {day}.", "In {month} we flew to {place}.", "{name} and I played cricket on {day}.", "Our school concert is in {month}.", "My {relative} visited {place} last {month}."]));
+      if (kind === "q") r = enFill(pickOne(["Can {name} come to {place} on {day}?", "Where did {name} put the {thing}?", "Is {name} going to {place} in {month}?",
+          "What time does {name} finish on {day}?", "Have you seen my {thing}?", "Why is the {animal} hiding?", "Does {name} like {food}?"]));
+      if (kind === "ex") r = enFill(pickOne(["Watch out for that {animal}!", "Look out, {name}!", "That was amazing, {name}!", "Hooray, we won the final!", "Wow, look at that huge wave!", "Quick, the {animal} is getting away!"]));
+      w = capSlips(r, kind === "cap" ? ["", "?"] : kind === "q" ? [".", ""] : ["?", ""]);
+    } else if (band === 2) {
+      kind = pickOne(["list", "short", "short"]);
+      if (kind === "list") {
+        var food = Math.random() < 0.5, items = shuffle(EN[food ? "food" : "pack"]).slice(0, 3 + (Math.random() < 0.5 ? 1 : 0)), L = enList(items);
+        r = enFill(pickOne(food ? ["We bought {L} at the market.", "{name} likes {L}.", "We need {L} for the picnic."]
+                                : ["{name} packed {L} for camp.", "Dad put {L} in the car.", "Don’t forget {L}."])).replace("{L}", L);
+        w = [r.replace(L, items.slice(0, -1).join(" ") + " and " + items[items.length - 1]),
+             r.replace(L, items.slice(0, -1).join(", ") + ", and, " + items[items.length - 1]),
+             r.replace(" " + L, ", " + L),
+             r.replace(L, items[0] + " " + items.slice(1, -1).join(", ") + (items.length > 2 ? " and " : "") + items[items.length - 1])];
+      } else {
+        var c = pickOne(CONTRACT), t = enFill(pickOne(c[2]));
+        r = t;
+        w = c[1].split("|").map(function (x) { return t.replace(c[0], t.indexOf(c[0]) === 0 ? capFirst(x) : x); });
+      }
+    } else if (band === 3) {
+      kind = pickOne(["own", "own", "speech", "speech", "its"]);
+      if (kind === "own") {
+        var p = Math.random();
+        if (p < 0.4) {
+          var nm = pickOne(EN.name.filter(function (x) { return !/s$/.test(x); }));
+          r = enFill(pickOne(["{N}’s {thing} is under the table.", "We went to {N}’s house on {day}.", "{N}’s {relative} lives in {place}.", "{N}’s {animal} loves the beach."])).replace("{N}", nm);
+          w = [r.replace(nm + "’s", nm + "s"), r.replace(nm + "’s", nm + "s’"), r.replace(nm + "’s", nm + ",s"), r.replace(nm + "’s", nm.slice(0, -1) + "’" + nm.slice(-1) + "s")];
+        } else if (p < 0.75) {
+          var po = pickOne(PLURAL_OWN), num = pickOne(["two", "three", "four", "five"]);
+          r = "The " + num + " " + po[0] + "’ " + po[1] + " were " + pickOne(["muddy", "by the door", "brand new", "in the shed"]) + ".";
+          w = [r.replace(po[0] + "’", po[0]), r.replace(po[0] + "’", po[0] + "’s"), r.replace(po[0] + "’", po[0].slice(0, -1) + "’s"), r.replace(po[0] + "’", po[0].slice(0, -2) + "’" + po[0].slice(-2))];
+        } else {
+          var io = pickOne(IRREG_OWN);
+          r = enFill("The " + io[0] + "’s " + pickOne(["paintings are on the wall.", "bikes are near the gate.", "lunches are in the fridge.", "names are on the list."]));
+          w = io.slice(1).map(function (x) { return r.replace(io[0] + "’s", x); });
+        }
+      } else if (kind === "speech") {
+        var f = pickOne(["tell", "ask", "cry"]), line = pickOne(SPEECH[f]), who = pickOne(EN.name);
+        if (f === "tell") {
+          var said = pickOne(["said", "called", "whispered"]);
+          r = "“" + line + ",” " + said + " " + who + ".";
+          w = ["“" + line + "” " + said + " " + who + ".", line + ",” " + said + " " + who + ".", "“" + line + ", " + said + " " + who + ".”", "“" + line + ",” " + capFirst(said) + " " + who + "."];
+        } else if (f === "ask") {
+          r = "“" + line + "?” asked " + who + ".";
+          w = ["“" + line + "”? asked " + who + ".", "“" + line + "?” Asked " + who + ".", line + "? asked " + who + ".", "“" + line + ".” asked " + who + "?"];
+        } else {
+          var lead = who + " " + pickOne(["shouted", "yelled", "cried"]);
+          r = lead + ", “" + line + "!”";
+          w = [lead + ", “" + line.charAt(0).toLowerCase() + line.slice(1) + "!”", lead + " “" + line + "”!", lead + ", " + line + "!"];
+        }
+      } else {
+        r = Math.random() < 0.5 ? enFill("The {animal} hurt its {part}.") : enFill("It’s {weather} in {place} today.");
+        w = r.indexOf("its") > 0 ? ["it’s", "its’", "it,s"].map(function (x) { return r.replace(" its ", " " + x + " "); })
+                                 : ["Its", "Its’", "It,s"].map(function (x) { return r.replace("It’s", x); });
+      }
+    } else {
+      kind = pickOne(["front", "front", "colon", "brackets", "commas"]);
+      if (kind === "front") {
+        var ok = pickOne(["phrase", "clause", "word"]), op = enFill(pickOne(OPENER[ok])), nm4 = pickOne(EN.name), act = pickOne(EN.act);
+        r = op + ", " + nm4 + " " + act + ".";
+        w = [op + " " + nm4 + ", " + act + ".", op + "; " + nm4 + " " + act + ".", op + " " + nm4 + " " + act.replace(" ", ", ") + "."];
+        if (ok !== "word") w.push(op.replace(" ", ", ") + " " + nm4 + " " + act + ".");
+        if (ok === "clause") w.push(op + ". " + nm4 + " " + act + ".");
+      } else if (kind === "colon") {
+        var its = shuffle(EN.pack).slice(0, 3), intro = pickOne(["You will need these things", "Bring three things to camp", "Pack the following", "Do not forget these"]);
+        r = intro + ": " + enList(its) + ".";
+        w = [intro + " " + its[0] + ": " + enList(its.slice(1)) + ".", intro + "; " + enList(its) + ".",
+             intro.replace(" ", ": ") + " " + enList(its) + ".", intro + ": " + its.join(" ").replace(" " + its[2], " and " + its[2]) + "."];
+      } else if (kind === "brackets") {
+        var b = enFill(pickOne(["My {relative} (who lives in {place}) is coming to stay.", "{name} (my best friend) is moving to {place}.",
+                                "The {animal} (which was very tired) slept all day.", "Our trip to {place} (in {month}) was the best."]));
+        var open = b.indexOf("("), close = b.indexOf(")");
+        r = b;
+        w = [b.slice(0, close) + b.slice(close + 1, -1) + ".)", b.slice(0, open - 1) + ", " + b.slice(open), b.slice(0, close + 1) + "," + b.slice(close + 1)];
+      } else {
+        var cn = pickOne(EN.name), extra = enFill(pickOne(["my best friend", "the fastest runner in our class", "our class captain", "my {relative}’s neighbour"]));
+        var rest = enFill(pickOne(["is moving to {place}.", "has a new {animal}.", "won the race on {day}.", "is going to {place} in {month}."]));
+        r = cn + ", " + extra + ", " + rest;
+        var ew = extra.split(" ");
+        w = [cn + ", " + extra + " " + rest, cn + " " + extra + ", " + rest,
+             cn + ", " + ew.slice(0, 2).join(" ") + ", " + ew.slice(2).join(" ") + " " + rest, cn + ", " + extra + ", " + rest.replace(" ", ", ")];
+      }
+    }
+    // a comma where the sentence should end is wrong in any sentence, if more are needed
+    return [band, kind, r, enWrongs(r, w.length < 3 ? w.concat(r.replace(/([.?!])(”?)$/, ",$2")) : w)];
+  }
+
+  /* The right word: [band, tip, [[right, the wrong ones, sentence], ...]] */
+  var WORD_GEN = [
+    [1, "two", [["two", "to,too", "I have ___ {things}."], ["two", "to,too", "{name} found ___ {things} at the beach."],
+                ["too", "to,two", "Can {name} come ___?"], ["too", "to,two", "The water is ___ cold for swimming."], ["too", "to,two", "{name} wants a turn ___."],
+                ["to", "too,two", "We drove ___ {place} on {day}."], ["to", "too,two", "Give the {thing} ___ {name}."], ["to", "too,two", "{name} walked ___ the shop."]]],
+    [1, "where", [["where", "were,wear", "Do you know ___ {name} lives?"], ["Where", "Were,Wear", "___ is my {thing}?"], ["Where", "Were,Wear", "___ did you go on {day}?"],
+                  ["were", "where,wear", "We ___ in {place} last {month}."], ["were", "where,wear", "{name} and {name2} ___ late for school."],
+                  ["wear", "where,were", "I will ___ my {cloth} today."], ["wear", "where,were", "{name} forgot to ___ a hat."]]],
+    [1, "their", [["their", "there,they’re", "The children ate ___ lunch."], ["their", "there,they’re", "The puppies wagged ___ tails."], ["their", "there,they’re", "{name} and {name2} lost ___ {thing}."],
+                  ["there", "their,they’re", "Put the {thing} over ___."], ["there", "their,they’re", "Is ___ any milk left?"], ["There", "Their,They’re", "___ is a {animal} in the garden!"]]],
+    [1, "hear", [["hear", "here,hair", "Can you ___ the {animal}?"], ["hear", "here,hair", "I can’t ___ you, {name}."], ["here", "hear,hair", "Come over ___, {name}."], ["here", "hear,hair", "The {thing} is right ___."]]],
+    [1, "past", [["went", "goed,gone", "Yesterday {name} ___ to {place}."], ["ate", "eated,eaten", "{name} ___ a muffin at recess."], ["drew", "drawed,drawn", "{name} ___ a picture of a {animal}."],
+                 ["threw", "throwed,thrown", "{name} ___ the ball over the fence."], ["saw", "seed,seen", "We ___ a {animal} on the way to school."], ["ran", "runned,run", "{name} ___ all the way home."],
+                 ["caught", "catched,catch", "{name} ___ the ball with one hand."], ["swam", "swimmed,swum", "We ___ at the beach on {day}."]]],
+    [2, "their", [["They’re", "Their,There", "___ going to {place} on {day}."], ["they’re", "their,there", "{name} and {name2} said ___ hungry."], ["They’re", "Their,There", "___ playing footy after school."]]],
+    [2, "your", [["your", "you’re,youre", "Is this ___ {thing}, {name}?"], ["your", "you’re,youre", "Put on ___ {cloth}."], ["You’re", "Your,Youre", "___ late, {name}!"], ["you’re", "your,youre", "I think ___ the fastest runner."]]],
+    [2, "me", [["I", "me,myself", "{name} and ___ went to {place}."], ["I", "me,myself", "{name} and ___ are in the same class."], ["me", "I,myself", "Mum drove {name} and ___ to school."], ["me", "I,myself", "{name} gave the {thing} to ___."]]],
+    [2, "er", [["taller", "more tall,tallest", "{name} is ___ than {name2}."], ["better", "gooder,best", "My {thing} is ___ than yours."], ["biggest", "most big,bigger", "That is the ___ {animal} I have ever seen!"],
+               ["faster", "more fast,fastest", "A cheetah is ___ than a {animal}."], ["best", "goodest,better", "This is the ___ day ever!"]]],
+    [2, "bought", [["bought", "brought,buyed", "{name} ___ a {thing} at the shop."], ["brought", "bought,bringed", "{name} ___ {food} to school yesterday."], ["bring", "bought,brung", "Please ___ your {thing} on {day}."]]],
+    [3, "passed", [["passed", "past,pased", "{name} ___ the ball to {name2}."], ["passed", "past,pased", "We all ___ the spelling test."], ["past", "passed,pased", "We drove ___ the school."], ["past", "passed,pased", "It is half ___ three."]]],
+    [3, "its", [["its", "it’s,its’", "The {animal} hurt ___ {part}."], ["its", "it’s,its’", "The tree lost ___ leaves."], ["It’s", "Its,Its’", "___ {weather} today."], ["It’s", "Its,Its’", "___ time to go home, {name}."]]],
+    [3, "fewer", [["fewer", "less,lesser", "There are ___ {things} than yesterday."], ["fewer", "less,lesser", "{name} made ___ mistakes this time."], ["less", "fewer,lesser", "Please use ___ {uncount}."], ["less", "fewer,lesser", "I have ___ {uncount} than you."]]],
+    [3, "have", [["have", "of,off", "You should ___ told me, {name}."], ["have", "of,off", "We could ___ won!"], ["off", "of,orf", "Get ___ the table, {name}!"], ["off", "of,orf", "Turn ___ the light, please."]]],
+    [3, "effect", [["affect", "effect,afect", "The rain will ___ the game."], ["affect", "effect,afect", "Will the noise ___ the {animal}?"], ["effect", "affect,efect", "The storm had a big ___ on {place}."], ["effect", "affect,efect", "What ___ did the medicine have?"]]],
+    [4, "whose", [["Whose", "Who’s,Whos", "___ {thing} is this?"], ["Who’s", "Whose,Whos", "___ coming to {place}?"]]],
+    [4, "than", [["than", "then,that", "{name} is older ___ {name2}."], ["than", "then,that", "I would rather swim ___ run."], ["then", "than,that", "Finish your lunch, ___ you can play."], ["then", "than,that", "We went to {place}, and ___ we flew home."]]],
+    [4, "lose", [["lose", "loose,loss", "Don’t ___ your {thing}, {name}."], ["lose", "loose,loss", "I hope we don’t ___ the game."], ["loose", "lose,lost", "My {cloth} is too ___."], ["loose", "lose,lost", "{name} has a ___ tooth."]]],
+    [4, "accept", [["accept", "except,expect", "Please ___ this gift."], ["accept", "except,expect", "{name} will ___ the prize at assembly."], ["except", "accept,expect", "Everyone came ___ {name}."], ["except", "accept,expect", "We go to school every day ___ {day}."]]],
+    [4, "stationery", [["stationery", "stationary,stationry", "We bought pens at the ___ shop."], ["stationary", "stationery,stationry", "The bus was ___ at the lights."]]]
+  ];
+  /* One right-word question for a band: [band, sentence, right, wrongs, tip]. */
+  function wordGen(band) {
+    var g = pickOne(WORD_GEN.filter(function (x) { return x[0] === band; }));
+    var f = pickOne(g[2]);
+    return [band, enFill(f[2]), f[0], f[1].split(","), g[1]];
+  }
+
   function engBand(lv) { return lv <= 2 ? 1 : lv <= 4 ? 2 : lv <= 6 ? 3 : 4; }
   function engChoices(lv) { return lv === 1 || lv === 3 || lv === 5 ? 3 : 4; }
   function canSpeak() { return typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance === "function"; }
@@ -7944,7 +8425,7 @@
     q.choices = shuffle(opts.slice());
     q.answer = q.choices.indexOf(right) + 1;
     q.rightText = right;
-    q.sig = "en" + q.mode + right + "|" + q.ask;
+    q.sig = "en" + q.mode + right + "|" + q.ask + "|" + (q.sentence || q.passage || "");   // the sentence too: "too" in two sentences is two questions
     return q;
   }
 
@@ -7971,7 +8452,7 @@
     }
     if (game === "read") {
       var pool = PUNCT.filter(function (p) { return p[0] === band; });
-      var it = engPick(pool, function (x) { return x[2]; });
+      var it = Math.random() < 0.75 ? punctGen(band) : engPick(pool, function (x) { return x[2]; });
       q.game = "punct"; q.rule = it[1];
       q.ask = "Which sentence is punctuated correctly?";
       q.why = [esc(PUNCT_TIP[it[1]]), "So it is: <b>" + esc(it[2]) + "</b>"];
@@ -8014,7 +8495,8 @@
       return engFinish(q, Q[2], Q.slice(3), n);
     }
     /* set: the right word for the gap */
-    var rw = engPick(RIGHTWORD.filter(function (x) { return x[0] === band || (lv > MAX_LEVEL && x[0] >= 3); }), function (x) { return x[1]; });
+    var rw = Math.random() < 0.75 ? wordGen(lv > MAX_LEVEL ? pickOne([3, 4]) : band)
+           : engPick(RIGHTWORD.filter(function (x) { return x[0] === band || (lv > MAX_LEVEL && x[0] >= 3); }), function (x) { return x[1]; });
     q.game = "word"; q.sentence = rw[1];
     q.ask = "Which word fits the gap?";
     q.tip = WORD_TIP[rw[4]] || "Read the sentence with each word in the gap.";
@@ -8068,8 +8550,8 @@
     var t = l[Math.min(lv, l.length) - 1] + (lv > l.length ? " (stretch)" : "");
     return mode === "step" && !canSpeak() ? t.replace(/^type (.*)/, "$1, choose") : t;
   }
-  if (/[?&]test=1(&|$)/.test(location.search)) window.__eng = function (game, lv) { return makeEnglishQuestion(game, lv); };
-  if (/[?&]test=1(&|$)/.test(location.search)) window.__engBanks = function () { return { SILENT: SILENT, SPELL: SPELL, PUNCT: PUNCT, VOCAB: VOCAB, CONTEXT: CONTEXT, READ: READ, RIGHTWORD: RIGHTWORD }; };
+  hooks.__eng = function (game, lv) { return makeEnglishQuestion(game, lv); };
+  hooks.__engBanks = function () { return { SILENT: SILENT, SPELL: SPELL, PUNCT: PUNCT, VOCAB: VOCAB, CONTEXT: CONTEXT, READ: READ, RIGHTWORD: RIGHTWORD }; };
 
   /* ================================================ mistake detective
      A wrong answer is usually one of a handful of misreadings, and which one
@@ -8486,13 +8968,15 @@
       state.correct++;
       roundNote(state.tries === 0);
       bumpTally(q.measure, "right");
-      state.streak++;
+      if (!q.stale) state.streak++;
       if (state.streak > state.bestStreak) state.bestStreak = state.streak;
 
       var fullMult = streakMultiplier(state.streak);
       var mult = Math.min(fullMult, multCap(q.level));
       var share = TRY_SHARE[Math.min(state.tries, TRY_SHARE.length - 1)];
       var points = Math.round(basePoints(q.level) * mult * share);
+      if (q.stale) points = 0;
+      noteSeen(q, true);
       state.score += points;
       state.byMeasure[q.measure] += points;
       noteWeek();
@@ -8570,7 +9054,8 @@
       render(true);
       var msg = pick(["Spot on.", "Exactly right.", "Beautiful.", "That's it."]) +
                 " +" + points;
-      if (mult > 1) msg += " (" + state.streak + " in a row, points ×" + mult + (fullMult > mult ? ", the most this level gives" : "") + ")";
+      if (q.stale) msg += " No points this time: you got this one right a little while ago.";
+      else if (mult > 1) msg += " (" + state.streak + " in a row, points ×" + mult + (fullMult > mult ? ", the most this level gives" : "") + ")";
       if (moved) {
         var to = lv[q.mode];
         msg += isStretch(to)
@@ -9120,14 +9605,14 @@
   window.addEventListener("focus", cameBack);
   window.addEventListener("pagehide", goneAway);
   window.addEventListener("pageshow", cameBack);
-  window.__away = function () { goneAway(); };
-  window.__back = function (ms) { awayAt -= ms || 0; cameBack(); };
+  hooks.__away = function () { goneAway(); };
+  hooks.__back = function (ms) { awayAt -= ms || 0; cameBack(); };
   window.addEventListener("online", resumed);
   window.addEventListener("pageshow", function (e) { if (e.persisted) resumed(); });
-  window.__shared = function () { return shared; };
-  window.__pull = function (q) { return pullShared(q); };
-  window.__push = function () { return pushShared(); };
-  window.__netTimeout = function (ms) { NET_TIMEOUT = ms; };
+  hooks.__shared = function () { return shared; };
+  hooks.__pull = function (q) { return pullShared(q); };
+  hooks.__push = function () { return pushShared(); };
+  hooks.__netTimeout = function (ms) { NET_TIMEOUT = ms; };
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "visible") wakeSheet();
   });
@@ -9784,9 +10269,9 @@
 
   // the tests read the true player count from here, so a display cap can
   // never quietly hide someone without the test noticing
-  window.__boardCount = function () { return boardRows().length; };
-  window.__retry = function () { return retryPush(); };
-  window.__boardCap = function () { return Math.max(3, CONFIG.BOARD_ROWS | 0); };
+  hooks.__boardCount = function () { return boardRows().length; };
+  hooks.__retry = function () { return retryPush(); };
+  hooks.__boardCap = function () { return Math.max(3, CONFIG.BOARD_ROWS | 0); };
 
   function drawBoard() {
     var list = boardRows();
@@ -10079,11 +10564,11 @@
     ol.addEventListener("click", pick);
     ol.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(e); } });
   })();
-  window.__profile = openProfile;
-  window.__activeSeason = activeSeason;
-  window.__seasonByDate = seasonByDate;
-  window.__seasonsByDate = function (y, m, d) { return seasonsByDate(new Date(y, m - 1, d)); };
-  window.__shared3 = function () { return { vs: shared.vs, chal: shared.chal, cs: classState, pin: state.pin }; };
+  hooks.__profile = openProfile;
+  hooks.__activeSeason = activeSeason;
+  hooks.__seasonByDate = seasonByDate;
+  hooks.__seasonsByDate = function (y, m, d) { return seasonsByDate(new Date(y, m - 1, d)); };
+  hooks.__shared3 = function () { return { vs: shared.vs, chal: shared.chal, cs: classState, pin: state.pin }; };
 
 
   /* ================================================================ stage 4 */
@@ -10249,8 +10734,8 @@
       });
     } catch (e) { /* no sound is fine */ }
   }
-  window.__aa = function () { return aa; };
-  window.__report = function (n) { var l = boardRows().filter(function (r) { return r.name === n; }); return l.length ? reportPage(l[0]) : ""; };
+  hooks.__aa = function () { return aa; };
+  hooks.__report = function (n) { var l = boardRows().filter(function (r) { return r.name === n; }); return l.length ? reportPage(l[0]) : ""; };
 
 
   /* Every corner X presses the pop-up's own close button, so closing does
@@ -14009,29 +14494,34 @@
   /* A hook the browser tests use to read the current question. Harmless in
      the page, and it means the tests play by clicking rather than by
      reaching into internals. */
-  window.__peek = function () { return state.q; };
-  window.__score = function () { return state.score; };
-  window.__weekKey = weekKey;
-  window.__noteWeek = noteWeek;
-  window.__levels = function () { return state.levels; };
-  window.__tally = function () { return state.tally; };
-  window.__state = function () { return state; };
-  window.__badges = function () { return BADGES; };
-  window.__check = function () { return checkBadges(); };
-  window.__goal = function () { return classProgress(); };
-  window.__draw = function () { drawRewards(); drawMe(); drawBoard(); return null; };
-  window.__chrome = function () { return updateChrome(); };
-  window.__week = function () { return weekKey(); };
+  hooks.__peek = function () { return state.q; };
+  hooks.__score = function () { return state.score; };
+  hooks.__weekKey = weekKey;
+  hooks.__noteWeek = noteWeek;
+  hooks.__levels = function () { return state.levels; };
+  hooks.__tally = function () { return state.tally; };
+  hooks.__state = function () { return state; };
+  hooks.__badges = function () { return BADGES; };
+  hooks.__check = function () { return checkBadges(); };
+  hooks.__goal = function () { return classProgress(); };
+  hooks.__draw = function () { drawRewards(); drawMe(); drawBoard(); return null; };
+  hooks.__chrome = function () { return updateChrome(); };
+  hooks.__week = function () { return weekKey(); };
   // where the scores are being posted, which the page works out for itself when
   // Apps Script is serving it
-  window.__sheetUrl = function () { return CONFIG.SHARED_URL; };
-  window.__skins = function () { return SKINS; };
-  window.__applySkin = function (id) { return applySkin(id); };
-  window.__applyBackdrop = function (id) { return applyBackdrop(id); };
-  window.__backdrops = function () { return BACKDROPS; };
-  window.__setMeasure = function (m) { state.measure = m; next(); return m; };
+  hooks.__sheetUrl = function () { return CONFIG.SHARED_URL; };
+  hooks.__skins = function () { return SKINS; };
+  hooks.__applySkin = function (id) { return applySkin(id); };
+  hooks.__applyBackdrop = function (id) { return applyBackdrop(id); };
+  hooks.__backdrops = function () { return BACKDROPS; };
+  hooks.__setMeasure = function (m) { state.measure = m; next(); return m; };
   /* For the release check: the right way to answer whatever is on screen. */
-  if (/[?&]test=1(&|$)/.test(location.search)) window.__solve = function () {
+  /* For the release check: jump straight to one rung of one ladder. */
+  hooks.__goto = function (m, g, lv) {
+    if (!gameAvailable(m, g)) return null;
+    endWarm(false); state.measure = m; state.mode = g; state.levels[m][g] = lv; next(); return state.q;
+  };
+  hooks.__solve = function () {
     var q = state.q;
     if (!q) return null;
     if (q.choices) return { click: q.answer };
@@ -14044,25 +14534,25 @@
     if (q.timeAns) { var hh = Math.floor(q.answer / 60), mm = q.answer % 60; return { type: q.h24 ? two(hh) + ":" + two(mm) : ((hh % 12) || 12) + ":" + two(mm) }; }
     return { type: String(q.answer) };
   };
-  window.__title = function (levels) { return titleStanding(levels); };
-  window.__duel = function () { return duel; };
-  window.__duelSeconds = function () { return DUEL_SECONDS; };
-  window.__duelBegin = function (w) { return duelBegin(w); };
-  window.__duelEnd = function () { duel.ends = Date.now(); return duelSeconds(); };
-  window.__myChallenge = function () { return myChallenge(); };
-  window.__duelTargets = function () { return duelTargets(); };
-  window.__challenges = function () { return CHALLENGES; };
-  window.__measureKeys = function () { return MEASURE_KEYS; };
-  window.__next = function () { return next(); };
-  window.__ladders = function () { return LADDERS; };
-  window.__titles = function () { return TITLES; };
-  window.__makeNumber = function (g, lv) { return makeNumberQuestion(g, lv); };
-  window.__numberRung = function (g, lv) { return numberRung(g, lv); };
-  window.__drawNumber = function (q) { return drawNumber(q); };
-  window.__numberSentence = function (q) { return numberSentence(q); };
-  window.__view = function () { return view().id; };
-  window.__today = function () { return dayStamp(); };
-  window.__noteToday = function () { return noteToday(); };
+  hooks.__title = function (levels) { return titleStanding(levels); };
+  hooks.__duel = function () { return duel; };
+  hooks.__duelSeconds = function () { return DUEL_SECONDS; };
+  hooks.__duelBegin = function (w) { return duelBegin(w); };
+  hooks.__duelEnd = function () { duel.ends = Date.now(); return duelSeconds(); };
+  hooks.__myChallenge = function () { return myChallenge(); };
+  hooks.__duelTargets = function () { return duelTargets(); };
+  hooks.__challenges = function () { return CHALLENGES; };
+  hooks.__measureKeys = function () { return MEASURE_KEYS; };
+  hooks.__next = function () { return next(); };
+  hooks.__ladders = function () { return LADDERS; };
+  hooks.__titles = function () { return TITLES; };
+  hooks.__makeNumber = function (g, lv) { return makeNumberQuestion(g, lv); };
+  hooks.__numberRung = function (g, lv) { return numberRung(g, lv); };
+  hooks.__drawNumber = function (q) { return drawNumber(q); };
+  hooks.__numberSentence = function (q) { return numberSentence(q); };
+  hooks.__view = function () { return view().id; };
+  hooks.__today = function () { return dayStamp(); };
+  hooks.__noteToday = function () { return noteToday(); };
 
   /* the player's own character and title, in the masthead */
   /* The child's own duel record, in words, for the places that have room for a
@@ -14138,7 +14628,7 @@
      nothing that used to call it has to change. */
   function sayQuestion() {}
 
-  window.__measures = function () { return MEASURES; };
+  hooks.__measures = function () { return MEASURES; };
 
   /* A page left open across Monday 8am turns the week over by itself, rather
      than waiting for the next answer to notice. */

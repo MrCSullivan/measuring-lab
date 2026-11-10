@@ -14,7 +14,7 @@ Nothing secret is in these files. The teacher password lives only in the sheet.
 
 | File | What it is |
 | --- | --- |
-| index.html | The game, set up for a website: it loads config.js and the fonts from this folder. Apps Script gets its own copy (measuring-lab_58.html) as `Page`. |
+| index.html | The game, set up for a website: it loads config.js and the fonts from this folder. Apps Script gets its own copy (measuring-lab_60.html) as `Page`. |
 | config.js | One line: the address of your Apps Script web app. The only file you edit. |
 | sw.js | Saves the game on the device and opens it when the connection is poor. |
 | manifest.webmanifest, icon-192.png, icon-512.png, apple-touch-icon.png | Make "Add to Home Screen" work, with an icon. |
@@ -25,8 +25,8 @@ Keep all of them together in one folder, with no folders inside it.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_41.gs`,
-   and paste `measuring-lab_58.html` over the `Page` file.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_43.gs`,
+   and paste `measuring-lab_60.html` over the `Page` file.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
