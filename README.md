@@ -14,19 +14,17 @@ Nothing secret is in these files. The teacher password lives only in the sheet.
 
 | File | What it is |
 | --- | --- |
-| index.html | The game, set up for a website: it loads config.js and the fonts from this folder. Apps Script gets its own copy (measuring-lab_60.html) as `Page`. |
+| index.html | The game. The same file you paste into Apps Script as `Page`. |
 | config.js | One line: the address of your Apps Script web app. The only file you edit. |
 | sw.js | Saves the game on the device and opens it when the connection is poor. |
 | manifest.webmanifest, icon-192.png, icon-512.png, apple-touch-icon.png | Make "Add to Home Screen" work, with an icon. |
 | fonts.css and the .woff2 files | The two fonts the game uses, kept next to index.html so the page never waits on another website for them. |
-| LICENSE.txt | The fonts' licence, which has to travel with them. |
 
 Keep all of them together in one folder, with no folders inside it.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_43.gs`,
-   and paste `measuring-lab_60.html` over the `Page` file.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_43.gs`.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
@@ -75,7 +73,7 @@ opens the saved copy first and has the new one the time after. Changing
 ## When a whole class opens it at once
 
 Fifteen or twenty iPads opening the link in the same minute is fine for the game
-itself: the page is one file of about 1.1 MB (around 240 KB as most hosts send it, compressed), and the Google side was tested with
+itself: the page is a single 120 KB download, and the Google side was tested with
 sixty children pressing Continue within three seconds without a single refusal.
 When some iPads still fail to load the page, the cause is almost always the
 school network, not the game. Things that help:
