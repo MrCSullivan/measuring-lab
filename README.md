@@ -24,7 +24,7 @@ Keep all of them together in one folder, with no folders inside it.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_43.gs`.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_44.gs`.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
