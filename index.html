@@ -6023,7 +6023,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "68";
+  var GAME_VERSION = "69";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -11509,8 +11509,63 @@
     return Math.max(1, (peaks[measure + "." + mode] | 0) - DROP_LIMIT);
   }
 
+  /* ---- keeping a streak through a break ----
+     A streak used to live only in memory, so closing the iPad, or iPadOS
+     closing a tab left in the background, ended it. It is now kept on this
+     iPad for each child, with the climb towards the next level, and comes
+     back when they do.
+
+     What it must not do is let a child dodge a hard question. Leaving in the
+     middle of a question always brings a new question, so:
+       away for 90 seconds or more   a real break: the streak waits for them
+       a quick dash away mid-question the first one each day is let off, with
+                                      a warning; after that it counts as a skip
+     Leaving between questions, after an answer, never costs anything. */
+  var RUN_GRACE_MS = 90000, RUN_KEEP_MS = 7 * 86400000;
+  function runKey(n) { return "juglab.run." + CLASS + "." + String(n || state.name || "").toLowerCase(); }
+  /* Nothing is written for a child until their saved run has been read back
+     on this page, or an early save at sign-in would wipe it first. */
+  var runReadFor = "";
+  function saveRun() {
+    if (!state.name || TEACHER || window.__noSaveRun) return;
+    if (runReadFor !== String(state.name).toLowerCase()) return;
+    try {
+      localStorage.setItem(runKey(), JSON.stringify({ streak: state.streak | 0, runs: state.runs, misses: state.misses, at: Date.now(),
+                                                      open: !!(state.q && !state.answered), grace: state.graceDay || "" }));
+    } catch (e) { /* blocked: the streak just lasts as long as the page */ }
+  }
+  /* A quick dash away in the middle of a question. True if it costs the streak. */
+  function dashCosts() {
+    var today = dayStamp();
+    if (state.graceDay !== today) { state.graceDay = today; return false; }
+    return true;
+  }
+  function restoreRun(name) {
+    runReadFor = String(name || "").toLowerCase();
+    var rec = null;
+    try { rec = JSON.parse(localStorage.getItem(runKey(name)) || "null"); } catch (e) { rec = null; }
+    if (!rec || typeof rec !== "object" || !(Date.now() - (Number(rec.at) || 0) < RUN_KEEP_MS)) return "";
+    state.graceDay = String(rec.grace || "");
+    [["runs", rec.runs], ["misses", rec.misses]].forEach(function (pair) {
+      var src = pair[1], dst = state[pair[0]];
+      if (!src || typeof src !== "object") return;
+      for (var m in dst) if (dst.hasOwnProperty(m) && src[m] && typeof src[m] === "object")
+        for (var g in dst[m]) if (dst[m].hasOwnProperty(g) && isFinite(src[m][g])) dst[m][g] = Math.max(0, Number(src[m][g]));
+    });
+    var streak = Math.max(0, rec.streak | 0);
+    if (!streak) return "";
+    if (rec.open && Date.now() - rec.at < RUN_GRACE_MS) {
+      if (dashCosts()) return "You closed the game in the middle of a question and came straight back, so it counts as a skip and your streak starts again.";
+      state.streak = streak;
+      return "Your streak of " + streak + " is still going. Closing the game mid-question and coming straight back is let off once a day; next time it counts as a skip.";
+    }
+    state.streak = streak;
+    return "Welcome back. Your streak of " + streak + " is still going.";
+  }
+
   function saveProgress() {
     notePeaks();
+    saveRun();
     var list = readBoard(), found = null;
     for (var i = 0; i < list.length; i++) {
       if (list[i].name.toLowerCase() === state.name.toLowerCase()) { found = list[i]; break; }
@@ -11629,8 +11684,18 @@
     if (gone < 1500 || state.q !== q || state.answered) return;
     noteToday();
     state.leftToday = (state.leftToday | 0) + 1;
+    var note;
+    if (gone >= RUN_GRACE_MS || !state.streak) {
+      note = "Welcome back. Here is a new question" + (state.streak ? ", and your streak of " + state.streak + " is safe." : ".");
+    } else if (!dashCosts()) {
+      note = "You left in the middle of a question, so here is a new one. Your streak is safe this time, but a quick dash away mid-question counts as a skip after the first one each day. Longer breaks are fine.";
+    } else {
+      state.streak = 0;
+      if (state.runs[q.measure]) state.runs[q.measure][q.mode] = 0;
+      note = "You popped out in the middle of a question, so it counts as a skip and your streak starts again. Finish the question first, or take a proper break: after 90 seconds away your streak waits for you.";
+    }
     next();
-    setVerdict("You left the game, so here is a new question. Your streak is safe.", "");
+    setVerdict(note, "");
     try { saveProgress(); } catch (e) { /* saved next time */ }
   }
   document.addEventListener("visibilitychange", function () {
@@ -11642,6 +11707,8 @@
      a moment while the child is still looking at the question, and that was
      swapping the question under them. */
   window.addEventListener("pagehide", goneAway);
+  document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") saveRun(); });
+  window.addEventListener("pagehide", saveRun);
   window.addEventListener("pageshow", cameBack);
   window.__away = function () { goneAway(); };
   window.__back = function (ms) { awayAt -= ms || 0; cameBack(); };
@@ -15932,6 +15999,7 @@
     state.runs = freshCounts();
     state.placed = freshCounts();
     applyRestore(restoreFor(name));
+    var runNote = restoreRun(name);
     state.day = loadDay();
     noteNewDay();
     var openSkin = "classic", openBg = "plain";
@@ -15972,6 +16040,7 @@
     gate.hidden = true;
     saveProgress();
     next();
+    if (runNote) setVerdict(runNote, "");
 
     if (shared.on) {
       pullShared(true).then(function () {
@@ -15981,6 +16050,7 @@
         // a different level means a different question, and they have not
         // answered yet, so it costs nothing to draw the right one
         if (level() !== was) { next(); } else { updateChrome(); drawBoard(); }
+        if (runNote && !state.answered) setVerdict(runNote, "");
         checkBadges();
         drawRewards();
       });
