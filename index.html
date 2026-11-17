@@ -544,6 +544,10 @@
   }
   .mode:hover { border-color: var(--water); transform: translateY(-1px); }
   .mode strong { display: block; font-weight: 700; font-size: 16px; }
+  .capchip { display: inline-block; margin: 6px 0 0 6px; padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 700;
+             background: var(--card-sunk); color: var(--ink-soft); border: 1px solid var(--edge); vertical-align: top; }
+  .mode[aria-pressed="true"] .capchip { background: rgba(255,255,255,.85); color: #33424D; border-color: transparent; }
+  .tc-spell { width: 100%; min-height: 150px; margin-top: 6px; font: 15px/1.4 inherit; padding: 8px; border-radius: 10px; border: 1px solid var(--edge); background: var(--card); color: var(--ink); }
   .mode em { display: block; font-style: normal; font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
   .mode .lvl {
     display: inline-block;
@@ -2849,6 +2853,9 @@
   .trophies .cup { width: 19px; height: 19px; fill: none; stroke: #B8860B;
                    stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
   .trophies b { font: 800 10px/1 Karla, sans-serif; color: #B8860B; margin-right: 6px; }
+  .trophies .cup { width: 22px; height: 22px; }
+  .trophies b.tcount { font-size: 15px; margin: 0 6px 0 3px; }
+  .trophies .tlabel { font: 600 12px/1 Karla, sans-serif; color: var(--ink-soft); }
 
   body.display .teams { margin-bottom: 20px; }
   body.display .teams .team span { font-size: 34px; }
@@ -4024,6 +4031,124 @@
   body[data-bg="fireflies"] .footnote, body[data-bg="lighthouse"] .footnote, body[data-bg="fair"] .footnote, body[data-bg="lanterns"] .footnote { background: rgba(4,8,22,.66); border-radius: 10px; padding: 3px 10px; }
   body[data-bg="fireflies"] .player, body[data-bg="lighthouse"] .player, body[data-bg="fair"] .player, body[data-bg="lanterns"] .player, body[data-bg="fireflies"] .footnote, body[data-bg="lighthouse"] .footnote, body[data-bg="fair"] .footnote, body[data-bg="lanterns"] .footnote { width: fit-content; max-width: 100%; }
   body.lowfx .bgfx i { animation: none !important; }
+
+  /* ---- v68: game of the day, the colour vote, weekly squads ---- */
+  .gotd { display: flex; align-items: center; gap: 10px; width: 100%; margin: 0 0 10px; padding: 9px 14px; border-radius: 12px; text-align: left;
+          border: 1px solid #E8C34A; background: linear-gradient(90deg, #FFF6D8, #FFFBEF); color: #3A2E05; font: 600 14px/1.3 Karla, sans-serif; cursor: pointer; }
+  .gotd b { color: #6B4E00; }
+  .gotd .gstar { font-size: 20px; line-height: 1; }
+  .gotd.on { border-color: #C99A12; box-shadow: inset 0 0 0 1px #C99A12; }
+  .gotdchip { display: inline-block; margin: 6px 0 0 6px; padding: 2px 7px; border-radius: 999px; font-size: 11px; font-weight: 800;
+              background: #FFE38A; color: #4A3600; border: 1px solid #E8C34A; vertical-align: top; }
+  .measure.gotdtab::after { content: "\2605"; margin-left: 4px; color: #C99A12; }
+  .votebox, .squadbox { border: 1px solid var(--edge); background: var(--card-sunk); border-radius: 12px; padding: 10px 12px; margin: 0 0 12px; }
+  .votebox h3, .squadbox h3 { margin: 0 0 8px; font: 700 14px/1.2 Karla, sans-serif; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .votebox h3 small, .squadbox h3 small { font-weight: 600; color: var(--ink-faint); }
+  .voteopts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .voteopt { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 6px; border-radius: 12px; border: 2px solid var(--edge);
+             background: var(--card); color: var(--ink); font: 700 13px/1.2 Karla, sans-serif; cursor: pointer; }
+  .voteopt .sw { width: 54px; height: 54px; border-radius: 50%; border: 2px solid rgba(0,0,0,.12); }
+  .voteopt small { font-weight: 600; color: var(--ink-faint); }
+  .voteopt.mine { border-color: var(--water); box-shadow: inset 0 0 0 2px var(--water); }
+  .votebox .vnote, .squadbox .vnote { margin: 8px 0 0; font-size: 12.5px; color: var(--ink-faint); }
+  .squad { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 7px 9px; border-radius: 10px; margin-top: 6px; background: var(--card); border: 1px solid var(--edge); }
+  .squad b { font: 700 14px/1.2 Karla, sans-serif; color: var(--ink); }
+  .squad span { font: 800 16px/1.2 Karla, sans-serif; color: var(--water-deep); text-align: right; }
+  .squad small { grid-column: 1 / -1; font-size: 12px; color: var(--ink-faint); }
+  .squad.mine { box-shadow: inset 0 0 0 2px var(--water); }
+  .squad.top { border-color: var(--zest); }
+  body[data-skin="watermelon"] { --paper: #FFF0F2; --card: #FFFFFF; --card-sunk: #FFF5F6; --edge: #F2C2CB;
+    --ink: #2A1418; --ink-soft: #5A3640; --ink-faint: #7A4E58; --water: #C8354F; --water-deep: #97203A;
+    --water-fill: #FFC2CE; --water-lite: #FFE6EB; --zest: #2A7D3D; --zest-soft: #DDF3E2; }
+  body[data-skin="mintchoc"] { --paper: #E4F6EE; --card: #FFFFFF; --card-sunk: #F1FAF6; --edge: #BCE3D2;
+    --ink: #1F2B26; --ink-soft: #3E4F47; --ink-faint: #56675F; --water: #1A7A5A; --water-deep: #11593F;
+    --water-fill: #BDECD9; --water-lite: #E1F6EE; --zest: #6B3E26; --zest-soft: #F0E2D8; }
+  body[data-skin="lavalamp"] { --paper: #1E0F2E; --card: #2C1745; --card-sunk: #24123A; --edge: #563080;
+    --ink: #FBEFFF; --ink-soft: #E2CFF0; --ink-faint: #BDA6D0; --water: #FF8A3D; --water-deep: #FFB27A;
+    --water-fill: #5A2A10; --water-lite: #3A2140; --zest: #FF6FAD; --zest-soft: #3E1630; --leaf-soft: #16321F; --berry-soft: #41181A; --gold: #FF8A3D; }
+  body[data-skin="koi"] { --paper: #DDF1EE; --card: #F8FFFE; --card-sunk: #EAF7F5; --edge: #A9D8D1;
+    --ink: #0F2A2A; --ink-soft: #2F4D4C; --ink-faint: #48625F; --water: #B9461B; --water-deep: #8A3212;
+    --water-fill: #FFD0B8; --water-lite: #FFEDE3; --zest: #17706B; --zest-soft: #D6F0EE; }
+  body[data-skin="candystripe"] { --paper: #FFF4F4; --card: #FFFFFF; --card-sunk: #FFF8F8; --edge: #F3C3C3;
+    --ink: #2A1515; --ink-soft: #5A3333; --ink-faint: #774949; --water: #C42020; --water-deep: #911212;
+    --water-fill: #FFC9C9; --water-lite: #FFE8E8; --zest: #1C7454; --zest-soft: #DDF2EA; }
+  body[data-skin="jellyfish"] { --paper: #071A2E; --card: #0E2742; --card-sunk: #0A2038; --edge: #23527A;
+    --ink: #EAF6FF; --ink-soft: #C5E0F2; --ink-faint: #9ABCD2; --water: #5FE3FF; --water-deep: #A8F0FF;
+    --water-fill: #0F4A66; --water-lite: #0D3550; --zest: #FF7AD9; --zest-soft: #3A1640; --leaf-soft: #16321F; --berry-soft: #41181A; --gold: #5FE3FF; }
+  body[data-skin="snowglobe"] { --paper: #EEF4FB; --card: #FFFFFF; --card-sunk: #F4F8FC; --edge: #C9DAEC;
+    --ink: #13233A; --ink-soft: #35485F; --ink-faint: #516479; --water: #2A66AA; --water-deep: #1B4C86;
+    --water-fill: #C7DDF5; --water-lite: #E6F0FA; --zest: #B32F44; --zest-soft: #F8DDE1; }
+  body[data-skin="camo"] { --paper: #E3E6D3; --card: #F6F7EE; --card-sunk: #ECEEDF; --edge: #C2C7A6;
+    --ink: #1F2414; --ink-soft: #3F4630; --ink-faint: #535A40; --water: #4A662B; --water-deep: #34491D;
+    --water-fill: #C9D6A8; --water-lite: #E6ECD3; --zest: #7F5219; --zest-soft: #F0E2CD; }
+  body[data-skin="fireworks"] { --paper: #0B0B1E; --card: #17172F; --card-sunk: #121226; --edge: #34345E;
+    --ink: #F5F3FF; --ink-soft: #D6D2F0; --ink-faint: #ABA6CE; --water: #FFC94A; --water-deep: #FFE08F;
+    --water-fill: #4D3A0E; --water-lite: #2A2412; --zest: #FF6B95; --zest-soft: #3A1424; --leaf-soft: #16321F; --berry-soft: #41181A; --gold: #FFC94A; }
+  body[data-skin="marble"] { --paper: #F1F0EE; --card: #FFFFFF; --card-sunk: #F7F6F4; --edge: #D8D5D0;
+    --ink: #1E1E22; --ink-soft: #44444C; --ink-faint: #5E5E66; --water: #3A567B; --water-deep: #273C58;
+    --water-fill: #CBD6E5; --water-lite: #E8EDF4; --zest: #8C6B37; --zest-soft: #F3EBDD; }
+  body[data-skin="denim"] { --paper: #DCE5F0; --card: #F7FAFD; --card-sunk: #EAF0F7; --edge: #A9BCD3;
+    --ink: #0F1E33; --ink-soft: #2D3E57; --ink-faint: #46576F; --water: #2B4F7E; --water-deep: #1A3557;
+    --water-fill: #B9CBE2; --water-lite: #E1E9F3; --zest: #A9620F; --zest-soft: #F6E6D0; }
+  body[data-skin="tropical"] { --paper: #E4F2E4; --card: #FBFFF9; --card-sunk: #EEF8EC; --edge: #B7DDB3;
+    --ink: #12261A; --ink-soft: #304A37; --ink-faint: #475F4C; --water: #1B7146; --water-deep: #12573A;
+    --water-fill: #BFE6C9; --water-lite: #E1F4E5; --zest: #B8461F; --zest-soft: #FBE1D8; }
+  body[data-skin="watermelon"] .wave, body[data-skin="mintchoc"] .wave, body[data-skin="lavalamp"] .wave, body[data-skin="koi"] .wave, body[data-skin="candystripe"] .wave, body[data-skin="jellyfish"] .wave, body[data-skin="snowglobe"] .wave, body[data-skin="camo"] .wave, body[data-skin="fireworks"] .wave, body[data-skin="marble"] .wave, body[data-skin="denim"] .wave, body[data-skin="tropical"] .wave { animation: none; }
+  body[data-skin="watermelon"] .stage, body[data-skin="mintchoc"] .stage, body[data-skin="lavalamp"] .stage, body[data-skin="koi"] .stage, body[data-skin="candystripe"] .stage, body[data-skin="jellyfish"] .stage, body[data-skin="snowglobe"] .stage, body[data-skin="camo"] .stage, body[data-skin="fireworks"] .stage, body[data-skin="marble"] .stage, body[data-skin="denim"] .stage, body[data-skin="tropical"] .stage { position: relative; isolation: isolate; overflow: hidden; }
+  body[data-skin="watermelon"]:not([data-bg]), body[data-skin="watermelon"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 130 130%22%3E%3Cpath transform=%22translate(18 22) rotate(20)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(70 14) rotate(-15)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(46 58) rotate(10)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(96 64) rotate(-25)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(20 92) rotate(5)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(78 104) rotate(30)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(110 30) rotate(0)%22 d=%22M0 0q3 4 0 9q-3-5 0-9z%22 fill=%22%232A1418%22 opacity=%22.55%22/%3E%3C/svg%3E") 0 0 / 130px 130px, linear-gradient(180deg, transparent 0 calc(100% - 26px), #9ED8A6 calc(100% - 26px) calc(100% - 12px), #2A7D3D calc(100% - 12px)); background-attachment: fixed; }
+  body[data-skin="mintchoc"]:not([data-bg]), body[data-skin="mintchoc"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 130 130%22%3E%3Cpath transform=%22translate(12 18) rotate(10)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(64 10) rotate(70)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(40 52) rotate(-30)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(98 40) rotate(140)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(16 96) rotate(200)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(80 92) rotate(40)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(116 112) rotate(-60)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3C/svg%3E") 0 0 / 130px 130px; background-attachment: fixed; }
+  body[data-skin="koi"]:not([data-bg]), body[data-skin="koi"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg fill=%22none%22 stroke=%22%237FC3BA%22 stroke-width=%221.6%22 opacity=%22.55%22%3E%3Ccircle cx=%2250%22 cy=%2260%22 r=%2210%22/%3E%3Ccircle cx=%2250%22 cy=%2260%22 r=%2222%22/%3E%3Ccircle cx=%2250%22 cy=%2260%22 r=%2236%22/%3E%3Ccircle cx=%22170%22 cy=%22160%22 r=%2212%22/%3E%3Ccircle cx=%22170%22 cy=%22160%22 r=%2226%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 220px 220px; background-attachment: fixed; }
+  body[data-skin="candystripe"]:not([data-bg]), body[data-skin="candystripe"][data-bg="plain"] { background-image: repeating-linear-gradient(45deg, rgba(196,32,32,.10) 0 18px, transparent 18px 36px); background-attachment: fixed; }
+  body[data-skin="jellyfish"]:not([data-bg]), body[data-skin="jellyfish"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Ccircle cx=%22115%22 cy=%22143%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%22130%22 cy=%22150%22 r=%221%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22131%22 cy=%22121%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.7%22/%3E%3Ccircle cx=%2247%22 cy=%2224%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%2236%22 cy=%2223%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.7%22/%3E%3Ccircle cx=%22162%22 cy=%2210%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%22115%22 cy=%22167%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.7%22/%3E%3Ccircle cx=%22166%22 cy=%2240%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22135%22 cy=%2216%22 r=%221%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%2248%22 cy=%2261%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22199%22 cy=%22118%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%22151%22 cy=%2250%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22163%22 cy=%2275%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22169%22 cy=%2221%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.7%22/%3E%3Ccircle cx=%2271%22 cy=%22104%22 r=%221.8%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22181%22 cy=%2265%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22131%22 cy=%2273%22 r=%221%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%22144%22 cy=%22196%22 r=%221%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%2227%22 cy=%2274%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%224%22 cy=%22175%22 r=%221%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3Ccircle cx=%2253%22 cy=%2213%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.5%22/%3E%3Ccircle cx=%22181%22 cy=%22101%22 r=%221.3%22 fill=%22%237FDFFF%22 opacity=%220.3%22/%3E%3C/svg%3E") 0 0 / 200px 200px, linear-gradient(180deg, #0B2540, #040E1C); background-attachment: fixed; }
+  body[data-skin="snowglobe"]:not([data-bg]), body[data-skin="snowglobe"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 160%22%3E%3Cg fill=%22none%22 stroke=%22%23B9CDE4%22 stroke-width=%221.6%22 stroke-linecap=%22round%22 opacity=%22.9%22%3E%3Cg transform=%22translate(40 40)%22%3E%3Cpath d=%22M0-10V10M-9-5L9 5M-9 5L9-5%22/%3E%3C/g%3E%3Cg transform=%22translate(120 100) scale(.7)%22%3E%3Cpath d=%22M0-10V10M-9-5L9 5M-9 5L9-5%22/%3E%3C/g%3E%3Cg transform=%22translate(70 130) scale(.5)%22%3E%3Cpath d=%22M0-10V10M-9-5L9 5M-9 5L9-5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 0 0 / 160px 160px; background-attachment: fixed; }
+  body[data-skin="camo"]:not([data-bg]), body[data-skin="camo"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg opacity=%22.35%22%3E%3Cellipse cx=%2230%22 cy=%2230%22 rx=%2234%22 ry=%2218%22 transform=%22rotate(20 30 30)%22 fill=%22%238C9A6A%22/%3E%3Cellipse cx=%22120%22 cy=%2240%22 rx=%2240%22 ry=%2220%22 transform=%22rotate(-30 120 40)%22 fill=%22%236E7D4C%22/%3E%3Cellipse cx=%2270%22 cy=%22100%22 rx=%2236%22 ry=%2222%22 transform=%22rotate(10 70 100)%22 fill=%22%23A49470%22/%3E%3Cellipse cx=%22170%22 cy=%22120%22 rx=%2230%22 ry=%2218%22 transform=%22rotate(40 170 120)%22 fill=%22%238C9A6A%22/%3E%3Cellipse cx=%2230%22 cy=%22160%22 rx=%2242%22 ry=%2220%22 transform=%22rotate(-10 30 160)%22 fill=%22%236E7D4C%22/%3E%3Cellipse cx=%22130%22 cy=%22180%22 rx=%2234%22 ry=%2216%22 transform=%22rotate(25 130 180)%22 fill=%22%23A49470%22/%3E%3Cellipse cx=%22190%22 cy=%2230%22 rx=%2222%22 ry=%2214%22 transform=%22rotate(0 190 30)%22 fill=%22%23A49470%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 220px 220px; background-attachment: fixed; }
+  body[data-skin="fireworks"]:not([data-bg]), body[data-skin="fireworks"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Ccircle cx=%2291%22 cy=%22179%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%225%22 cy=%22153%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%22123%22 cy=%2217%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%2281%22 cy=%2234%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%22115%22 cy=%22139%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%2211%22 cy=%22188%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%2233%22 cy=%2287%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%22175%22 cy=%22121%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%227%22 cy=%22127%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%22159%22 cy=%22169%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%22149%22 cy=%223%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%2220%22 cy=%2223%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%2265%22 cy=%22106%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%2299%22 cy=%22188%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%22117%22 cy=%22112%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%2221%22 cy=%22132%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%2279%22 cy=%22153%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%225%22 cy=%2258%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%22127%22 cy=%22199%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%22124%22 cy=%2265%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%2277%22 cy=%2236%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3Ccircle cx=%2251%22 cy=%22132%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%22168%22 cy=%22113%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%2283%22 cy=%22103%22 r=%221.4%22 fill=%22%23FFFFFF%22 opacity=%220.6%22/%3E%3Ccircle cx=%2250%22 cy=%22162%22 r=%221%22 fill=%22%23FFFFFF%22 opacity=%220.4%22/%3E%3Ccircle cx=%2254%22 cy=%2298%22 r=%220.8%22 fill=%22%23FFFFFF%22 opacity=%220.9%22/%3E%3C/svg%3E") 0 0 / 200px 200px; background-attachment: fixed; }
+  body[data-skin="marble"]:not([data-bg]), body[data-skin="marble"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Cg fill=%22none%22 stroke=%22%23C9C5BE%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M-20 60q60-30 120 10t140-10 80 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M-20 160q50 20 110-10t120 20 110-20%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M40 300q20-60 80-80t70-90%22 stroke-width=%221%22/%3E%3Cpath d=%22M200 0q-10 40 30 70t40 90%22 stroke-width=%221.2%22 stroke=%22%23B9A98A%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 300px 300px; background-attachment: fixed; }
+  body[data-skin="denim"]:not([data-bg]), body[data-skin="denim"][data-bg="plain"] { background-image: repeating-linear-gradient(135deg, rgba(43,79,126,.09) 0 2px, transparent 2px 6px), repeating-linear-gradient(45deg, rgba(43,79,126,.05) 0 1px, transparent 1px 5px); background-attachment: fixed; }
+  body[data-skin="tropical"]:not([data-bg]), body[data-skin="tropical"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 320%22%3E%3Cg opacity=%22.22%22%3E%3Cg transform=%22translate(10 40) rotate(20)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3Cg transform=%22translate(200 220) rotate(-150)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3Cg transform=%22translate(220 40) rotate(60) scale(.7)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Ccircle cx=%22110%22 cy=%22220%22 r=%2210%22 fill=%22%23E0603A%22 opacity=%22.25%22/%3E%3C/svg%3E") 0 0 / 320px 320px; background-attachment: fixed; }
+  body[data-skin="lavalamp"]:not([data-bg]), body[data-skin="lavalamp"][data-bg="plain"] { background-image: radial-gradient(60% 40% at 20% 10%, rgba(255,111,173,.18), transparent 70%), radial-gradient(60% 50% at 90% 90%, rgba(255,138,61,.16), transparent 70%); background-attachment: fixed; }
+  body[data-skin="lavalamp"] button.action:not(.ghost), body[data-skin="jellyfish"] button.action:not(.ghost), body[data-skin="fireworks"] button.action:not(.ghost), body[data-skin="lavalamp"] .measure[aria-pressed="true"], body[data-skin="jellyfish"] .measure[aria-pressed="true"], body[data-skin="fireworks"] .measure[aria-pressed="true"], body[data-skin="lavalamp"] .mode[aria-pressed="true"], body[data-skin="jellyfish"] .mode[aria-pressed="true"], body[data-skin="fireworks"] .mode[aria-pressed="true"], body[data-skin="lavalamp"] .subject[aria-pressed="true"], body[data-skin="jellyfish"] .subject[aria-pressed="true"], body[data-skin="fireworks"] .subject[aria-pressed="true"],
+  body[data-skin="lavalamp"] .aa-seg button[aria-pressed="true"], body[data-skin="jellyfish"] .aa-seg button[aria-pressed="true"], body[data-skin="fireworks"] .aa-seg button[aria-pressed="true"], body[data-skin="lavalamp"] .chal-flag, body[data-skin="jellyfish"] .chal-flag, body[data-skin="fireworks"] .chal-flag { color: #14110D; }
+  body[data-skin="lavalamp"] .measure[aria-pressed="true"] small, body[data-skin="jellyfish"] .measure[aria-pressed="true"] small, body[data-skin="fireworks"] .measure[aria-pressed="true"] small, body[data-skin="lavalamp"] .mode[aria-pressed="true"] em, body[data-skin="jellyfish"] .mode[aria-pressed="true"] em, body[data-skin="fireworks"] .mode[aria-pressed="true"] em, body[data-skin="lavalamp"] .mode[aria-pressed="true"] .lvl, body[data-skin="jellyfish"] .mode[aria-pressed="true"] .lvl, body[data-skin="fireworks"] .mode[aria-pressed="true"] .lvl { color: #14110D; opacity: .85; }
+  /* Lava Lamp: two warm blobs drifting up and down behind the question. */
+  body[data-skin="lavalamp"] .stage::before, body[data-skin="lavalamp"] .stage::after { content: ""; position: absolute; z-index: -1; pointer-events: none; border-radius: 50%; filter: blur(2px); opacity: .55; }
+  body[data-skin="lavalamp"] .stage::before { left: 6%; bottom: -60px; width: 120px; height: 140px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23FF8A3D%22/%3E%3C/svg%3E") center / 100% 100%; animation: lavaup 14s ease-in-out infinite alternate; }
+  body[data-skin="lavalamp"] .stage::after { right: 8%; top: -50px; width: 90px; height: 100px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2246%22 fill=%22%23FF6FAD%22/%3E%3C/svg%3E") center / 100% 100%; animation: lavadown 11s ease-in-out infinite alternate; }
+  @keyframes lavaup { from { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-120px) scale(.85, 1.15); } to { transform: translateY(-260px) scale(1.1, .9); } }
+  @keyframes lavadown { from { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(120px) scale(1.15, .85); } to { transform: translateY(240px) scale(.9, 1.1); } }
+  /* Koi Pond: a koi swims slowly across the card. */
+  body[data-skin="koi"] .stage::after { content: ""; position: absolute; left: -130px; top: 58%; width: 120px; height: 50px; z-index: -1; pointer-events: none; opacity: .55;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 50%22%3E%3Cpath d=%22M10 25q20-18 55-12 25 4 38 12-13 8-38 12-35 6-55-12z%22 fill=%22%23F07A3A%22/%3E%3Cpath d=%22M40 16q10-4 18 0-4 8 2 18-10 4-20 0 4-10 0-18z%22 fill=%22%23FFF3E8%22/%3E%3Cpath d=%22M70 14q8 2 10 10-6 0-10-10z%22 fill=%22%23FFF3E8%22/%3E%3Cpath d=%22M100 25l18-14-4 14 4 14z%22 fill=%22%23F07A3A%22/%3E%3Ccircle cx=%2220%22 cy=%2222%22 r=%222.2%22 fill=%22%231A1A1A%22/%3E%3Cpath d=%22M55 12l8-8 4 9zM55 38l8 8 4-9z%22 fill=%22%23F7A06A%22/%3E%3C/svg%3E") center / contain no-repeat; transform: scaleX(-1); animation: koiswim 26s linear infinite; }
+  @keyframes koiswim { 0% { left: -130px; top: 58%; } 50% { top: 40%; } 100% { left: 105%; top: 62%; } }
+  /* Jellyfish: one drifts up through the card, glowing. */
+  body[data-skin="jellyfish"] .stage::after { content: ""; position: absolute; right: 8%; bottom: -120px; width: 56px; height: 104px; z-index: -1; pointer-events: none; opacity: .7;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 110%22%3E%3Cdefs%3E%3CradialGradient id=%22j%22 cx=%22.5%22 cy=%22.4%22 r=%22.6%22%3E%3Cstop offset=%220%22 stop-color=%22%23FFE3F7%22/%3E%3Cstop offset=%22.6%22 stop-color=%22%23FF7AD9%22/%3E%3Cstop offset=%221%22 stop-color=%22%23FF7AD9%22 stop-opacity=%22.2%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx=%2230%22 cy=%2222%22 r=%2230%22 fill=%22%23FF7AD9%22 opacity=%22.18%22/%3E%3Cpath d=%22M6 30q0-26 24-26t24 26q-6-4-12 0-6-4-12 0-6-4-12 0-6-4-12 0z%22 fill=%22url(%23j)%22/%3E%3Cg fill=%22none%22 stroke=%22%23FFB8EC%22 stroke-width=%222%22 stroke-linecap=%22round%22 opacity=%22.85%22%3E%3Cpath d=%22M14 32q-4 16 2 30t-2 30%22/%3E%3Cpath d=%22M24 33q4 18-2 34t4 30%22/%3E%3Cpath d=%22M36 33q-4 18 2 34t-4 30%22/%3E%3Cpath d=%22M46 32q4 16-2 30t2 30%22/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; animation: jellyup 18s ease-in-out infinite; }
+  @keyframes jellyup { 0% { transform: translate(0, 0); } 25% { transform: translate(-12px, -30%); } 50% { transform: translate(8px, -60vh); } 100% { transform: translate(-6px, -140vh); } }
+  /* Snow Globe: snow falls gently over the card. */
+  body[data-skin="snowglobe"] .stage::before { content: ""; position: absolute; left: 0; right: 0; top: -300px; bottom: 0; z-index: -1; pointer-events: none; opacity: .9;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Ccircle cx=%22289%22 cy=%22101%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22172%22 cy=%2244%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22170%22 cy=%227%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2260%22 cy=%2268%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2251%22 cy=%225%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22238%22 cy=%22249%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22286%22 cy=%2296%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22260%22 cy=%2297%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22214%22 cy=%22196%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22202%22 cy=%22215%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%220%22 cy=%22138%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2210%22 cy=%22107%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22201%22 cy=%22295%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2221%22 cy=%2274%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22226%22 cy=%22132%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22168%22 cy=%22151%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2237%22 cy=%2238%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22106%22 cy=%22298%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%227%22 cy=%22188%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22232%22 cy=%2265%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22294%22 cy=%2269%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2293%22 cy=%2278%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22116%22 cy=%22127%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2281%22 cy=%22283%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22198%22 cy=%22247%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22215%22 cy=%2224%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2255%22 cy=%2219%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22122%22 cy=%22200%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22215%22 cy=%22251%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22266%22 cy=%2289%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2264%22 cy=%22116%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22286%22 cy=%2237%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22108%22 cy=%22104%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2235%22 cy=%22137%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22228%22 cy=%22127%22 r=%221.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2223%22 cy=%2290%22 r=%222.5%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22188%22 cy=%22271%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2247%22 cy=%22185%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%22230%22 cy=%22169%22 r=%222%22 fill=%22%23FFFFFF%22/%3E%3Ccircle cx=%2217%22 cy=%229%22 r=%223%22 fill=%22%23FFFFFF%22/%3E%3C/svg%3E") 0 0 / 300px 300px; filter: drop-shadow(0 0 1px #9DB6D3); animation: snowfall 16s linear infinite; }
+  @keyframes snowfall { to { transform: translateY(300px); } }
+  /* Fireworks: bursts pop in the corners of the card. */
+  body[data-skin="fireworks"] .stage::before, body[data-skin="fireworks"] .stage::after { content: ""; position: absolute; z-index: -1; pointer-events: none; width: 110px; height: 110px; opacity: 0; }
+  body[data-skin="fireworks"] .stage::before { right: 4%; top: 4%; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg stroke=%22%23FFC94A%22 stroke-width=%223%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M64.0 50.0L90.0 50.0%22/%3E%3Cpath d=%22M62.1 57.0L84.6 70.0%22/%3E%3Cpath d=%22M57.0 62.1L70.0 84.6%22/%3E%3Cpath d=%22M50.0 64.0L50.0 90.0%22/%3E%3Cpath d=%22M43.0 62.1L30.0 84.6%22/%3E%3Cpath d=%22M37.9 57.0L15.4 70.0%22/%3E%3Cpath d=%22M36.0 50.0L10.0 50.0%22/%3E%3Cpath d=%22M37.9 43.0L15.4 30.0%22/%3E%3Cpath d=%22M43.0 37.9L30.0 15.4%22/%3E%3Cpath d=%22M50.0 36.0L50.0 10.0%22/%3E%3Cpath d=%22M57.0 37.9L70.0 15.4%22/%3E%3Cpath d=%22M62.1 43.0L84.6 30.0%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%226%22 fill=%22%23FFC94A%22/%3E%3C/svg%3E") center / contain no-repeat; animation: fwpop 3.2s ease-out infinite; }
+  body[data-skin="fireworks"] .stage::after { left: 3%; bottom: 6%; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg stroke=%22%23FF6B95%22 stroke-width=%223%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M64.0 50.0L90.0 50.0%22/%3E%3Cpath d=%22M62.1 57.0L84.6 70.0%22/%3E%3Cpath d=%22M57.0 62.1L70.0 84.6%22/%3E%3Cpath d=%22M50.0 64.0L50.0 90.0%22/%3E%3Cpath d=%22M43.0 62.1L30.0 84.6%22/%3E%3Cpath d=%22M37.9 57.0L15.4 70.0%22/%3E%3Cpath d=%22M36.0 50.0L10.0 50.0%22/%3E%3Cpath d=%22M37.9 43.0L15.4 30.0%22/%3E%3Cpath d=%22M43.0 37.9L30.0 15.4%22/%3E%3Cpath d=%22M50.0 36.0L50.0 10.0%22/%3E%3Cpath d=%22M57.0 37.9L70.0 15.4%22/%3E%3Cpath d=%22M62.1 43.0L84.6 30.0%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%226%22 fill=%22%23FF6B95%22/%3E%3C/svg%3E") center / contain no-repeat; animation: fwpop 3.2s ease-out 1.6s infinite; }
+  @keyframes fwpop { 0% { opacity: 0; transform: scale(.2); } 15% { opacity: .9; } 60% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(1.15); } }
+  /* Denim: orange stitching round the card. */
+  body[data-skin="denim"] .stage { outline: 2px dashed #C67A1E; outline-offset: -8px; }
+  body.lowfx[data-skin] .stage::before, body.lowfx[data-skin] .stage::after { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { body[data-skin="watermelon"] .stage::before, body[data-skin="mintchoc"] .stage::before, body[data-skin="lavalamp"] .stage::before, body[data-skin="koi"] .stage::before, body[data-skin="candystripe"] .stage::before, body[data-skin="jellyfish"] .stage::before, body[data-skin="snowglobe"] .stage::before, body[data-skin="camo"] .stage::before, body[data-skin="fireworks"] .stage::before, body[data-skin="marble"] .stage::before, body[data-skin="denim"] .stage::before, body[data-skin="tropical"] .stage::before, body[data-skin="watermelon"] .stage::after, body[data-skin="mintchoc"] .stage::after, body[data-skin="lavalamp"] .stage::after, body[data-skin="koi"] .stage::after, body[data-skin="candystripe"] .stage::after, body[data-skin="jellyfish"] .stage::after, body[data-skin="snowglobe"] .stage::after, body[data-skin="camo"] .stage::after, body[data-skin="fireworks"] .stage::after, body[data-skin="marble"] .stage::after, body[data-skin="denim"] .stage::after, body[data-skin="tropical"] .stage::after { animation: none; } }
+  .sw-watermelon { background: radial-gradient(circle at 50% 120%, #FF6F86 0 62%, #9ED8A6 62% 70%, #2A7D3D 70% 78%, transparent 78%), #FFF0F2; }
+  .sw-mintchoc { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 130 130%22%3E%3Cpath transform=%22translate(12 18) rotate(10)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(64 10) rotate(70)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(40 52) rotate(-30)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(98 40) rotate(140)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(16 96) rotate(200)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(80 92) rotate(40)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3Cpath transform=%22translate(116 112) rotate(-60)%22 d=%22M0 0l7-2 4 5-3 6-7 0z%22 fill=%22%235A3220%22 opacity=%22.55%22/%3E%3C/svg%3E") 0 0 / 40px 40px, #9FE0C4; }
+  .sw-lavalamp { background: radial-gradient(circle at 30% 70%, #FF8A3D 0 22%, transparent 24%), radial-gradient(circle at 70% 30%, #FF6FAD 0 18%, transparent 20%), #2C1745; }
+  .sw-koi { background: radial-gradient(ellipse 34% 16% at 50% 50%, #F07A3A 0 90%, transparent), #BFE6E0; }
+  .sw-candystripe { background: repeating-linear-gradient(45deg, #C42020 0 6px, #FFFFFF 6px 12px); }
+  .sw-jellyfish { background: radial-gradient(ellipse 30% 22% at 50% 40%, #FF7AD9 0 90%, transparent), #0B2540; }
+  .sw-snowglobe { background: radial-gradient(circle at 50% 55%, #FFFFFF 0 40%, #C7DDF5 41% 60%, transparent 61%), #2A66AA; }
+  .sw-camo { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg %3E%3Cellipse cx=%2230%22 cy=%2230%22 rx=%2234%22 ry=%2218%22 transform=%22rotate(20 30 30)%22 fill=%22%238C9A6A%22/%3E%3Cellipse cx=%22120%22 cy=%2240%22 rx=%2240%22 ry=%2220%22 transform=%22rotate(-30 120 40)%22 fill=%22%236E7D4C%22/%3E%3Cellipse cx=%2270%22 cy=%22100%22 rx=%2236%22 ry=%2222%22 transform=%22rotate(10 70 100)%22 fill=%22%23A49470%22/%3E%3Cellipse cx=%22170%22 cy=%22120%22 rx=%2230%22 ry=%2218%22 transform=%22rotate(40 170 120)%22 fill=%22%238C9A6A%22/%3E%3Cellipse cx=%2230%22 cy=%22160%22 rx=%2242%22 ry=%2220%22 transform=%22rotate(-10 30 160)%22 fill=%22%236E7D4C%22/%3E%3Cellipse cx=%22130%22 cy=%22180%22 rx=%2234%22 ry=%2216%22 transform=%22rotate(25 130 180)%22 fill=%22%23A49470%22/%3E%3Cellipse cx=%22190%22 cy=%2230%22 rx=%2222%22 ry=%2214%22 transform=%22rotate(0 190 30)%22 fill=%22%23A49470%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 50px 50px, #C2C7A6; }
+  .sw-fireworks { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cg stroke=%22%23FFC94A%22 stroke-width=%223%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M64.0 50.0L90.0 50.0%22/%3E%3Cpath d=%22M62.1 57.0L84.6 70.0%22/%3E%3Cpath d=%22M57.0 62.1L70.0 84.6%22/%3E%3Cpath d=%22M50.0 64.0L50.0 90.0%22/%3E%3Cpath d=%22M43.0 62.1L30.0 84.6%22/%3E%3Cpath d=%22M37.9 57.0L15.4 70.0%22/%3E%3Cpath d=%22M36.0 50.0L10.0 50.0%22/%3E%3Cpath d=%22M37.9 43.0L15.4 30.0%22/%3E%3Cpath d=%22M43.0 37.9L30.0 15.4%22/%3E%3Cpath d=%22M50.0 36.0L50.0 10.0%22/%3E%3Cpath d=%22M57.0 37.9L70.0 15.4%22/%3E%3Cpath d=%22M62.1 43.0L84.6 30.0%22/%3E%3C/g%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%226%22 fill=%22%23FFC94A%22/%3E%3C/svg%3E") center / 80% no-repeat, #0B0B1E; }
+  .sw-marble { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 300%22%3E%3Cg fill=%22none%22 stroke=%22%23C9C5BE%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M-20 60q60-30 120 10t140-10 80 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M-20 160q50 20 110-10t120 20 110-20%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M40 300q20-60 80-80t70-90%22 stroke-width=%221%22/%3E%3Cpath d=%22M200 0q-10 40 30 70t40 90%22 stroke-width=%221.2%22 stroke=%22%23B9A98A%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 60px 60px, #FFFFFF; }
+  .sw-denim { background: repeating-linear-gradient(135deg, #3A5F90 0 2px, #2B4F7E 2px 5px); }
+  .sw-tropical { background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 320%22%3E%3Cg opacity=%22.22%22%3E%3Cg transform=%22translate(10 40) rotate(20)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3Cg transform=%22translate(200 220) rotate(-150)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3Cg transform=%22translate(220 40) rotate(60) scale(.7)%22%3E%3Cpath d=%22M0 0c40-30 90-20 110 20-30 40-80 50-110-20z%22 fill=%22%232E8B57%22/%3E%3Cpath d=%22M0 0c40 10 70 20 110 20%22 stroke=%22%231E6B42%22 stroke-width=%223%22 fill=%22none%22/%3E%3Cg stroke=%22%23E4F2E4%22 stroke-width=%225%22%3E%3Cpath d=%22M30 0l10-14M55 8l12-16M80 14l12-14M30 2l12 12M58 10l10 14M84 16l8 12%22/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Ccircle cx=%22110%22 cy=%22220%22 r=%2210%22 fill=%22%23E0603A%22 opacity=%22.25%22/%3E%3C/svg%3E") 0 0 / 60px 60px, #8CCB8E; }
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
@@ -4209,6 +4334,7 @@
     <button class="measure number" data-measure="number" aria-pressed="false">Number<small>&#215; and &#247;</small></button>
   </nav>
 
+  <button type="button" class="gotd" id="gotd" hidden></button>
   <nav class="modes" aria-label="Choose an activity">
     <button class="mode" data-mode="step" aria-pressed="true">
       <strong>Find the step</strong><em>What is each line worth?</em>
@@ -4566,6 +4692,8 @@
     <p class="rules">Every correct answer is worth the same, whatever level you are on. Three right in a row doubles your points, and six in a row triples them. One wrong answer sends the streak back to zero.</p>
     <div class="chalbox" id="chalbox" hidden></div>
     <div class="vsbox" id="vsbox" hidden></div>
+    <div class="squadbox" id="squadbox" hidden></div>
+    <div class="votebox" id="votebox" hidden></div>
     <p class="shout" id="shout" hidden></p>
     <div class="teams" id="teams" hidden></div>
     <ol class="ranks" id="ranks"></ol>
@@ -5534,7 +5662,9 @@
         read:  { label: "Punctuation", blurb: "Capitals, commas, apostrophes." },
         add:   { label: "Vocabulary",  blurb: "What does the word mean?" },
         about: { label: "Reading",     blurb: "Read it, then answer." },
-        set:   { label: "Right word",  blurb: "Which word fits the gap?" }
+        set:   { label: "Right word",  blurb: "Which word fits the gap?" },
+        convert: { label: "Grammar",   blurb: "Nouns, verbs, tenses, clauses." },
+        life:  { label: "Fix it",      blurb: "Spot the mistake. Make it better." }
       }
     },
     capacity: {
@@ -5823,6 +5953,9 @@
      lists are the original ladders, which every badge is still counted on. */
   var CORE_MEASURES = ["capacity", "mass", "length", "number", "temperature"];
   var CORE_GAMES = ["step", "read", "add", "about", "set"];
+  /* English uses all seven slots: the five above, and Grammar and Fix it in
+     the two the measures use for Convert and Real life. */
+  var ENG_GAMES = ["step", "read", "add", "about", "set", "convert", "life"];
   var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time", "english"];
   var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "english"];
   var MATHS_ORDER = ["capacity", "mass", "length", "temperature", "time", "number"];
@@ -5890,7 +6023,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "64";
+  var GAME_VERSION = "68";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -7562,7 +7695,7 @@
      tries, points, streaks, badges, the sheet) treats them like any other.
      Badges keep counting only the original ladders, so none got harder. */
   function gameAvailable(m, g) {
-    if (m === "english") return CORE_GAMES.indexOf(g) > -1;
+    if (m === "english") return ENG_GAMES.indexOf(g) > -1;
     if (CORE_GAMES.indexOf(g) > -1) return true;
     if (g === "convert") return m === "capacity" || m === "mass" || m === "length" || m === "time";
     if (g === "life") return m !== "number";
@@ -9322,6 +9455,839 @@
     WORD_TIP.advice = "advice with a c is the thing you are given. advise with an s is the doing word.";
   })();
 
+  /* ================================================================ Grammar and Fix it
+     Two more English games in the two slots the maths measures use for
+     Convert and Real life. Nearly everything is built from parts rather than
+     typed out whole, so a level holds hundreds of questions:
+
+       Grammar   1 nouns  2 verbs  3 adjectives, plurals  4 adverbs, odd plurals
+                 5 past tense  6 is or are, he or him  7 joining words
+                 8 kinds of sentence, prepositions
+                 stretch: have eaten, words that change job, modal verbs,
+                 clauses, passive voice, reported speech, who / which / whose
+       Fix it    1-2 the misspelt word  2-3 the missing capital
+                 3-4 the sentence that makes sense  5 joining two sentences
+                 6 complete sentence or not  7 run-on sentences
+                 8 the wrong word
+                 stretch: similes and friends, fact or opinion, formal or
+                 chatty, keeping the tense, harder wrong words */
+  var G = {
+    noun: ["dog", "cat", "horse", "girl", "boy", "teacher", "farmer", "koala", "kangaroo", "puppy", "rabbit", "chef", "possum",
+           "wombat", "magpie", "lizard", "emu", "duck", "goat", "pony"],
+    adj: ["hungry", "tiny", "happy", "sleepy", "noisy", "old", "brave", "clever", "fluffy", "muddy", "grumpy", "little", "tired",
+          "curious", "shy", "young", "spotty"],
+    verb: [["ran", "running"], ["walked", "walking"], ["raced", "racing"], ["crept", "creeping"], ["hopped", "hopping"],
+           ["wandered", "wandering"], ["skipped", "skipping"], ["dashed", "dashing"], ["tiptoed", "tiptoeing"], ["marched", "marching"],
+           ["crawled", "crawling"], ["scampered", "scampering"], ["strolled", "strolling"], ["trotted", "trotting"]],
+    adv: ["quickly", "slowly", "quietly", "happily", "carefully", "proudly", "bravely", "lazily", "eagerly", "nervously", "cheerfully", "sleepily"],
+    prep: { across: ["park", "road", "paddock", "lawn", "bridge", "yard", "beach"], along: ["beach", "road", "footpath", "river", "fence"],
+            through: ["park", "garden", "paddock", "gate"], under: ["fence", "bridge", "table", "bed"], over: ["fence", "hill", "bridge", "log"],
+            around: ["garden", "yard", "park", "pool"], behind: ["shed", "fence", "house", "tree"], into: ["garden", "kitchen", "river", "yard"],
+            towards: ["school", "house", "river", "gate"], past: ["school", "shop", "gate", "shed"], beside: ["river", "pool", "road", "fence"] }
+  };
+  var GIRLS = ["Mia", "Ava", "Zoe", "Lily", "Ruby", "Chloe", "Isla", "Grace"], BOYS = ["Leo", "Jack", "Sam", "Noah", "Eli", "Oscar", "Max", "Ethan"];
+  function gCap(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
+  function gSentence() {
+    var preps = Object.keys(G.prep), p = pickOne(preps), v = pickOne(G.verb);
+    var s = { adj: pickOne(G.adj), noun: pickOne(G.noun), verb: v[0], ing: v[1], adv: pickOne(G.adv), prep: p, place: pickOne(G.prep[p]) };
+    s.text = "The " + s.adj + " " + s.noun + " " + s.verb + " " + s.adv + " " + s.prep + " the " + s.place + ".";
+    return s;
+  }
+  /* Right answer first, then the wrong ones; duplicates and the right answer
+     itself are taken out of the wrong ones before any are chosen. */
+  function gFin(q, right, wrongs, n, key) {
+    var seen = {}, w = [];
+    seen[String(right).toLowerCase()] = 1;
+    wrongs.forEach(function (x) { var k = String(x).toLowerCase(); if (!seen[k]) { seen[k] = 1; w.push(x); } });
+    if (w.length < n - 1) return null;
+    engFinish(q, right, w, n);
+    q.key = "eg" + q.mode + "|" + key;
+    return q;
+  }
+  function gWordsOf(text) {
+    return text.replace(/[“”".,!?;:]/g, "").split(/\s+/).filter(function (w) { return w.length >= 3; });
+  }
+  var CLASS_SAY = { noun: "a noun (a person, animal, place or thing)", verb: "a verb (a doing word)", adj: "an adjective (a describing word)",
+                    adv: "an adverb (it tells how something was done)", prep: "a preposition (it tells where)" };
+  var CLASS_SHORT = { noun: "a noun", verb: "a verb", adj: "an adjective", adv: "an adverb", prep: "a preposition" };
+  var CLASS_WHY = { noun: "A noun names a person, animal, place or thing.", verb: "A verb is the doing word: what someone or something did.",
+                    adj: "An adjective describes a noun: what it is like.", adv: "An adverb tells how, when or where something was done. Many end in -ly.",
+                    prep: "A preposition shows where something is or where it went: under, over, across, through." };
+
+  /* ---------------------------------------------------------------- grammar parts */
+  function gWordClass(q, lv, n, cls) {
+    var s = gSentence(), right, wrongs;
+    var pool = { noun: [s.noun, s.place], adj: [s.adj], verb: [s.verb], adv: [s.adv], prep: [s.prep] };
+    right = pickOne(pool[cls]);
+    wrongs = [];
+    Object.keys(pool).forEach(function (c) { if (c !== cls && (c !== "prep" || lv >= 8 || cls === "prep")) wrongs = wrongs.concat(pool[c]); });
+    q.passage = esc(s.text);
+    q.ask = "Which word is " + (lv <= 4 ? CLASS_SAY[cls] : CLASS_SHORT[cls]) + "?";
+    q.tip = CLASS_WHY[cls];
+    q.why = [CLASS_WHY[cls], "In this sentence it is <b>" + esc(right) + "</b>."];
+    return gFin(q, right, wrongs, n, cls + s.text);
+  }
+  var DUAL = [
+    ["We went for a swim at the beach.", "swim", "noun"], ["We swim every Saturday.", "swim", "verb"], ["Turn off the light.", "light", "noun"],
+    ["My bag is very light.", "light", "adjective"], ["She ran fast.", "fast", "adverb"], ["He is a fast runner.", "fast", "adjective"],
+    ["The plants need water.", "water", "noun"], ["Please water the plants.", "water", "verb"], ["We ate after we swam.", "after", "conjunction"],
+    ["We played after lunch.", "after", "preposition"], ["Blue is my favourite colour.", "Blue", "noun"], ["I like the blue one.", "blue", "adjective"],
+    ["She works hard.", "hard", "adverb"], ["This is a hard puzzle.", "hard", "adjective"], ["We heard a loud crash.", "crash", "noun"],
+    ["The waves crash on the rocks.", "crash", "verb"], ["She gave the ball to me.", "She", "pronoun"], ["They found it under the bed.", "it", "pronoun"],
+    ["I will call you tomorrow.", "call", "verb"], ["I got a call from Nan.", "call", "noun"], ["We play on the oval.", "play", "verb"],
+    ["Our class put on a play.", "play", "noun"], ["The early bus was full.", "early", "adjective"], ["We arrived early.", "early", "adverb"],
+    ["The kite flew high.", "high", "adverb"], ["The wall is very high.", "high", "adjective"], ["Mia was tired, but she kept going.", "but", "conjunction"],
+    ["We stayed inside because it rained.", "because", "conjunction"], ["Wash your hands before lunch.", "before", "preposition"],
+    ["Wash your hands before you eat.", "before", "conjunction"], ["The baby slept peacefully.", "peacefully", "adverb"],
+    ["He paints every weekend.", "paints", "verb"], ["The paints are in the cupboard.", "paints", "noun"], ["We visited them in Darwin.", "them", "pronoun"],
+    ["The cat hid under the house.", "under", "preposition"], ["I want an apple or a pear.", "or", "conjunction"], ["Dad cooked a delicious dinner.", "delicious", "adjective"],
+    ["The sign said to drive slowly.", "slowly", "adverb"], ["We watched the sunset from the hill.", "sunset", "noun"], ["The dogs barked all night.", "barked", "verb"]
+  ];
+  var CLASSES = ["noun", "verb", "adjective", "adverb", "preposition", "conjunction", "pronoun"];
+  function gDual(q, lv, n) {
+    var d = pickOne(DUAL), re = new RegExp("\\b" + d[1] + "\\b");
+    q.passage = esc(d[0]).replace(re, "<b>" + d[1] + "</b>");
+    q.ask = "What kind of word is ‘" + d[1] + "’ in this sentence?";
+    q.tip = "Look at the job the word does in this sentence. The same word can do different jobs in different sentences.";
+    q.why = ["Here ‘" + esc(d[1]) + "’ is <b>a " + d[2] + "</b>.", "Some words change job: ‘swim’ is a verb in ‘we swim’ but a noun in ‘a swim’."];
+    q.long = false;
+    return gFin(q, d[2], CLASSES.filter(function (c) { return c !== d[2]; }), n, d[0]);
+  }
+  var PLURALS = [
+    ["box", "boxes"], ["fox", "foxes"], ["bus", "buses"], ["dish", "dishes"], ["church", "churches"], ["brush", "brushes"], ["glass", "glasses"],
+    ["match", "matches"], ["wish", "wishes"], ["lunch", "lunches"], ["peach", "peaches"], ["dress", "dresses"], ["baby", "babies"], ["party", "parties"],
+    ["cherry", "cherries"], ["lady", "ladies"], ["story", "stories"], ["puppy", "puppies"], ["city", "cities"], ["berry", "berries"], ["family", "families"],
+    ["pony", "ponies"], ["monkey", "monkeys"], ["key", "keys"], ["donkey", "donkeys"], ["valley", "valleys"], ["chimney", "chimneys"], ["toy", "toys"],
+    ["day", "days"], ["boy", "boys"], ["cat", "cats"], ["book", "books"], ["tree", "trees"], ["shoe", "shoes"], ["frog", "frogs"], ["chair", "chairs"]
+  ];
+  var PLURALS_ODD = [
+    ["leaf", "leaves"], ["wolf", "wolves"], ["half", "halves"], ["loaf", "loaves"], ["shelf", "shelves"], ["knife", "knives"], ["calf", "calves"],
+    ["scarf", "scarves"], ["thief", "thieves"], ["child", "children"], ["mouse", "mice"], ["tooth", "teeth"], ["foot", "feet"], ["man", "men"],
+    ["woman", "women"], ["goose", "geese"], ["person", "people"], ["sheep", "sheep"], ["fish", "fish"], ["deer", "deer"], ["ox", "oxen"],
+    ["cactus", "cacti"], ["potato", "potatoes"], ["tomato", "tomatoes"], ["hero", "heroes"], ["echo", "echoes"], ["piano", "pianos"],
+    ["photo", "photos"], ["kangaroo", "kangaroos"], ["roof", "roofs"], ["chief", "chiefs"], ["volcano", "volcanoes"]
+  ];
+  function gPlural(q, lv, n, odd) {
+    var p = pickOne(odd ? PLURALS_ODD : PLURALS), w = p[0], last = w.slice(-1);
+    var wrongs = [w + "s", w + "es", w.replace(/y$/, "ies"), w.replace(/fe?$/, "ves"), w + "ies", w.replace(/y$/, "ys")];
+    if (/[^aeiou]y$/.test(w)) wrongs.push(w + "s");
+    if (/(ch|sh|s|x)$/.test(w)) wrongs.push(w + "s", w + "ses");
+    if (odd) wrongs.push(w + "s", p[1] + "s", w + "en");
+    wrongs = wrongs.filter(function (x) { return x !== p[1] && x !== w + (last === "y" ? "" : ""); });
+    q.sentence = "One " + w + ", two ___.";
+    q.ask = "Which is the right plural?";
+    q.tip = odd ? "Some words change in the middle (mouse, mice) or don’t change at all (sheep). Words ending in f or fe often change to ves."
+                : "Most words add s. Words ending in s, x, ch or sh add es. A consonant then y changes to ies.";
+    q.why = ["One " + esc(w) + ", two <b>" + esc(p[1]) + "</b>.", q.tip];
+    return gFin(q, p[1], wrongs, n, w);
+  }
+  /* verb, past, have ___, and something to do it to */
+  var VERBS = [
+    ["go", "went", "gone", "to the shops"], ["eat", "ate", "eaten", "our lunch"], ["see", "saw", "seen", "a koala"], ["take", "took", "taken", "the bus"],
+    ["give", "gave", "given", "Nan a hug"], ["write", "wrote", "written", "a story"], ["swim", "swam", "swum", "in the pool"], ["sing", "sang", "sung", "a song"],
+    ["drink", "drank", "drunk", "some water"], ["begin", "began", "begun", "our project"], ["catch", "caught", "caught", "a fish"], ["buy", "bought", "bought", "some bread"],
+    ["bring", "brought", "brought", "our hats"], ["sleep", "slept", "slept", "in a tent"], ["find", "found", "found", "a shell"], ["fly", "flew", "flown", "a kite"],
+    ["throw", "threw", "thrown", "the ball"], ["grow", "grew", "grown", "tomatoes"], ["know", "knew", "known", "the answer"], ["draw", "drew", "drawn", "a map"],
+    ["ride", "rode", "ridden", "our bikes"], ["break", "broke", "broken", "a plate"], ["speak", "spoke", "spoken", "to the principal"], ["choose", "chose", "chosen", "a book"],
+    ["wear", "wore", "worn", "our hats"], ["hide", "hid", "hidden", "the presents"], ["shake", "shook", "shaken", "the bottle"], ["blow", "blew", "blown", "out the candles"],
+    ["win", "won", "won", "the game"], ["make", "made", "made", "a cubby"], ["teach", "taught", "taught", "the dog a trick"], ["build", "built", "built", "a sandcastle"],
+    ["feed", "fed", "fed", "the chickens"], ["meet", "met", "met", "our new teacher"], ["dig", "dug", "dug", "a hole"], ["tell", "told", "told", "a joke"],
+    ["sell", "sold", "sold", "lemonade"], ["send", "sent", "sent", "a letter"], ["run", "ran", "run", "a race"], ["hear", "heard", "heard", "a strange noise"],
+    ["pay", "paid", "paid", "for the tickets"], ["forget", "forgot", "forgotten", "our homework"], ["bite", "bit", "bitten", "into the apple"],
+    ["freeze", "froze", "frozen", "the juice"], ["steal", "stole", "stolen", "a glance"], ["wake", "woke", "woken", "up early"],
+    ["jump", "jumped", "jumped", "over the puddle"], ["carry", "carried", "carried", "the boxes"], ["hop", "hopped", "hopped", "across the lawn"],
+    ["stop", "stopped", "stopped", "at the corner"], ["try", "tried", "tried", "a new food"], ["plan", "planned", "planned", "a party"],
+    ["hurry", "hurried", "hurried", "home"], ["clap", "clapped", "clapped", "along"], ["tidy", "tidied", "tidied", "our room"], ["bake", "baked", "baked", "a cake"],
+    ["skip", "skipped", "skipped", "down the path"], ["drop", "dropped", "dropped", "the ball"], ["wave", "waved", "waved", "goodbye"],
+    ["study", "studied", "studied", "for the test"], ["chat", "chatted", "chatted", "with Nan"], ["jog", "jogged", "jogged", "around the oval"]
+  ];
+  function gEd(base) {
+    return /e$/.test(base) ? base + "d" : /[^aeiou]y$/.test(base) ? base + "ed" : base + "ed";
+  }
+  function gPast(q, lv, n) {
+    var v = pickOne(VERBS), base = v[0], past = v[1];
+    var wrongs = [gEd(base), base + "s", base + "ing", v[2] !== past ? v[2] : base + "en"];
+    if (/[^aeiou]y$/.test(base)) wrongs.push(base.replace(/y$/, "ied") === past ? base + "ed" : base.replace(/y$/, "ied"));
+    if (/[^aeiou][aeiou][^aeiouwy]$/.test(base)) wrongs.push(base + "ed");
+    var subj = pickOne(["we", "I", "they"]);
+    q.sentence = "Today " + subj + " " + base + " " + v[3] + ". Yesterday " + subj + " ___ " + v[3] + ".";
+    q.ask = "Which word fits? It happened yesterday.";
+    q.tip = "Yesterday means the past tense. Many verbs add -ed, but some change completely: go → went.";
+    q.why = ["The past tense of ‘" + esc(base) + "’ is <b>" + esc(past) + "</b>."];
+    return gFin(q, past, wrongs.filter(function (x) { return x !== past; }), n, "p" + base + subj);
+  }
+  function gHave(q, lv, n) {
+    var list = VERBS.filter(function (v) { return v[1] !== v[2]; }), v = pickOne(list);
+    var subj = pickOne(["We have", "I have", "They have"]);
+    q.sentence = subj + " already ___ " + v[3] + ".";
+    q.ask = "Which word fits the gap?";
+    q.tip = "After ‘has’ or ‘have’ some verbs use a different form: I ate, but I have eaten.";
+    q.why = ["After has or have: <b>" + esc(v[2]) + "</b>. (Yesterday I " + esc(v[1]) + ", today I have " + esc(v[2]) + ".)"];
+    return gFin(q, v[2], [v[1], gEd(v[0]), v[0], v[0] + "en"], n, "h" + v[0] + subj);
+  }
+  var SUBJ = [["I", "1"], ["The dog", "s"], ["My sister", "s"], ["Our teacher", "s"], ["The bus", "s"], ["That book", "s"], ["Mia", "s"],
+              ["The dogs", "p"], ["My sisters", "p"], ["Our teachers", "p"], ["Mia and Leo", "p"], ["The players", "p"], ["They", "p"], ["We", "p"], ["You", "p"]];
+  var AGREE_HARD = [
+    ["The box of pencils ___ on the desk.", "is", ["are", "am"]], ["The pencils in the box ___ sharp.", "are", ["is", "am"]],
+    ["Each of the girls ___ a hat.", "has", ["have", "having"]], ["One of my friends ___ coming to the party.", "is", ["are", "am"]],
+    ["Neither of the dogs ___ barking.", "is", ["are", "am"]], ["Everyone in the class ___ finished.", "has", ["have", "having"]],
+    ["The children in the playground ___ noisy.", "are", ["is", "am"]], ["My mum, as well as my aunts, ___ coming.", "is", ["are", "am"]],
+    ["The bunch of grapes ___ on the bench.", "is", ["are", "am"]], ["Nobody ___ allowed in the staffroom.", "is", ["are", "am"]],
+    ["The teacher and the students ___ ready.", "are", ["is", "am"]], ["Somebody ___ left a bag on the bus.", "has", ["have", "having"]],
+    ["There ___ three apples left.", "are", ["is", "am"]], ["There ___ a spider on the wall.", "is", ["are", "am"]],
+    ["Here ___ the books you wanted.", "are", ["is", "am"]], ["A pair of socks ___ under the bed.", "is", ["are", "am"]],
+    ["The leader of the scouts ___ very kind.", "is", ["are", "am"]], ["Both of my brothers ___ tall.", "are", ["is", "am"]]
+  ];
+  function gAgree(q, lv, n) {
+    if (lv > MAX_LEVEL && Math.random() < 0.7) {
+      var h = pickOne(AGREE_HARD);
+      q.sentence = h[0]; q.ask = "Which word fits the gap?";
+      q.tip = "Find the real subject. In ‘the box of pencils’ it is the box, so it is one thing.";
+      q.why = ["The subject decides it.", "So: " + esc(h[0].replace("___", h[1]))];
+      return gFin(q, h[1], h[2], Math.min(n, 3), h[0]);
+    }
+    var s = pickOne(SUBJ), kind = pickOne(["be", "be", "was", "have"]), right, opts, pred;
+    if (kind === "be") { opts = ["am", "is", "are"]; right = s[1] === "1" ? "am" : s[1] === "s" ? "is" : "are"; pred = pickOne(["ready to go", "in the library", "very excited", "late today", "on the bus", "in the garden"]); }
+    else if (kind === "was") { opts = ["was", "were", "be"]; right = s[1] === "p" ? "were" : "was"; pred = pickOne(["at the beach yesterday", "tired after the game", "late last week", "sick on Monday"]); }
+    else { opts = ["has", "have", "having"]; right = s[1] === "s" ? "has" : "have"; pred = pickOne(["a new bike", "two cats", "a sore knee", "lunch at noon"]); }
+    q.sentence = s[0] + " ___ " + pred + ".";
+    q.ask = "Which word fits the gap?";
+    q.tip = "One person or thing: is, was, has. More than one: are, were, have. With I: am.";
+    q.why = ["‘" + esc(s[0]) + "’ is " + (s[1] === "1" ? "I" : s[1] === "s" ? "one" : "more than one") + ", so it is <b>" + right + "</b>."];
+    return gFin(q, right, opts, 3, s[0] + kind + pred);
+  }
+  function gPronoun(q, lv, n) {
+    var t = pickOne(["girl", "boy", "pl"]), N = t === "girl" ? pickOne(GIRLS) : t === "boy" ? pickOne(BOYS) : pickOne(GIRLS) + " and " + pickOne(BOYS);
+    var set = t === "girl" ? ["she", "her", "her"] : t === "boy" ? ["he", "him", "his"] : ["they", "them", "their"];
+    var opts = t === "girl" ? ["she", "her", "hers"] : t === "boy" ? ["he", "him", "his"] : ["they", "them", "their"];
+    var f = pickOne([["{N} lost ___ hat at the park.", 2], ["{N} " + (t === "pl" ? "were" : "was") + " tired, so ___ went to bed early.", 0],
+                     ["It was {N}’s birthday, so we gave ___ a present.", 1], ["We waited for {N}, but ___ " + (t === "pl" ? "were" : "was") + " late.", 0],
+                     ["{N} packed ___ bag the night before.", 2], ["The coach asked {N} to help, and we thanked ___.", 1]]);
+    q.sentence = f[0].replace("{N}", N);
+    q.ask = "Which word fits the gap?";
+    q.tip = "he / she / they does the action. him / her / them has it done to them. his / her / their shows who owns it.";
+    q.why = ["So: " + esc(q.sentence.replace("___", set[f[1]]))];
+    return gFin(q, set[f[1]], opts, 3, q.sentence);
+  }
+  var G_CAUSE = [
+    ["it was raining", "we stayed inside"], ["I was hungry", "I made a sandwich"], ["the bus was late", "we missed the start of the movie"],
+    ["the road was flooded", "we took the long way"], ["she practised every day", "she got better at piano"], ["the dog was barking", "Dad went to check"],
+    ["it was very hot", "we went for a swim"], ["I forgot my hat", "I had to sit in the shade"], ["the shop was closed", "we went home"],
+    ["he trained hard", "he won the race"], ["the oval was muddy", "the game was cancelled"], ["we got up early", "we saw the sunrise"],
+    ["the baby was asleep", "we whispered"], ["the battery was flat", "the torch would not work"], ["the ice cream was melting", "we ate it quickly"],
+    ["I lost my key", "I could not open the door"], ["the plant had no water", "its leaves drooped"], ["the bell rang", "everyone lined up"],
+    ["Mum was sick", "Dad cooked dinner"], ["the river was too deep", "we could not cross"]
+  ];
+  var G_CONTRAST = [
+    ["it was cold", "we went swimming"], ["he was tired", "he kept running"], ["the test was hard", "I finished it"], ["we had a map", "we still got lost"],
+    ["the movie was long", "nobody got bored"], ["she was nervous", "she sang beautifully"], ["the shop was busy", "we were served quickly"],
+    ["it was raining", "the match went ahead"], ["I studied the list", "I forgot one word"], ["the puppy was small", "it was very brave"],
+    ["the hill was steep", "we rode all the way up"], ["the soup was hot", "Leo ate it straight away"]
+  ];
+  var G_CHOICE = [["we could walk", "we could catch the bus"], ["you can have an apple", "you can have a banana"], ["we could play cricket", "we could go to the pool"],
+                ["I might read", "I might draw"], ["we can eat now", "we can wait for Dad"], ["you can sit here", "you can sit next to Mia"]];
+  function gConj(q, lv, n) {
+    var r = Math.random(), A, B, right, sent;
+    if (r < 0.45) { var c = pickOne(G_CAUSE); A = c[0]; B = c[1];
+      if (Math.random() < 0.5) { sent = gCap(B) + " ___ " + A + "."; right = "because"; } else { sent = gCap(A) + ", ___ " + B + "."; right = "so"; } }
+    else if (r < 0.85) { var k = pickOne(G_CONTRAST); A = k[0]; B = k[1];
+      if (lv > MAX_LEVEL && Math.random() < 0.5) { sent = "___ " + A + ", " + B + "."; right = "Although";
+        return gConjFin(q, sent, right, ["Because", "So", "Or", "Unless"], n); }
+      sent = gCap(A) + ", ___ " + B + "."; right = "but"; }
+    else { var o = pickOne(G_CHOICE); sent = gCap(o[0]) + " ___ " + o[1] + "."; right = "or"; }
+    return gConjFin(q, sent, right, ["because", "so", "but", "or"], n);
+  }
+  function gConjFin(q, sent, right, all, n) {
+    q.sentence = sent;
+    q.ask = "Which joining word fits best?";
+    q.tip = "because gives a reason, so gives a result, but shows a surprise or contrast, or gives a choice.";
+    q.why = ["<b>" + right + "</b> makes the meaning right.", "So: " + esc(sent.replace("___", right))];
+    return gFin(q, right, all, n, sent);
+  }
+  var SENT_TYPES = {
+    question: ["Where did you put my hat?", "Can we go to the park?", "What time does the bus come?", "Have you finished your work?", "Who left the gate open?",
+               "Why is the sky blue?", "Is it lunchtime yet?", "How many legs does a spider have?", "Did you see the koala?", "Which way is the beach?",
+               "Are you coming to my party?", "When does the movie start?"],
+    command: ["Close the door.", "Put your bag on the hook.", "Please sit down.", "Turn left at the corner.", "Wash your hands before lunch.",
+              "Pass me the glue, please.", "Line up quietly.", "Do not run near the pool.", "Stir the mixture for two minutes.", "Hand in your books.",
+              "Write your name at the top.", "Feed the fish every morning."],
+    exclamation: ["What a huge wave!", "How beautiful the sunset is!", "What a mess you have made!", "How fast that car is!", "What a clever idea!",
+                  "What a lucky catch!", "How cold the water is!", "What a long day it has been!"],
+    trick: [["Watch out for the car!", "command"], ["Stop that dog!", "command"], ["Look at that rainbow!", "command"], ["Get out of the pool now!", "command"],
+            ["I wonder where my hat is.", "statement"], ["Tell me what happened.", "command"], ["I asked her if she was ready.", "statement"]]
+  };
+  function gType(q, lv, n) {
+    var t, s;
+    if (lv > MAX_LEVEL && Math.random() < 0.5) { var tr = pickOne(SENT_TYPES.trick); s = tr[0]; t = tr[1]; }
+    else { t = pickOne(["statement", "question", "command", "exclamation"]); s = t === "statement" ? gSentence().text : pickOne(SENT_TYPES[t]); }
+    q.passage = esc(s);
+    q.ask = "What kind of sentence is this?";
+    q.tip = "A statement tells. A question asks. A command tells someone to do something. An exclamation shows strong feeling.";
+    q.why = ["It is <b>a " + t + "</b>.", t === "command" ? "It tells someone to do something, even when it ends with !" : t === "statement" ? "It tells you something, even if it is about a question." : q.tip];
+    return gFin(q, t, ["statement", "question", "command", "exclamation"], 4, s);
+  }
+  var MODALS = ["might", "could", "should", "must", "will", "may", "would", "can"];
+  function gModal(q, lv, n) {
+    var subj = pickOne(["We", "I", "You", "They", "Mia", "The team", "Dad"]), m = pickOne(MODALS);
+    var vp = pickOne([["go", "to the beach"], ["finish", "the puzzle"], ["win", "the final"], ["bring", "a hat"], ["need", "an umbrella"], ["visit", "Nan"], ["paint", "the fence"]]);
+    var s = subj + " " + m + " " + vp[0] + " " + vp[1] + " tomorrow.";
+    q.passage = esc(s);
+    q.ask = "Which word is a modal verb (it shows how likely or necessary something is)?";
+    q.tip = "Modal verbs sit before the main verb: might, could, should, must, will, may, can, would.";
+    q.why = ["<b>" + m + "</b> is the modal verb. It shows how sure or how necessary the action is."];
+    var last = vp[1].split(" ").pop();
+    return gFin(q, m, [vp[0], last, "tomorrow", subj.split(" ").pop()], n, s);
+  }
+  function gClause(q, lv, n) {
+    var c = Math.random() < 0.6 ? pickOne(G_CAUSE) : pickOne(G_CONTRAST), isCause = G_CAUSE.indexOf(c) > -1;
+    var conj = isCause ? pickOne(["because", "since"]) : pickOne(["although", "even though"]);
+    var front = Math.random() < 0.5, sub = conj + " " + c[0], main = c[1], s;
+    s = front ? gCap(sub) + ", " + main + "." : gCap(main) + " " + sub + ".";
+    q.passage = esc(s);
+    q.ask = "Which part is the subordinate clause (the part that cannot stand on its own)?";
+    q.tip = "The subordinate clause starts with a word like because, although, when or if. On its own it is not a complete sentence.";
+    q.why = ["<b>" + esc(sub) + "</b> cannot stand on its own.", "‘" + esc(gCap(main)) + ".’ makes sense by itself, so that is the main clause."];
+    var as = function (t, first) { return first ? gCap(t) : t; };
+    q.why[0] = "<b>" + esc(as(sub, front)) + "</b> cannot stand on its own.";
+    return gFin(q, as(sub, front), [as(main, !front), c[0], as(conj + " " + c[0].split(" ").slice(0, 2).join(" "), front)], n, s);
+  }
+  var ACTS = [["the dog", "chased", "the cat", 0], ["the chef", "cooked", "the dinner", 0], ["Mia", "painted", "the picture", 0], ["the storm", "damaged", "the roof", 0],
+              ["the class", "planted", "the trees", 1], ["the coach", "picked", "the team", 0], ["a bee", "stung", "Leo", 0], ["the farmer", "fed", "the chickens", 1],
+              ["Dad", "fixed", "the tap", 0], ["the boys", "built", "the cubby", 0], ["the girls", "won", "the trophy", 0], ["the teacher", "marked", "the tests", 1],
+              ["a wave", "knocked over", "the sandcastle", 0], ["the wind", "blew away", "our hats", 1], ["Nan", "baked", "the biscuits", 1], ["the crowd", "cheered", "the players", 1]];
+  function gPassive(q, lv, n) {
+    var a = pickOne(ACTS), active = gCap(a[0]) + " " + a[1] + " " + a[2] + ".", passive = gCap(a[2]) + " " + (a[3] ? "were " : "was ") + a[1] + " by " + a[0] + ".";
+    if (Math.random() < 0.5) {
+      var others = shuffle(ACTS.filter(function (x) { return x !== a; })).slice(0, 3).map(function (x) { return gCap(x[0]) + " " + x[1] + " " + x[2] + "."; });
+      q.ask = "Which sentence is in the passive voice?";
+      q.tip = "In the passive voice the thing the action happened to comes first: ‘The cat was chased by the dog.’";
+      q.why = ["<b>" + esc(passive) + "</b>", "The thing the action happened to comes first, and who did it comes after ‘by’."];
+      q.long = true;
+      return gFin(q, passive, [active].concat(others), n, "pv" + passive);
+    }
+    q.passage = esc(active);
+    q.ask = "Which is the same sentence in the passive voice?";
+    q.tip = "Start with the thing the action happened to, then was or were, then the verb, then ‘by’ and who did it.";
+    q.why = ["<b>" + esc(passive) + "</b>"];
+    q.long = true;
+    return gFin(q, passive, [gCap(a[0]) + " " + (a[3] ? "were " : "was ") + a[1] + " by " + a[2] + ".", gCap(a[2]) + " " + a[1] + " " + a[0] + ".",
+                             gCap(a[2]) + " " + (a[3] ? "was " : "were ") + a[1] + " by " + a[0] + ".", gCap(a[2]) + " " + (a[3] ? "were " : "was ") + a[1] + " " + a[0] + "."], n, "pa" + active);
+  }
+  var SAID = [["I am tired", "was tired"], ["I am hungry", "was hungry"], ["I like pizza", "liked pizza"], ["I can swim", "could swim"],
+              ["I will be late", "would be late"], ["I have finished", "had finished"], ["I am going home", "was going home"], ["I need a drink", "needed a drink"],
+              ["I lost my hat", "had lost " + "{P} hat"], ["I want to win", "wanted to win"]];
+  function gReported(q, lv, n) {
+    var boy = Math.random() < 0.5, N = boy ? pickOne(BOYS) : pickOne(GIRLS), P = boy ? "he" : "she", PP = boy ? "his" : "her", s = pickOne(SAID);
+    var rep = s[1].replace("{P}", PP), direct = "“" + s[0] + ",” said " + N + ".";
+    var right = N + " said that " + P + " " + rep + ".";
+    q.passage = esc(direct);
+    q.ask = "Which is the same thing as reported speech?";
+    q.tip = "In reported speech there are no speech marks, ‘I’ becomes he or she, and the verb usually moves back in time: am → was, will → would.";
+    q.why = ["<b>" + esc(right) + "</b>"];
+    q.long = true;
+    return gFin(q, right, [N + " said that I " + rep.replace(PP, "my") + ".", N + " said that " + s[0] + ".", N + " said, “that " + P + " " + rep + ".”",
+                           N + " said that " + P + " " + s[0].replace(/^I /, "") + "."], n, direct);
+  }
+  var RELATIVE = [
+    ["The girl ___ won the race is my cousin.", "who"], ["The bike ___ I ride is red.", "which"], ["The boy ___ dog barks lives next door.", "whose"],
+    ["That is the park ___ we play cricket.", "where"], ["The teacher ___ helped me is kind.", "who"], ["The book ___ I borrowed is overdue.", "which"],
+    ["The man ___ car broke down called for help.", "whose"], ["This is the beach ___ we had our picnic.", "where"], ["Our neighbour, ___ is a nurse, works at night.", "who"],
+    ["The cake, ___ Nan made, was delicious.", "which"], ["The family ___ house flooded stayed with us.", "whose"], ["The town ___ my dad grew up is small.", "where"],
+    ["The players ___ trained hardest were picked.", "who"], ["The puppy ___ we adopted loves walks.", "which"], ["The girl ___ painting won is in Year 5.", "whose"],
+    ["I found the shop ___ they sell sushi.", "where"], ["The pilot ___ flew the plane waved to us.", "who"], ["The song ___ we sang was about the sea.", "which"]
+  ];
+  function gRelative(q, lv, n) {
+    var r = pickOne(RELATIVE);
+    q.sentence = r[0]; q.ask = "Which word fits the gap?";
+    q.tip = "who for people, which for things and animals, whose for who owns it, where for a place.";
+    q.why = ["<b>" + r[1] + "</b>.", q.tip];
+    return gFin(q, r[1], ["who", "which", "whose", "where"], 4, r[0]);
+  }
+
+  function makeGrammarQ(q, lv, n) {
+    var makers = lv === 1 ? [function () { return gWordClass(q, lv, n, "noun"); }]
+      : lv === 2 ? [function () { return gWordClass(q, lv, n, "noun"); }, function () { return gWordClass(q, lv, n, "verb"); }]
+      : lv === 3 ? [function () { return gWordClass(q, lv, n, "adj"); }, function () { return gWordClass(q, lv, n, pickOne(["noun", "verb"])); }, function () { return gPlural(q, lv, n, false); }]
+      : lv === 4 ? [function () { return gWordClass(q, lv, n, "adv"); }, function () { return gWordClass(q, lv, n, pickOne(["noun", "verb", "adj"])); }, function () { return gPlural(q, lv, n, true); }]
+      : lv === 5 ? [function () { return gPast(q, lv, n); }, function () { return gPast(q, lv, n); }, function () { return gPlural(q, lv, n, Math.random() < 0.5); }]
+      : lv === 6 ? [function () { return gAgree(q, lv, n); }, function () { return gPronoun(q, lv, n); }, function () { return gPast(q, lv, n); }]
+      : lv === 7 ? [function () { return gConj(q, lv, n); }, function () { return gConj(q, lv, n); }, function () { return gAgree(q, lv, n); }, function () { return gPronoun(q, lv, n); }]
+      : lv === 8 ? [function () { return gType(q, lv, n); }, function () { return gWordClass(q, lv, n, "prep"); }, function () { return gWordClass(q, lv, n, pickOne(["adj", "adv", "verb"])); }, function () { return gConj(q, lv, n); }]
+      : lv === 9 ? [function () { return gHave(q, lv, n); }, function () { return gDual(q, lv, n); }, function () { return gAgree(q, lv, n); }]
+      : lv === 10 ? [function () { return gHave(q, lv, n); }, function () { return gDual(q, lv, n); }, function () { return gModal(q, lv, n); }, function () { return gType(q, lv, n); }]
+      : lv === 11 ? [function () { return gClause(q, lv, n); }, function () { return gDual(q, lv, n); }, function () { return gModal(q, lv, n); }, function () { return gConj(q, lv, n); }]
+      : lv === 12 ? [function () { return gPassive(q, lv, n); }, function () { return gClause(q, lv, n); }, function () { return gRelative(q, lv, n); }]
+      : lv === 13 ? [function () { return gReported(q, lv, n); }, function () { return gPassive(q, lv, n); }, function () { return gRelative(q, lv, n); }, function () { return gDual(q, lv, n); }]
+      : [function () { return gReported(q, lv, n); }, function () { return gPassive(q, lv, n); }, function () { return gClause(q, lv, n); },
+         function () { return gHave(q, lv, n); }, function () { return gAgree(q, lv, n); }, function () { return gDual(q, lv, n); }];
+    q.game = "grammar";
+    for (var t = 0; t < 20; t++) {
+      var keep = { measure: q.measure, mode: q.mode, level: q.level, kind: q.kind, unitText: "", game: "grammar" };
+      for (var k in q) if (q.hasOwnProperty(k)) delete q[k];
+      for (var k2 in keep) q[k2] = keep[k2];
+      var made = pickOne(makers)();
+      if (made) return made;
+    }
+    return gWordClass(q, 1, 3, "noun");
+  }
+
+  /* ---------------------------------------------------------------- fix it parts */
+  function fMisspelt(q, lv, n) {
+    var pool = spellPool(lv <= 1 ? "A" : lv <= 2 ? pickOne(["A", "B"]) : pickOne(["B", "C"])), w = pickOne(pool);
+    var mine = classSpell().filter(function (x) { return x[1]; });
+    if (mine.length && Math.random() < 0.35) { var lw = pickOne(mine); w = [lw[0], lw[1], misspell(lw[0]).join(",")]; }
+    var miss = pickOne(w[2].split(","));
+    if (/^___/.test(w[1])) miss = gCap(miss);
+    var s = w[1].replace("___", miss), others = gWordsOf(s).filter(function (x) { return x.toLowerCase() !== miss.toLowerCase(); });
+    q.passage = esc(s);
+    q.ask = "Which word is spelt wrong?";
+    q.tip = "Read each word slowly. Which one does not look right?";
+    q.why = ["<b>" + esc(miss) + "</b> should be spelt <b>" + esc(w[0]) + "</b>."];
+    return gFin(q, miss, others, n, s);
+  }
+  function fCapital(q, lv, n) {
+    var nm = pickOne(GIRLS.concat(BOYS)), day = pickOne(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]);
+    var town = pickOne(["Adelaide", "Perth", "Darwin", "Hobart", "Sydney", "Brisbane", "Melbourne", "Canberra"]);
+    var month = pickOne(["January", "March", "April", "June", "July", "September", "November"]);
+    var f = pickOne([["We went to the beach with {x} on Saturday.", nm], ["On Sunday {x} helped me feed the chickens.", nm],
+                     ["My cousin lives in {x} near the sea.", town], ["We are flying to {x} next week.", town],
+                     ["Our school holidays start in {x} this year.", month], ["My birthday is in {x} after the holidays.", month],
+                     ["We have swimming lessons every {x} after school.", day], ["The library is closed on {x} morning.", day],
+                     ["Yesterday " + nm + " and {x} walked to school.", "I"], ["After lunch {x} found a lizard under the steps.", "I"]]);
+    var low = f[1] === "I" ? "i" : f[1].toLowerCase(), s = f[0].replace("{x}", low);
+    var others = gWordsOf(s).filter(function (x) { return x !== low && x.charAt(0) === x.charAt(0).toLowerCase(); });
+    q.passage = esc(s);
+    q.ask = "Which word needs a capital letter?";
+    q.tip = "Names of people, places, days and months start with a capital letter, and so does I.";
+    q.why = ["<b>" + esc(f[1]) + "</b> needs a capital letter.", q.tip];
+    if (low === "i") others = others.filter(function (x) { return x.length >= 3; });
+    var right = low;
+    if (others.length < n - 1) return null;
+    return gFin(q, right, others, n, s);
+  }
+  function fOrder(q, lv, n) {
+    var s = gSentence();
+    var t = function (o) { return "The " + o.adj + " " + o.noun + " " + o.verb + " " + o.adv + " " + o.prep + " the " + o.place + "."; };
+    var swap = function (a, b) { var o = {}; for (var k in s) o[k] = s[k]; var x = o[a]; o[a] = o[b]; o[b] = x; return t(o); };
+    var wrongs = [swap("noun", "place"), "The " + s.noun + " " + s.adj + " " + s.verb + " " + s.adv + " " + s.prep + " the " + s.place + ".",
+                  "The " + s.adj + " " + s.noun + " " + s.prep + " " + s.adv + " " + s.verb + " the " + s.place + ".",
+                  "The " + s.adj + " " + s.noun + " " + s.adv + " the " + s.place + " " + s.verb + " " + s.prep + "."];
+    q.ask = "Which sentence makes sense?";
+    q.tip = "Read each one aloud in your head. Which one sounds right and means something?";
+    q.why = ["<b>" + esc(s.text) + "</b>"];
+    q.long = true;
+    return gFin(q, s.text, wrongs, n, s.text);
+  }
+  function fJoin(q, lv, n) {
+    var cause = Math.random() < 0.6, c = cause ? pickOne(G_CAUSE) : pickOne(G_CONTRAST), A = gCap(c[0]), B = c[1];
+    var right = A + (cause ? ", so " : ", but ") + B + ".";
+    q.passage = esc(A + ". " + gCap(B) + ".");
+    q.ask = "Which joins the two sentences best?";
+    q.tip = "Think about how the two ideas go together. Is the second a result (so), a surprise (but), or a reason (because)?";
+    q.why = ["<b>" + esc(right) + "</b>", cause ? "The second thing happened as a result of the first, so ‘so’ fits." : "The second thing is a surprise after the first, so ‘but’ fits."];
+    q.long = true;
+    return gFin(q, right, [A + (cause ? ", but " : ", so ") + B + ".", A + " because " + B + ".", A + " or " + B + "."], n, "j" + A);
+  }
+  function fFragment(q, lv, n) {
+    var s = gSentence(), c = pickOne(G_CAUSE);
+    var frags = ["Because " + c[0] + ".", "The " + s.adj + " " + s.noun + " " + s.prep + " the " + s.place + ".",
+                 gCap(s.ing) + " " + s.adv + " " + s.prep + " the " + s.place + ".", "When the " + s.adj + " " + s.noun + " " + s.verb + " " + s.prep + " the " + s.place + "."];
+    q.ask = "Which one is a complete sentence?";
+    q.tip = "A complete sentence has someone or something doing something, and it makes sense on its own.";
+    q.why = ["<b>" + esc(s.text) + "</b>", "The others leave you waiting for more, or have nobody doing anything."];
+    q.long = true;
+    return gFin(q, s.text, frags, n, s.text);
+  }
+  function fRunOn(q, lv, n) {
+    var c = pickOne(G_CAUSE), A = gCap(c[0]), B = c[1];
+    var right = Math.random() < 0.5 ? A + ". " + gCap(B) + "." : A + ", so " + B + ".";
+    q.ask = "Which is written correctly?";
+    q.tip = "Two whole sentences need a full stop between them, or a comma and a joining word like so or and.";
+    q.why = ["<b>" + esc(right) + "</b>", "A comma on its own cannot join two sentences."];
+    q.long = true;
+    return gFin(q, right, [A + " " + B + ".", A + ", " + B + ".", A + ". so " + B + ".", A + " so, " + B + "."], n, "r" + A);
+  }
+  function fWrongWord(q, lv, n) {
+    if (Math.random() < 0.35) {
+      var v = pickOne(VERBS), subj = pickOne(["we", "I", "they"]);
+      var s1 = "Yesterday " + subj + " " + v[0] + " " + v[3] + ".";
+      q.passage = esc(s1); q.ask = "Which word is wrong?";
+      q.tip = "Check the verb. Does it match when it happened?";
+      q.why = ["It happened yesterday, so it should be <b>" + esc(v[1]) + "</b>, not " + esc(v[0]) + "."];
+      return gFin(q, v[0], gWordsOf(s1).filter(function (x) { return x !== v[0]; }).concat(v[3].split(" ")), n, s1);
+    }
+    var maxB = lv > MAX_LEVEL ? 5 : 3, list = RIGHTWORD.filter(function (x) { return x[0] <= maxB && x[0] >= (lv > MAX_LEVEL ? 3 : 1); }), r = pickOne(list);
+    var bad = pickOne(r[3]), s = r[1].replace("___", bad);
+    if (/^___/.test(r[1])) s = gCap(s);
+    var others = gWordsOf(s).filter(function (x) { return x.toLowerCase() !== bad.toLowerCase(); });
+    q.passage = esc(s); q.ask = "Which word is wrong?";
+    q.tip = WORD_TIP[r[4]] || "Read the sentence carefully. One word sounds right but is the wrong spelling for this meaning.";
+    q.why = ["It should be <b>" + esc(r[2]) + "</b>, not " + esc(bad) + ".", esc(gCap(q.tip))];
+    return gFin(q, /^___/.test(r[1]) ? gCap(bad) : bad, others, n, s);
+  }
+  var FIG = [
+    ["Her smile was as bright as the sun.", "simile"], ["He ran like the wind.", "simile"], ["The baby slept like a log.", "simile"],
+    ["The water was as cold as ice.", "simile"], ["The clouds looked like cotton wool.", "simile"], ["He was as quiet as a mouse.", "simile"],
+    ["My legs felt like jelly after the race.", "simile"], ["The road shone like a silver ribbon.", "simile"],
+    ["The classroom was a zoo.", "metaphor"], ["Grandpa is a walking encyclopedia.", "metaphor"], ["The stars were diamonds in the sky.", "metaphor"],
+    ["Her voice was music to my ears.", "metaphor"], ["The snow was a white blanket over the town.", "metaphor"], ["The sun was a golden coin.", "metaphor"],
+    ["My little brother is a tornado.", "metaphor"], ["The playground was an oven at lunchtime.", "metaphor"],
+    ["The sun smiled down on us.", "personification"], ["The old car coughed and groaned up the hill.", "personification"],
+    ["The leaves danced in the breeze.", "personification"], ["My alarm clock yelled at me.", "personification"], ["The flowers nodded their heads.", "personification"],
+    ["The stairs groaned under our feet.", "personification"], ["The moon peeked out from behind a cloud.", "personification"],
+    ["Six slippery snakes slid south.", "alliteration"], ["Peter’s pet parrot picked pears.", "alliteration"], ["Big brown bears bounce on beds.", "alliteration"],
+    ["Tiny turtles tiptoed together.", "alliteration"], ["Clever cats creep carefully.", "alliteration"], ["Freddie found five fat frogs.", "alliteration"],
+    ["Mighty magpies made mischief.", "alliteration"],
+    ["The bees buzzed around the flowers.", "onomatopoeia"], ["Crash! The plates hit the floor.", "onomatopoeia"], ["The bacon sizzled in the pan.", "onomatopoeia"],
+    ["The door creaked open.", "onomatopoeia"], ["Splash! He jumped into the pool.", "onomatopoeia"], ["The fire crackled and popped.", "onomatopoeia"],
+    ["Bang! The balloon burst.", "onomatopoeia"], ["The kookaburra’s laugh went ha-ha-ha.", "onomatopoeia"],
+    ["I have told you a million times.", "hyperbole"], ["This bag weighs a tonne.", "hyperbole"], ["I am so hungry I could eat a horse.", "hyperbole"],
+    ["We waited forever for the bus.", "hyperbole"], ["My teacher gave us a mountain of homework.", "hyperbole"], ["I nearly died of laughter.", "hyperbole"],
+    ["That backpack is as big as a house.", "hyperbole", "simile"]
+  ];
+  var FIG_WHY = { simile: "A simile compares two things using ‘like’ or ‘as’.", metaphor: "A metaphor says one thing IS another, without ‘like’ or ‘as’.",
+                  personification: "Personification gives human actions or feelings to something that is not human.",
+                  alliteration: "Alliteration repeats the same first sound in words close together.",
+                  onomatopoeia: "Onomatopoeia is a word that sounds like the noise it names: buzz, crash, sizzle.",
+                  hyperbole: "Hyperbole is a huge exaggeration that is not meant literally." };
+  function fFigure(q, lv, n) {
+    var f = pickOne(FIG), kinds = Object.keys(FIG_WHY).filter(function (k) { return k !== f[1] && k !== f[2]; });
+    q.passage = esc(f[0]);
+    q.ask = "What kind of language is this?";
+    q.tip = "Similes use like or as. Metaphors say one thing is another. Personification makes a thing act like a person.";
+    q.why = ["It is <b>" + f[1] + "</b>.", FIG_WHY[f[1]]];
+    return gFin(q, f[1], kinds, n, f[0]);
+  }
+  var FACTS = ["Adelaide is the capital of South Australia.", "A spider has eight legs.", "Water freezes at 0 °C.", "There are seven days in a week.",
+               "Koalas live in Australia.", "The Sun rises in the east.", "A triangle has three sides.", "Bees make honey.", "Uluru is in the Northern Territory.",
+               "A year has twelve months.", "Penguins cannot fly.", "Cricket is played with a bat and a ball.", "The Murray is the longest river in Australia.",
+               "Emus lay green eggs.", "A kilometre is 1000 metres."];
+  var OPINIONS = ["Chocolate ice cream is the best flavour.", "Cats make better pets than dogs.", "Maths is the most fun subject.", "Summer is the nicest season.",
+                  "Football is more exciting than cricket.", "Adelaide is the best city in Australia.", "Homework should be banned.", "Pizza tastes better than pasta.",
+                  "Spiders are scary.", "Red is the prettiest colour.", "Everyone should learn the piano.", "Rainy days are boring.", "That movie was far too long.",
+                  "Saturday is the best day of the week.", "Koalas are the cutest animals."];
+  function fFact(q, lv, n) {
+    var askOp = Math.random() < 0.5, right = pickOne(askOp ? OPINIONS : FACTS), wrongs = shuffle((askOp ? FACTS : OPINIONS).slice()).slice(0, 4);
+    q.ask = askOp ? "Which sentence is an opinion?" : "Which sentence is a fact?";
+    q.tip = "A fact can be checked and proved. An opinion is what someone thinks or feels, and others might disagree.";
+    q.why = ["<b>" + esc(right) + "</b>", askOp ? "Someone could disagree with it, so it is an opinion." : "It can be checked, so it is a fact."];
+    q.long = true;
+    return gFin(q, right, wrongs, n, (askOp ? "o" : "f") + right + wrongs.join(""));
+  }
+  var FORMAL = [
+    ["Could you please send me the details?", "Send us the stuff, yeah?", "Gimme the details.", "Oi, where’s the info?"],
+    ["I would like to apply for the job.", "I wanna get that job.", "Gimme the job, please.", "Yeah, I’ll take the job."],
+    ["Thank you for your help with the project.", "Cheers for the help, mate.", "Ta for helping out.", "Thanks heaps, legend."],
+    ["The excursion has been postponed until next week.", "The trip’s off till next week.", "No trip this week, sorry guys.", "Trip’s moved, so annoying."],
+    ["Students must wear a hat during recess.", "Hats on at recess, guys.", "Wear ya hat at recess.", "Gotta wear hats outside."],
+    ["I am writing to complain about the broken swing.", "The swing’s busted, fix it.", "Yo, the swing is wrecked.", "That swing is totally cooked."],
+    ["We regret to inform you that the pool is closed.", "Bad news, pool’s shut.", "Pool’s closed, sorry folks.", "No swimming, it’s shut lol."],
+    ["Please ensure that all bags are placed on the hooks.", "Chuck your bags on the hooks.", "Bags on hooks, yeah?", "Stick your stuff on the hooks."],
+    ["I apologise for arriving late to the meeting.", "Sorry I rocked up late.", "My bad for being late.", "Soz, running late."],
+    ["The committee has decided to purchase new equipment.", "We’re getting heaps of new gear.", "New stuff is coming, woohoo.", "They’re buying new things, cool."],
+    ["Would you be available to meet on Tuesday?", "You free Tuesday?", "Catch ya Tuesday?", "Tuesday good for ya?"],
+    ["The results will be announced at the assembly.", "We’ll find out who won at assembly.", "Results at assembly, stay tuned.", "Gonna say who won at assembly."],
+    ["I was unable to attend because I was unwell.", "Couldn’t come, was crook.", "I was sick so I didn’t rock up.", "Nah, I was feeling rubbish."],
+    ["Visitors are asked to sign in at the front office.", "Pop in and sign the book at the office.", "Sign in at the office, k?", "Gotta sign in up the front."]
+  ];
+  function fFormal(q, lv, n) {
+    var f = pickOne(FORMAL), why = pickOne(["a letter to the principal", "a school newsletter", "an email to the council", "a speech at assembly"]);
+    q.ask = "Which would suit " + why + " best?";
+    q.tip = "Formal writing uses whole words and polite, careful language: no slang, no short forms like gonna or ya.";
+    q.why = ["<b>" + esc(f[0]) + "</b>", "It is formal: polite, complete and free of slang."];
+    q.long = true;
+    return gFin(q, f[0], f.slice(1), n, f[0] + why);
+  }
+  function fTense(q, lv, n) {
+    var two = shuffle(VERBS.slice()).slice(0, 2), a = two[0], b = two[1], past = Math.random() < 0.65;
+    var right, wrongs;
+    if (past) {
+      var when = pickOne(["Yesterday", "Last weekend", "On Saturday", "Last night"]);
+      right = when + " we " + a[1] + " " + a[3] + " and " + b[1] + " " + b[3] + ".";
+      wrongs = [when + " we " + a[1] + " " + a[3] + " and " + b[0] + " " + b[3] + ".", when + " we " + a[0] + " " + a[3] + " and " + b[1] + " " + b[3] + ".",
+                when + " we " + gEd(a[0]) + " " + a[3] + " and " + b[1] + " " + b[3] + ".", when + " we " + a[1] + " " + a[3] + " and " + b[0] + "s " + b[3] + "."];
+    } else {
+      var often = pickOne(["Every day", "Every Saturday", "Most mornings"]);
+      right = often + " we " + a[0] + " " + a[3] + " and " + b[0] + " " + b[3] + ".";
+      wrongs = [often + " we " + a[0] + " " + a[3] + " and " + b[1] + " " + b[3] + ".", often + " we " + a[1] + " " + a[3] + " and " + b[0] + " " + b[3] + ".",
+                often + " we " + a[0] + "s " + a[3] + " and " + b[0] + " " + b[3] + "."];
+    }
+    q.ask = "Which sentence keeps the tense right all the way through?";
+    q.tip = "If the first verb is in the past, the second one should be too.";
+    q.why = ["<b>" + esc(right) + "</b>", "Both verbs are in the same tense."];
+    q.long = true;
+    return gFin(q, right, wrongs, n, right);
+  }
+
+  function makeFixQ(q, lv, n) {
+    var makers = lv === 1 ? [fMisspelt]
+      : lv === 2 ? [fMisspelt, fCapital]
+      : lv === 3 ? [fCapital, fOrder, fMisspelt]
+      : lv === 4 ? [fOrder, fMisspelt, fCapital]
+      : lv === 5 ? [fJoin, fJoin, fOrder]
+      : lv === 6 ? [fFragment, fFragment, fJoin]
+      : lv === 7 ? [fRunOn, fRunOn, fFragment]
+      : lv === 8 ? [fWrongWord, fWrongWord, fRunOn]
+      : lv === 9 ? [fFigure, fFigure, fWrongWord]
+      : lv === 10 ? [fFigure, fFact, fWrongWord]
+      : lv === 11 ? [fFact, fFormal, fFigure]
+      : lv === 12 ? [fFormal, fTense, fFact]
+      : lv === 13 ? [fTense, fWrongWord, fFigure, fFormal]
+      : [fTense, fWrongWord, fFigure, fFormal, fFact, fRunOn];
+    for (var t = 0; t < 20; t++) {
+      var keep = { measure: q.measure, mode: q.mode, level: q.level, kind: q.kind, unitText: "", game: "fix" };
+      for (var k in q) if (q.hasOwnProperty(k)) delete q[k];
+      for (var k2 in keep) q[k2] = keep[k2];
+      var made = pickOne(makers)(q, lv, n);
+      if (made) return made;
+    }
+    return fMisspelt(q, 1, 3);
+  }
+
+  /* ================================================================ the stretch tier in English
+     Levels 9 to 14 used to be level 8 with four choices. Band 5 is new work
+     beyond Year 6: semicolons and hyphens, Greek and Latin roots, harder
+     homophones, longer texts that ask why the writer did something, and
+     challenge spelling words typed from listening. */
+  SPELL_MORE.E = [
+    ["acquaintance", "She is an old ___ of my mum.", "aquaintance,acquaintence,acquantance"],
+    ["acknowledge", "Please ___ the people who helped.", "acknowlege,aknowledge,acknoledge"],
+    ["ambiguous", "The instructions were ___, so we were confused.", "ambigous,ambiguos,ambigious"],
+    ["anonymous", "The letter was ___, with no name signed.", "anonymus,anonimous,annonymous"],
+    ["apparatus", "Set up the science ___ on the bench.", "aparatus,apparattus,apparatis"],
+    ["camouflage", "The lizard’s ___ hid it on the rock.", "camoflage,camouflague,camaflage"],
+    ["chrysalis", "The butterfly came out of its ___.", "crysalis,chrysallis,chrysalus"],
+    ["colossal", "A ___ wave crashed over the rocks.", "colosal,collossal,colossle"],
+    ["consensus", "The class reached a ___ about the name.", "concensus,consensous,consencus"],
+    ["curriculum", "Science is part of the school ___.", "curriculam,curiculum,curricculum"],
+    ["deterrent", "The fence is a ___ to foxes.", "deterent,deterrant,detterrent"],
+    ["disastrous", "The flood was ___ for the farm.", "disasterous,disastrus,dissastrous"],
+    ["eccentric", "The ___ inventor wore two hats.", "eccentrik,eccentrick,ecentric"],
+    ["encyclopedia", "Look it up in the ___.", "encyclopeadia,encyclopidia,encylopedia"],
+    ["enthusiasm", "She sang with great ___.", "enthusiasim,enthousiasm,enthusiaism"],
+    ["extraordinary", "It was an ___ performance.", "extrordinary,extraordinery,extraordinairy"],
+    ["hygiene", "Good ___ stops germs from spreading.", "hygeine,hygene,hygine"],
+    ["illuminate", "Lanterns ___ the path at night.", "iluminate,illuminait,illumanate"],
+    ["irrelevant", "That fact is ___ to the question.", "irrelevent,irelevant,irrelavant"],
+    ["jeopardy", "The bushfire put the town in ___.", "jeapardy,jepardy,jeopardie"],
+    ["kaleidoscope", "Colours swirled in the ___.", "kaleidascope,kalidoscope,kaleidoskope"],
+    ["labyrinth", "The garden maze was a ___.", "labrynth,labyrinthe,labirinth"],
+    ["lieutenant", "The ___ gave the order.", "lieutenent,leiutenant,lutenant"],
+    ["magnificent", "The view from the top was ___.", "magnificant,magnifficent,magnifisent"],
+    ["millennium", "A ___ is a thousand years.", "millenium,milennium,millenniam"],
+    ["mischief", "The puppies got into ___.", "mischeif,mishief,mischif"],
+    ["onomatopoeia", "‘Buzz’ is an example of ___.", "onomatopeia,onomatopoea,onamatopoeia"],
+    ["parallel", "The two lines are ___.", "paralell,parrallel,paralel"],
+    ["psychology", "She studies ___ at university.", "phsychology,psycology,sychology"],
+    ["quarantine", "The puppy spent a week in ___.", "quarentine,quarantene,quarrantine"],
+    ["rehearsal", "We have a ___ before the concert.", "rehersal,rehearsel,reheasal"],
+    ["resilience", "Getting up after a fall shows ___.", "resiliance,resillience,resilence"],
+    ["silhouette", "We saw the ___ of a kangaroo at dusk.", "silouette,silhouete,sillhouette"],
+    ["souvenir", "I bought a ___ at the museum.", "souvenier,suvenir,souveneir"],
+    ["symmetrical", "A butterfly’s wings are ___.", "symetrical,simmetrical,symmetricle"],
+    ["technique", "Practise the right ___ for a dive.", "techneque,technic,tecnique"],
+    ["tremendous", "There was a ___ roar from the crowd.", "tremendus,tremendious,tremenduous"],
+    ["vengeance", "The villain wanted ___.", "vengance,vengence,vengeince"],
+    ["xylophone", "He played a tune on the ___.", "xylaphone,zylophone,xylophon"],
+    ["fascinate", "Volcanoes ___ me.", "facinate,fasinate,fascinait"],
+    ["occasionally", "We ___ eat out on Fridays.", "occasionaly,ocasionally,occassionally"],
+    ["pneumonia", "Grandpa was in hospital with ___.", "neumonia,pnuemonia,pneumonya"]
+  ];
+  SPELL_TIER.E = [SPELL.length, SPELL.length];
+  SPELL_MIX.E = [39, 52];
+
+  (function bandFive() {
+    function P5(rule, right, wrongs) { if (wrongs.indexOf(right) < 0) PUNCT.push([5, rule, right, wrongs]); }
+    /* semicolons between two closely linked sentences */
+    G_CAUSE.concat(G_CONTRAST).forEach(function (c, i) {
+      if (i % 2) return;
+      var A = c[0].charAt(0).toUpperCase() + c[0].slice(1), B = c[1];
+      P5("semi", A + "; " + B + ".", [A + "; and " + B + ".", A + " " + B + ".", A + ";" + " " + B.charAt(0).toUpperCase() + B.slice(1) + ";"]);
+    });
+    [["ten-year-old", "girl", "ten year-old", "ten-year old", "ten year old"], ["well-known", "author", "well known-", "well-know", "wellknown"],
+     ["man-eating", "shark", "man eating-", "maneating", "man-eat-ing"], ["sugar-free", "drink", "sugar free-", "sugarfree", "sugar-fre"],
+     ["two-hour", "drive", "two hour-", "two-hours", "twohour"], ["fast-moving", "train", "fast moving-", "fastmoving", "fast-mov-ing"],
+     ["long-lost", "friend", "long lost-", "longlost", "long-losted"], ["left-handed", "batter", "left handed-", "lefthanded", "left-hand-ed"],
+     ["three-legged", "race", "three legged-", "threelegged", "three-leg-ged"], ["kind-hearted", "neighbour", "kind hearted-", "kindhearted", "kind-heart-ed"],
+     ["old-fashioned", "radio", "old fashioned-", "oldfashioned", "old-fash-ioned"], ["full-time", "job", "full time-", "fulltime", "full-tim-e"]
+    ].forEach(function (h) {
+      var a = /^[aeiou]/.test(h[0]) ? "an" : "a";
+      P5("hyphen", "It was " + a + " " + h[0] + " " + h[1] + ".", ["It was " + a + " " + h[0].replace(/-/g, " ") + " " + h[1] + ".", "It was " + a + " " + h[0] + "-" + h[1] + ".",
+                                                                    "It was " + a + " " + h[0].replace("-", " ") + " " + h[1] + "."]);
+    });
+    P5("hyphen", "It was a brightly lit room.", ["It was a brightly-lit room.", "It was a brightly lit-room.", "It was a bright-ly lit room."]);
+    [["I think", "that we are lost"], ["When you are ready", "we can start"], ["If it rains", "we will stay in"], ["After lunch", "we have art"],
+     ["Before we go", "check your bag"], ["Honestly", "I did not see it"]].forEach(function (x, i) {
+      var N = ["Mia", "Leo", "Dad", "the coach", "Nan", "Jack"][i];
+      P5("split", "“" + x[0] + ",” said " + N + ", “" + x[1] + ".”", ["“" + x[0] + ",” said " + N + ", “" + x[1].charAt(0).toUpperCase() + x[1].slice(1) + ".”",
+          "“" + x[0] + "” said " + N + " “" + x[1] + ".”", "“" + x[0] + ", said " + N + ", " + x[1] + ".”"]);
+    });
+    [["The men’s", "change room is closed."], ["The women’s", "team won the final."], ["The children’s", "artwork is on the wall."],
+     ["The people’s", "choice award went to Mia."], ["The mice’s", "nest was behind the fridge."], ["The geese’s", "pond was frozen."]].forEach(function (x) {
+      var base = x[0].replace("’s", "");
+      P5("own", x[0] + " " + x[1], [base + "s’ " + x[1], base + "’ " + x[1], base + "s " + x[1]]);
+    });
+    [["Our club needs three things", "new nets, more balls and a coach"], ["The recipe is simple", "mix, pour and bake"],
+     ["There was only one problem", "nobody had the key"], ["I knew one thing for sure", "we had to hurry"]].forEach(function (x) {
+      P5("colon", x[0] + ": " + x[1] + ".", [x[0] + "; " + x[1] + ".", x[0] + " " + x[1] + ".", x[0] + ", " + x[1] + "."]);
+    });
+    [["The storm", "the worst in years", "knocked out the power"], ["My cousin", "who never stops talking", "slept the whole way"],
+     ["The puppy", "covered in mud", "jumped on the couch"], ["Mr Lee", "our coach for six years", "is retiring"]].forEach(function (x) {
+      P5("dash", x[0] + " – " + x[1] + " – " + x[2] + ".", [x[0] + " – " + x[1] + ", " + x[2] + ".", x[0] + " " + x[1] + " – " + x[2] + ".", x[0] + " – " + x[1] + " " + x[2] + " –."]);
+    });
+    PUNCT_TIP.semi = "A semicolon joins two sentences that are closely linked. Each side must make sense on its own, and no joining word follows it.";
+    PUNCT_TIP.hyphen = "A hyphen joins words that describe a noun together: a ten-year-old girl. Words ending in -ly do not take one.";
+    PUNCT_TIP.split = "When speech is split, the second part starts with a small letter if it carries on the same sentence.";
+    PUNCT_TIP.dash = "A pair of dashes can hold extra information, like brackets. Both dashes are needed.";
+
+    [[5, "same", "meticulous", "extremely careful", "careless", "quick", "noisy"], [5, "same", "benevolent", "kind and generous", "cruel", "nervous", "boastful"],
+     [5, "same", "candid", "honest and direct", "secretive", "polite", "shy"], [5, "same", "diligent", "hard-working", "lazy", "clever", "careless"],
+     [5, "same", "frugal", "careful with money", "wasteful", "wealthy", "greedy"], [5, "same", "obsolete", "out of date", "brand new", "broken", "costly"],
+     [5, "same", "tranquil", "calm and peaceful", "noisy", "crowded", "stormy"], [5, "same", "vivid", "bright and clear", "dull", "faded", "blurry"],
+     [5, "same", "resilient", "able to bounce back", "fragile", "stubborn", "lazy"], [5, "same", "lethargic", "sluggish and tired", "energetic", "angry", "hungry"],
+     [5, "same", "ominous", "threatening", "cheerful", "harmless", "boring"], [5, "same", "prudent", "sensible and wise", "reckless", "rude", "shy"],
+     [5, "same", "elated", "overjoyed", "miserable", "bored", "confused"], [5, "same", "commence", "begin", "finish", "delay", "cancel"],
+     [5, "same", "adhere", "stick", "slip", "melt", "tear"], [5, "same", "inquisitive", "curious", "bored", "careless", "shy"],
+     [5, "opp", "novice", "expert", "beginner", "learner", "amateur"], [5, "opp", "deteriorate", "improve", "worsen", "decline", "crumble"],
+     [5, "opp", "hostile", "friendly", "aggressive", "unkind", "fierce"], [5, "opp", "fragile", "sturdy", "delicate", "weak", "brittle"],
+     [5, "opp", "vague", "precise", "unclear", "fuzzy", "hazy"], [5, "opp", "flexible", "rigid", "bendy", "stretchy", "soft"],
+     [5, "opp", "optimistic", "pessimistic", "hopeful", "cheerful", "positive"], [5, "opp", "voluntary", "compulsory", "optional", "free", "willing"],
+     [5, "opp", "superior", "inferior", "better", "greater", "higher"], [5, "opp", "humble", "arrogant", "modest", "quiet", "meek"],
+     [5, "part", "-spect- in ‘inspect’ and ‘spectator’", "look", "listen", "carry", "write"], [5, "part", "-port- in ‘transport’ and ‘portable’", "carry", "push", "break", "see"],
+     [5, "part", "-dict- in ‘predict’ and ‘dictionary’", "say", "build", "hear", "throw"], [5, "part", "-rupt- in ‘erupt’ and ‘interrupt’", "break", "join", "grow", "hide"],
+     [5, "part", "-struct- in ‘construct’ and ‘structure’", "build", "destroy", "carry", "write"], [5, "part", "aud- in ‘audience’ and ‘audio’", "hear", "see", "speak", "touch"],
+     [5, "part", "vis- in ‘vision’ and ‘visible’", "see", "hear", "move", "feel"], [5, "part", "chron- in ‘chronological’", "time", "colour", "size", "place"],
+     [5, "part", "therm- in ‘thermometer’", "heat", "light", "water", "sound"], [5, "part", "hydr- in ‘hydrate’ and ‘hydrant’", "water", "fire", "air", "earth"],
+     [5, "part", "geo- in ‘geography’", "earth", "life", "sea", "sky"], [5, "part", "bio- in ‘biology’ and ‘biography’", "life", "rock", "star", "number"],
+     [5, "part", "graph- in ‘autograph’ and ‘paragraph’", "write", "speak", "read", "draw a line"], [5, "part", "phon- in ‘telephone’ and ‘phonics’", "sound", "far", "light", "letter"],
+     [5, "part", "photo- in ‘photograph’", "light", "picture", "camera", "quick"], [5, "part", "-cide in ‘insecticide’", "kill", "keep", "grow", "feed"],
+     [5, "part", "ped- in ‘pedestrian’ and ‘pedal’", "foot", "hand", "road", "fast"], [5, "part", "mal- in ‘malfunction’", "bad", "good", "small", "many"]
+    ].forEach(function (v) { VOCAB.push(v); });
+    [[5, "The politician’s speech was *ambiguous*, so both sides thought she agreed with them.", "able to be understood in more than one way", "very short", "very angry", "perfectly clear"],
+     [5, "Years of drought had made the soil *barren*.", "unable to grow anything", "rich and dark", "wet and muddy", "full of rocks"],
+     [5, "The *meagre* meal left everyone still hungry.", "small and not enough", "rich and tasty", "very hot", "beautifully served"],
+     [5, "Leo’s *persistent* questions finally got an answer.", "continuing and not giving up", "rude", "clever", "quiet"],
+     [5, "After the argument there was an *awkward* silence.", "uncomfortable", "peaceful", "very short", "joyful"],
+     [5, "The explorer’s diary gave a *vivid* account of the storm.", "clear and full of detail", "boring", "short", "made-up"],
+     [5, "The mayor wanted to *alleviate* the traffic problems.", "make less bad", "make worse", "measure", "ignore"],
+     [5, "Her reply was so *curt* that I knew she was annoyed.", "short and rude", "long and kind", "funny", "whispered"],
+     [5, "The documentary was *riveting*; nobody looked away.", "extremely interesting", "very loud", "badly made", "frightening"],
+     [5, "The rules were *stringent*, and no phones were allowed at all.", "strict", "relaxed", "unfair", "new"]
+    ].forEach(function (c) { CONTEXT.push(c); });
+    [{ text: "Our school should plant a vegetable garden. Students would learn where food comes from, and fresh vegetables could be used in the canteen. Some people say it would cost too much, but the parents’ club has already offered to pay for the seeds and tools. A garden would make our school healthier, greener and more fun.",
+       qs: [[4, "What is the writer trying to do?", "persuade readers to agree with an idea", "tell a funny story", "explain how to grow carrots", "describe a garden they visited"],
+            [4, "How does the writer deal with the cost?", "by saying the parents’ club will pay", "by ignoring it", "by asking for donations", "by cutting the canteen budget"],
+            [5, "Why does the writer mention what ‘some people say’?", "to answer an argument against the idea", "to show they agree it is too costly", "to fill up space", "to name the people"],
+            [5, "Which word shows the writer’s opinion most strongly?", "should", "vegetable", "seeds", "school"]] },
+     { text: "The old lighthouse had stood empty for twenty years. Paint peeled from its walls like sunburnt skin, and the great lamp was dark. But on the night of the storm, Ellie saw a light flicker at the top — just once — and then the darkness swallowed it again.",
+       qs: [[4, "How long had the lighthouse been empty?", "twenty years", "two years", "since the storm", "a hundred years"],
+            [4, "What does ‘like sunburnt skin’ help you picture?", "how the paint was peeling", "the colour of the sand", "Ellie’s face", "the hot weather"],
+            [5, "What mood does the last sentence create?", "mysterious and tense", "happy and calm", "funny", "sad and hopeless"],
+            [5, "Why does the writer add ‘just once’?", "to make the light seem strange and hard to explain", "to show the lamp was broken", "to say it was morning", "to count the lights"]] },
+     { text: "How to make a paper boat: First, fold a rectangle of paper in half from top to bottom. Next, fold the top corners down to meet in the middle. Then fold the bottom strips up on each side. Finally, open the middle and flatten it into a square, and pull the sides apart to shape the boat.",
+       qs: [[4, "What kind of text is this?", "a procedure", "a narrative", "a persuasive text", "a poem"],
+            [4, "What is the first step?", "fold the paper in half from top to bottom", "fold the corners down", "open the middle", "pull the sides apart"],
+            [5, "Why does the writer use words like first, next and finally?", "to show the order of the steps", "to make it rhyme", "to persuade you", "to describe the boat"],
+            [5, "Which kind of verb starts most of the sentences?", "commands, like fold and open", "past tense verbs", "modal verbs", "linking verbs"]] },
+     { text: "Grandma kept every letter Grandpa ever sent her, tied with faded blue ribbon. When we asked why she never threw them out, she just smiled and said that some things get heavier with time, not lighter. I didn’t understand then. I think I do now.",
+       qs: [[4, "How were the letters kept?", "tied with faded blue ribbon", "in a shoebox", "in a drawer", "in a frame"],
+            [5, "What does Grandma mean by ‘heavier with time’?", "they mean more to her as the years pass", "the paper gets heavier", "they are hard to carry", "she wants to throw them out"],
+            [5, "What does the last line suggest about the narrator?", "they have grown up and now understand", "they are confused", "they found the letters", "they dislike the letters"],
+            [5, "What is the main feeling of the text?", "love and remembering", "anger", "excitement", "fear"]] }
+    ].forEach(function (p) { READ.push(p); });
+  })();
+
+  /* the harder homophones, for the right word at stretch level */
+  (function () {
+    function RW5(tip, set, frames) {
+      frames.forEach(function (f) {
+        var right = f[1], wrongs = set.filter(function (w) { return w.toLowerCase() !== right.toLowerCase(); });
+        if (/^___/.test(f[0])) { right = right.charAt(0).toUpperCase() + right.slice(1); wrongs = wrongs.map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }); }
+        RIGHTWORD.push([5, f[0], right, wrongs, tip]);
+      });
+    }
+    RW5("compliment", ["compliment", "complement"], [["She paid me a lovely ___.", "compliment"], ["The sauce will ___ the fish.", "complement"], ["Thanks for the ___!", "compliment"], ["Red and green ___ each other.", "complement"]]);
+    RW5("dessert", ["dessert", "desert"], [["We had ice cream for ___.", "dessert"], ["Camels can cross the ___.", "desert"], ["What is for ___?", "dessert"], ["The Simpson ___ is very dry.", "desert"]]);
+    RW5("aloud", ["aloud", "allowed"], [["Read the poem ___.", "aloud"], ["Dogs are not ___ on the beach.", "allowed"], ["She laughed ___.", "aloud"], ["Are we ___ to swim?", "allowed"]]);
+    RW5("council", ["council", "counsel"], [["The ___ fixed the footpath.", "council"], ["The coach gave us wise ___.", "counsel"], ["The student ___ meets on Monday.", "council"]]);
+    RW5("weather", ["weather", "whether"], [["The ___ was perfect for a picnic.", "weather"], ["I don’t know ___ to laugh or cry.", "whether"], ["Check ___ the shop is open.", "whether"], ["What will the ___ be like?", "weather"]]);
+    RW5("quiet", ["quiet", "quite", "quit"], [["Please be ___ in the library.", "quiet"], ["The test was ___ hard.", "quite"], ["Never ___ trying.", "quit"], ["It is ___ late now.", "quite"]]);
+    RW5("breath", ["breath", "breathe"], [["Take a deep ___.", "breath"], ["Fish ___ through gills.", "breathe"], ["I held my ___ under water.", "breath"], ["___ in slowly through your nose.", "breathe"]]);
+    RW5("led", ["led", "lead"], [["The guide ___ us up the hill yesterday.", "led"], ["Pencils have ___ in them.", "lead"], ["She will ___ the team today.", "lead"], ["He ___ the parade last year.", "led"]]);
+    RW5("device", ["device", "devise"], [["A phone is a handy ___.", "device"], ["We must ___ a clever plan.", "devise"], ["This ___ measures rainfall.", "device"]]);
+    RW5("everyday", ["everyday", "every day"], [["We walk the dog ___.", "every day"], ["These are my ___ shoes.", "everyday"], ["I read ___ before bed.", "every day"]]);
+    RW5("who", ["who", "whom"], [["To ___ should I send it?", "whom"], ["___ is at the door?", "who"], ["The man ___ called is here.", "who"], ["With ___ did you go?", "whom"]]);
+    RW5("lie", ["lie", "lay"], [["Please ___ the book on the table.", "lay"], ["I need to ___ down for a rest.", "lie"], ["Hens ___ eggs.", "lay"], ["Don’t ___ on the wet grass.", "lie"]]);
+    WORD_TIP.compliment = "a compliment (with an i) is something nice you say. complement (with an e) means to go well with.";
+    WORD_TIP.dessert = "dessert has two s’s, like a second helping of pudding. desert is the dry, sandy place.";
+    WORD_TIP.aloud = "aloud means out loud. allowed means let to do something.";
+    WORD_TIP.council = "a council is a group that makes decisions. counsel is advice.";
+    WORD_TIP.weather = "weather is rain and sun. whether is used for choices: whether or not.";
+    WORD_TIP.quiet = "quiet means not loud. quite means fairly or very. quit means stop.";
+    WORD_TIP.breath = "breath (no e) is the noun. breathe (with an e) is the doing word.";
+    WORD_TIP.led = "led is the past of lead (to guide). lead, said like ‘bed’, is the grey metal.";
+    WORD_TIP.device = "device (with a c) is the thing. devise (with an s) means to plan or invent.";
+    WORD_TIP.everyday = "every day (two words) means each day. everyday (one word) means ordinary.";
+    WORD_TIP.who = "who does the action. whom has it done to them, often after to, with or for.";
+    WORD_TIP.lie = "lay needs something to put down: lay the book. lie means to rest yourself: lie down.";
+  })();
+
+  /* More for the first levels, where the banks were thinnest. */
+  (function moreLow() {
+    var have = {};
+    SPELL.concat(SILENT, SPELL_MORE.A, SPELL_MORE.B, SPELL_MORE.C, SPELL_MORE.D).forEach(function (w) { have[w[0]] = 1; });
+    SPELL_MORE.A = SPELL_MORE.A.concat([
+      ["would", "I ___ like a drink, please.", "wood,wuld,whould"], ["should", "You ___ wear a hat outside.", "shuld,shoud,shoold"],
+      ["their", "The kids put on ___ shoes.", "thier,ther,theyr"], ["which", "___ hat is yours?", "wich,whitch,wiche"],
+      ["laugh", "Jokes make me ___.", "laff,larf,lauf"], ["listen", "Please ___ to the story.", "lisen,lissen,listin"],
+      ["write", "Can you ___ your name?", "rite,wright,writ"], ["thought", "I ___ it was Monday.", "thort,thougt,thot"],
+      ["learn", "We ___ new words every week.", "lern,lurn,leanr"], ["every", "I brush my teeth ___ night.", "evry,everey,evrey"],
+      ["sister", "My ___ is older than me.", "sistor,sisster,sistur"], ["brother", "My little ___ is four.", "bruther,brothar,brotha"],
+      ["birthday", "Today is my ___.", "berthday,birthdey,brithday"], ["morning", "I eat toast every ___.", "mornin,mourning,morening"],
+      ["together", "We walked home ___.", "togather,togeather,tugether"], ["around", "We ran ___ the oval.", "arownd,aroud,arond"],
+      ["another", "Can I have ___ turn?", "anuther,anothr,annother"], ["through", "We went ___ the gate.", "thru,threw,throgh"],
+      ["animal", "A koala is an ___.", "aminal,animel,anamal"], ["light", "Turn on the ___, please.", "lite,ligt,lihgt"],
+      ["night", "The stars come out at ___.", "nite,nigth,nihgt"], ["right", "Turn ___ at the corner.", "rite,rihgt,wright"],
+      ["school", "We ride our bikes to ___.", "skool,shcool,scool"], ["family", "My ___ went camping.", "famly,familly,fammily"]
+    ].filter(function (w) { return !have[w[0]]; }));
+    [[1, "same", "near", "close", "far", "high", "late"], [1, "same", "quick", "fast", "slow", "heavy", "soft"], [1, "same", "large", "big", "small", "thin", "flat"],
+     [1, "same", "glad", "happy", "sad", "cross", "bored"], [1, "same", "unhappy", "sad", "pleased", "lucky", "funny"], [1, "same", "rock", "stone", "stick", "leaf", "shell"],
+     [1, "same", "jump", "leap", "sit", "crawl", "sleep"], [1, "same", "grab", "take", "give", "drop", "throw"], [1, "same", "hop", "jump", "swim", "walk", "fly"],
+     [1, "same", "kind", "nice", "mean", "noisy", "lazy"], [1, "same", "below", "under", "over", "beside", "near"], [1, "same", "begin", "start", "stop", "end", "finish"],
+     [1, "opp", "hot", "cold", "warm", "sunny", "bright"], [1, "opp", "big", "small", "huge", "tall", "wide"], [1, "opp", "fast", "slow", "quick", "loud", "late"],
+     [1, "opp", "happy", "sad", "glad", "kind", "busy"], [1, "opp", "old", "new", "dusty", "used", "grey"], [1, "opp", "light", "dark", "bright", "white", "pale"],
+     [1, "opp", "hard", "soft", "firm", "solid", "rough"], [1, "opp", "in", "out", "into", "inside", "within"], [1, "opp", "yes", "no", "maybe", "okay", "sure"],
+     [1, "opp", "high", "low", "tall", "up", "over"], [1, "opp", "come", "go", "arrive", "reach", "visit"], [1, "opp", "give", "take", "share", "send", "offer"],
+     [2, "same", "shiny", "bright", "dull", "dark", "rough"], [2, "same", "fix", "mend", "break", "lose", "drop"], [2, "same", "chat", "talk", "listen", "write", "sleep"],
+     [2, "same", "stroll", "walk", "sprint", "crawl", "swim"], [2, "same", "giggle", "laugh", "cry", "frown", "yawn"], [2, "same", "terrible", "awful", "great", "lovely", "tidy"],
+     [2, "same", "wonderful", "amazing", "boring", "awful", "plain"], [2, "same", "afraid", "scared", "brave", "bold", "calm"], [2, "same", "cross", "angry", "pleased", "sleepy", "shy"],
+     [2, "same", "speedy", "quick", "slow", "lazy", "steady"], [2, "same", "tiny", "small", "huge", "wide", "tall"], [2, "same", "nap", "sleep", "run", "eat", "play"],
+     [2, "opp", "heavy", "light", "large", "solid", "thick"], [2, "opp", "brave", "scared", "bold", "proud", "strong"], [2, "opp", "noisy", "quiet", "loud", "busy", "rowdy"],
+     [2, "opp", "tidy", "messy", "neat", "clean", "smart"], [2, "opp", "sharp", "blunt", "pointy", "spiky", "thin"], [2, "opp", "awake", "asleep", "alert", "up", "ready"],
+     [2, "opp", "true", "false", "right", "real", "correct"], [2, "opp", "friend", "enemy", "mate", "pal", "buddy"], [2, "opp", "laugh", "cry", "giggle", "smile", "grin"],
+     [2, "opp", "ask", "answer", "question", "wonder", "query"], [2, "opp", "top", "bottom", "peak", "tip", "summit"], [2, "opp", "find", "lose", "spot", "discover", "keep"]
+    ].forEach(function (v) {
+      for (var i = 0; i < VOCAB.length; i++) if (VOCAB[i][1] === v[1] && VOCAB[i][2] === v[2]) return;
+      VOCAB.push(v);
+    });
+    [{ text: "Sam has a red bike. He rides it to school every day. One morning the tyre was flat. Sam had to walk, and he was late for class.",
+       qs: [[1, "What colour is Sam’s bike?", "red", "blue", "green", "black"],
+            [1, "Where does Sam ride his bike?", "to school", "to the beach", "to the shops", "to the park"],
+            [1, "What was wrong with the bike?", "the tyre was flat", "the chain broke", "the seat was missing", "the bell was gone"],
+            [2, "Why was Sam late for class?", "he had to walk", "he slept in", "he lost his bag", "the bus was late"]] },
+     { text: "Nan grows tomatoes in her garden. In summer they turn red and juicy. She picks them in a basket and gives some to the neighbours. The rest go into her famous pasta sauce.",
+       qs: [[1, "What does Nan grow?", "tomatoes", "carrots", "apples", "lettuce"],
+            [1, "When do the tomatoes turn red?", "in summer", "in winter", "in spring", "at night"],
+            [1, "What does Nan carry them in?", "a basket", "a bucket", "a bag", "a box"],
+            [2, "What happens to the tomatoes she keeps?", "they go into her pasta sauce", "they are sold", "they are thrown out", "they are planted again"]] },
+     { text: "The class went to the zoo. First they saw the lions sleeping in the sun. Next they watched the seals catch fish. Last of all they had lunch near the giraffes, who tried to eat Ava’s sandwich.",
+       qs: [[1, "Where did the class go?", "to the zoo", "to the beach", "to a farm", "to the museum"],
+            [1, "What were the lions doing?", "sleeping in the sun", "eating meat", "roaring", "swimming"],
+            [1, "What did they see last?", "the giraffes", "the lions", "the seals", "the monkeys"],
+            [2, "Whose sandwich did a giraffe try to eat?", "Ava’s", "the teacher’s", "Sam’s", "the zookeeper’s"]] }
+    ].forEach(function (p) { READ.push(p); });
+  })();
+
   /* Which band of each bank a level draws from, and how many choices. Every
      level adds something: more choices, then a harder band, then typing. */
   function engBand(lv) { return lv <= 2 ? 1 : lv <= 4 ? 2 : lv <= 6 ? 3 : 4; }
@@ -9358,22 +10324,33 @@
 
   function makeEnglishQuestion(game, lv) {
     var q = { measure: "english", mode: game, level: lv, kind: "eng", unitText: "" };
-    var band = engBand(Math.min(lv, MAX_LEVEL)), n = lv > MAX_LEVEL ? 4 : engChoices(lv);
+    /* Stretch levels reach band 5: half the time at stretch 1 to 3, and most of
+       the time from stretch 4 up. */
+    var band = lv > MAX_LEVEL ? (Math.random() < (lv >= 12 ? 0.7 : 0.5) ? 5 : 4) : engBand(lv), n = lv > MAX_LEVEL ? 4 : engChoices(lv);
+    if (game === "convert") return makeGrammarQ(q, lv, n);
+    if (game === "life") return makeFixQ(q, lv, n);
     if (game === "step") {
       /* spelling: choose at 1-4 and 7, type it at 5, 6 and 8 (when this iPad can speak) */
-      var tier = lv <= 2 ? "A" : lv <= 4 ? "B" : lv === 5 ? "A" : lv === 6 ? "B" : lv <= 8 ? "C" : "D";
+      var tier = lv <= 2 ? "A" : lv <= 4 ? "B" : lv === 5 ? "A" : lv === 6 ? "B" : lv <= 8 ? "C" : lv <= 10 ? "D" : lv <= 12 ? pickOne(["D", "E"]) : pickOne(["D", "E", "E"]);
       var typed = canSpeak() && (lv === 5 || lv === 6 || lv === 8 || lv >= 11);
       if (lv <= 4 || lv === 7) n = lv % 2 ? 3 : 4;
-      var w = engPick(spellPool(tier), function (x) { return x[0]; });
-      q.word = w[0]; q.sentence = w[1]; q.game = "spell"; q.silent = w[3] || "";
+      var list = classSpell(), w;
+      /* This week's words come up about half the time when the class has a list. */
+      if (list.length && Math.random() < 0.5) {
+        var lw = engPick(list, function (x) { return x[0]; });
+        w = [lw[0], lw[1] || "___", misspell(lw[0]).join(","), ""];
+        q.listWord = true; q.noSent = !lw[1];
+      } else w = engPick(spellPool(tier), function (x) { return x[0]; });
+      q.word = w[0]; q.sentence = q.noSent && !typed ? "" : w[1]; q.game = "spell"; q.silent = w[3] || "";
       if (typed) {
         q.textAns = true; q.answer = 1;
         q.ask = "Listen, then type the missing word.";
         q.sig = "ens" + w[0];
         q.why = ["The word is <b>" + esc(w[0]) + "</b>." + (q.silent ? " The silent letter is " + esc(q.silent) + "." : ""), "Common mistakes: " + w[2].split(",").map(esc).join(", ") + ". Look at the letters that are different."];
+        if (q.listWord) { q.ask = q.noSent ? "Listen, then type this week’s word." : "Listen, then type this week’s word in the gap."; q.why.unshift("One of this week’s spelling words."); }
         return q;
       }
-      q.ask = "Which spelling is right?";
+      q.ask = q.listWord ? "This week’s word: which spelling is right?" : "Which spelling is right?";
       q.why = ["<b>" + esc(w[0]) + "</b> is the right spelling.", q.silent ? "The silent letter is " + esc(q.silent) + ". You don’t hear it, but it is there." : "The others are the usual mistakes. Say it slowly in parts and picture each part."];
       return engFinish(q, w[0], w[2].split(","), n);
     }
@@ -9440,10 +10417,10 @@
     }
     if (q.textAns) {
       out += '<div class="engsay"><button type="button" class="action ghost small" data-say="word">🔊 Hear the word</button>' +
-             '<button type="button" class="action ghost small" data-say="sent">🔊 Hear the sentence</button></div>';
+             (q.noSent ? "" : '<button type="button" class="action ghost small" data-say="sent">🔊 Hear the sentence</button>') + "</div>";
       return out + "</div>";
     }
-    out += '<div class="lifeopts engopts' + (q.game === "punct" || q.game === "reading" ? " long" : "") + '" role="group" aria-label="Choose one">';
+    out += '<div class="lifeopts engopts' + (q.game === "punct" || q.game === "reading" || q.long ? " long" : "") + '" role="group" aria-label="Choose one">';
     q.choices.forEach(function (c, i) {
       var cls = reveal ? (i + 1 === q.answer ? " right" : " dim") : "";
       out += '<button type="button" class="lifeopt' + cls + '" data-opt="' + (i + 1) + '"' + (reveal ? " disabled" : "") + ">" + esc(c) + "</button>";
@@ -9469,8 +10446,25 @@
           "opposites and words in a sentence", "opposites and words in a sentence", "prefixes, suffixes and meaning", "prefixes, suffixes and meaning"],
     about: ["finding facts", "finding facts", "facts and clues", "facts and clues", "clues and word meaning", "clues and word meaning", "why the writer did it", "why the writer did it"],
     set: ["to, two, too and friends", "to, two, too and friends", "your, you’re, I and me", "your, you’re, I and me",
-          "its, fewer, affect", "its, fewer, affect", "whose, than, lose, accept", "whose, than, lose, accept"]
+          "its, fewer, affect", "its, fewer, affect", "whose, than, lose, accept", "whose, than, lose, accept"],
+    convert: ["nouns", "nouns and verbs", "adjectives and plurals", "adverbs and tricky plurals", "past tense", "is or are, he or him",
+              "joining words", "kinds of sentence and prepositions", "have eaten, have gone; is it or are they", "words that change job, modal verbs",
+              "clauses, modal verbs, although", "passive voice, clauses, who and which", "reported speech, passive voice", "all the hardest grammar"],
+    life: ["find the misspelt word", "misspelt words and capital letters", "capitals, and sentences that make sense", "sentences that make sense",
+           "joining two sentences", "complete sentences", "run-on sentences", "the wrong word", "similes, metaphors and more",
+           "figures of speech, fact or opinion", "fact or opinion, formal or chatty", "formal writing, keeping the tense", "tense, wrong words, figures of speech",
+           "all the hardest editing"]
   };
+  ENG_NOTES.step = ENG_NOTES.step.concat(["the hardest words, choose", "the hardest words, choose", "type the hardest words, and some challenge words",
+                                          "type the hardest words, and some challenge words", "type challenge words", "type challenge words"]);
+  ENG_NOTES.read = ENG_NOTES.read.concat(["semicolons, hyphens, split speech", "semicolons, hyphens, split speech", "dashes, colons, plural owners",
+                                          "all of it, hardest first", "all of it, hardest first", "all of it, hardest first"]);
+  ENG_NOTES.add = ENG_NOTES.add.concat(["harder words and Greek and Latin roots", "harder words and Greek and Latin roots", "word roots and words in context",
+                                        "the hardest words", "the hardest words", "the hardest words"]);
+  ENG_NOTES.about = ENG_NOTES.about.concat(["why the writer did it", "why the writer did it", "persuasion, mood and purpose",
+                                            "persuasion, mood and purpose", "the hardest texts", "the hardest texts"]);
+  ENG_NOTES.set = ENG_NOTES.set.concat(["compliment, dessert, weather", "compliment, dessert, weather", "who or whom, lie or lay",
+                                        "all the tricky pairs", "all the tricky pairs", "all the tricky pairs"]);
   function englishNote(mode, lv) {
     var l = ENG_NOTES[mode]; if (!l) return "";
     return l[Math.min(lv, l.length) - 1];
@@ -9848,6 +10842,89 @@
     verdict.className = "verdict" + (kind ? " " + kind : "");
   }
 
+  /* ---- the daily points cap ----
+     Each game (a measure and a game, like Capacity · Real life) can earn a
+     child so many points a day, set by the teacher. After that the game still
+     plays and levels still move, but it scores nothing until tomorrow. Kept
+     on this iPad, per child, per day. */
+  var capBook = null;
+  function capKey() { return "juglab.cap." + CLASS + "." + String(state.name || "").toLowerCase(); }
+  function capLoad() {
+    var key = capKey(), today = dayStamp();
+    if (capBook && capBook.key === key && capBook.day === today) return capBook;
+    var o = null;
+    try { o = JSON.parse(localStorage.getItem(key) || "null"); } catch (e) { o = null; }
+    if (!o || o.day !== today || typeof o.g !== "object") o = { day: today, g: {} };
+    o.key = key; capBook = o;
+    return o;
+  }
+  function capSave() { try { localStorage.setItem(capKey(), JSON.stringify({ day: capBook.day, g: capBook.g })); } catch (e) { /* blocked */ } }
+  function capLimit(m, g) { var L = shared.on && !TEACHER ? (classState.cap | 0) : 0; return L && m && isGotd(m, g) ? L * 2 : L; }
+  function capUsed(m, g) { return capLoad().g[m + "." + g] | 0; }
+  function capFull(m, g) { var L = capLimit(m, g); return L > 0 && capUsed(m, g) >= L; }
+
+  /* ---- game of the day ----
+     One game each school day earns double points and has double the daily
+     limit. The order is a shuffle of every game, worked out from the date, so
+     every iPad agrees without asking the sheet, and no game comes round again
+     until every game has had its day. Weekends have none. */
+  function gotdSeed(s) { var h = 2166136261; s = String(s); for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+  function gotdShuffle(list, seed) {
+    var a = list.slice(), r = seed | 0 || 1;
+    function rnd() { r = (r + 0x6D2B79F5) | 0; var t = Math.imul(r ^ (r >>> 15), 1 | r); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+  function gotdToday(d) {
+    var parts = dayStamp(d).split("-").map(Number);
+    var day = Date.UTC(parts[0], parts[1] - 1, parts[2]), epoch = Date.UTC(2026, 0, 5);   // a Monday
+    var n = Math.floor((day - epoch) / 86400000), dow = ((n % 7) + 7) % 7;               // 0 is Monday
+    if (dow > 4) return null;
+    var school = Math.floor(n / 7) * 5 + dow;
+    var all = [];
+    MEASURE_ORDER.forEach(function (m) {
+      if (m === "english" && !englishOn()) return;
+      GAME_KEYS.forEach(function (g) { if (gameAvailable(m, g)) all.push([m, g]); });
+    });
+    if (!all.length) return null;
+    var cycle = Math.floor(school / all.length), pos = ((school % all.length) + all.length) % all.length;
+    var order = gotdShuffle(all, gotdSeed("gotd" + cycle + "/" + all.length));
+    /* The last game of one round never opens the next. */
+    if (cycle > 0) {
+      var prev = gotdShuffle(all, gotdSeed("gotd" + (cycle - 1) + "/" + all.length));
+      if (prev[prev.length - 1][0] === order[0][0] && prev[prev.length - 1][1] === order[0][1]) { var sw = order[0]; order[0] = order[1]; order[1] = sw; }
+    }
+    var pick = order[pos];
+    return { measure: pick[0], game: pick[1] };
+  }
+  var gotdMemo = { key: "", val: null };
+  function gotd() {
+    var key = dayStamp() + "/" + (englishOn() ? 1 : 0);
+    if (gotdMemo.key !== key) gotdMemo = { key: key, val: gotdToday() };
+    return gotdMemo.val;
+  }
+  function isGotd(m, g) { var t = gotd(); return !!t && t.measure === m && t.game === g; }
+  window.__gotd = function (d) { return gotdToday(d ? new Date(d) : undefined); };
+  function goTo(m, g) {
+    var sub = document.querySelector('.subject[data-subject="' + (m === "english" ? "english" : "maths") + '"]');
+    if (sub && sub.getAttribute("aria-pressed") !== "true") sub.click();
+    if (m !== "english") { var mb = document.querySelector('.measure[data-measure="' + m + '"]'); if (mb && mb.getAttribute("aria-pressed") !== "true") mb.click(); }
+    var gb = document.querySelector('.mode[data-mode="' + g + '"]');
+    if (gb && !gb.hidden && gb.getAttribute("aria-pressed") !== "true") gb.click();
+  }
+  function drawGotd() {
+    var el = document.getElementById("gotd"), t = gotd();
+    if (!el) return;
+    if (!t || !state.name) { el.hidden = true; return; }
+    var on = state.measure === t.measure && state.mode === t.game;
+    el.hidden = false;
+    el.classList.toggle("on", on);
+    el.innerHTML = '<span class="gstar" aria-hidden="true">\u2b50</span><span><b>Game of the day: ' + esc(capName(t.measure, t.game)) + ".</b> " +
+                   (on ? "You are on it: double points, and double the daily limit." : "Double points today, and double the daily limit. Tap to play it.") + "</span>";
+  }
+  function capName(m, g) { return (m === "english" ? "English" : MEASURES[m].label) + " · " + ((gameLabel(m, g) || {}).label || g); }
+  window.__cap = function () { return { limit: capLimit(), book: capLoad() }; };
+
   function flyPoints(points) {
     var host = document.getElementById("stat-score");
     var el = document.createElement("span");
@@ -9899,6 +10976,17 @@
       var mult = Math.min(fullMult, multCap(q.level));
       var share = TRY_SHARE[Math.min(state.tries, TRY_SHARE.length - 1)];
       var points = Math.round(basePoints(q.level) * mult * share);
+      var doubled = isGotd(q.measure, q.mode);
+      if (doubled) points *= 2;
+      var capWas = 0, capAt = capLimit(q.measure, q.mode), capHit = false;
+      if (capAt) {
+        capWas = capUsed(q.measure, q.mode);
+        var room = Math.max(0, capAt - capWas);
+        capHit = points >= room;
+        points = Math.min(points, room);
+        capLoad().g[q.measure + "." + q.mode] = capWas + points;
+        capSave();
+      }
       state.score += points;
       state.byMeasure[q.measure] += points;
       noteWeek();
@@ -9974,9 +11062,21 @@
       }
 
       render(true);
-      var msg = pick(["Spot on.", "Exactly right.", "Beautiful.", "That's it."]) +
-                " +" + points;
-      if (mult > 1) msg += " (" + state.streak + " in a row, points ×" + mult + (fullMult > mult ? ", the most this level gives" : "") + ")";
+      var msg = pick(["Spot on.", "Exactly right.", "Beautiful.", "That's it."]);
+      if (capAt && capWas >= capAt) {
+        msg += " No points here until tomorrow: this game is full for today. It still counts for your level, and every other game still scores.";
+      } else {
+        msg += " +" + points;
+        if (mult > 1) msg += " (" + state.streak + " in a row, points ×" + mult + (fullMult > mult ? ", the most this level gives" : "") + ")";
+        if (doubled && points > 0) msg += " Game of the day: double points.";
+        if (capAt && capHit) {
+          msg += " That fills today’s points for this game. Pick another game to keep scoring.";
+          toastQueue.push({ art: "flag", label: "Points full: " + capName(q.measure, q.mode), name: "Try another game to keep scoring today" });
+          if (toastQueue.length === 1) showNextToast();
+        } else if (capAt && capWas < capAt * 0.8 && capWas + points >= capAt * 0.8) {
+          msg += " Nearly at today’s points for this game.";
+        }
+      }
       if (moved) {
         var to = lv[q.mode];
         msg += isStretch(to)
@@ -9993,7 +11093,7 @@
       setVerdict(msg, "good");
       skinCheer(moved);
       playSound(moved ? "up" : "right");
-      flyPoints(points);
+      if (points > 0) flyPoints(points);
       noteForDay("right", q.measure, q.mode);
       checkBadges();
       drawRewards();
@@ -10131,6 +11231,21 @@
       b.querySelector("strong").textContent = g.label;
       b.querySelector("em").textContent = g.blurb;
     });
+    /* A game that has earned all its points today says so on its button, and
+       the game of the day says that. */
+    document.querySelectorAll(".mode").forEach(function (b) {
+      var full = capFull(shown, b.dataset.mode), chip = b.querySelector(".capchip");
+      if (full && !chip) { chip = document.createElement("span"); chip.className = "capchip"; chip.textContent = "Points full today"; b.appendChild(chip); }
+      if (!full && chip) chip.remove();
+      var star = isGotd(shown, b.dataset.mode), gc = b.querySelector(".gotdchip");
+      if (star && !gc) { gc = document.createElement("span"); gc.className = "gotdchip"; gc.textContent = "2\u00d7 today"; b.appendChild(gc); }
+      if (!star && gc) gc.remove();
+    });
+    var gt = gotd();
+    document.querySelectorAll(".measure").forEach(function (b) { b.classList.toggle("gotdtab", !!gt && gt.measure === b.dataset.measure); });
+    var es = document.querySelector('.subject[data-subject="english"]');
+    if (es) es.classList.toggle("gotdtab", !!gt && gt.measure === "english");
+    drawGotd();
 
     /* "Show the gaps" counts the spaces between the lines on a scale. There
        are no lines on the number bench, so the button would be a dead thing
@@ -10834,7 +11949,61 @@
      Every reply from the sheet carries the class's state, and each device also
      asks for it on its own every 20 seconds, which reads two settings and no
      sheet. The teacher's own device is never paused or locked. */
-  var classState = { paused: false, focus: null, season: "auto", pins: false, english: false };
+  var classState = { paused: false, focus: null, season: "auto", pins: false, english: false, cap: 0, spell: [] };
+  /* The class spelling list as the sheet sends it: [word, sentence with ___]. */
+  function cleanSpellList(v) {
+    if (!Array.isArray(v)) return [];
+    var out = [];
+    for (var i = 0; i < v.length && out.length < 40; i++) {
+      var w = Array.isArray(v[i]) ? String(v[i][0] || "") : "";
+      if (!/^[A-Za-z][A-Za-z'\-]{1,23}$/.test(w)) continue;
+      var sn = Array.isArray(v[i]) && typeof v[i][1] === "string" && v[i][1].indexOf("___") > -1 ? v[i][1].slice(0, 140) : "";
+      out.push([w, sn]);
+    }
+    return out;
+  }
+  function cleanVote(v) {
+    if (!v || typeof v !== "object" || !Array.isArray(v.options)) return null;
+    var ok = function (id) { return typeof id === "string" && !!skinById(id); };
+    return { week: String(v.week || ""), options: v.options.filter(ok).slice(0, 3), counts: v.counts && typeof v.counts === "object" ? v.counts : {},
+             total: v.total | 0, won: Array.isArray(v.won) ? v.won.filter(ok) : [], last: v.last && ok(v.last.id) ? { id: v.last.id, votes: v.last.votes | 0 } : null };
+  }
+  function cleanSquads(v) {
+    if (!v || typeof v !== "object" || !Array.isArray(v.teams)) return null;
+    return { week: String(v.week || ""), teams: v.teams.filter(function (t) { return t && Array.isArray(t.members); }).map(function (t) {
+               return { name: String(t.name || "").slice(0, 30), members: t.members.map(function (m) { return String(m).slice(0, 24); }) }; }),
+             last: v.last && Array.isArray(v.last.members) ? { name: String(v.last.name || ""), members: v.last.members.map(String), avg: v.last.avg | 0 } : null };
+  }
+  function votedIn(id) { return !!(classState.vote && classState.vote.won.indexOf(id) > -1); }
+  function classSpell() { return englishOn() && classState.spell ? classState.spell : []; }
+
+  /* Three believable wrong spellings for a word nobody has typed mistakes for:
+     the kinds of slip children actually make, tried in a shuffled order. */
+  function misspell(word) {
+    var w = word.toLowerCase(), out = [], cands = [];
+    function add(x) { if (x && x !== w && x.length > 1 && cands.indexOf(x) < 0) cands.push(x); }
+    var i, m;
+    for (i = 1; i < w.length; i++) if (w[i] === w[i - 1] && /[a-z]/.test(w[i])) add(w.slice(0, i) + w.slice(i + 1));
+    for (i = 1; i < w.length - 1; i++) if (/[bcdfglmnprst]/.test(w[i]) && /[aeiou]/.test(w[i - 1]) && /[aeiouy]/.test(w[i + 1]) && w[i] !== w[i + 1]) { add(w.slice(0, i + 1) + w.slice(i)); break; }
+    if (w.indexOf("ie") > -1) add(w.replace("ie", "ei")); if (w.indexOf("ei") > -1) add(w.replace("ei", "ie"));
+    [["ph", "f"], ["ck", "k"], ["tion", "sion"], ["tion", "shun"], ["sion", "tion"], ["ous", "us"], ["ence", "ance"], ["ance", "ence"], ["ent", "ant"],
+     ["ant", "ent"], ["able", "ible"], ["ible", "able"], ["ight", "ite"], ["ought", "ort"], ["ea", "ee"], ["ee", "ea"], ["ou", "ow"], ["ow", "ou"],
+     ["c", "k"], ["k", "c"], ["kn", "n"], ["wr", "r"], ["mb", "m"], ["gh", ""], ["wh", "w"], ["er", "ur"], ["ir", "er"], ["ure", "er"], ["que", "k"],
+     ["ci", "si"], ["ce", "se"], ["sc", "s"], ["gu", "g"], ["ly", "ley"], ["ful", "full"], ["y", "ey"], ["our", "or"], ["re", "er"],
+     ["sl", "l"], ["mn", "m"], ["stl", "sl"], ["sten", "sen"], ["dge", "ge"], ["tch", "ch"], ["ch", "tch"], ["rh", "r"], ["ps", "s"], ["al", "el"]].forEach(function (r) {
+      if (w.indexOf(r[0]) > -1) add(w.replace(r[0], r[1]));
+    });
+    if (/e$/.test(w) && w.length > 4) add(w.slice(0, -1));
+    var vow = { a: "e", e: "i", i: "e", o: "u", u: "o" };
+    for (i = 1; i < w.length - 1; i++) if (vow[w[i]]) { add(w.slice(0, i) + vow[w[i]] + w.slice(i + 1)); }
+    for (i = 1; i < w.length - 2; i++) add(w.slice(0, i) + w[i + 1] + w[i] + w.slice(i + 2));
+    var first = cands.slice(0, 6), rest = cands.slice(6);
+    first = shuffle(first); rest = shuffle(rest);
+    out = first.concat(rest).slice(0, 3);
+    if (word.charAt(0) !== w.charAt(0)) out = out.map(function (x) { return x.charAt(0).toUpperCase() + x.slice(1); });
+    return out;
+  }
+  window.__misspell = misspell;
   /* English is one switch in the teacher panel, per class. Off until the
      teacher turns it on. Without a class sheet (one iPad on its own) it is on. */
   function englishOn() { return !shared.on || classState.english === true; }
@@ -10843,7 +12012,9 @@
     var was = JSON.stringify(classState);
     classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
-                   english: cs.english === true, by: typeof cs.by === "string" ? cs.by.slice(0, 24) : "" };
+                   english: cs.english === true, by: typeof cs.by === "string" ? cs.by.slice(0, 24) : "",
+                   cap: typeof cs.cap === "number" && cs.cap > 0 ? Math.round(cs.cap) : 0,
+                   spell: cleanSpellList(cs.spell), vote: cleanVote(cs.vote), squads: cleanSquads(cs.squads) };
     if (JSON.stringify(classState) === was && !TEACHER) { lockToFocus(); return; }
     if (!englishOn() && state.measure === "english" && state.name) {
       state.measure = "capacity"; state.mode = "read";
@@ -10856,6 +12027,10 @@
     }
     drawPause();
     lockToFocus();
+    if (JSON.stringify((JSON.parse(was).vote || {}).won || []) !== JSON.stringify((classState.vote || {}).won || [])) {
+      announceVoted();
+      if (state.name) drawRewards();
+    }
     if (TEACHER) drawBoard();
   }
   function drawPause() {
@@ -10900,6 +12075,13 @@
     fetchSheet(CONFIG.SHARED_URL + "?action=status&room=" + encodeURIComponent(CLASS), {}, 12000)
       .then(function () {}, function () {});
   }
+  var spellEdit = false;
+  document.addEventListener("click", function (e) {
+    var g = e.target && e.target.closest ? e.target.closest("#gotd") : null;
+    if (!g) return;
+    var t = gotd();
+    if (t) goTo(t.measure, t.game);
+  });
   function teacherClassAction(body) {
     body.room = CLASS; body.teacher = TEACHER_CODE;
     return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
@@ -11263,6 +12445,8 @@
     var everyone = boardRows(true);
     drawChalBox();
     drawVsBox();
+    drawSquads(everyone);
+    drawVoteBox();
     drawShout(everyone);
 
     var teamBox = document.getElementById("teams");
@@ -11500,7 +12684,7 @@
     var top = 1;
     for (var i = 0; i < v.classes.length; i++) top = Math.max(top, v.classes[i].avg | 0);
     var lead = v.classes[0].avg > 0 && v.classes[0].avg > (v.classes[1].avg | 0) ? v.classes[0].room : "";
-    box.innerHTML = "<h3><span>Class against class</span><small>average of each class\u2019s top half this week</small></h3>" +
+    box.innerHTML = "<h3><span>Class against class</span><small>average of each class\u2019s top 5 this week</small></h3>" +
       v.classes.map(function (c) {
         var mine = String(c.room).toLowerCase() === String(CLASS).toLowerCase();
         return '<div class="vsrow' + (mine ? " mine" : "") + '"><b>' + (c.room === lead ? "🏆 " : "") + esc(c.room) + "</b>" +
@@ -11508,6 +12692,89 @@
                "<span>" + fmtNum(c.avg) + "</span></div>";
       }).join("") +
       (v.last && v.last.room ? '<p class="vslast">Last week: ' + esc(v.last.room) + " won, averaging " + fmtNum(v.last.avg) + ".</p>" : "");
+  }
+
+  /* ---- weekly squads ----
+     The sheet splits the class into squads every Monday. A squad's number is
+     the average of its members' points this week, worked out here from the
+     board. A child who hides their name on the board is hidden here too. */
+  function drawSquads(everyone) {
+    var box = document.getElementById("squadbox");
+    if (!box) return;
+    var sq = shared.on ? classState.squads : null;
+    if (!sq || !sq.teams.length) { box.hidden = true; return; }
+    var wk = weekKey(), byName = {};
+    (everyone || []).forEach(function (r) { byName[String(r.name).toLowerCase()] = r; });
+    var me = String(state.name || "").toLowerCase();
+    var rows = sq.teams.map(function (t) {
+      var sum = 0, shown = [];
+      t.members.forEach(function (m) {
+        var r = byName[m.toLowerCase()];
+        sum += r && r.weekOf === wk ? (r.weekScore | 0) : 0;
+        shown.push(r && r.hidden && m.toLowerCase() !== me ? "a hidden player" : m);
+      });
+      return { name: t.name, avg: t.members.length ? Math.round(sum / t.members.length) : 0, shown: shown,
+               mine: t.members.some(function (m) { return m.toLowerCase() === me; }) };
+    }).sort(function (a, b) { return b.avg - a.avg; });
+    var lead = rows[0].avg > 0 && (rows.length < 2 || rows[0].avg > rows[1].avg) ? rows[0].name : "";
+    box.innerHTML = "<h3><span>This week\u2019s squads</span><small>average points each \u00b7 new squads every Monday</small></h3>" +
+      rows.map(function (t) {
+        return '<div class="squad' + (t.mine ? " mine" : "") + (t.name === lead ? " top" : "") + '"><b>' + (t.name === lead ? "\ud83c\udfc6 " : "") + "The " + esc(t.name) +
+               (t.mine ? " (your squad)" : "") + "</b><span>" + fmtNum(t.avg) + "</span><small>" + esc(t.shown.join(", ")) + "</small></div>";
+      }).join("") +
+      (sq.last ? '<p class="vnote">Last week: the ' + esc(sq.last.name) + " won, averaging " + fmtNum(sq.last.avg) + ".</p>" : "");
+    box.hidden = false;
+  }
+
+  /* ---- the colour vote ----
+     Three colours waiting in the game, one tap to vote. The sheet counts the
+     votes and on Monday the winner is everybody's. Counts show once you have
+     voted, so the first votes are not just following the crowd. */
+  function voteMineKey() { return "juglab.vote." + (classState.vote ? classState.vote.week : "") + "." + CLASS + "." + String(state.name || "").toLowerCase(); }
+  function voteMine() { try { return localStorage.getItem(voteMineKey()) || ""; } catch (e) { return ""; } }
+  function drawVoteBox() {
+    var box = document.getElementById("votebox");
+    if (!box) return;
+    var v = shared.on ? classState.vote : null;
+    if (!v || !v.options.length || !state.name) { box.hidden = true; return; }
+    var mine = voteMine(), seeCounts = !!mine || TEACHER;
+    box.innerHTML = "<h3><span>Vote for next week\u2019s colour</span><small>" + (seeCounts ? v.total + " vote" + (v.total === 1 ? "" : "s") + " so far \u00b7 " : "") + "the winner arrives Monday</small></h3>" +
+      '<div class="voteopts">' + v.options.map(function (id) {
+        var sk = skinById(id), n = v.counts[id] | 0;
+        return '<button type="button" class="voteopt' + (mine === id ? " mine" : "") + '" data-vote="' + id + '"' + (TEACHER ? " disabled" : "") + '>' +
+               '<span class="sw sw-' + id + '"></span>' + esc(sk.name) + (seeCounts ? "<small>" + n + " vote" + (n === 1 ? "" : "s") + "</small>" : "") +
+               (mine === id ? "<small>your vote</small>" : "") + "</button>";
+      }).join("") + "</div>" +
+      (v.last ? '<p class="vnote">Last week\u2019s winner: ' + esc(skinById(v.last.id).name) + ". It is in everyone\u2019s colours now.</p>" : "");
+    box.hidden = false;
+    box.querySelectorAll("[data-vote]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-vote");
+        if (voteMine() === id) return;
+        box.querySelectorAll("[data-vote]").forEach(function (x) { x.disabled = true; });
+        fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action: "vote", room: CLASS, name: state.name, choice: id, pin: state.pin || "", pinv: 1 }) })
+          .then(function (d) {
+            if (d && d.ok && d.vote) {
+              try { localStorage.setItem(voteMineKey(), id); } catch (e) { /* blocked */ }
+              var keep = classState.vote; classState.vote = cleanVote(d.vote) || keep;
+            }
+            drawVoteBox();
+          }, function () { drawVoteBox(); });
+      });
+    });
+  }
+  /* A colour the school voted in, said once on each iPad. */
+  function announceVoted() {
+    var v = classState.vote;
+    if (!v || !v.won.length || !state.name) return;
+    var seen = [];
+    try { seen = JSON.parse(localStorage.getItem("juglab.votedseen") || "[]") || []; } catch (e) { seen = []; }
+    var fresh = v.won.filter(function (id) { return seen.indexOf(id) < 0; });
+    if (!fresh.length) return;
+    try { localStorage.setItem("juglab.votedseen", JSON.stringify(v.won)); } catch (e2) { /* blocked */ }
+    if (!seen.length && v.won.length > 1) return;           // first visit: no flood of old news
+    announce(fresh.map(function (id) { return { art: "star", label: "Voted in: a new colour", name: skinById(id).name + " is in your colours now" }; }));
   }
 
   /* ---- the profile card ----
@@ -11669,9 +12936,9 @@
       '<h2 class="rc-h">Levels reached</h2>' +
       '<p class="rc-key">Each game has 8 levels. Bold means the child has finished that ladder. S1 to S6 are stretch levels, Year 5 and 6 work and beyond.</p>' +
       '<table class="rc-table">' + head + body + "</table>" +
-      (CORE_GAMES.some(function (g) { return safeLevel((levels.english || {})[g]) > 1 || (row.scores && row.scores.english > 0); })
-        ? '<table class="rc-table"><tr><th>English</th>' + CORE_GAMES.map(function (g) { return "<th>" + esc(gameLabel("english", g).label) + "</th>"; }).join("") + "</tr><tr><td>Level</td>" +
-          CORE_GAMES.map(function (g) { var l = safeLevel((levels.english || {})[g]); return "<td" + (l >= MAX_LEVEL ? ' class="top"' : "") + ">" + rcLevel(l) + "</td>"; }).join("") + "</tr></table>" : "") +
+      (ENG_GAMES.some(function (g) { return safeLevel((levels.english || {})[g]) > 1 || (row.scores && row.scores.english > 0); })
+        ? '<table class="rc-table"><tr><th>English</th>' + ENG_GAMES.map(function (g) { return "<th>" + esc(gameLabel("english", g).label) + "</th>"; }).join("") + "</tr><tr><td>Level</td>" +
+          ENG_GAMES.map(function (g) { var l = safeLevel((levels.english || {})[g]); return "<td" + (l >= MAX_LEVEL ? ' class="top"' : "") + ">" + rcLevel(l) + "</td>"; }).join("") + "</tr></table>" : "") +
       (best ? '<p class="rc-p"><b>Strongest:</b> ' + esc(best.label) + " (level " + rcLevel(best.lv) + ")." +
         (low && low.lv < MAX_LEVEL ? " <b>Next step:</b> " + esc(low.label) + " (level " + rcLevel(low.lv) + ")." : "") + "</p>" : "") +
       '<p class="rc-p"><b>Badges:</b> ' + got.length + " of " + badgeTotal() + (names.length ? " (" + esc(names.slice(-8).join(", ")) + (names.length > 8 ? " and more" : "") + ")" : "") + "." +
@@ -11855,6 +13122,20 @@
           '<div><b>English.</b> ' + (classState.english
             ? 'On. <button type="button" class="linky" id="tc-eng" data-on="0">Turn English off</button>'
             : 'Off. <button type="button" class="linky" id="tc-eng" data-on="1">Turn English on</button>') + "</div>" +
+          '<div><b>Points per game each day.</b> <select id="tc-cap">' +
+            [[0, "No limit"], [1000, "1,000"], [1500, "1,500 (suggested)"], [2500, "2,500"], [4000, "4,000"]].concat(
+              [1000, 1500, 2500, 4000, 0].indexOf(classState.cap | 0) < 0 ? [[classState.cap, fmtNum(classState.cap)]] : []).map(function (o) {
+              return '<option value="' + o[0] + '"' + ((classState.cap | 0) === o[0] ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") +
+            '</select> <span class="tc-note">After that a game still plays, for practice, but scores nothing until tomorrow.</span></div>' +
+          '<div><b>Spelling list.</b> ' + (classState.spell && classState.spell.length
+              ? classState.spell.length + " word" + (classState.spell.length === 1 ? "" : "s") + ": " + esc(classState.spell.slice(0, 8).map(function (x) { return x[0]; }).join(", ")) + (classState.spell.length > 8 ? "…" : "") + ". "
+              : "None yet. ") +
+            '<button type="button" class="linky" id="tc-spell">' + (spellEdit ? "Close" : classState.spell && classState.spell.length ? "Change the list" : "Add this week\u2019s words") + "</button>" +
+            (classState.english ? "" : ' <span class="tc-note">English is off, so nobody will see them yet.</span>') +
+            (spellEdit ? '<textarea class="tc-spell" id="tc-spelltext" spellcheck="false" autocapitalize="off" aria-label="This week\u2019s spelling words" placeholder="One word on each line. Add a sentence after a dash if you like:&#10;island - We sailed to the island.&#10;knight - The ___ rode a white horse.">' +
+                esc((classState.spell || []).map(function (x) { return x[0] + (x[1] ? " - " + x[1] : ""); }).join("\n")) + "</textarea>" +
+                '<button type="button" class="linky" id="tc-spellsave">Save the list</button> <button type="button" class="linky" id="tc-spellclear">Clear it</button> ' +
+                '<span class="tc-note">Up to 40 words. They come up in about half of the Spelling questions, at every level.</span>' : "") + "</div>" +
           '<div><b>PINs.</b> ' + (classState.pins
             ? 'On. To reset one, tap the child on the board. <button type="button" class="linky" id="tc-pins" data-on="0">Turn PINs off</button>'
             : 'Off. <button type="button" class="linky" id="tc-pins" data-on="1">Turn PINs on</button>') + "</div>" +
@@ -11936,6 +13217,21 @@
       tse.disabled = true;
       teacherClassAction({ action: "season", season: tse.value }).then(function () { drawBoard(); }, function () { tse.disabled = false; });
     });
+    var tcap = document.getElementById("tc-cap");
+    if (tcap) tcap.addEventListener("change", function () {
+      tcap.disabled = true;
+      teacherClassAction({ action: "cap", cap: tcap.value }).then(function () { drawBoard(); }, function () { tcap.disabled = false; });
+    });
+    var tsp = document.getElementById("tc-spell");
+    if (tsp) tsp.addEventListener("click", function () { spellEdit = !spellEdit; drawBoard(); });
+    var saveSpell = function (text, btn) {
+      btn.disabled = true;
+      teacherClassAction({ action: "spelllist", words: text }).then(function () { spellEdit = false; drawBoard(); }, function () { btn.disabled = false; });
+    };
+    var tss = document.getElementById("tc-spellsave");
+    if (tss) tss.addEventListener("click", function () { saveSpell(document.getElementById("tc-spelltext").value, tss); });
+    var tsc = document.getElementById("tc-spellclear");
+    if (tsc) tsc.addEventListener("click", function () { saveSpell("", tsc); });
     var ten = document.getElementById("tc-eng");
     if (ten) ten.addEventListener("click", function () {
       ten.disabled = true;
@@ -12625,7 +13921,7 @@
       test: function (s) { return s.lifeDone; } },
     { id: "duellist",   art: "flag",  name: "Duellist", want: "Win 10 duels",
       test: function (s) { return s.duelWins >= 10; } },
-    { id: "wordsmith",  art: "star",  name: "Wordsmith", want: "Reach level 8 in every English game", eng: true,
+    { id: "wordsmith",  art: "star",  name: "Wordsmith", want: "Reach level 8 in Spelling, Punctuation, Vocabulary, Reading and Right word", eng: true,
       test: function (s) { return s.engDone; } }
   ];
   /* English badges only count, and only show, in a class that has English on. */
@@ -12898,6 +14194,14 @@
     { id: "balloon",   name: "Hot Air Balloon", need: "summit",     how: "Summit badge" },
     { id: "dino",      name: "Dinosaur Dig",    need: "top12",      how: "Deep stretch badge" },
     { id: "shadow",    name: "Shadow Theatre",  need: "wordsmith",  how: "Wordsmith badge", eng: true },
+    /* Waiting for the weekly vote. Each one stays hidden until the school votes
+       it in, then it is everybody's. The sheet holds the queue. */
+    { id: "watermelon",  name: "Watermelon",     vote: true }, { id: "mintchoc",  name: "Mint Choc Chip", vote: true },
+    { id: "lavalamp",    name: "Lava Lamp",      vote: true }, { id: "koi",       name: "Koi Pond",       vote: true },
+    { id: "candystripe", name: "Candy Stripe",   vote: true }, { id: "jellyfish", name: "Jellyfish",      vote: true },
+    { id: "snowglobe",   name: "Snow Globe",     vote: true }, { id: "camo",      name: "Camouflage",     vote: true },
+    { id: "fireworks",   name: "Fireworks",      vote: true }, { id: "marble",    name: "Marble",         vote: true },
+    { id: "denim",       name: "Denim",          vote: true }, { id: "tropical",  name: "Tropical Leaves", vote: true },
     { id: "dragon", name: "Dragon Hoard", need: "lvl14", how: "Everything at the top badge", legendary: true },
     /* Seasonal: open to everyone while the season lasts, then gone until next
        year. Party comes to the whole class for beating the class challenge. */
@@ -12959,6 +14263,7 @@
   function seasonOn(id) { return activeSeasons().indexOf(id) > -1; }
   function partyOn() { return !!(shared.chal && shared.chal.party); }
   function skinEarned(skin) {
+    if (skin.vote) return votedIn(skin.id);
     if (skin.season) return seasonOn(skin.season);
     if (skin.party) return partyOn();
     if (skin.need) return hasBadge(skin.need);
@@ -12989,6 +14294,7 @@
     if (TEACHER) return true;
     if (skin.season) return seasonOn(skin.season);
     if (skin.party) return partyOn();
+    if (skin.vote) return votedIn(skin.id);
     if (skin.need) return hasBadge(skin.need);
     if (skin.jars) return classProgress().filled >= skin.jars;
     return state.badges.length >= skin.at;
@@ -13220,11 +14526,10 @@
 
     var shelf = document.getElementById("trophies");
     if (shelf) {
-      var cups = "";
-      for (var t = 0; t < Math.min(12, g.filled); t++) {
-        cups += avatarArt("trophy", "cup") + '<b>' + (t + 1) + '</b>';
-      }
-      shelf.innerHTML = cups;
+      /* One cup and a count. A cup for every jar was lovely at three and
+         unreadable at twelve, wrapping onto a second line under the jar. */
+      shelf.innerHTML = avatarArt("trophy", "cup") + '<b class="tcount">× ' + g.filled + '</b>' +
+                        '<span class="tlabel">' + (g.filled === 1 ? "jar filled" : "jars filled") + '</span>';
       shelf.hidden = !g.filled;
     }
 
@@ -13291,8 +14596,9 @@
     for (var k = 0; k < SKINS.length; k++) {   // g is the class jug, read above
       var sk = SKINS[k], open = skinUnlocked(sk);
       if (sk.eng && !englishOn()) continue;
-      var earned = sk.season || sk.party ? skinEarned(sk) : sk.need ? hasBadge(sk.need) : sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
-      var how = sk.season || sk.party || sk.need ? sk.how : sk.jars ? jarWord(sk.jars) : sk.at + " badges";
+      if (sk.vote && !votedIn(sk.id) && !TEACHER) continue;
+      var earned = sk.vote ? votedIn(sk.id) : sk.season || sk.party ? skinEarned(sk) : sk.need ? hasBadge(sk.need) : sk.jars ? (g.filled >= sk.jars) : (state.badges.length >= sk.at);
+      var how = sk.vote ? "Waiting for a vote" : sk.season || sk.party || sk.need ? sk.how : sk.jars ? jarWord(sk.jars) : sk.at + " badges";
       var chip = '<button class="skin' + (open ? "" : " locked") +
                (open && !earned ? " teacheronly" : "") +
                (sk.jars ? " jarchip" : "") + (sk.need ? " badgechip" : "") + (sk.season || sk.party ? " seasonchip" : "") + (sk.legendary ? " legendary" : "") +
