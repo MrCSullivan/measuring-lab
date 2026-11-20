@@ -8704,7 +8704,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "98";
+  var GAME_VERSION = "99";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -14932,6 +14932,7 @@
     if (data && data.ok && Array.isArray(data.rows)) {
       shared.rows = data.rows;
       shared.loaded = true;
+      shared.pulledAt = Date.now();
       shared.status = "";
       shared.why = "";
       shared.tries = 0;
@@ -19038,7 +19039,7 @@
     if (runNote) setVerdict(runNote, "");
 
     if (shared.on) {
-      pullShared(true).then(function () {
+      (shared.loaded && Date.now() - (shared.pulledAt || 0) < 8000 ? Promise.resolve() : pullShared(true)).then(function () {
         if (!state.resuming || state.name !== name) return;
         var was = level();
         applyRestore(restoreFor(name));
