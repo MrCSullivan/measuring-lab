@@ -9,12 +9,13 @@
 
   Change the version below whenever index.html changes, so iPads drop the old copy.
 */
-var CACHE = "measuring-lab-v69";
+var CACHE = "measuring-lab-v83";
 var FILES = [
   "./", "index.html", "config.js", "manifest.webmanifest",
   "icon-192.png", "icon-512.png", "apple-touch-icon.png",
   "fonts.css", "karla-latin-400-normal.woff2", "karla-latin-600-normal.woff2",
-  "karla-latin-700-normal.woff2", "fraunces-latin-opsz-normal.woff2"
+  "karla-latin-700-normal.woff2", "fraunces-latin-opsz-normal.woff2",
+  "outfit-latin-wght-normal.woff2", "dm-sans-latin-wght-normal.woff2"
 ];
 
 self.addEventListener("install", function (e) {
