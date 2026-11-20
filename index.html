@@ -593,9 +593,9 @@
   }
 
   .glass  { fill: none; stroke: var(--water); stroke-width: 3; stroke-linejoin: round; }
-  .rim    { fill: none; stroke: var(--water); stroke-width: 1.6; }
+  
   .liquid { fill: var(--water-fill); }
-  .sheen  { fill: var(--water-lite); }
+  
   .grad   { stroke: var(--water); stroke-width: 2; opacity: .8; }
   /* The thermometer. The red is a real red rather than the instrument colour,
      because a thermometer that is the same blue as a jug is a jug, and because
@@ -617,8 +617,7 @@
   /* While the child is setting it, the answer box shows what they have chosen
      rather than taking typing. It is still a real input, so the value still
      reaches Check the way every other game's answer does. */
-  .bench.setting + .words .box input,
-  .answer.readonly { background: var(--card); color: var(--water-deep); font-weight: 800; }
+  .bench.setting + .words .box input { background: var(--card); color: var(--water-deep); font-weight: 800; }
   .lab    { font-family: Karla, sans-serif; font-weight: 700; font-size: 17px; fill: var(--water-deep); font-variant-numeric: tabular-nums; }
   .lab.q  { fill: var(--ink-faint); }
   .lab.target { fill: var(--zest); }
@@ -1310,12 +1309,7 @@
     --leaf: #6BFFB0; --leaf-soft: #0E2C1F;
     --shadow: 0 1px 2px rgba(0,0,0,.6), 0 14px 34px -14px rgba(24,224,255,.45);
   }
-  body[data-skin="neon"] .glass,
-  body[data-skin="neon"] .rim,
-  body[data-skin="neon"] .grad,
-  body[data-skin="neon"] .dialtrack,
-  body[data-skin="neon"] .rulerbody,
-  body[data-skin="neon"] .face { animation: neonline 4.5s linear infinite;
+  body[data-skin="neon"] .glass, body[data-skin="neon"] .grad, body[data-skin="neon"] .dialtrack, body[data-skin="neon"] .rulerbody, body[data-skin="neon"] .face { animation: neonline 4.5s linear infinite;
                                  filter: drop-shadow(0 0 5px currentColor); }
   body[data-skin="neon"] .liquid,
   body[data-skin="neon"] .ribbon,
@@ -1583,11 +1577,7 @@
     { background: rgba(255,255,255,.28); }
 
   @media (prefers-reduced-motion: reduce) {
-    body[data-skin="neon"] .glass, body[data-skin="neon"] .rim,
-    body[data-skin="neon"] .grad, body[data-skin="neon"] .dialtrack,
-    body[data-skin="neon"] .rulerbody, body[data-skin="neon"] .face,
-    body[data-skin="neon"] .liquid, body[data-skin="neon"] .ribbon,
-    body[data-skin="neon"] .dialfill { animation: none !important; }
+    body[data-skin="neon"] .glass, body[data-skin="neon"] .grad, body[data-skin="neon"] .dialtrack, body[data-skin="neon"] .rulerbody, body[data-skin="neon"] .face, body[data-skin="neon"] .liquid, body[data-skin="neon"] .ribbon, body[data-skin="neon"] .dialfill { animation: none !important; }
   }
 
   body.display .rewards, body.display .toast { display: none !important; }
@@ -1762,7 +1752,7 @@
   body[data-skin="blueprint"] .stage, body[data-skin="blueprint"] #board {
     background-image: linear-gradient(rgba(143,199,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(143,199,255,.06) 1px, transparent 1px);
     background-size: 24px 24px; }
-  body[data-skin="blueprint"] .glass, body[data-skin="blueprint"] .rim, body[data-skin="blueprint"] .rulerbody, body[data-skin="blueprint"] .face, body[data-skin="blueprint"] .dialtrack { stroke: #EAF4FF; filter: drop-shadow(3px 3px 0 rgba(143,199,255,.35)); }
+  body[data-skin="blueprint"] .glass, body[data-skin="blueprint"] .rulerbody, body[data-skin="blueprint"] .face, body[data-skin="blueprint"] .dialtrack { stroke: #EAF4FF; filter: drop-shadow(3px 3px 0 rgba(143,199,255,.35)); }
   body[data-skin="blueprint"] .grad { stroke: #EAF4FF; }
   body[data-skin="blueprint"] .liquid { fill: url(#sk-bp); }
   body[data-skin="blueprint"] .dialfill { stroke: url(#sk-bp); }
@@ -1779,8 +1769,7 @@
      behind the dial, and each new question pops in like the next panel. */
   body[data-skin="comic"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Ccircle cx=%224%22 cy=%224%22 r=%222.1%22 fill=%22rgba%28232,38,43,.13%29%22/%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%222.1%22 fill=%22rgba%28232,38,43,.13%29%22/%3E%3C/svg%3E"); background-size: 16px 16px; }
   body[data-skin="comic"] .stage, body[data-skin="comic"] #board { box-shadow: 0 0 0 3px #111, 7px 7px 0 3px #111; }
-  body[data-skin="comic"] .glass, body[data-skin="comic"] .rim, body[data-skin="comic"] .rulerbody, body[data-skin="comic"] .face, body[data-skin="comic"] .dialtrack
-    { stroke: #111; stroke-width: 4.5; stroke-linejoin: round; filter: drop-shadow(3px 3px 0 #FFD400); }
+  body[data-skin="comic"] .glass, body[data-skin="comic"] .rulerbody, body[data-skin="comic"] .face, body[data-skin="comic"] .dialtrack { stroke: #111; stroke-width: 4.5; stroke-linejoin: round; filter: drop-shadow(3px 3px 0 #FFD400); }
   body[data-skin="comic"] .dialtrack { stroke-width: 6; }
   body[data-skin="comic"] .face { fill: url(#sk-burst); }
   body[data-skin="comic"] .rulerbody { fill: #FFFFFF; }
@@ -1813,12 +1802,11 @@
   body[data-skin="chalk"] .stage, body[data-skin="chalk"] #board {
     box-shadow: inset 0 0 0 5px #7A5530, inset 0 0 0 6px #4A3119, 0 2px 0 #3A2412;
     background-image: radial-gradient(40% 30% at 30% 20%, rgba(255,255,255,.045), transparent 70%), radial-gradient(35% 25% at 75% 80%, rgba(255,255,255,.035), transparent 70%); }
-  body[data-skin="chalk"] .glass, body[data-skin="chalk"] .rim, body[data-skin="chalk"] .rulerbody, body[data-skin="chalk"] .face, body[data-skin="chalk"] .dialtrack { stroke: #F4F1E8; filter: url(#sk-chalk); }
+  body[data-skin="chalk"] .glass, body[data-skin="chalk"] .rulerbody, body[data-skin="chalk"] .face, body[data-skin="chalk"] .dialtrack { stroke: #F4F1E8; filter: url(#sk-chalk); }
   body[data-skin="chalk"] .grad { stroke: #F4F1E8; }
   body[data-skin="chalk"] .liquid { fill: url(#sk-chalkfill); }
   body[data-skin="chalk"] .dialfill { stroke: url(#sk-chalkfill); }
-  body.lowfx[data-skin="chalk"] .glass, body.lowfx[data-skin="chalk"] .rim, body.lowfx[data-skin="chalk"] .rulerbody,
-  body.lowfx[data-skin="chalk"] .face, body.lowfx[data-skin="chalk"] .dialtrack { filter: url(#sk-chalk-still); }
+  body.lowfx[data-skin="chalk"] .glass, body.lowfx[data-skin="chalk"] .rulerbody, body.lowfx[data-skin="chalk"] .face, body.lowfx[data-skin="chalk"] .dialtrack { filter: url(#sk-chalk-still); }
   .sw-chalk { background: radial-gradient(circle at 30% 35%, rgba(255,255,255,.35) 0 12%, transparent 14%), #24342C; box-shadow: inset 0 0 0 3px #7A5530 !important; }
 
   body[data-skin="circuit"] { --paper: #050A06; --card: #0C150E; --card-sunk: #08100A; --edge: #1E4A2A;
@@ -1851,7 +1839,7 @@
   body[data-skin="stained"] .stage, body[data-skin="stained"] #board {
     background-image: radial-gradient(40% 50% at 12% 0%, rgba(179,32,63,.08), transparent 70%), radial-gradient(40% 50% at 50% 0%, rgba(224,162,43,.10), transparent 70%), radial-gradient(40% 50% at 88% 0%, rgba(36,87,184,.08), transparent 70%); }
   body[data-skin="stained"] .glass, body[data-skin="stained"] .rulerbody, body[data-skin="stained"] .face, body[data-skin="stained"] .dialtrack { stroke: #2A2320; stroke-width: 4; filter: drop-shadow(0 2px 3px rgba(42,30,20,.25)); }
-  body[data-skin="stained"] .rim { stroke: #2A2320; }
+  
   body[data-skin="stained"] .grad { stroke: #2A1E14; stroke-width: 2.6; }
   body[data-skin="stained"] .liquid { fill: url(#sk-glass); }
   body[data-skin="stained"] .dialfill { stroke: url(#sk-glass); }
@@ -2023,7 +2011,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 40%22%3E%3Cpath d=%22M6 8L114 2L116 30L4 36Z%22 fill=%22rgba%28246,214,110,.62%29%22/%3E%3Cpath d=%22M6 8L4 36M114 2L116 30%22 stroke=%22rgba%28200,160,60,.35%29%22 stroke-width=%222%22 stroke-dasharray=%222 2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 40%22%3E%3Cpath d=%22M4 3L116 9L113 37L6 31Z%22 fill=%22rgba%28160,206,232,.6%29%22/%3E%3Cpath d=%22M4 3L6 31M116 9L113 37%22 stroke=%22rgba%2890,140,170,.35%29%22 stroke-width=%222%22 stroke-dasharray=%222 2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.9%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .09 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E"); background-repeat: no-repeat, no-repeat, repeat;
     background-position: 18px 0, calc(100% - 18px) 0, 0 0; background-size: 104px 32px, 104px 32px, 200px 200px;
     box-shadow: 0 1px 0 #E2D7BE, 2px 8px 16px -10px rgba(60,50,30,.45); }
-  body[data-skin="sketch"] .glass, body[data-skin="sketch"] .rim, body[data-skin="sketch"] .rulerbody, body[data-skin="sketch"] .face, body[data-skin="sketch"] .dialtrack { stroke: #2B2B31; filter: url(#sk-pencil); }
+  body[data-skin="sketch"] .glass, body[data-skin="sketch"] .rulerbody, body[data-skin="sketch"] .face, body[data-skin="sketch"] .dialtrack { stroke: #2B2B31; filter: url(#sk-pencil); }
   body[data-skin="sketch"] .dialtrack { stroke: #77757A; stroke-width: 3.5; }
   body[data-skin="sketch"] .grad { stroke: #2B2B31; }
   body[data-skin="sketch"] .liquid { fill: url(#sk-wash); }
@@ -2031,8 +2019,7 @@
   body[data-skin="sketch"] .needle { stroke: #C0362C; }
   body[data-skin="sketch"] button.action:not(.ghost) { border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px; border: 2px solid #8E2620; }
   body[data-skin="sketch"] button.action.ghost { border-radius: 225px 14px 255px 14px / 14px 255px 14px 225px; border: 1.5px solid #6C685E; }
-  body.lowfx[data-skin="sketch"] .glass, body.lowfx[data-skin="sketch"] .rim, body.lowfx[data-skin="sketch"] .rulerbody,
-  body.lowfx[data-skin="sketch"] .face, body.lowfx[data-skin="sketch"] .dialtrack { filter: url(#sk-pencil-still); }
+  body.lowfx[data-skin="sketch"] .glass, body.lowfx[data-skin="sketch"] .rulerbody, body.lowfx[data-skin="sketch"] .face, body.lowfx[data-skin="sketch"] .dialtrack { filter: url(#sk-pencil-still); }
   .sw-sketch { background: repeating-linear-gradient(45deg, transparent 0 3px, rgba(43,43,49,.55) 3px 4px), radial-gradient(circle at 40% 40%, #9DB4E8, #D9E2F5 70%); }
 
   body[data-skin="stitch"] { --paper: #E6DBC5; --card: #FBF6EA; --card-sunk: #F4ECDB; --edge: #CDBE9E;
@@ -2049,8 +2036,7 @@
     box-shadow: inset 0 0 0 14px var(--card), inset 0 0 0 15.5px rgba(224,162,43,.75), 0 6px 16px -10px rgba(60,40,20,.4);
     background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Cg fill=%22none%22 stroke-linecap=%22round%22 stroke-width=%222.2%22%3E%3Cpath d=%22M29.0 20.0l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 28.6l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 25.3l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M12.7 14.7l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M22.8 11.4l3 3m0-3l-3 3%22 stroke=%22%23C2485A%22/%3E%3Cpath d=%22M19 19l2 2m0-2l-2 2%22 stroke=%22%23E0A22B%22/%3E%3Cpath d=%22M6 34l4-4m0 4l-4-4M12 36l3-3m0 3l-3-3%22 stroke=%22%233F7A4E%22/%3E%3C/g%3E%3C/svg%3E"); background-repeat: no-repeat;
     background-size: 30px 30px; background-position: 18px 18px, calc(100% - 18px) 18px, 18px calc(100% - 18px), calc(100% - 18px) calc(100% - 18px); }
-  body[data-skin="stitch"] .glass, body[data-skin="stitch"] .rim, body[data-skin="stitch"] .rulerbody, body[data-skin="stitch"] .dialtrack
-    { stroke: url(#sk-thread); stroke-width: 4; stroke-dasharray: 8 4; stroke-linecap: round; filter: drop-shadow(0 1.4px 0 rgba(60,20,25,.5)); }
+  body[data-skin="stitch"] .glass, body[data-skin="stitch"] .rulerbody, body[data-skin="stitch"] .dialtrack { stroke: url(#sk-thread); stroke-width: 4; stroke-dasharray: 8 4; stroke-linecap: round; filter: drop-shadow(0 1.4px 0 rgba(60,20,25,.5)); }
   body[data-skin="stitch"] .glass.spout, body[data-skin="stitch"] .glass.bulb { stroke-dasharray: none; }
   body[data-skin="stitch"] .dialtrack { stroke-width: 3; }
   body[data-skin="stitch"] .face { stroke: url(#sk-hoop); stroke-width: 9; filter: drop-shadow(0 2px 2px rgba(70,40,15,.45)); }
@@ -2077,15 +2063,14 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 26%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M0 0H120V4L114 4 110 20 106 4 96 4 93 13 90 4 78 4 74 24 70 4 58 4 55 11 52 4 40 4 37 18 34 4 22 4 19 9 16 4 6 4 3 15 0 4Z%22 fill=%22%23DDF1FB%22 stroke=%22%237FBFDF%22 stroke-width=%221.4%22/%3E%3Cpath d=%22M110 20L108 8M74 24L72 8M37 18L35 8%22 stroke=%22%23fff%22 stroke-width=%221.2%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 220 220%22%3E%3Cg stroke=%22%23FFFFFF%22 stroke-linecap=%22round%22 fill=%22none%22 opacity=%22.95%22%3E%3Cpath d=%22M0 110 Q60 80 120 30%22 stroke-width=%222%22/%3E%3Cpath d=%22M20 95 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M20 95 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M40 79 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M60 64 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M80 49 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M100 33 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 170 Q68 140 130 90%22 stroke-width=%222%22/%3E%3Cpath d=%22M22 155 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M22 155 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M43 139 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M65 124 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M87 109 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M108 93 l17 -3%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M0 220 Q76 190 140 140%22 stroke-width=%222%22/%3E%3Cpath d=%22M23 205 l9 -11%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M23 205 l13 1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l10 -12%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M47 189 l14 0%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l11 -13%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M70 174 l15 -1%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l12 -14%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M93 159 l16 -2%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l13 -15%22 stroke-width=%221.2%22/%3E%3Cpath d=%22M117 143 l17 -3%22 stroke-width=%221.2%22/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat-x, no-repeat, no-repeat;
     background-size: 120px 30px, 200px 200px, 200px 200px; background-position: 0 0, left bottom, right bottom;
     box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9), 0 10px 24px -14px rgba(20,102,142,.55); }
-  body[data-skin="ice"] .glass, body[data-skin="ice"] .rim, body[data-skin="ice"] .rulerbody, body[data-skin="ice"] .face, body[data-skin="ice"] .dialtrack { stroke: #5AA6CC; filter: url(#sk-frost); }
+  body[data-skin="ice"] .glass, body[data-skin="ice"] .rulerbody, body[data-skin="ice"] .face, body[data-skin="ice"] .dialtrack { stroke: #5AA6CC; filter: url(#sk-frost); }
   body[data-skin="ice"] .glass.bulb { filter: none; }
   body[data-skin="ice"] .grad { stroke: #0B4A69; }
   body[data-skin="ice"] .liquid { fill: url(#sk-ice); }
   body[data-skin="ice"] .dialfill { stroke: url(#sk-ice); stroke-width: 12; }
   body[data-skin="ice"] button.action:not(.ghost) { background: linear-gradient(180deg, #8A62DA, #5B33B2); box-shadow: inset 0 1px 0 rgba(255,255,255,.55), 0 0 0 1px #4A2896, 0 4px 12px -4px rgba(106,63,194,.6); }
   body[data-skin="ice"] button.action.ghost { background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(228,243,250,.9)); box-shadow: inset 0 1px 0 #fff; }
-  body.lowfx[data-skin="ice"] .glass, body.lowfx[data-skin="ice"] .rim, body.lowfx[data-skin="ice"] .rulerbody,
-  body.lowfx[data-skin="ice"] .face, body.lowfx[data-skin="ice"] .dialtrack { filter: url(#sk-frost-still); }
+  body.lowfx[data-skin="ice"] .glass, body.lowfx[data-skin="ice"] .rulerbody, body.lowfx[data-skin="ice"] .face, body.lowfx[data-skin="ice"] .dialtrack { filter: url(#sk-frost-still); }
   body.lowfx[data-skin="ice"] .glass.bulb { filter: none; }
   body.lowfx[data-skin="ice"] .liquid { fill: url(#sk-ice-still); }
   .sw-ice { background: linear-gradient(135deg, #FFFFFF 10%, #CBE7F4 40%, #8CC7E3 52%, #E4F3FA 60%, #FFFFFF); box-shadow: inset 0 0 0 1.5px #8CC7E3 !important; }
@@ -2109,7 +2094,7 @@
   body[data-skin="sign"] .stage, body[data-skin="sign"] #board {
     background-color: rgba(18,10,12,.94); background-image: radial-gradient(circle at 14px 14px, #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at calc(100% - 14px) 14px, #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at 14px calc(100% - 14px), #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px), radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #8C8C94 0 3px, #3A3A40 3.5px, transparent 4.5px);
     box-shadow: 0 0 0 1px #3A242C, 0 0 40px -6px rgba(255,79,163,.28), 0 16px 36px -12px rgba(0,0,0,.9); }
-  body[data-skin="sign"] .glass, body[data-skin="sign"] .rim, body[data-skin="sign"] .rulerbody, body[data-skin="sign"] .face, body[data-skin="sign"] .dialtrack { stroke: #FF4FA3; stroke-width: 4; stroke-linecap: round; filter: url(#sk-neon);
+  body[data-skin="sign"] .glass, body[data-skin="sign"] .rulerbody, body[data-skin="sign"] .face, body[data-skin="sign"] .dialtrack { stroke: #FF4FA3; stroke-width: 4; stroke-linecap: round; filter: url(#sk-neon);
     animation: signon .9s steps(1) 1, signbuzz 7s steps(1) 1.5s infinite; }
   body[data-skin="sign"] .grad { stroke: #5EF2FF; stroke-width: 3; filter: url(#sk-neon); animation: signon 1.1s steps(1) 1; }
   body[data-skin="sign"] .face, body[data-skin="sign"] .rulerbody { fill: none; }
@@ -2121,8 +2106,7 @@
   @keyframes signbuzz { 0%, 70%, 72%, 74%, 100% { opacity: 1; } 71%, 73% { opacity: .45; } }
   body[data-skin="sign"] button.action:not(.ghost) { box-shadow: 0 0 0 2px #B8F9FF, 0 0 14px 2px rgba(94,242,255,.6); }
   body[data-skin="sign"] button.action.ghost { border: 1.5px solid #FF4FA3; box-shadow: 0 0 8px rgba(255,79,163,.45), inset 0 0 6px rgba(255,79,163,.25); }
-  body.lowfx[data-skin="sign"] .glass, body.lowfx[data-skin="sign"] .rim, body.lowfx[data-skin="sign"] .grad, body.lowfx[data-skin="sign"] .rulerbody,
-  body.lowfx[data-skin="sign"] .face, body.lowfx[data-skin="sign"] .dialtrack { animation: none; }
+  body.lowfx[data-skin="sign"] .glass, body.lowfx[data-skin="sign"] .grad, body.lowfx[data-skin="sign"] .rulerbody, body.lowfx[data-skin="sign"] .face, body.lowfx[data-skin="sign"] .dialtrack { animation: none; }
   .sw-sign { background: radial-gradient(circle, #FFD6EA 0 18%, #FF4FA3 30%, #3A1428 62%), #18100F; box-shadow: 0 0 6px #FF4FA3 !important; }
 
   body[data-skin="arcade"] { --paper: #05030D; --card: #0B0720; --card-sunk: #080517; --edge: #2C2266;
@@ -2146,7 +2130,7 @@
   body[data-skin="arcade"] .stage, body[data-skin="arcade"] #board {
     background-image: repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 3px), radial-gradient(120% 120% at 50% 50%, transparent 60%, rgba(0,0,0,.55));
     box-shadow: inset 0 0 0 2px #2C2266, inset 0 0 50px rgba(0,229,255,.10), 0 0 0 4px #120C2E, 0 0 24px rgba(0,229,255,.18); }
-  body[data-skin="arcade"] .glass, body[data-skin="arcade"] .rim, body[data-skin="arcade"] .rulerbody, body[data-skin="arcade"] .face, body[data-skin="arcade"] .dialtrack { stroke: #00E5FF; stroke-width: 4; filter: url(#sk-pixel); animation: arcglitch 6s steps(1) infinite; }
+  body[data-skin="arcade"] .glass, body[data-skin="arcade"] .rulerbody, body[data-skin="arcade"] .face, body[data-skin="arcade"] .dialtrack { stroke: #00E5FF; stroke-width: 4; filter: url(#sk-pixel); animation: arcglitch 6s steps(1) infinite; }
   body[data-skin="arcade"] .grad { stroke: #F4F2FF; shape-rendering: crispEdges; }
   body[data-skin="arcade"] .liquid { fill: url(#sk-pixels); }
   body[data-skin="arcade"] .dialfill { stroke: url(#sk-pixels); stroke-width: 12; }
@@ -2154,8 +2138,7 @@
   body[data-skin="arcade"] button.action:not(.ghost) { border-radius: 0; box-shadow: 0 4px 0 #8A7C00, 4px 0 0 #8A7C00, 4px 4px 0 #8A7C00; }
   body[data-skin="arcade"] button.action:not(.ghost):active { transform: translate(2px, 2px); box-shadow: 0 2px 0 #8A7C00, 2px 0 0 #8A7C00; }
   body[data-skin="arcade"] button.action.ghost { border-radius: 0; border: 2px solid #00E5FF; }
-  body.lowfx[data-skin="arcade"] .glass, body.lowfx[data-skin="arcade"] .rim, body.lowfx[data-skin="arcade"] .rulerbody,
-  body.lowfx[data-skin="arcade"] .face, body.lowfx[data-skin="arcade"] .dialtrack { animation: none; }
+  body.lowfx[data-skin="arcade"] .glass, body.lowfx[data-skin="arcade"] .rulerbody, body.lowfx[data-skin="arcade"] .face, body.lowfx[data-skin="arcade"] .dialtrack { animation: none; }
   body.lowfx[data-skin="arcade"] .liquid { fill: url(#sk-pixels-still); }
   body.lowfx[data-skin="arcade"] .dialfill { stroke: url(#sk-pixels-still); }
   .sw-arcade { background: conic-gradient(#FF2A6D 0 25%, #7A1FA2 0 50%, #00A8C2 0 75%, #7A1FA2 0) 0 0 / 8px 8px; box-shadow: inset 0 0 0 2px #00E5FF !important; border-radius: 3px !important; }
@@ -2182,7 +2165,7 @@
     background-size: auto, 100% 7px, 10px 10px, 10px 10px, 10px 10px, 10px 10px, auto;
     background-position: 0 0, 0 0, 12px 16px, calc(100% - 12px) 16px, 12px calc(100% - 12px), calc(100% - 12px) calc(100% - 12px), 0 0;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.08), inset 0 0 0 1px #2A333D, 0 12px 28px -14px rgba(0,0,0,.9); }
-  body[data-skin="mission"] .glass, body[data-skin="mission"] .rim, body[data-skin="mission"] .rulerbody, body[data-skin="mission"] .face, body[data-skin="mission"] .dialtrack { stroke: #FFB547; filter: drop-shadow(0 0 4px rgba(255,170,60,.85)); }
+  body[data-skin="mission"] .glass, body[data-skin="mission"] .rulerbody, body[data-skin="mission"] .face, body[data-skin="mission"] .dialtrack { stroke: #FFB547; filter: drop-shadow(0 0 4px rgba(255,170,60,.85)); }
   body[data-skin="mission"] .grad { stroke: #FFF1D6; filter: drop-shadow(0 0 1.2px #000) drop-shadow(0 0 1px #000); }
   body[data-skin="mission"] .face { fill: url(#sk-radar); }
   body[data-skin="mission"] .liquid { fill: url(#sk-fuel); }
@@ -2202,7 +2185,7 @@
      rolling across it. */
   body[data-skin="map"][data-bg="plain"] { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 900 600%22%3E%3Cpath d=%22M40 520C160 420 120 300 260 280S420 380 520 300 600 120 760 140%22 fill=%22none%22 stroke=%22%238A4B1E%22 stroke-width=%225%22 stroke-dasharray=%2214 12%22 stroke-linecap=%22round%22 opacity=%22.45%22/%3E%3Cpath d=%22M748 124l24 24m0-24l-24 24%22 stroke=%22%23A8261B%22 stroke-width=%227%22 stroke-linecap=%22round%22 opacity=%22.7%22/%3E%3C/svg%3E"), radial-gradient(30% 22% at 20% 30%, rgba(140,90,30,.16), transparent 70%), radial-gradient(25% 20% at 78% 65%, rgba(140,90,30,.14), transparent 70%), radial-gradient(18% 14% at 60% 15%, rgba(110,60,20,.12), transparent 70%), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .14 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E"); background-size: 900px 600px, auto, 200px 200px; background-repeat: no-repeat, no-repeat, repeat; background-position: 100% 0, 0 0, 0 0; background-attachment: fixed; }
   body[data-skin="map"] .stage, body[data-skin="map"] #board { background-image: radial-gradient(30% 22% at 20% 30%, rgba(140,90,30,.16), transparent 70%), radial-gradient(25% 20% at 78% 65%, rgba(140,90,30,.14), transparent 70%), radial-gradient(18% 14% at 60% 15%, rgba(110,60,20,.12), transparent 70%), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .10 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E"); box-shadow: inset 0 0 26px rgba(120,60,10,.45), inset 0 0 4px rgba(80,35,5,.6), 0 8px 18px -10px rgba(60,30,5,.55); border-color: #A8824A; }
-  body[data-skin="map"] .glass, body[data-skin="map"] .rim, body[data-skin="map"] .rulerbody, body[data-skin="map"] .face, body[data-skin="map"] .dialtrack { stroke: #4A2A12; filter: url(#sk-ink); }
+  body[data-skin="map"] .glass, body[data-skin="map"] .rulerbody, body[data-skin="map"] .face, body[data-skin="map"] .dialtrack { stroke: #4A2A12; filter: url(#sk-ink); }
   body[data-skin="map"] .grad { stroke: #4A2A12; }
   body[data-skin="map"] .face { fill: url(#sk-compass); }
   body[data-skin="map"] .rulerbody { fill: #F6EACB; }
@@ -2230,7 +2213,7 @@
   body[data-skin="geode"] .stage, body[data-skin="geode"] #board { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 70%22%3E%3Cg transform=%22%22%3E%3Cpath d=%22M4 70L11.0 24L18 70Z%22 fill=%22%237B3FC4%22/%3E%3Cpath d=%22M11.0 24L18 70L12.7 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M16 70L25.0 8L34 70Z%22 fill=%22%239C5BE8%22/%3E%3Cpath d=%22M25.0 8L34 70L27.2 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M32 70L39.0 30L46 70Z%22 fill=%22%236A2FB0%22/%3E%3Cpath d=%22M39.0 30L46 70L40.7 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M42 70L48.0 40L54 70Z%22 fill=%22%23B98AF5%22/%3E%3Cpath d=%22M48.0 40L54 70L49.4 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3C/g%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 70%22%3E%3Cg transform=%22scale%28-1 1%29 translate%28-60 0%29%22%3E%3Cpath d=%22M4 70L11.0 24L18 70Z%22 fill=%22%237B3FC4%22/%3E%3Cpath d=%22M11.0 24L18 70L12.7 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M16 70L25.0 8L34 70Z%22 fill=%22%239C5BE8%22/%3E%3Cpath d=%22M25.0 8L34 70L27.2 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M32 70L39.0 30L46 70Z%22 fill=%22%236A2FB0%22/%3E%3Cpath d=%22M39.0 30L46 70L40.7 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3Cpath d=%22M42 70L48.0 40L54 70Z%22 fill=%22%23B98AF5%22/%3E%3Cpath d=%22M48.0 40L54 70L49.4 70Z%22 fill=%22%23fff%22 opacity=%22.22%22/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(80% 70% at 50% 40%, rgba(181,124,255,.10), transparent 70%);
     background-repeat: no-repeat; background-size: 64px 74px, 64px 74px, auto; background-position: 0 100%, 100% 100%, 0 0;
     box-shadow: inset 0 0 0 1px rgba(201,168,255,.25), inset 0 0 30px rgba(120,60,200,.25), 0 14px 30px -14px rgba(0,0,0,.9); }
-  body[data-skin="geode"] .glass, body[data-skin="geode"] .rim, body[data-skin="geode"] .rulerbody, body[data-skin="geode"] .face, body[data-skin="geode"] .dialtrack { stroke: #D6B8FF; filter: drop-shadow(0 0 4px rgba(181,124,255,.9)) drop-shadow(0 0 1px #fff); }
+  body[data-skin="geode"] .glass, body[data-skin="geode"] .rulerbody, body[data-skin="geode"] .face, body[data-skin="geode"] .dialtrack { stroke: #D6B8FF; filter: drop-shadow(0 0 4px rgba(181,124,255,.9)) drop-shadow(0 0 1px #fff); }
   body[data-skin="geode"] .grad { stroke: #EBDDFF; }
   body[data-skin="geode"] .liquid { fill: url(#sk-gem); }
   body[data-skin="geode"] .dialfill { stroke: url(#sk-gem); stroke-width: 12; }
@@ -2259,7 +2242,7 @@
   body[data-skin="sub"] .stage::after { content: ""; position: absolute; left: 50%; top: 50%; width: 600px; height: 600px; margin: -300px 0 0 -300px;
     border-radius: 50%; border: 2px solid rgba(110,220,235,.35); z-index: -1; pointer-events: none; transform: scale(0); animation: sonar 5s ease-out infinite; }
   @keyframes sonar { 0% { transform: scale(0); opacity: 1; } 70% { opacity: .25; } 100% { transform: scale(1.4); opacity: 0; } }
-  body[data-skin="sub"] .glass, body[data-skin="sub"] .rim, body[data-skin="sub"] .rulerbody, body[data-skin="sub"] .face, body[data-skin="sub"] .dialtrack { stroke: url(#sk-brass); stroke-width: 4; filter: drop-shadow(0 1px 0 rgba(0,0,0,.5)); }
+  body[data-skin="sub"] .glass, body[data-skin="sub"] .rulerbody, body[data-skin="sub"] .face, body[data-skin="sub"] .dialtrack { stroke: url(#sk-brass); stroke-width: 4; filter: drop-shadow(0 1px 0 rgba(0,0,0,.5)); }
   body[data-skin="sub"] .face { stroke-width: 12; fill: url(#sk-porthole); }
   body[data-skin="sub"] .grad { stroke: #F6D38E; }
   body[data-skin="sub"] .liquid { fill: url(#sk-bubbles); }
@@ -2281,7 +2264,7 @@
   body[data-skin="graffiti"] .stage, body[data-skin="graffiti"] #board { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 40%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M0 0H300V6C290 6 288 30 284 30S280 8 270 8 255 6 250 6 247 20 243 20 240 6 230 6 200 6 190 6 187 36 182 36 178 8 168 8 130 6 120 6 117 18 113 18 110 6 100 6 70 6 62 6 59 26 55 26 52 6 40 6 10 6 0 6Z%22 fill=%22%23E0127D%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2220%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2278.1%22 cy=%2281.6%22 r=%224.6%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2248.9%22 cy=%2283.9%22 r=%223.3%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2226.2%22 cy=%2216.7%22 r=%221.9%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2291.4%22 cy=%2257.4%22 r=%223.2%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2251.6%22 cy=%2228.0%22 r=%223.3%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2245.0%22 cy=%2223.0%22 r=%225.3%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2268.5%22 cy=%2236.7%22 r=%221.6%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%226.9%22 cy=%2238.6%22 r=%223.0%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2256.7%22 cy=%2281.4%22 r=%221.6%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2255.8%22 cy=%2282.0%22 r=%223.5%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2252.9%22 cy=%2277.4%22 r=%222.4%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2222.0%22 cy=%2257.3%22 r=%221.6%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2268.4%22 cy=%2219.8%22 r=%224.1%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3Ccircle cx=%2268.0%22 cy=%2292.1%22 r=%224.9%22 fill=%22rgba%2814,180,200,.28%29%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2220%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2293.0%22 cy=%2237.7%22 r=%221.7%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2286.2%22 cy=%2271.4%22 r=%224.4%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2235.7%22 cy=%2224.3%22 r=%223.9%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2221.8%22 cy=%2227.7%22 r=%222.1%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2221.5%22 cy=%2263.3%22 r=%224.4%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2294.8%22 cy=%2248.4%22 r=%223.7%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2223.3%22 cy=%2259.7%22 r=%221.6%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2282.7%22 cy=%2255.7%22 r=%222.8%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2218.4%22 cy=%2279.7%22 r=%223.6%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2224.3%22 cy=%2239.8%22 r=%221.6%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2238.5%22 cy=%2272.5%22 r=%223.5%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2288.2%22 cy=%2249.6%22 r=%222.2%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2282.2%22 cy=%2224.4%22 r=%224.4%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3Ccircle cx=%2283.5%22 cy=%2227.6%22 r=%224.7%22 fill=%22rgba%28245,200,0,.32%29%22/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 .3  0 0 0 0 .25  0 0 0 0 .2  0 0 0 .10 0%22/%3E%3C/filter%3E%3Crect width=%22200%22 height=%22200%22 filter=%22url%28%23n%29%22/%3E%3C/svg%3E");
     background-repeat: no-repeat, no-repeat, no-repeat, repeat; background-size: 100% 26px, 110px 110px, 90px 90px, 200px 200px;
     background-position: 0 0, calc(100% + 20px) calc(100% + 20px), -18px calc(100% + 14px), 0 0; border-color: #5A5955; }
-  body[data-skin="graffiti"] .glass, body[data-skin="graffiti"] .rim, body[data-skin="graffiti"] .rulerbody, body[data-skin="graffiti"] .face, body[data-skin="graffiti"] .dialtrack { stroke: #141414; stroke-width: 4; filter: url(#sk-spray); }
+  body[data-skin="graffiti"] .glass, body[data-skin="graffiti"] .rulerbody, body[data-skin="graffiti"] .face, body[data-skin="graffiti"] .dialtrack { stroke: #141414; stroke-width: 4; filter: url(#sk-spray); }
   body[data-skin="graffiti"] .grad { stroke: #141414; }
   body[data-skin="graffiti"] .liquid { fill: url(#sk-paint); }
   body[data-skin="graffiti"] .dialfill { stroke: url(#sk-paint); stroke-width: 12; }
@@ -2303,7 +2286,7 @@
   body[data-skin="origami"] .stage, body[data-skin="origami"] #board { background-image: linear-gradient(225deg, #E9E3D6 0 26px, rgba(0,0,0,.12) 26px 27px, transparent 27px),
       linear-gradient(135deg, rgba(0,0,0,.035) 50%, rgba(255,255,255,0) 50%), linear-gradient(45deg, rgba(0,0,0,.02) 50%, transparent 50%);
     box-shadow: 0 1px 0 #D9D1C2, 0 12px 20px -14px rgba(60,50,30,.5); border-color: #E2DACB; }
-  body[data-skin="origami"] .glass, body[data-skin="origami"] .rim, body[data-skin="origami"] .rulerbody, body[data-skin="origami"] .face, body[data-skin="origami"] .dialtrack { stroke: #1F1F24; stroke-width: 2.6; stroke-linejoin: miter; filter: drop-shadow(1.5px 2px 0 rgba(184,57,44,.35)); }
+  body[data-skin="origami"] .glass, body[data-skin="origami"] .rulerbody, body[data-skin="origami"] .face, body[data-skin="origami"] .dialtrack { stroke: #1F1F24; stroke-width: 2.6; stroke-linejoin: miter; filter: drop-shadow(1.5px 2px 0 rgba(184,57,44,.35)); }
   body[data-skin="origami"] .grad { stroke: #1F1F24; }
   body[data-skin="origami"] .face { fill: url(#sk-fold); }
   body[data-skin="origami"] .liquid { fill: url(#sk-strips); }
@@ -2335,7 +2318,7 @@
   @keyframes bgrise400 { to { transform: translateY(-400px); } }
   body[data-skin="dragon"] .stage, body[data-skin="dragon"] #board { background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 24%22%3E%3Cdefs%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%231FA88A%22/%3E%3Cstop offset=%22.5%22 stop-color=%22%232C5FC4%22/%3E%3Cstop offset=%221%22 stop-color=%22%238A3FC4%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill=%22none%22 stroke=%22url%28%23s%29%22 stroke-width=%221.6%22 opacity=%22.55%22%3E%3Cpath d=%22M0 12A10 10 0 0 1 20 12A10 10 0 0 1 40 12%22/%3E%3Cpath d=%22M-10 24A10 10 0 0 1 10 24A10 10 0 0 1 30 24A10 10 0 0 1 50 24%22/%3E%3Cpath d=%22M-10 0A10 10 0 0 1 10 0A10 10 0 0 1 30 0A10 10 0 0 1 50 0%22/%3E%3C/g%3E%3C/svg%3E"), radial-gradient(80% 60% at 50% 0%, rgba(232,185,35,.10), transparent 70%); background-size: 40px 24px, auto;
     box-shadow: inset 0 0 0 1px rgba(232,185,35,.35), inset 0 0 40px rgba(255,90,40,.12), 0 0 30px -6px rgba(255,120,40,.3), 0 16px 34px -14px rgba(0,0,0,.9); }
-  body[data-skin="dragon"] .glass, body[data-skin="dragon"] .rim, body[data-skin="dragon"] .rulerbody, body[data-skin="dragon"] .face, body[data-skin="dragon"] .dialtrack { stroke: url(#sk-gold); stroke-width: 3.5; filter: drop-shadow(0 0 5px rgba(232,185,35,.7)); }
+  body[data-skin="dragon"] .glass, body[data-skin="dragon"] .rulerbody, body[data-skin="dragon"] .face, body[data-skin="dragon"] .dialtrack { stroke: url(#sk-gold); stroke-width: 3.5; filter: drop-shadow(0 0 5px rgba(232,185,35,.7)); }
   body[data-skin="dragon"] .grad { stroke: #FFF4E2; filter: drop-shadow(0 0 1.2px #000) drop-shadow(0 0 1px #000); }
   body[data-skin="dragon"] .liquid { fill: url(#sk-coins); }
   body[data-skin="dragon"] .dialfill { stroke: url(#sk-coins); stroke-width: 12; }
@@ -2413,8 +2396,8 @@
   /* lines printed straight on the page get a dark backing, so the gold never sits under words */
   body[data-skin="dragon"] .rail, body[data-skin="dragon"] .footnote { background: rgba(15,7,5,.9); border-radius: 10px; padding: 5px 12px; }
   body[data-skin="dragon"] .footnote { width: fit-content; max-width: 100%; }
-  .tshow { margin: 0 0 10px; font: 600 14px/1.4 Karla, sans-serif; color: var(--ink-soft); }
-  .tshow b { color: var(--ink); }
+  
+  
   /* the teacher view's tabs, styled like the badge panel's */
   .tviews { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
   .tviews button { font: 700 14px/1 Karla, sans-serif; padding: 9px 14px; min-height: 40px; border-radius: 999px; cursor: pointer;
@@ -2480,10 +2463,7 @@
      Set from the switch in the badge panel, or by the game itself when it
      measures that this device cannot keep up. Everything that moves stands
      still where it is; nothing changes colour or disappears. */
-  body.lowfx .bgfx i, body.lowfx .liquid, body.lowfx .ribbon, body.lowfx .dialfill, body.lowfx .ndot,
-  body.lowfx .glass, body.lowfx .rim, body.lowfx .grad, body.lowfx .dialtrack, body.lowfx .rulerbody,
-  body.lowfx .face, body.lowfx .stage, body.lowfx #board, body.lowfx [class*="frame-"], body.lowfx .flame, body.lowfx .trail
-    { animation-play-state: paused !important; }
+  body.lowfx .bgfx i, body.lowfx .liquid, body.lowfx .ribbon, body.lowfx .dialfill, body.lowfx .ndot, body.lowfx .glass, body.lowfx .grad, body.lowfx .dialtrack, body.lowfx .rulerbody, body.lowfx .face, body.lowfx .stage, body.lowfx #board, body.lowfx [class*="frame-"], body.lowfx .flame, body.lowfx .trail { animation-play-state: paused !important; }
 
   /* Lava's footnote sits over the glow at the bottom and measured about 3.3:1,
      under the 4.5 a line of small print needs. Whiter, with a dark edge. */
@@ -2506,9 +2486,7 @@
     --water: #3EE6B0; --water-deep: #9CF5DA; --water-fill: #0E4A45; --water-lite: #0A3A3A;
     --zest: #B58CFF; --zest-soft: #271A4A; --leaf: #6BFFB0; --leaf-soft: #0E2C1F;
   }
-  body[data-skin="borealis"] .glass, body[data-skin="borealis"] .rim, body[data-skin="borealis"] .grad,
-  body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face
-    { animation: borealisline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(62,230,176,.65)); }
+  body[data-skin="borealis"] .glass, body[data-skin="borealis"] .grad, body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face { animation: borealisline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(62,230,176,.65)); }
   body[data-skin="borealis"] .liquid, body[data-skin="borealis"] .ribbon, body[data-skin="borealis"] .dialfill
     { animation: borealisfill 9s linear infinite; }
   body[data-skin="borealis"] .stage, body[data-skin="borealis"] #board {
@@ -2525,9 +2503,7 @@
   }
   body[data-skin="opal"][data-bg="plain"] {
     background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.55) 0 18px, rgba(214,205,246,.18) 18px 36px); }
-  body[data-skin="opal"] .glass, body[data-skin="opal"] .rim, body[data-skin="opal"] .grad,
-  body[data-skin="opal"] .dialtrack, body[data-skin="opal"] .rulerbody, body[data-skin="opal"] .face
-    { filter: drop-shadow(0 3px 8px rgba(107,79,200,.32)); }
+  body[data-skin="opal"] .glass, body[data-skin="opal"] .grad, body[data-skin="opal"] .dialtrack, body[data-skin="opal"] .rulerbody, body[data-skin="opal"] .face { filter: drop-shadow(0 3px 8px rgba(107,79,200,.32)); }
   body[data-skin="opal"] .liquid, body[data-skin="opal"] .ribbon, body[data-skin="opal"] .dialfill
     { animation: opalfill 8s ease-in-out infinite; }
   body[data-skin="opal"] .stage, body[data-skin="opal"] #board {
@@ -2541,9 +2517,7 @@
     --water: #E8B923; --water-deep: #FFE08A; --water-fill: #4A3A0C; --water-lite: #2E2409;
     --zest: #FF9F43; --zest-soft: #3A240B; --leaf: #E8B923; --leaf-soft: #3A2E0A;
   }
-  body[data-skin="midas"] .glass, body[data-skin="midas"] .rim, body[data-skin="midas"] .grad,
-  body[data-skin="midas"] .dialtrack, body[data-skin="midas"] .rulerbody, body[data-skin="midas"] .face
-    { filter: drop-shadow(0 0 6px rgba(232,185,35,.6)); }
+  body[data-skin="midas"] .glass, body[data-skin="midas"] .grad, body[data-skin="midas"] .dialtrack, body[data-skin="midas"] .rulerbody, body[data-skin="midas"] .face { filter: drop-shadow(0 0 6px rgba(232,185,35,.6)); }
   body[data-skin="midas"] .liquid, body[data-skin="midas"] .ribbon, body[data-skin="midas"] .dialfill
     { animation: midasfill 4s ease-in-out infinite; }
   body[data-skin="midas"] .stage, body[data-skin="midas"] #board {
@@ -2557,9 +2531,7 @@
     --water: #7C8CFF; --water-deep: #C9D0FF; --water-fill: #1D2152; --water-lite: #14183E;
     --zest: #FFD166; --zest-soft: #3A2E0F; --leaf: #5CF2A6; --leaf-soft: #0E2C22;
   }
-  body[data-skin="prism"] .glass, body[data-skin="prism"] .rim, body[data-skin="prism"] .grad,
-  body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face
-    { animation: prismline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(255,255,255,.4)); }
+  body[data-skin="prism"] .glass, body[data-skin="prism"] .grad, body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face { animation: prismline 9s linear infinite; filter: drop-shadow(0 0 5px rgba(255,255,255,.4)); }
   body[data-skin="prism"] .liquid, body[data-skin="prism"] .ribbon, body[data-skin="prism"] .dialfill
     { animation: prismfill 9s linear infinite; }
   body[data-skin="prism"] .stage, body[data-skin="prism"] #board {
@@ -2592,10 +2564,7 @@
   .sw-midas    { background: linear-gradient(135deg, #8A6A14, #E8B923, #FFE08A); }
   .sw-prism    { background: conic-gradient(#FF5C8A, #FFB347, #F5E663, #5CF2A6, #5CC8FF, #B58CFF, #FF5C8A); }
   @media (prefers-reduced-motion: reduce) {
-    body[data-skin="borealis"] .glass, body[data-skin="borealis"] .rim, body[data-skin="borealis"] .grad, body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face, body[data-skin="borealis"] .liquid, body[data-skin="borealis"] .ribbon, body[data-skin="borealis"] .dialfill, body[data-skin="borealis"] .stage, body[data-skin="borealis"] #board,
-    body[data-skin="opal"] .liquid, body[data-skin="opal"] .ribbon, body[data-skin="opal"] .dialfill, body[data-skin="opal"] .stage, body[data-skin="opal"] #board,
-    body[data-skin="midas"] .liquid, body[data-skin="midas"] .ribbon, body[data-skin="midas"] .dialfill, body[data-skin="midas"] .stage, body[data-skin="midas"] #board,
-    body[data-skin="prism"] .glass, body[data-skin="prism"] .rim, body[data-skin="prism"] .grad, body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face, body[data-skin="prism"] .liquid, body[data-skin="prism"] .ribbon, body[data-skin="prism"] .dialfill, body[data-skin="prism"] .stage, body[data-skin="prism"] #board { animation: none !important; }
+    body[data-skin="borealis"] .glass, body[data-skin="borealis"] .grad, body[data-skin="borealis"] .dialtrack, body[data-skin="borealis"] .rulerbody, body[data-skin="borealis"] .face, body[data-skin="borealis"] .liquid, body[data-skin="borealis"] .ribbon, body[data-skin="borealis"] .dialfill, body[data-skin="borealis"] .stage, body[data-skin="borealis"] #board, body[data-skin="opal"] .liquid, body[data-skin="opal"] .ribbon, body[data-skin="opal"] .dialfill, body[data-skin="opal"] .stage, body[data-skin="opal"] #board, body[data-skin="midas"] .liquid, body[data-skin="midas"] .ribbon, body[data-skin="midas"] .dialfill, body[data-skin="midas"] .stage, body[data-skin="midas"] #board, body[data-skin="prism"] .glass, body[data-skin="prism"] .grad, body[data-skin="prism"] .dialtrack, body[data-skin="prism"] .rulerbody, body[data-skin="prism"] .face, body[data-skin="prism"] .liquid, body[data-skin="prism"] .ribbon, body[data-skin="prism"] .dialfill, body[data-skin="prism"] .stage, body[data-skin="prism"] #board { animation: none !important; }
   }
 
   /* ---------- frames: a ring round a character, seen on the class board too ----------
@@ -2672,13 +2641,9 @@
   body[data-skin="rainbow"] .lab { font-weight: 800; }
   body[data-skin="rainbow"] .hub { fill: #111E2B; }
 
-  body[data-skin="rainbow"] .glass,
-  body[data-skin="rainbow"] .rim,
-  body[data-skin="rainbow"] .grad,
-  body[data-skin="rainbow"] .dialtrack { animation: rbstroke 9s linear infinite; }
+  body[data-skin="rainbow"] .glass, body[data-skin="rainbow"] .grad, body[data-skin="rainbow"] .dialtrack { animation: rbstroke 9s linear infinite; }
 
-  body[data-skin="rainbow"] .sheen,
-  body[data-skin="rainbow"] .face      { animation: rbpale 9s linear infinite; }
+  body[data-skin="rainbow"] .face { animation: rbpale 9s linear infinite; }
 
   body[data-skin="rainbow"] .rulerbody { animation: rbbody 9s linear infinite; }
 
@@ -2724,7 +2689,7 @@
     background: linear-gradient(135deg, #C6404E 0%, #B86A12 20%, #82730B 40%,
                                         #268247 60%, #2076BE 80%, #7A54B4 100%);
   }
-  .skin.rainbowchip.on { border-color: #7A54B4; background: #F6F1FC; color: #4E357A; }
+  
   .goal-jug.full i {
     background: linear-gradient(180deg, #7A54B4 0%, #2076BE 20%, #268247 40%,
                                         #82730B 60%, #B86A12 80%, #C6404E 100%);
@@ -2738,17 +2703,7 @@
   body[data-skin="rainbow"] .goal-words b { color: #4E357A; }
 
   @media (prefers-reduced-motion: reduce) {
-    body[data-skin="rainbow"] .glass,
-    body[data-skin="rainbow"] .rim,
-    body[data-skin="rainbow"] .grad,
-    body[data-skin="rainbow"] .dialtrack,
-    body[data-skin="rainbow"] .sheen,
-    body[data-skin="rainbow"] .face,
-    body[data-skin="rainbow"] .rulerbody,
-    body[data-skin="rainbow"] .liquid,
-    body[data-skin="rainbow"] .ribbon,
-    body[data-skin="rainbow"] .dialfill,
-    .goal-jug.full { animation: none; }
+    body[data-skin="rainbow"] .glass, body[data-skin="rainbow"] .grad, body[data-skin="rainbow"] .dialtrack, body[data-skin="rainbow"] .face, body[data-skin="rainbow"] .rulerbody, body[data-skin="rainbow"] .liquid, body[data-skin="rainbow"] .ribbon, body[data-skin="rainbow"] .dialfill, .goal-jug.full { animation: none; }
   }
 
   /* ================================================ characters and titles */
@@ -3416,8 +3371,7 @@
   /* Whatever colour is on screen, a worksheet is plain black ink on white:
      none of the themes' gold, glow, patterns or movement reach the paper. */
   body .worksheet svg * { filter: none !important; animation: none !important; stroke-dasharray: none !important; }
-  body .worksheet .glass, body .worksheet .rim, body .worksheet .rulerbody, body .worksheet .face,
-  body .worksheet .dialtrack, body .worksheet .grad, body .worksheet .needle { stroke: #000 !important; }
+  body .worksheet .glass, body .worksheet .rulerbody, body .worksheet .face, body .worksheet .dialtrack, body .worksheet .grad, body .worksheet .needle { stroke: #000 !important; }
   body .worksheet .glass { stroke-width: 2.5px !important; }
   body .worksheet .face, body .worksheet .rulerbody { fill: #fff !important; }
   body .worksheet .liquid { fill: #E4E4E4 !important; }
@@ -5052,6 +5006,270 @@
   body.rb #rbteach td.lvlcell.top span { background: #E5DBFF; color: #4527A0; }
   body.rb #rbteach #goalset { border: 2px solid var(--edge); border-radius: 18px; background: var(--card); padding: 14px 18px; margin-top: 18px; }
 
+  /* ==================== v85: no round of 10; the duel in the Rainbow style ==================== */
+  #roundbtn, body.rb #roundbar { display: none !important; }
+  body.rb #duelbtn { display: inline-flex; align-items: center; gap: 8px; }
+  body.rb #duelbtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  /* the panels: a card over a dimmed page, like the name screen */
+  body.rb .duel:not(.running):not([hidden]) { pointer-events: auto; align-items: center; overflow-y: auto; padding: 20px;
+                                              background: rgba(20, 18, 40, .55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+  body.rb .duel-card:not(.run) { position: relative; overflow: hidden; width: min(540px, 100%); margin: auto; border: 0; border-radius: 28px; padding: 30px 26px 22px;
+                                 box-shadow: 0 24px 60px rgba(0, 0, 0, .35); }
+  body.rb .duel-card:not(.run)::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px;
+                                         background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  body.rb .duel-card:not(.run) h2 { font: 800 clamp(26px, 5vw, 32px)/1.1 Outfit, "DM Sans", system-ui, sans-serif; text-align: center; margin: 4px 0 8px; padding: 0 30px; color: var(--ink); }
+  body.rb .duel-card:not(.run) > .rules { text-align: center; font-size: 15px; }
+  body.rb .duel-card .xclose { top: 16px; right: 16px; }
+  .duel-icon { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 4px; border-radius: 50%; background: #FFE8CC; }
+  .duel-icon svg { width: 36px; height: 36px; fill: none; stroke: #C2410C; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  /* the two players with VS between them */
+  body.rb .duel-names { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px; margin-top: 16px; }
+  body.rb .duel-names:has(> #duel-a-wrap[hidden]) { grid-template-columns: 1fr; }
+  body.rb .duel-names:has(> #duel-a-wrap[hidden]) .duel-vs { display: none; }
+  body.rb .duel-names label { display: flex; flex-direction: column; gap: 8px; padding: 14px; border-radius: 18px; background: var(--card-sunk); border: 2px solid var(--edge); }
+  body.rb .duel-names label[hidden] { display: none; }
+  body.rb .duel-names label span { font-size: 12.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); text-align: center; }
+  body.rb .duel-names input { font: 700 20px/1.1 Outfit, "DM Sans", system-ui, sans-serif; padding: 12px 10px; border-radius: 12px; border: 2px solid var(--edge); text-align: center; width: 100%; box-sizing: border-box; }
+  body.rb .duel-names input:focus { border-color: var(--ink); outline: none; }
+  .duel-vs { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #1B1B2F; color: #FFFFFF; font: 800 16px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.rb .duel-chips { justify-content: center; }
+  body.rb .duel-chips button { min-height: 40px; padding: 0 16px; border-radius: 999px; font-weight: 700; }
+  body.rb .duel-do { flex-direction: column; align-items: stretch; gap: 8px; margin-top: 18px; }
+  body.rb .duel-do .action { min-height: 56px; border-radius: 16px; font: 700 20px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.rb .duel-do .linky { align-self: center; }
+  body.rb .duel-record, body.rb .duel-other { text-align: center; }
+  body.rb .dw { padding: 14px; border-radius: 18px; background: #FFF4E6; border: 2px solid #FFC078; }
+  body.rb .dw h3 { font: 800 18px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: #7A3D00; }
+  body.rb .dw li { border-radius: 14px; }
+  body.rb .dw-or { text-align: center; font-weight: 700; }
+  /* the result: two big scores, the winner's in gold */
+  body.rb #duel-said .duel-score { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px; margin: 14px 0 6px; font: inherit; color: var(--ink); }
+  .ds-side { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 10px; border-radius: 20px; background: var(--card-sunk); border: 2px solid var(--edge); min-width: 0; }
+  .ds-side small { font: 700 15px/1.2 "DM Sans", system-ui, sans-serif; color: var(--ink-soft); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ds-side b { font: 800 44px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); }
+  .ds-side.win { background: #FFF3BF; border-color: #F2B33D; }
+  .ds-side.win small, .ds-side.win b { color: #4A3200; }
+  .ds-side.win::before { content: "Winner"; font: 800 12px/1 Outfit, "DM Sans", system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #FFFFFF; background: #D99A12; padding: 4px 10px; border-radius: 999px; }
+  .ds-dash { font: 800 22px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink-soft); }
+  body.rb #duel-said > p { text-align: center; font: 700 18px/1.3 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); margin: 6px 0 0; }
+  body.rb #duel-said .duel-score.sent { grid-template-columns: 1fr; }
+  /* the minute itself: a dark bar along the top with the clock in the middle */
+  body.rb .duel.running .duel-card.run { background: #1B1B2F; color: #FFFFFF; border: 0; border-radius: 0 0 22px 22px; padding: 12px 18px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  body.rb .duel.running .duel-top { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 14px; }
+  body.rb .duel.running .duel-turn small { color: #C9C9DA; font: 700 12px/1.2 "DM Sans", system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+  body.rb .duel.running .duel-turn b { color: #FFFFFF; font: 800 22px/1.15 Outfit, "DM Sans", system-ui, sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  body.rb .duel.running .duel-turn.right { margin: 0; }
+  body.rb .duel.running .duel-clock { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #FFFFFF; color: #1B1B2F;
+                                      font: 800 22px/1 Outfit, "DM Sans", system-ui, sans-serif; box-shadow: inset 0 0 0 5px #FFD43B; }
+  body.rb .duel.running .duel-clock.low { color: #C92A2A; box-shadow: inset 0 0 0 5px #FF6B6B; }
+  body.rb .duel.running .duel-track { height: 10px; border-radius: 5px; background: rgba(255,255,255,.16); margin-top: 10px; }
+  body.rb .duel.running .duel-track i { border-radius: 5px; background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  body.rb .duel.running .duel-chasing { color: #FFD43B; text-align: center; font-size: 15px; }
+  body.rb .duel.running #duel-give { display: block; margin: 8px auto 0; min-height: 36px; padding: 0 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,.35); color: #FFFFFF; text-decoration: none; font-weight: 700; }
+
+  /* ==================== v86: the question card ==================== */
+  /* one answer bar: the box, the unit and Check inside a single rounded frame in the subject's colour */
+  body.rb .stage .entry { gap: 6px; padding: 6px; border-radius: 22px; background: var(--card); border: 3px solid var(--sc); box-shadow: 0 4px 0 var(--sc-wash, rgba(0,0,0,.08)); }
+  body.rb .stage .entry:focus-within { box-shadow: 0 0 0 5px var(--sc-wash, rgba(24,100,171,.18)); }
+  body.rb .stage .entry input { height: 60px; border: 0 !important; background: transparent; box-shadow: none !important; outline: none; padding: 0 14px;
+                                font: 800 28px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); }
+  body.rb .stage .entry input::placeholder { color: var(--ink-faint); font-weight: 700; }
+  body.rb .stage .entry .unit { flex: none; height: 44px; min-width: 52px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px;
+                               background: var(--sc-wash, rgba(24,100,171,.12)); border: 0; color: var(--ink); font: 800 18px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.rb .stage .entry .unit:empty { display: none; }
+  body.rb .stage .entry #check { flex: none; height: 60px; min-width: 132px; padding: 0 22px; border: 0; border-radius: 16px; background: var(--sc); color: #FFFFFF;
+                                 font: 800 21px/1 Outfit, "DM Sans", system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: inset 0 -4px 0 rgba(0,0,0,.18); }
+  body.rb .stage .entry #check::after { content: ""; width: 20px; height: 20px; background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat; }
+  body.rb .stage .entry #check:active { transform: translateY(2px); box-shadow: inset 0 -2px 0 rgba(0,0,0,.18); }
+  body.rb .stage .entry #check:disabled { opacity: .55; }
+  @media (max-width: 480px) { body.rb .stage .entry #check { min-width: 0; padding: 0 16px; font-size: 19px; } body.rb .stage .entry input { font-size: 24px; } }
+
+  /* hints and skip as two small chips, out of the way */
+  body.rb .stage .helpers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  body.rb .stage .helpers .action { min-height: 42px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--edge); background: var(--card-sunk); color: var(--ink);
+                                    font: 700 15px/1 "DM Sans", system-ui, sans-serif; display: inline-flex; align-items: center; gap: 8px; box-shadow: none; }
+  body.rb .stage .helpers #gaps::before { content: ""; width: 18px; height: 18px; background: #E8A400;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z'/%3E%3C/svg%3E") center / contain no-repeat; }
+  body.rb .stage .helpers #skip { margin-left: auto; background: none; border-color: transparent; color: var(--ink-soft); font-weight: 600; }
+  body.rb .stage .helpers .action[hidden] { display: none; }
+
+  /* the level line as a small card with a segmented bar in the subject's colour */
+  body.rb .rail { display: grid !important; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 6px 14px; padding: 12px 16px; border-radius: 18px;
+                  background: var(--card); border: 2px solid var(--edge); color: var(--ink); }
+  body.rb .rail #railname { font: 800 16px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); }
+  body.rb .rail .pips { display: flex; gap: 4px; min-width: 0; }
+  body.rb .rail .pip { flex: 1 1 0; width: auto; min-width: 0; height: 12px; border-radius: 6px; background: var(--sc-wash, rgba(24,100,171,.14)); }
+  body.rb .rail .pip.on { background: var(--sc); }
+  body.rb .rail .pip.gold { flex-grow: .6; background: #FFF0C2; }
+  body.rb .rail .pip.gold.on { background: #E8B923; }
+  body.rb .rail .pips.done .pip.on:not(.gold) { background: var(--sc); }
+  body.rb .rail #levelnote { grid-column: 1 / -1; font-size: 14px; color: var(--ink-soft); }
+  body.rb .rail > :not(#railname):not(.pips):not(#levelnote) { grid-column: 1 / -1; }
+  @media (max-width: 600px) { body.rb .rail .pips { grid-column: 1 / -1; } }
+
+  /* ==================== v87: right and wrong moments ==================== */
+  body.rb .stage .entry.rbright { border-color: #2B8A3E; animation: rbpop .45s ease-out; }
+  body.rb .stage .entry.rbwrong { border-color: #C92A2A; animation: rbshake .42s ease-in-out; }
+  @keyframes rbpop { 0% { transform: scale(1); } 40% { transform: scale(1.025); } 100% { transform: scale(1); } }
+  @keyframes rbshake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-9px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+  .rbpal.rbhop { animation: rbhop .6s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes rbhop { 0% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-14px) rotate(-6deg); } 70% { transform: translateY(0) rotate(3deg); } 100% { transform: none; } }
+  .rbbit { position: fixed; z-index: 60; width: 10px; height: 10px; border-radius: 3px; pointer-events: none; box-shadow: 0 0 0 1.5px rgba(0,0,0,.12); }
+  .rbfly { position: fixed; z-index: 61; pointer-events: none; padding: 6px 12px; border-radius: 999px; background: #2B8A3E; color: #FFFFFF;
+           font: 800 20px/1 Outfit, "DM Sans", system-ui, sans-serif; box-shadow: 0 6px 16px rgba(0,0,0,.25); white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) { body.rb .stage .entry.rbright, body.rb .stage .entry.rbwrong, .rbpal.rbhop { animation: none; } }
+  body.lowfx .stage .entry.rbright, body.lowfx .stage .entry.rbwrong, body.lowfx .rbpal.rbhop { animation: none !important; }
+  /* choice games hide the typing box: then the bar is just the Next button, on the right */
+  body.rb .stage .entry:has(> input[hidden]) { border: 0; background: none; padding: 0; box-shadow: none; justify-content: flex-end; }
+  body.rb .stage .entry:has(> input[hidden]).rbright, body.rb .stage .entry:has(> input[hidden]).rbwrong { animation: none; }
+
+  /* ==================== v88: Badges and My look ==================== */
+  body.rb .sp-card { border-radius: 28px; border: 0; overflow: hidden; }
+  body.rb .sp-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 8px; z-index: 2;
+                             background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  body.rb .sp-head { padding-top: 22px; }
+  body.rb .sp-head h2 { font: 800 clamp(24px, 4vw, 30px)/1.1 Outfit, "DM Sans", system-ui, sans-serif; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  body.rb .sp-head h2 .badge { font: 800 14px/1 Outfit, "DM Sans", system-ui, sans-serif; padding: 6px 12px; border-radius: 999px; background: #FFF3BF; color: #6B4A00; letter-spacing: 0; }
+  body.rb .sptabs { gap: 6px; padding: 5px; border-radius: 16px; background: var(--card-sunk); }
+  body.rb .sptabs button { flex: 1 1 auto; min-height: 46px; border: 0; border-radius: 12px; background: none; color: var(--ink-soft); font: 700 16px/1 "DM Sans", system-ui, sans-serif; }
+  body.rb .sptabs button[aria-selected="true"], body.rb .sptabs button.on { background: var(--card); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  body.rb .sppane .rules { font-size: 15px; }
+
+  /* badges: a grid of medals, bright when won and greyed with a lock when not */
+  body.rb .shelf { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  body.rb .badge-tile { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 16px 10px 14px;
+                        border-radius: 20px; border: 2px dashed var(--edge); background: var(--card-sunk); min-height: 0; }
+  body.rb .badge-tile .art { width: 56px; height: 56px; padding: 13px; box-sizing: border-box; border-radius: 50%; background: var(--card); stroke: var(--ink-faint); margin-bottom: 4px; }
+  body.rb .badge-tile b { font: 800 15px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink-soft); }
+  body.rb .badge-tile small { font-size: 12.5px; line-height: 1.3; color: var(--ink-faint); }
+  body.rb .badge-tile:not(.got)::after { content: ""; position: absolute; top: 10px; right: 10px; width: 16px; height: 16px; background: var(--ink-faint);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat; }
+  body.rb .badge-tile.got { border: 2px solid #F2B33D; background: #FFF8DB; }
+  body.rb .badge-tile.got .art { background: radial-gradient(circle at 35% 30%, #FFE8A3, #F2B33D 60%, #B07A12); stroke: #4A3200; stroke-width: 2.2; box-shadow: inset 0 -3px 0 rgba(0,0,0,.15); }
+  body.rb .badge-tile.got b { color: #3D2A00; }
+  body.rb .badge-tile.got small { color: #8A5A00; font-weight: 700; }
+
+  /* the look picker: big swatch cards, so each look can be seen before it is picked */
+  body.rb .shelfpanel .skins { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+  body.rb .shelfpanel .skin { position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 3px; padding: 7px 7px 10px; min-height: 0; height: auto;
+                              border-radius: 18px; border: 2px solid var(--edge); background: var(--card); color: var(--ink); text-align: left;
+                              font: 700 15px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.rb .shelfpanel .skin .sw, body.rb .shelfpanel .skin .bgsw { display: block; width: 100%; height: 66px; border-radius: 12px; margin: 0 0 5px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+  body.rb .shelfpanel .skin .fsw { display: block; width: 52px; height: 52px; margin: 7px auto 9px; }
+  body.rb .shelfpanel .skin small { font: 600 12.5px/1.25 "DM Sans", system-ui, sans-serif; color: var(--ink-soft); margin: 0; }
+  body.rb .shelfpanel .skin:not(.locked):hover { border-color: var(--ink-soft); }
+  body.rb .shelfpanel .skin.on { border: 3px solid var(--ink); padding: 6px 6px 9px; background: var(--card); color: var(--ink); }
+  body.rb .shelfpanel .skin.on::after { content: ""; position: absolute; top: 2px; right: 2px; width: 28px; height: 28px; border-radius: 50%;
+    background: #2B8A3E url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 16px no-repeat; box-shadow: 0 0 0 3px var(--card); }
+  body.rb .shelfpanel .skin.locked { opacity: 1; color: var(--ink-soft); }
+  body.rb .shelfpanel .skin.locked .sw, body.rb .shelfpanel .skin.locked .bgsw { opacity: .8; }
+  body.rb .shelfpanel .skin.locked::after { content: ""; position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; border-radius: 50%; background: rgba(27,27,47,.78); z-index: 1; }
+  body.rb .shelfpanel .skin.locked::before { content: ""; position: absolute; top: 18px; right: 18px; width: 14px; height: 14px; background: #FFFFFF; z-index: 2;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center / contain no-repeat; }
+  body.rb .shelfpanel .skin.teacheronly { border-style: dashed; }
+  body.rb .shelfpanel .skin.legendary:not(.locked) { border-color: #F2B33D; box-shadow: 0 0 0 3px #FFF3BF; }
+  @media (max-width: 480px) { body.rb .shelfpanel .skins { grid-template-columns: repeat(2, minmax(0, 1fr)); } body.rb .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  /* characters as round tiles */
+  body.rb .shelfpanel .avatars { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 10px; }
+  body.rb .shelfpanel .avibtn { aspect-ratio: 1; padding: 0; border-radius: 50%; border: 2px solid var(--edge); background: var(--card-sunk); }
+  body.rb .shelfpanel .avibtn .avi { width: 34px; height: 34px; }
+  body.rb .shelfpanel .avibtn.on { border: 3px solid var(--ink); background: var(--card); }
+  body.rb .shelfpanel .avibtn.locked { opacity: .55; }
+  body.rb .shelfpanel .avibtn i { right: 50%; bottom: -6px; transform: translateX(50%); padding: 2px 6px; border-radius: 999px; background: var(--card); border: 1px solid var(--edge);
+                                  font: 800 11px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink-soft); }
+
+  /* ==================== v89: the whiteboard view ==================== */
+  body.display .wrap { max-width: 1760px; padding: 26px 34px 30px; }
+  body.display .rbclassbox { grid-template-columns: minmax(0, 1fr) minmax(320px, 430px); gap: 24px; }
+  body.display #rbboard { border-radius: 30px; padding: 26px 28px 24px; border: 0; box-shadow: 0 10px 30px rgba(0,0,0,.08); position: relative; overflow: hidden; }
+  body.display #rbboard::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px;
+                                  background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  body.display .board-title { gap: 16px; }
+  body.display .board-title h2 { font: 800 clamp(36px, 3.6vw, 56px)/1.05 Outfit, "DM Sans", system-ui, sans-serif; letter-spacing: -.01em; }
+  body.display .board-title .badge { font-size: 14px; padding: 6px 14px; border-radius: 999px; }
+  body.display .board-head::after { content: "Updates by itself"; display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; font: 600 15px/1 "DM Sans", system-ui, sans-serif; color: var(--ink-soft);
+                                    padding-left: 18px; background: radial-gradient(circle at 6px 50%, #2B8A3E 0 5px, transparent 6px); }
+  /* the ranks: two columns on a wide board, filled down then across */
+  body.display .ranks { display: block; columns: 2 460px; column-gap: 18px; margin-top: 18px; }
+  body.display .rank { break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 12px; display: grid; grid-template-columns: 58px 62px minmax(0, 1fr) auto;
+                       grid-template-areas: "pos avi nm sc" "pos avi nm st"; column-gap: 16px; row-gap: 0; padding: 14px 20px; border-radius: 22px;
+                       background: var(--card-sunk); border: 2px solid var(--edge); }
+  body.display .rank .pos { grid-area: pos; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--card); color: var(--ink);
+                            font: 800 26px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.display .rank:nth-child(1) .pos { background: #F7C948; color: #4A3200; box-shadow: inset 0 -4px 0 #D99A12; }
+  body.display .rank:nth-child(2) .pos { background: #DDE3EA; color: #2C3A47; box-shadow: inset 0 -4px 0 #A9B4BF; }
+  body.display .rank:nth-child(3) .pos { background: #E9A877; color: #4A2208; box-shadow: inset 0 -4px 0 #C07A45; }
+  body.display .rank:nth-child(1) { border-color: #F2B33D; border-width: 3px; }
+  body.display .rank .avibox { grid-area: avi; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: var(--card); }
+  body.display .rank .avibox .avi { width: 40px; height: 40px; }
+  body.display .rank .nm { grid-area: nm; align-self: center; font-size: 28px; white-space: normal; }
+  body.display .rank .nmtext { font: 800 28px/1.15 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.display .rank .nm small { font-size: 16px; margin-top: 4px; }
+  body.display .rank .title { display: inline-block; padding: 3px 10px; border-radius: 999px; background: var(--card); color: var(--ink); font-weight: 700; }
+  body.display .rank .sc { grid-area: sc; align-self: end; justify-self: end; font: 800 40px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); }
+  body.display .rank .st { grid-area: st; align-self: start; justify-self: end; font-size: 15px; }
+  /* the side: the jar large, the class race as its own card */
+  body.display .rbjarcard { border-radius: 30px; padding: 26px 28px; gap: 12px; }
+  body.display .rbjarcard h3 { font-size: 20px; }
+  body.display .rbjarcard .big { font-size: 68px; }
+  body.display .rbjarcard .big small { font-size: 26px; }
+  body.display .rbjarcard .bar { height: 30px; }
+  body.display #rbside { display: flex; flex-direction: column; gap: 20px; }
+  body.display #rbsidecard { display: flex; flex-direction: column; gap: 16px; padding: 0; background: none; border: 0; box-shadow: none; }
+  body.display #rbsidecard > :not([hidden]) { background: var(--card); border: 0; border-radius: 26px; padding: 20px 22px; margin: 0; box-shadow: 0 10px 30px rgba(0,0,0,.08); font-size: 18px; }
+  body.display #rbsidecard > [hidden] { display: none !important; }
+  @media (max-width: 1300px) { body.display .ranks { columns: 1; } }
+  body.display .rbclassbox { width: 100%; }
+  body.display #rbside { align-items: stretch; }
+  body.display #rbside > *, body.display #rbsidecard > * { width: auto; }
+  body.display #rbsidecard > :is(#vsbox, #chalbox, #squadbox, #shout) { zoom: 1.3; }
+  body.display .rbclassbox > #rbboard, body.display .rbclassbox > #rbside { max-width: none; width: auto; min-width: 0; }
+
+  /* ==================== v90: full-screen moments, all in one style ==================== */
+  /* the pause screen: the lab partners waiting with the class */
+  .pausecover { background: #1B1B2F; }
+  .pausecover::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px;
+                        background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  .pausecover > div { display: flex; flex-direction: column; align-items: center; gap: 6px; max-width: 760px; }
+  .pausecover h2 { font: 800 clamp(38px, 7vw, 72px)/1.05 Outfit, "DM Sans", system-ui, sans-serif; letter-spacing: -.01em; margin: 14px 0 8px; }
+  .pausecover p { font: 500 clamp(18px, 2.4vw, 22px)/1.45 "DM Sans", system-ui, sans-serif; color: #C9C9DA; }
+  .pcpals { display: flex; justify-content: center; gap: 6px; }
+  .pcpals span { width: clamp(44px, 8vw, 72px); aspect-ratio: 1; display: block; background: #FFFFFF; border-radius: 50%; padding: 6px; box-sizing: border-box;
+                 animation: pcbob 3s ease-in-out infinite; animation-delay: calc(var(--i) * .2s); }
+  .pcpals svg { width: 100%; height: 100%; display: block; }
+  @keyframes pcbob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .pcpals span { animation: none; } }
+  body.lowfx .pcpals span { animation: none; }
+
+  /* moving up a level: a medal with the new number and a few stars */
+  body .lvcard { padding: 18px 20px; gap: 18px; border-radius: 22px; box-shadow: inset 0 -5px 0 rgba(0,0,0,.18); }
+  body .lvcard::before { height: 8px; }
+  body .lvcard .lvnum { width: 70px; height: 70px; border-radius: 50%; background: #FFFFFF; color: var(--sc, #0B6E92); font-size: 34px;
+                   box-shadow: 0 0 0 5px rgba(255,255,255,.35), inset 0 -4px 0 rgba(0,0,0,.12); position: relative; }
+  .lvcard .lvnum::after { content: ""; position: absolute; inset: -14px; pointer-events: none;
+    background: radial-gradient(circle at 12% 18%, #FFD43B 0 3px, transparent 4px), radial-gradient(circle at 88% 10%, #FFFFFF 0 2.5px, transparent 3.5px),
+                radial-gradient(circle at 92% 84%, #FFD43B 0 2.5px, transparent 3.5px), radial-gradient(circle at 6% 86%, #FFFFFF 0 2px, transparent 3px);
+    animation: lvtwinkle 1.6s ease-in-out infinite; }
+  @keyframes lvtwinkle { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.08); } }
+  body .lvcard .lvt small { font-size: 13px; }
+  body .lvcard .lvt b { font-size: clamp(20px, 3vw, 24px); }
+  body .lvcard .lvt span { font-size: 15px; }
+  @media (prefers-reduced-motion: reduce) { .lvcard .lvnum::after { animation: none; } }
+  body.lowfx .lvcard .lvnum::after { animation: none; }
+
+  /* the badge note at the bottom: a gold medal on a dark pill */
+  body.rb .toast { display: flex; align-items: center; gap: 12px; padding: 10px 20px 10px 10px; border-radius: 999px; background: #1B1B2F; color: #FFFFFF; border: 0;
+                   box-shadow: 0 12px 30px rgba(0,0,0,.3); }
+  body.rb .toast .art { flex: none; width: 46px; height: 46px; padding: 10px; box-sizing: border-box; border-radius: 50%; stroke: #4A3200; stroke-width: 2.2;
+                        background: radial-gradient(circle at 35% 30%, #FFE8A3, #F2B33D 60%, #B07A12); }
+  body.rb .toast b { font: 800 12px/1 "DM Sans", system-ui, sans-serif; letter-spacing: .08em; color: #FFD43B; }
+  body.rb .toast small { font: 800 19px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: #FFFFFF; }
+
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -5524,7 +5742,7 @@
         <button class="action ghost" id="gaps" aria-pressed="false">Show the gaps</button>
         <button class="action ghost" id="skip">Skip (ends your streak)</button>
         <button class="action ghost" id="roundbtn">Start a round of 10</button>
-        <button class="action ghost" id="duelbtn">Duel a friend</button>
+        <button class="action ghost" id="duelbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5L21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2"/></svg>Duel a friend</button>
       </div>
     </div>
   </main>
@@ -5739,11 +5957,13 @@
         <ul id="dw-list"></ul>
       </div>
       <p class="dw-or" id="dw-or" hidden>Or send one of your own.</p>
+      <span class="duel-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 17.5L21 6V3h-3L6.5 14.5M11 19l-6-6M8 16l-4 4M5 21l-2-2"/></svg></span>
       <h2 id="duel-title">Send a duel</h2>
       <p class="rules" id="duel-blurb"></p>
       <div class="duel-names">
         <label id="duel-a-wrap" hidden><span>First up</span>
           <input type="text" id="duel-a" maxlength="18" autocomplete="off"></label>
+        <span class="duel-vs" aria-hidden="true">VS</span>
         <label id="duel-b-wrap"><span id="duel-b-lab">Who are you duelling?</span>
           <input type="text" id="duel-b" maxlength="18" autocomplete="off"
                  placeholder="Their name" list="duel-list"></label>
@@ -7175,7 +7395,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "84";
+  var GAME_VERSION = "91";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -13604,7 +13824,9 @@
       document.body.appendChild(cover);
     }
     if (!cover) return;
-    cover.innerHTML = '<div><div class="pc-eyes" aria-hidden="true">\ud83d\udc40</div><h2>Eyes on ' + esc(classState.by || TEACHER_NAME || "your teacher") + '</h2>' +
+    var pals = typeof rbPal === "function" ? '<div class="pcpals" aria-hidden="true">' + ["capacity", "mass", "length", "temperature", "time", "number", "english"].map(function (m, i) {
+      return '<span style="--i:' + i + '">' + rbPal(m, "happy") + "</span>"; }).join("") + "</div>" : '<div class="pc-eyes" aria-hidden="true">\ud83d\udc40</div>';
+    cover.innerHTML = '<div>' + pals + '<h2>Eyes on ' + esc(classState.by || TEACHER_NAME || "your teacher") + '</h2>' +
                       "<p>Your game is paused. It carries on as soon as your teacher unpauses it.</p></div>";
     cover.hidden = !on;
     document.body.classList.toggle("paused", on);
@@ -16926,21 +17148,21 @@
   function duelResultText() {
     var won = duelWinner();
     var a = duel.names[0] || "Player 1", bName = duel.names[1] || "Player 2";
-    var line = esc(a) + " <b>" + duel.right[0] + "</b> &nbsp;&ndash;&nbsp; <b>" +
-               duel.right[1] + "</b> " + esc(bName);
+    var side = function (i, nm) {
+      return '<div class="ds-side' + (won === i ? " win" : "") + '"><small>' + esc(nm) + "</small><b>" + duel.right[i] + "</b></div>";
+    };
     var verdict = won === -1
       ? "A draw. Nobody is going to let that stand."
       : esc(won === 0 ? a : bName) + " wins it.";
-    return '<div class="duel-score">' + line + "</div><p>" + verdict + "</p>";
+    return '<div class="duel-score">' + side(0, a) + '<span class="ds-dash">VS</span>' + side(1, bName) + "</div><p>" + verdict + "</p>";
   }
 
   /* A sent duel has half a result. Saying so plainly is better than a scoreline
      with a zero in it, which is what it looked like the first time and which
      every child read as having won by however many they got. */
   function duelSentText() {
-    return '<div class="duel-score">' + esc(duel.names[0] || "You") +
-           " <b>" + duel.right[0] + "</b> right</div><p>" + esc(duel.to) +
-           " has that to beat.</p>";
+    return '<div class="duel-score sent"><div class="ds-side"><small>' + esc(duel.names[0] || "You") + " got</small><b>" + duel.right[0] +
+           "</b><small>right</small></div></div><p>" + esc(duel.to) + " has that to beat.</p>";
   }
 
   /* --------------------------------------------------------- starting one
@@ -19183,7 +19405,9 @@
     var band = document.getElementById("rbband");
     var ba = document.createElement("div");
     ba.className = "rbacts";
-    ["roundbtn", "duelbtn"].forEach(function (id) { var el = document.getElementById(id); if (el) ba.appendChild(el); });
+    ["duelbtn"].forEach(function (id) { var el = document.getElementById(id); if (el) ba.appendChild(el); });
+    var rb0 = document.getElementById("roundbtn"); if (rb0) rb0.hidden = true;
+    try { if (round.on) stopRound(); round.done = false; } catch (e) { /* nothing running */ }
     band.appendChild(ba);
 
     /* Game of the day as one line under Continue, instead of a banner. */
@@ -19314,6 +19538,76 @@
       if (rbViewNow === "me" && !el.innerText.trim()) el.style.display = "none";
     });
   }
+
+  /* ================================================================ v87: right and wrong moments
+     Right: a burst of the subject's colours from Check, the partner hops, and
+     the points fly up to the points in the top bar, which gives a little
+     bounce. Wrong: the answer bar gives a short shake. With moving effects off
+     (or the iPad set to reduce motion) only the colour changes, nothing moves. */
+  function rbStill() {
+    if (document.body.classList.contains("lowfx")) return true;
+    try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
+  }
+  function rbCelebrate(pts) {
+    if (!RB_ON) return;
+    var entry = document.querySelector(".stage .entry"), pal = document.getElementById("rbpal");
+    if (entry) { entry.classList.remove("rbright", "rbwrong"); void entry.offsetWidth; entry.classList.add("rbright"); }
+    if (pal) { pal.classList.remove("rbhop"); void pal.offsetWidth; pal.classList.add("rbhop"); }
+    clearTimeout(rbCelebrate.t);
+    rbCelebrate.t = setTimeout(function () { if (entry) entry.classList.remove("rbright"); if (pal) pal.classList.remove("rbhop"); }, 900);
+    if (rbStill()) return;
+    if (typeof document.body.animate !== "function") return;
+    var from = null;
+    ["check", "verdict"].forEach(function (id) { var el = document.getElementById(id); if (!from && el && el.getBoundingClientRect().width) from = el; });
+    var picked = document.querySelector(".bench .lifeopt.right, .bench .lifeopt.picked");
+    if (picked && picked.getBoundingClientRect().width && !(document.getElementById("check") || {}).offsetWidth) from = picked;
+    if (!from) return;
+    var r = from.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var cols = (RB_COL[state.measure] || RB_COL.capacity).concat(["#FFD43B", "#FFFFFF"]);
+    for (var i = 0; i < 14; i++) {
+      var d = document.createElement("i");
+      d.className = "rbbit";
+      d.style.left = cx + "px"; d.style.top = cy + "px";
+      d.style.background = cols[i % cols.length];
+      document.body.appendChild(d);
+      var ang = (i / 14) * Math.PI * 2 + Math.random() * 0.4, dist = 50 + Math.random() * 50;
+      var a = d.animate([
+        { transform: "translate(-50%,-50%) scale(1) rotate(0deg)", opacity: 1 },
+        { transform: "translate(calc(-50% + " + Math.cos(ang) * dist + "px), calc(-50% + " + (Math.sin(ang) * dist - 20) + "px)) scale(.6) rotate(" + (180 + i * 30) + "deg)", opacity: 0 }
+      ], { duration: 650 + Math.random() * 200, easing: "cubic-bezier(.2,.7,.3,1)" });
+      a.onfinish = (function (el) { return function () { el.remove(); }; })(d);
+    }
+    var to = document.getElementById("stat-score");
+    if (pts && to) {
+      var t = to.getBoundingClientRect();
+      var f = document.createElement("b");
+      f.className = "rbfly"; f.textContent = String(pts).replace(/^\s+/, "");
+      f.style.left = cx + "px"; f.style.top = (cy - 10) + "px";
+      document.body.appendChild(f);
+      var fa = f.animate([
+        { transform: "translate(-50%,-50%) scale(1)", opacity: 0 },
+        { transform: "translate(-50%,-90%) scale(1.25)", opacity: 1, offset: 0.2 },
+        { transform: "translate(calc(-50% + " + (t.left + t.width / 2 - cx) + "px), calc(-50% + " + (t.top + t.height / 2 - cy + 10) + "px)) scale(.7)", opacity: .9 }
+      ], { duration: 900, easing: "cubic-bezier(.5,0,.3,1)" });
+      fa.onfinish = function () {
+        f.remove();
+        to.animate([{ transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" }], { duration: 320, easing: "ease-out" });
+      };
+    }
+  }
+  function rbOops() {
+    if (!RB_ON || rbViewNow !== "play") return;
+    var entry = document.querySelector(".stage .entry");
+    if (!entry || !entry.offsetWidth) return;
+    entry.classList.remove("rbright", "rbwrong"); void entry.offsetWidth; entry.classList.add("rbwrong");
+    clearTimeout(rbOops.t);
+    rbOops.t = setTimeout(function () { entry.classList.remove("rbwrong"); }, 700);
+  }
+  var rbShowRight0 = showRight;
+  showRight = function (head, pts) { rbShowRight0.apply(this, arguments); try { rbCelebrate(pts); } catch (e) { /* never in the way */ } };
+  var rbSetVerdict0 = setVerdict;
+  setVerdict = function (text, kind) { rbSetVerdict0.apply(this, arguments); if (kind === "bad" || kind === "hint") { try { rbOops(); } catch (e) { /* fine */ } } };
 
   function rbDraw2() {
     var tb = document.querySelector('.rbtabs [data-view="teach"]');
