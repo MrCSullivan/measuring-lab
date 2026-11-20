@@ -4983,6 +4983,75 @@
   @media (max-width: 520px) { body.rb #nexttitle { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "medal now" "medal next" "bar bar"; }
                               body.rb #nexttitle .nt-next { text-align: left; } body.rb #nexttitle .nt-medal { width: 54px; height: 54px; } }
 
+  /* ==================== v84: Class screen in two balanced columns ==================== */
+  body.rb:not(.display) #rbside { display: block; columns: 2 320px; column-gap: 14px; }
+  body.rb:not(.display) #rbside > *, body.rb:not(.display) #rbsidecard > * { break-inside: avoid; -webkit-column-break-inside: avoid; margin: 0 0 14px; }
+  body.rb:not(.display) #rbsidecard { display: contents; }
+  body.rb:not(.display) #rbside :is(#vsbox, #squadbox, #votebox, #chalbox:not(.done), #shout) {
+    display: block; background: var(--card); border: 2px solid var(--edge); border-radius: 22px; padding: 16px 18px; box-shadow: none; }
+  body.rb:not(.display) #rbside :is(#vsbox, #squadbox, #votebox, #chalbox, #shout)[hidden] { display: none !important; }
+  body.rb:not(.display) #rbside #chalbox { border-radius: 22px; padding: 16px 18px; }
+  body.rb:not(.display) #rbside #shout { font-size: 15px; }
+  body.rb:not(.display) #rbside #rbjar { margin-bottom: 14px; }
+
+  /* ==================== v84: Teacher tab ==================== */
+  body.rb #rbteach .rbtools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 4px 0 16px; }
+  body.rb #rbteach .rbtbtn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 18px; border-radius: 14px; cursor: pointer;
+                             border: 2px solid var(--edge); background: var(--card); color: var(--ink); font: 700 16px/1 "DM Sans", system-ui, sans-serif; text-decoration: none; list-style: none; }
+  body.rb #rbteach .rbtbtn::-webkit-details-marker { display: none; }
+  body.rb #rbteach .rbtbtn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  body.rb #rbteach .rbtbtn.main { background: var(--ink); color: var(--card); border-color: var(--ink); }
+  body.rb #rbteach .rbtbtn[hidden] { display: none !important; }
+  .rbmore { position: relative; }
+  .rbmore .rbmore-list { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; min-width: 240px; display: flex; flex-direction: column; gap: 4px; padding: 8px;
+                         border-radius: 16px; background: var(--card); border: 2px solid var(--edge); box-shadow: 0 14px 34px rgba(0,0,0,.18); }
+  .rbmore .rbmore-list button { display: block; width: 100%; text-align: left; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 0; background: none;
+                                color: var(--ink); font: 600 15px/1 "DM Sans", system-ui, sans-serif; text-decoration: none; cursor: pointer; }
+  .rbmore .rbmore-list button:hover { background: var(--card-sunk); }
+  .rbmore .rbmore-list button.danger { color: #9B1C1C; background: #FDE2E2; }
+  .rbmore .rbmore-list button.danger:hover { background: #FAC9C9; }
+  .rbmore .rbmore-list button[hidden] { display: none; }
+  /* the three groups as cards */
+  body.rb #rbteach .tcontrols { display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0 0 18px; background: none; border: 0; }
+  body.rb #rbteach .tgroup { border: 2px solid var(--edge); border-radius: 18px; background: var(--card); padding: 0; }
+  body.rb #rbteach .tgroup > summary { min-height: 58px; padding: 0 18px; align-items: center; gap: 12px; }
+  body.rb #rbteach .tgroup > summary::before { content: ""; order: 3; margin-left: auto; width: 22px; height: 22px; flex: none; transition: transform .15s;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23808099' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / contain no-repeat; }
+  body.rb #rbteach .tgroup[open] > summary::before { transform: rotate(180deg); }
+  body.rb #rbteach .tgroup > summary b { font: 700 19px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  body.rb #rbteach .tgroup > summary span { font-size: 14px; color: var(--ink-soft); }
+  body.rb #rbteach .tgroup > div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 12px 18px; border-top: 1px solid var(--edge); font-size: 15px; }
+  body.rb #rbteach .tgroup > div > b:first-child { flex: 0 0 auto; min-width: 150px; }
+  body.rb #rbteach .tgroup .linky { min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: var(--ink); color: var(--card); font-weight: 700; text-decoration: none; }
+  body.rb #rbteach .tgroup #tc-pause { background: #FFD43B; color: #3A2A00; }
+  body.rb #rbteach .tgroup :is(select, input) { min-height: 40px; border-radius: 10px; border: 2px solid var(--edge); font-size: 15px; padding: 0 10px; }
+  /* views as one segmented bar, subjects in their own colours */
+  body.rb #rbteach .tviews { display: flex; flex-wrap: wrap; gap: 4px; padding: 5px; border-radius: 16px; background: var(--card-sunk); margin: 0 0 12px; }
+  body.rb #rbteach .tviews button { flex: 1 1 auto; min-height: 44px; border: 0; border-radius: 12px; background: none; color: var(--ink-soft); font: 700 15px/1 "DM Sans", system-ui, sans-serif; }
+  body.rb #rbteach .tviews button.on, body.rb #rbteach .tviews button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  body.rb #rbteach .lvlpick { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+  body.rb #rbteach .lvlpick button { min-height: 40px; padding: 0 16px; border-radius: 999px; border: 2px solid var(--c, #1864AB); background: var(--card); color: var(--ink); font: 700 15px/1 "DM Sans", system-ui, sans-serif; }
+  body.rb #rbteach .lvlpick button.on { background: var(--c, #1864AB); color: #FFFFFF; }
+  body.rb #rbteach .lvlpick [data-tmeasure="capacity"] { --c: #1864AB; } body.rb #rbteach .lvlpick [data-tmeasure="mass"] { --c: #C2410C; }
+  body.rb #rbteach .lvlpick [data-tmeasure="length"] { --c: #237032; } body.rb #rbteach .lvlpick [data-tmeasure="temperature"] { --c: #C92A2A; }
+  body.rb #rbteach .lvlpick [data-tmeasure="time"] { --c: #6741D9; } body.rb #rbteach .lvlpick [data-tmeasure="number"] { --c: #0B7285; }
+  body.rb #rbteach .lvlpick [data-tmeasure="english"] { --c: #A61E4D; }
+  /* the tables: a rounded box with the names and headings kept in view, and levels as small pills */
+  body.rb #rbteach .tablewrap { border: 2px solid var(--edge); border-radius: 18px; overflow: auto; max-height: 72vh; background: var(--card); }
+  body.rb #rbteach table.progress { font-size: 15px; border-collapse: separate; border-spacing: 0; }
+  body.rb #rbteach table.progress thead th { position: sticky; top: 0; z-index: 2; background: var(--card-sunk); color: var(--ink); font: 700 14px/1.2 "DM Sans", system-ui, sans-serif; padding: 12px 10px; }
+  body.rb #rbteach table.progress td { padding: 6px 8px; border-bottom: 1px solid var(--edge); }
+  body.rb #rbteach table.progress :is(td, th):first-child { position: sticky; left: 0; z-index: 1; background: var(--card); text-align: left; padding-left: 16px; }
+  body.rb #rbteach table.progress thead th:first-child { z-index: 3; background: var(--card-sunk); }
+  body.rb #rbteach table.progress tbody tr:hover td { background-color: var(--card-sunk); }
+  body.rb #rbteach td.lvlcell { background: none; }
+  body.rb #rbteach td.lvlcell span { display: inline-block; min-width: 38px; padding: 6px 8px; border-radius: 10px; font-weight: 800; }
+  body.rb #rbteach td.lvlcell.low span { background: #FDE2E2; color: #9B1C1C; }
+  body.rb #rbteach td.lvlcell.mid span { background: #FFEBC7; color: #7A4100; }
+  body.rb #rbteach td.lvlcell.high span { background: #D7F2E0; color: #17602F; }
+  body.rb #rbteach td.lvlcell.top span { background: #E5DBFF; color: #4527A0; }
+  body.rb #rbteach #goalset { border: 2px solid var(--edge); border-radius: 18px; background: var(--card); padding: 14px 18px; margin-top: 18px; }
+
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -7106,7 +7175,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "83";
+  var GAME_VERSION = "84";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -14785,7 +14854,7 @@
       games.forEach(function (gk) {
         var v = safeLevel(lv[gk]);
         var band = v > MAX_LEVEL ? "top" : v <= 2 ? "low" : v <= 5 ? "mid" : "high";
-        cells += '<td class="lvlcell ' + band + '">' + (v > MAX_LEVEL ? "S" + (v - MAX_LEVEL) : v) + "</td>";
+        cells += '<td class="lvlcell ' + band + '"><span>' + (v > MAX_LEVEL ? "S" + (v - MAX_LEVEL) : v) + "</span></td>";
       });
       return "<tr>" + cells + '<td class="who">' + (row.right | 0) + "</td></tr>";
     }).join("");
@@ -18661,6 +18730,7 @@
     if (!RB_ON) return;
     rbViewNow = v;
     document.body.setAttribute("data-view", v);
+    if (v === "me") rbTidyMe();
     document.querySelectorAll(".rbtabs button").forEach(function (b) {
       var on = b.dataset.view === v || (v === "play" && b.dataset.view === "home");
       if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
@@ -19147,6 +19217,7 @@
     tabs.appendChild(tb);
     rbBuild3();
     rbBuild4();
+    rbBuild5();
   }
 
   /* ================================================================ v83: Rainbow finish
@@ -19201,9 +19272,7 @@
     }
     var ch = document.getElementById("chal-tile"), ic = ch && ch.querySelector(".chal-ic");
     if (ic) ic.innerHTML = /\bdone\b/.test(ch.className) ? rbTick() : rbTarget();
-    /* the old rewards box is empty now its title has moved up; hide it when nothing is left in it */
-    var rw = document.querySelector("#rbme > .rewards");
-    if (rw) rw.style.display = rw.textContent.trim() ? "" : "none";
+    rbTidyMe();
     /* the medal's metal follows how far up the titles the child is */
     var nt = document.getElementById("nexttitle");
     if (nt && typeof titleStanding === "function") {
@@ -19211,6 +19280,39 @@
       for (var i = 0; i < TITLES.length; i++) if (sc >= TITLES[i].at) tier = i;
       nt.dataset.tier = tier < 3 ? "bronze" : tier < 6 ? "silver" : "gold";
     }
+  }
+
+  /* ================================================================ v84: Teacher tab, tidied
+     Two everyday buttons up top. The three rarely used ones (post my score,
+     clear the scores, start everyone again) go into a More menu, with the two
+     that wipe things marked as such. */
+  function rbBuild5() {
+    var tools = document.getElementById("rbtools");
+    if (!tools || document.getElementById("rbmore")) return;
+    var pj = document.getElementById("projector"), rf = document.getElementById("refresh");
+    if (pj) { pj.classList.add("rbtbtn", "main"); pj.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Whiteboard view'; }
+    if (rf) { rf.classList.add("rbtbtn"); rf.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>Refresh'; }
+    var more = document.createElement("details");
+    more.className = "rbmore"; more.id = "rbmore";
+    more.innerHTML = '<summary class="rbtbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>More</summary><div class="rbmore-list"></div>';
+    var list = more.querySelector(".rbmore-list");
+    ["post", "clear", "wipe"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (id !== "post") el.classList.add("danger");
+      list.appendChild(el);
+    });
+    tools.appendChild(more);
+    document.addEventListener("click", function (e) { if (more.open && !more.contains(e.target)) more.open = false; });
+  }
+  /* Me: the old rewards box is empty now its parts have moved; hide it whenever nothing in it shows */
+  function rbTidyMe() {
+    [".sidecol .rewards", ".sidecol"].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+      el.style.display = "";
+      if (rbViewNow === "me" && !el.innerText.trim()) el.style.display = "none";
+    });
   }
 
   function rbDraw2() {
