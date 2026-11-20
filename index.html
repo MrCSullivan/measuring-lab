@@ -5407,6 +5407,74 @@
     body.rb .rbwide > #rbgrid.grouped > :last-child .rbgtiles, body.rb .rbwide > #rbgrid.grouped > .rbgroup:last-child .rbgtiles { flex: 1; }
   }
 
+  /* ==================== v100: minigames ==================== */
+  .mgtile .mgtop { font-weight: 700; font-size: 13px; opacity: .95; }
+  body.mg-open { overflow: hidden; }
+  .mgpanel { position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center; padding: 16px; background: rgba(15,17,30,.55); }
+  .mgpanel[hidden] { display: none; }
+  .mgcard { width: min(720px, 100%); max-height: calc(100vh - 32px); overflow: auto; border-radius: 26px; background: var(--card, #FFFFFF); color: var(--ink, #1B1B2F); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+  .mghead { display: flex; align-items: center; gap: 12px; padding: 18px 20px 12px; background: var(--mg); color: #FFFFFF; }
+  .mghead b { font: 800 24px/1.1 Outfit, "DM Sans", system-ui, sans-serif; flex: 1; }
+  .mgstat { font: 800 20px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  .mgx { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.2); color: #FFFFFF; font-size: 28px; line-height: 1; cursor: pointer; }
+  .mgbar { height: 10px; background: color-mix(in srgb, var(--mg) 25%, #FFFFFF); }
+  .mgbar i { display: block; height: 100%; width: 100%; background: var(--mg); transition: width .2s linear; }
+  .mgbody { padding: 20px; }
+  .mgintro ul { margin: 8px 0 14px; padding-left: 20px; line-height: 1.5; }
+  .mgline { font: 800 20px/1.3 Outfit, "DM Sans", system-ui, sans-serif; margin: 0; }
+  .mgnote { color: var(--ink-soft, #4A4A60); margin: 8px 0; }
+  .mgbody h4 { margin: 18px 0 8px; font: 800 13px/1 "DM Sans", system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft, #4A4A60); }
+  .mggo, .mgdone-b { min-height: 52px; padding: 0 26px; border-radius: 16px; border: 0; background: var(--mg); color: #FFFFFF; font: 800 19px/1 Outfit, "DM Sans", system-ui, sans-serif; cursor: pointer; }
+  .mgdone-b { background: var(--card-sunk, #EEF1F6); color: var(--ink, #1B1B2F); }
+  .mgbtns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .mgcount { font: 900 120px/1 Outfit, "DM Sans", system-ui, sans-serif; text-align: center; color: var(--mg); padding: 40px 0; }
+  .mgask { font: 800 clamp(24px, 4.5vw, 34px)/1.2 Outfit, "DM Sans", system-ui, sans-serif; text-align: center; margin: 4px 0 14px; }
+  .mgpic { display: flex; justify-content: center; margin-bottom: 14px; }
+  .mgpic svg { width: min(230px, 55vw); height: auto; }
+  .mgtags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; font: 800 28px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+  .mgtags span { padding: 12px 16px; border-radius: 12px; background: #FFF4C2; border: 2px solid #1B1B2F; color: #1B1B2F; }
+  .mgtags i { font-style: normal; }
+  .mgopts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .mgopt { position: relative; min-height: 84px; padding: 10px; border-radius: 18px; border: 3px solid color-mix(in srgb, var(--mg) 40%, #FFFFFF); background: var(--card, #FFFFFF); color: var(--ink, #1B1B2F);
+           font: 800 clamp(20px, 3.6vw, 28px)/1.15 Outfit, "DM Sans", system-ui, sans-serif; cursor: pointer; touch-action: manipulation; }
+  .mgopt.yes { background: #D3F9D8; border-color: #2B8A3E; }
+  .mgopt.no { background: #FFE3E3; border-color: #C92A2A; animation: mgshake .3s; }
+  .mgopt.done { background: color-mix(in srgb, var(--mg) 14%, #FFFFFF); border-color: var(--mg); opacity: .8; }
+  .mgopt .n { position: absolute; top: 6px; left: 8px; width: 26px; height: 26px; border-radius: 50%; background: var(--mg); color: #FFFFFF; font: 800 15px/26px Outfit, sans-serif; font-style: normal; }
+  @keyframes mgshake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  @media (prefers-reduced-motion: reduce) { .mgopt.no { animation: none; } }
+  .mgdone { text-align: center; }
+  .mgbig { font: 900 64px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--mg); margin: 6px 0; }
+  .mgdone .mgbtns { justify-content: center; }
+  .mgpod { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+  .mgpod li { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--card-sunk, #EEF1F6); }
+  .mgpod li.me { box-shadow: inset 0 0 0 2px var(--mg); }
+  .mgpod .pl { font: 800 14px/1 Outfit, sans-serif; text-align: center; padding: 6px 0; border-radius: 10px; }
+  .mgpod .p1 .pl { background: #F7C948; color: #4A3200; } .mgpod .p2 .pl { background: #DDE3EA; color: #2C3A47; } .mgpod .p3 .pl { background: #E9A877; color: #4A2208; }
+  .mgpod b { font: 800 17px/1.2 Outfit, sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 520px) { .mgopts { grid-template-columns: 1fr; } .mgopt { min-height: 64px; } }
+  /* the whiteboard podium */
+  .mgboard { position: fixed; inset: 0; z-index: 8000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: var(--mg); color: #FFFFFF; text-align: center; }
+  .mgboard[hidden] { display: none; }
+  .mgboard h2 { margin: 0; font: 900 clamp(40px, 6vw, 84px)/1 Outfit, sans-serif; }
+  .mgboard > p { margin: 0 0 20px; font: 700 clamp(18px, 2vw, 28px)/1 "DM Sans", sans-serif; opacity: .9; }
+  .mgstand { display: flex; align-items: flex-end; gap: 18px; }
+  .mgstand .st { width: clamp(160px, 20vw, 280px); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 6px; padding: 18px 10px; border-radius: 22px 22px 0 0; background: rgba(255,255,255,.18); }
+  .mgstand .s1 { height: 46vh; background: #F7C948; color: #4A3200; } .mgstand .s2 { height: 36vh; background: #DDE3EA; color: #2C3A47; } .mgstand .s3 { height: 28vh; background: #E9A877; color: #4A2208; }
+  .mgstand .empty { opacity: .25; }
+  .mgstand b { font: 900 clamp(24px, 3vw, 44px)/1.1 Outfit, sans-serif; overflow-wrap: anywhere; }
+  .mgstand span { font: 700 clamp(16px, 1.6vw, 24px)/1 "DM Sans", sans-serif; }
+  .mgstand i { font-style: normal; margin-top: auto; font: 900 clamp(28px, 3vw, 48px)/1 Outfit, sans-serif; }
+  /* the Teacher tab cards */
+  .mgtcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 8px; }
+  .mgtcard { border-radius: 16px; padding: 14px; border: 2px solid var(--edge, #DDE3EA); border-left: 8px solid var(--mg); background: var(--card, #FFFFFF); }
+  .mgtcard.on { background: color-mix(in srgb, var(--mg) 8%, var(--card, #FFFFFF)); }
+  .mgthead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .mgthead b { font: 800 18px/1.2 Outfit, sans-serif; }
+  .mgtcard p { margin: 8px 0 0; line-height: 1.45; font-size: 14.5px; }
+  .mgtnow { font-weight: 700; }
+  .mgtbtns { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -8704,7 +8772,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "99";
+  var GAME_VERSION = "100";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -15118,6 +15186,7 @@
   function englishOn() { return !shared.on || classState.english === true; }
   function applyClassState(cs) {
     if (!cs || typeof cs !== "object") return;
+    try { mgTake(cs.mg); } catch (eMg) { /* minigames wait for the next status */ }
     var was = JSON.stringify(classState);
     classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
@@ -16214,6 +16283,7 @@
           group("now", "Right now", classState.paused ? "paused" : fNow ? "focus on" : "pause, focus", nowBits) +
           group("week", "This week", shared.chal && shared.chal.need ? "challenge on" : "class challenge, seasons", weekBits) +
           group("setup", "Class setup", "add a student, English, PINs", setupBits) +
+          group("mini", "Minigames", mgTeacherSummary(), mgTeacherBits()) +
         "</div>"
       : "";
     showLine = "";
@@ -16311,6 +16381,7 @@
       tpi.disabled = true;
       teacherClassAction({ action: "pins", on: tpi.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { tpi.disabled = false; });
     });
+    mgTeacherBind(box);
     box.querySelectorAll("[data-tview]").forEach(function (b) {
       b.addEventListener("click", function () {
         teacherView = b.getAttribute("data-tview");
@@ -20348,6 +20419,8 @@
     document.getElementById("rbback").addEventListener("click", function () { rbView("home"); });
     document.getElementById("rbkeep").addEventListener("click", function () { rbView("play"); });
     document.getElementById("rbgrid").addEventListener("click", function (e) {
+      var mgt = e.target.closest(".mgtile");
+      if (mgt) { mgOpen(mgt.dataset.mg); return; }
       var b = e.target.closest(".rbtile");
       if (!b) return;
       var m = b.dataset.m;
@@ -20410,7 +20483,7 @@
     /* Number (3 tiles) and English (1 tile) share one row of four on wider screens */
     var ni = groups.map(function (g) { return g[0]; }).indexOf("Number");
     if (ni > -1 && groups[ni + 1] && groups[ni + 1][0] === "English") secs.splice(ni, 2, '<div class="rbgrow">' + secs[ni] + secs[ni + 1] + "</div>");
-    document.getElementById("rbgrid").innerHTML = secs.join("");
+    document.getElementById("rbgrid").innerHTML = mgSection() + secs.join("");
     function rbTileHtml(s) {
       var col = RB_COL[s], best = rbBest(s);
       return '<button type="button" class="rbtile" data-m="' + s + '" style="background:' + col[0] + ";--c:" + col[0] + ";--s2:" + spans[s].s2 + ";--s4:" + spans[s].s4 + '">' +
@@ -21013,6 +21086,314 @@
         }).join("") + "</ol>" : '<p>No points on the board yet this week. Be the first.</p>') +
       '</div>' +
       '<button type="button" class="rbw-go" data-go="class">See the class</button>';
+  }
+
+  /* ================================================================ v100: minigames
+     The teacher turns each one on from the Teacher tab. The four timed games
+     are two minutes of fast questions: three tries a day, the best score
+     counts, a wrong answer costs nothing but is counted, and a tie goes to
+     fewer mistakes. Each game has a podium for the day; when the day ends (or
+     the teacher starts a new round) the top three get a small bonus. */
+  var MG = {
+    speed: { name: "Speed Sort", col: "#0B7285", line: "Tap the amounts from smallest to biggest.",
+             how: "Three amounts come up, in different units: lengths, masses, capacities and times. Children tap them from smallest to biggest. Each set in the right order scores 1. It starts with the same units and moves to mixed units and decimals as they score." },
+    unit:  { name: "Unit Snap", col: "#5F3DC4", line: "Snap each amount to the right conversion.",
+             how: "One conversion at a time, like 2.5 kg = ? g, with three answers to choose from. Each right answer scores 1. Whole numbers first, then decimals, then time (hours, minutes and seconds)." },
+    shop:  { name: "Shop Keeper", col: "#8F6400", line: "Totals and change, as fast as you can.",
+             how: "Children are the shopkeeper: add up a total, or give the change from a note, choosing from three answers. Each right answer scores 1. Round amounts first, then any cents, then three things at once." },
+    clock: { name: "Clock Rush", col: "#6741D9", line: "Read the clock, pick the time.",
+             how: "A clock face comes up with three digital times to choose from. Each right answer scores 1. O'clock and half past first, then quarters, then five minutes, then any minute." },
+    est:   { name: "Estimation Station", col: "#C2410C", led: true, line: "Guess the amount. Closest wins.",
+             how: "Teacher led. You start a round with a picture of a jug, scale or ruler that shows how much a full one holds. Every iPad locks in one guess. The whiteboard shows each guess as a grey dot while they come in, then you press Reveal: the real amount appears, the dots get names and the three closest go on the podium." },
+    beat:  { name: "Beat the Timer", col: "#237032", led: true, line: "The whole class against the clock.",
+             how: "Teacher led. You set a target and a time, for example 150 right answers in 3 minutes. Every right answer on any iPad, in any subject, fills one shared bar on the whiteboard. Beat the timer and everyone gets a bonus." }
+  };
+  var MG_TIMED = ["speed", "unit", "shop", "clock"], MG_SECS = 120, MG_TRIES = 3, MG_BONUS = [50, 30, 20], MG_PLACE = ["1st", "2nd", "3rd"];
+  var mgView = null, mgRun = null, mgClaiming = {};
+  function mgOn(k) { return !!(mgView && mgView.on && mgView.on[k]); }
+  function mgMine(k) {
+    var g = mgView && mgView.g && mgView.g[k], n = state.name || "";
+    var best = g && g.best && g.best[n], tries = (g && g.tries && g.tries[n]) | 0;
+    return { best: best ? best[0] : null, mist: best ? best[1] : 0, tries: tries, left: Math.max(0, MG_TRIES - tries), round: (g && g.round) || 1, top: (g && g.top) || [] };
+  }
+  function mgTake(v) {
+    if (!v || typeof v !== "object") return;
+    var was = JSON.stringify(mgView);
+    mgView = v;
+    if (JSON.stringify(v) === was) return;
+    if (!mgRun && typeof rbDraw === "function" && state.name) { try { rbDraw(); } catch (e) { /* drawn next time */ } }
+    if (mgRun && mgRun.phase === "done") mgDraw();
+    mgAwards();
+    mgBoardShow();
+  }
+  /* ---- the bonus for a podium place, claimed once ---- */
+  function mgClaimed() { try { return JSON.parse(localStorage.getItem("mgclaimed:" + (state.name || "").toLowerCase()) || "[]"); } catch (e) { return []; } }
+  function mgAwards() {
+    if (!state.name || TEACHER || !mgView || !Array.isArray(mgView.awards)) return;
+    var me = state.name.toLowerCase(), done = mgClaimed(), cutoff = Date.now() - 4 * 86400000;
+    mgView.awards.forEach(function (a) {
+      if (!a || !a.id || !Array.isArray(a.top) || done.indexOf(a.id) > -1 || mgClaiming[a.id]) return;
+      var day = String(a.id).split(":")[1], t = Date.parse(day);
+      if (isFinite(t) && t < cutoff) return;
+      var place = -1;
+      a.top.forEach(function (r, i) { if (String(r[0]).toLowerCase() === me) place = i; });
+      if (place < 0 || (a.claimed || []).indexOf(me) > -1) return;
+      mgClaiming[a.id] = true;
+      mgPost({ action: "mgclaim", id: a.id }).then(function (d) {
+        if (!d || !d.ok) return;
+        var list = mgClaimed(); list.push(a.id);
+        try { localStorage.setItem("mgclaimed:" + me, JSON.stringify(list.slice(-40))); } catch (e) { /* fine */ }
+        if (!d.fresh) return;
+        var pts = MG_BONUS[d.place] || 0;
+        state.score += pts; noteWeek(); state.weekScore += pts; noteToday(); state.dayScore += pts;
+        saveProgress(); updateChrome(); schedulePush();
+        announce([{ art: "star", label: (MG[a.game] || {}).name + ": " + MG_PLACE[d.place] + " place", name: "+" + pts + " bonus points" }]);
+      }).then(function () { mgClaiming[a.id] = false; }, function () { mgClaiming[a.id] = false; });
+    });
+  }
+  function mgPost(body) {
+    body.room = CLASS; body.name = state.name; body.pin = state.pin || ""; body.pinv = 1;
+    return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+  }
+  /* ---- the tiles on the home screen ---- */
+  function mgSection() {
+    if (!shared.on || !mgView) return "";
+    var on = MG_TIMED.filter(mgOn);
+    if (!on.length) return "";
+    var per = function (n, c) { var rows = Math.ceil(n / c), base = Math.floor(n / rows), extra = n % rows, out = [], r, j; for (r = 0; r < rows; r++) for (j = 0; j < base + (r < extra ? 1 : 0); j++) out.push(12 / (base + (r < extra ? 1 : 0))); return out; };
+    var s2 = per(on.length, 2), s4 = per(on.length, 4);
+    return '<section class="rbgroup g-mini" aria-label="Minigames"><h3 class="rbgh">Minigames</h3><div class="rbgtiles">' + on.map(function (k, i) {
+      var m = mgMine(k), t = m.top[0];
+      return '<button type="button" class="rbtile mgtile" data-mg="' + k + '" style="background:' + MG[k].col + ";--c:" + MG[k].col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '">' +
+        "<span><b>" + esc(MG[k].name) + "</b><small>2 minutes · " + MG_TRIES + " tries a day</small></span>" +
+        '<span class="lv"><span>' + (m.best != null ? "Your best " + m.best + " · " : "") + (m.left ? m.left + " " + (m.left === 1 ? "try" : "tries") + " left" : "No tries left today") + "</span>" +
+        '<span class="mgtop">' + (t ? "1st " + esc(t[0]) + " · " + t[1] : "Nobody on the podium yet") + "</span></span></button>";
+    }).join("") + "</div></section>";
+  }
+  /* ---- the questions ---- */
+  var MG_DIMS = { length: [["mm", 1], ["cm", 10], ["m", 1000], ["km", 1000000]], mass: [["g", 1], ["kg", 1000]], capacity: [["mL", 1], ["L", 1000]], time: [["s", 1], ["min", 60], ["h", 3600]] };
+  function mgFmt(v, u) { var n = v / u[1], r = Math.round(n * 100) / 100; return Math.abs(r - n) > 1e-9 ? null : String(r) + " " + u[0]; }
+  function mgLevel() { return Math.min(5, 1 + Math.floor(((mgRun && mgRun.score) || 0) / 4)); }
+  var MGQ = {
+    speed: function (L) {
+      var dims = L <= 2 ? ["length", "mass", "capacity"] : ["length", "mass", "capacity", "time"], dk = pickOne(dims), us = MG_DIMS[dk];
+      var i = rint(0, us.length - 2), lo = us[i], hi = us[i + 1], ratio = hi[1] / lo[1], vals = [], tries = 0, items;
+      if (L === 1) { var u1 = pickOne([lo, hi]); while (vals.length < 3 && tries++ < 50) { var k = rint(2, 99); if (vals.indexOf(k) < 0) vals.push(k); } items = vals.map(function (k) { return { v: k * u1[1], t: k + " " + u1[0] }; }); }
+      else {
+        var span = hi[1], step = L === 2 ? span / 10 : L <= 4 ? span / 20 : span / 100;
+        if (dk === "time") step = L <= 3 ? span / 4 : span / 12;
+        step = Math.max(lo[1], Math.round(step / lo[1]) * lo[1]);
+        var kLo = Math.max(1, Math.round(span * 0.3 / step)), kHi = Math.max(kLo + 4, Math.round(span * (L >= 4 ? 2.5 : 1.8) / step));
+        while (vals.length < 3 && tries++ < 200) {
+          var v = rint(kLo, kHi) * step;
+          if (vals.every(function (x) { return Math.abs(x - v) >= step; })) vals.push(v);
+        }
+        items = vals.map(function (v, j) {
+          var pref = j === 0 ? lo : j === 1 ? hi : pickOne([lo, hi]), t = mgFmt(v, pref) || mgFmt(v, pref === lo ? hi : lo) || mgFmt(v, lo);
+          return { v: v, t: t };
+        });
+      }
+      return { kind: "sort", items: shuffle(items), ask: "Smallest to biggest" };
+    },
+    unit: function (L) {
+      var pairs = L <= 2 ? [["m", "cm", 100], ["kg", "g", 1000], ["L", "mL", 1000], ["cm", "mm", 10]] : L <= 4 ? [["m", "cm", 100], ["kg", "g", 1000], ["L", "mL", 1000], ["cm", "mm", 10], ["km", "m", 1000]] : [["h", "min", 60], ["min", "s", 60], ["km", "m", 1000], ["kg", "g", 1000], ["L", "mL", 1000], ["m", "cm", 100]];
+      var p = pickOne(pairs), back = L >= 2 && Math.random() < 0.45, big;
+      if (p[2] === 60) big = pickOne([1, 1.5, 2, 2.5, 3, 4, 0.5, 0.25]);
+      else big = L === 1 ? rint(1, 9) : L === 2 ? rint(1, 12) : L === 3 ? rint(1, 9) + pickOne([0.5, 0.25, 0.1, 0.2, 0.75]) : pickOne([rint(1, 9) + rint(1, 9) / 10, rint(1, 9) / 10, rint(1, 99) / 100 + rint(0, 3)]);
+      big = Math.round(big * 100) / 100;
+      var small = Math.round(big * p[2] * 100) / 100, right = back ? big : small;
+      var ask = back ? small + " " + p[1] + " = ? " + p[0] : big + " " + p[0] + " = ? " + p[1];
+      var f = p[2] === 60 ? (back ? [small / 100, right + 0.5, right * 2] : [big * 100, right + 30, right + 60]) : [right * 10, right / 10, right * 100];
+      var wr = f.map(function (x) { return Math.round(x * 100) / 100; }).filter(function (x) { return x !== right && x > 0; });
+      var choices = shuffle([right].concat(wr.slice(0, 2)));
+      return { kind: "pick", ask: ask, choices: choices.map(function (c) { return c + " " + (back ? p[0] : p[1]); }), answer: choices.indexOf(right) };
+    },
+    shop: function (L) {
+      var step = L === 1 ? 50 : L === 2 ? 10 : 5, change = L >= 2 && Math.random() < 0.5, items = [], total = 0, n = L >= 5 && !change ? 3 : change ? 1 : 2, ask, right, pic = "";
+      for (var i = 0; i < n; i++) { var c = rint(Math.ceil(60 / step), Math.floor((L <= 2 ? 500 : 1500) / step)) * step; items.push(c); total += c; }
+      if (change) { var note = total < 500 ? 500 : total < 1000 ? 1000 : 2000; right = note - total; ask = "It costs " + $c(total) + ". You are paid " + $d(note) + ". Change?"; }
+      else { right = total; ask = "Total?"; pic = '<div class="mgtags">' + items.map(function (c) { return "<span>" + $c(c) + "</span>"; }).join("<i>+</i>") + "</div>"; }
+      var wr = [right + 100, right - 10 * pickOne([1, 5]), right + 10 * pickOne([1, 5]), right - 100].filter(function (x) { return x > 0 && x !== right; });
+      var choices = shuffle([right].concat(shuffle(wr).slice(0, 2)));
+      return { kind: "pick", ask: ask, pic: pic, choices: choices.map($c), answer: choices.indexOf(right) };
+    },
+    clock: function (L) {
+      var h = rint(1, 12), m = L === 1 ? pickOne([0, 30]) : L === 2 ? pickOne([0, 15, 30, 45]) : L <= 4 ? rint(0, 11) * 5 : rint(0, 59);
+      var t = function (hh, mm) { hh = ((hh - 1) % 12 + 12) % 12 + 1; mm = (mm % 60 + 60) % 60; return hh + ":" + (mm < 10 ? "0" : "") + mm; };
+      var right = t(h, m), sw = Math.round(m / 5) % 12 || 12, wr = [t(sw, (h % 12) * 5), t(h + 1, m), t(h - 1, m), t(h, m + 5), t(h, m - 5), t(h, 60 - m)];
+      wr = wr.filter(function (x, i) { return x !== right && wr.indexOf(x) === i; });
+      var choices = shuffle([right].concat(shuffle(wr).slice(0, 2)));
+      return { kind: "pick", ask: "What time is it?", pic: angClockSVG(h, m), choices: choices, answer: choices.indexOf(right) };
+    }
+  };
+  /* ---- the screen for one run ---- */
+  function mgPanel() {
+    var p = document.getElementById("mgpanel");
+    if (p) return p;
+    p = document.createElement("div");
+    p.id = "mgpanel"; p.className = "mgpanel"; p.hidden = true;
+    p.setAttribute("role", "dialog"); p.setAttribute("aria-modal", "true");
+    p.innerHTML = '<div class="mgcard"><div class="mghead"><b id="mg-title"></b><span class="mgstat" id="mg-stat"></span><button type="button" class="mgx" id="mg-x" aria-label="Close">×</button></div>' +
+                  '<div class="mgbar"><i id="mg-time"></i></div><div class="mgbody" id="mg-body"></div></div>';
+    document.body.appendChild(p);
+    p.addEventListener("click", mgClick);
+    return p;
+  }
+  function mgOpen(k) {
+    if (!MG[k] || !mgOn(k)) return;
+    var p = mgPanel();
+    mgRun = { game: k, phase: "intro", score: 0, mist: 0 };
+    p.style.setProperty("--mg", MG[k].col);
+    p.hidden = false;
+    document.body.classList.add("mg-open");
+    mgDraw();
+  }
+  function mgClose() {
+    if (mgRun && mgRun.phase === "play" && !window.confirm("Stop now? This try will still count.")) return;
+    if (mgRun && mgRun.phase === "play") mgFinish();
+    clearInterval(mgRun && mgRun.timer);
+    mgRun = null;
+    var p = document.getElementById("mgpanel"); if (p) p.hidden = true;
+    document.body.classList.remove("mg-open");
+    try { rbDraw(); } catch (e) { /* fine */ }
+  }
+  function mgPodium(k, mine) {
+    var top = (mgMine(k).top || []);
+    if (!top.length) return '<p class="mgnote">Nobody on the podium yet today.</p>';
+    return '<ol class="mgpod">' + top.map(function (r, i) {
+      return '<li class="p' + (i + 1) + (mine && String(r[0]).toLowerCase() === mine ? " me" : "") + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + r[1] + " right" + (r[2] ? ", " + r[2] + " mistake" + (r[2] === 1 ? "" : "s") : "") + "</span></li>";
+    }).join("") + "</ol>";
+  }
+  function mgDraw() {
+    var r = mgRun; if (!r) return;
+    var k = r.game, body = document.getElementById("mg-body"), m = mgMine(k);
+    document.getElementById("mg-title").textContent = MG[k].name;
+    document.getElementById("mg-stat").textContent = r.phase === "play" ? r.score + " right" : "";
+    if (r.phase === "intro") {
+      document.getElementById("mg-time").style.width = "100%";
+      body.innerHTML = '<div class="mgintro"><p class="mgline">' + esc(MG[k].line) + "</p><ul><li>You have 2 minutes.</li><li>Every right answer scores 1. A wrong one costs nothing, but it is counted if there is a tie.</li><li>" + MG_TRIES + " tries a day. Your best one counts.</li></ul>" +
+        (m.best != null ? '<p class="mgnote">Your best today: <b>' + m.best + "</b>.</p>" : "") +
+        (m.left ? '<button type="button" class="mggo" data-mggo="1">Start (' + m.left + " " + (m.left === 1 ? "try" : "tries") + " left)</button>" : '<p class="mgnote">No tries left today. Come back tomorrow, or when your teacher starts a new round.</p>') +
+        "<h4>Today’s podium</h4>" + mgPodium(k, (state.name || "").toLowerCase()) + "</div>";
+    } else if (r.phase === "count") {
+      body.innerHTML = '<div class="mgcount">' + r.count + "</div>";
+    } else if (r.phase === "play") {
+      var q = r.q, h = '<div class="mgq"><p class="mgask">' + esc(q.ask) + "</p>" + (q.pic ? '<div class="mgpic">' + q.pic + "</div>" : "");
+      if (q.kind === "sort") h += '<div class="mgopts sort">' + q.items.map(function (it, i) { var at = r.order.indexOf(i); return '<button type="button" class="mgopt' + (at > -1 ? " done" : "") + '" data-mgi="' + i + '"' + (at > -1 ? " disabled" : "") + ">" + (at > -1 ? '<i class="n">' + (at + 1) + "</i>" : "") + esc(it.t) + "</button>"; }).join("") + "</div>";
+      else h += '<div class="mgopts">' + q.choices.map(function (c, i) { return '<button type="button" class="mgopt" data-mgi="' + i + '">' + esc(c) + "</button>"; }).join("") + "</div>";
+      body.innerHTML = h + "</div>";
+    } else if (r.phase === "done") {
+      var place = -1; m.top.forEach(function (x, i) { if (String(x[0]).toLowerCase() === (state.name || "").toLowerCase()) place = i; });
+      body.innerHTML = '<div class="mgdone"><p class="mgbig">' + r.score + " right</p><p>" + r.mist + " mistake" + (r.mist === 1 ? "" : "s") + (r.sent === "saved" ? "" : r.sent === "sending" ? " · saving…" : " · " + esc(r.sent)) + "</p>" +
+        (m.best != null ? '<p class="mgnote">Your best today: <b>' + m.best + "</b>" + (place > -1 ? ", " + MG_PLACE[place] + " place so far" : "") + ".</p>" : "") +
+        "<h4>Today’s podium</h4>" + mgPodium(k, (state.name || "").toLowerCase()) +
+        '<div class="mgbtns">' + (m.left > 0 && r.sent !== "sending" ? '<button type="button" class="mggo" data-mggo="1">Try again (' + m.left + " left)</button>" : "") + '<button type="button" class="mgdone-b" data-mgx="1">Done</button></div></div>';
+    }
+  }
+  function mgStart() {
+    var r = mgRun; if (!r || mgMine(r.game).left <= 0) return;
+    r.phase = "count"; r.count = 3; r.score = 0; r.mist = 0; r.round = mgMine(r.game).round;
+    mgDraw();
+    var tick = setInterval(function () {
+      if (!mgRun || mgRun !== r) { clearInterval(tick); return; }
+      r.count--;
+      if (r.count > 0) { mgDraw(); return; }
+      clearInterval(tick);
+      r.phase = "play"; r.end = Date.now() + MG_SECS * 1000; mgNext();
+      r.timer = setInterval(function () {
+        var left = Math.max(0, r.end - Date.now()), bar = document.getElementById("mg-time");
+        if (bar) bar.style.width = (left / (MG_SECS * 10)) + "%";
+        if (!left) mgFinish();
+      }, 200);
+    }, 800);
+  }
+  function mgNext() { var r = mgRun; r.q = MGQ[r.game](mgLevel()); r.order = []; r.busy = false; mgDraw(); }
+  function mgClick(e) {
+    var r = mgRun; if (!r) return;
+    if (e.target.closest("#mg-x") || e.target.closest("[data-mgx]")) { mgClose(); return; }
+    if (e.target.closest("[data-mggo]")) { mgStart(); return; }
+    var b = e.target.closest(".mgopt"); if (!b || r.phase !== "play" || r.busy) return;
+    var i = Number(b.getAttribute("data-mgi")), q = r.q;
+    if (q.kind === "sort") {
+      var left = q.items.map(function (_, j) { return j; }).filter(function (j) { return r.order.indexOf(j) < 0; });
+      var least = left.reduce(function (a, j) { return q.items[j].v < q.items[a].v ? j : a; }, left[0]);
+      if (i === least) { r.order.push(i); if (r.order.length === q.items.length) { r.score++; r.busy = true; mgDraw(); setTimeout(function () { if (mgRun === r && r.phase === "play") mgNext(); }, 220); } else mgDraw(); }
+      else { r.mist++; b.classList.remove("no"); void b.offsetWidth; b.classList.add("no"); }
+      return;
+    }
+    r.busy = true;
+    var opts = b.parentNode.querySelectorAll(".mgopt");
+    if (i === q.answer) { r.score++; b.classList.add("yes"); }
+    else { r.mist++; b.classList.add("no"); if (opts[q.answer]) opts[q.answer].classList.add("yes"); }
+    document.getElementById("mg-stat").textContent = r.score + " right";
+    setTimeout(function () { if (mgRun === r && r.phase === "play") mgNext(); }, i === q.answer ? 220 : 750);
+  }
+  function mgFinish() {
+    var r = mgRun; if (!r || r.phase !== "play") return;
+    clearInterval(r.timer); r.phase = "done"; r.sent = "sending";
+    var bar = document.getElementById("mg-time"); if (bar) bar.style.width = "0%";
+    mgDraw();
+    var body = { action: "mg", game: r.game, round: r.round, score: r.score, mistakes: r.mist }, tries = 0;
+    (function send() {
+      mgPost(body).then(function (d) {
+        if (d && d.mg) mgTake(d.mg);
+        r.sent = d && d.ok ? "saved" : d && d.error === "tries" ? "no tries were left" : d && d.error === "round" ? "a new round had started, so this one did not count" : d && d.error === "off" ? "your teacher has turned this game off" : "not saved";
+        if (d && d.error === "busy" && tries++ < 3) { r.sent = "sending"; setTimeout(send, 2000 + tries * 2000); }
+        if (mgRun === r) mgDraw();
+      }, function () {
+        if (tries++ < 3) { setTimeout(send, 2000 + tries * 2000); return; }
+        r.sent = "could not reach the sheet"; if (mgRun === r) mgDraw();
+      });
+    })();
+  }
+  /* ---- the podium on the whiteboard ---- */
+  function mgBoardShow() {
+    if (!DISPLAY) return;
+    var k = mgView && mgView.show, el = document.getElementById("mgboard");
+    if (!k || !MG[k]) { if (el) el.hidden = true; return; }
+    if (!el) { el = document.createElement("div"); el.id = "mgboard"; el.className = "mgboard"; document.body.appendChild(el); }
+    var top = (mgView.g && mgView.g[k] && mgView.g[k].top) || [];
+    el.style.setProperty("--mg", MG[k].col);
+    el.innerHTML = "<h2>" + esc(MG[k].name) + "</h2><p>Today’s podium</p>" + (top.length ? '<div class="mgstand">' + [1, 0, 2].map(function (i) {
+      var t = top[i]; return t ? '<div class="st s' + (i + 1) + '"><b>' + esc(t[0]) + "</b><span>" + t[1] + " right</span><i>" + MG_PLACE[i] + "</i></div>" : '<div class="st s' + (i + 1) + ' empty"></div>';
+    }).join("") + "</div>" : '<p class="mgnote">Nobody has played yet.</p>');
+    el.hidden = false;
+  }
+  /* ---- the Teacher tab ---- */
+  function mgTeacherBits() {
+    var v = mgView || { on: {}, g: {} }, h = '<p class="tc-note">Turn on a minigame and it appears at the top of every child’s home screen. Each one says how it works below.</p><div class="mgtcards">';
+    ["speed", "unit", "shop", "clock", "est", "beat"].forEach(function (k) {
+      var on = !!(v.on && v.on[k]), g = v.g && v.g[k], top = (g && g.top) || [], played = g && g.tries ? Object.keys(g.tries).length : 0, soon = MG[k].led && !MG_LED_READY[k];
+      h += '<div class="mgtcard' + (on ? " on" : "") + '" style="--mg:' + MG[k].col + '"><div class="mgthead"><b>' + esc(MG[k].name) + "</b>" +
+        (soon ? '<span class="tc-note">Coming in the next update</span>' : '<button type="button" class="linky" data-mgset="' + k + '" data-on="' + (on ? "0" : "1") + '">' + (on ? "Turn off" : "Turn on") + "</button>") + "</div>" +
+        "<p>" + esc(MG[k].how) + "</p>";
+      if (!MG[k].led) h += '<p class="tc-note">2 minutes, ' + MG_TRIES + " tries a day, best score counts. Ties go to fewer mistakes. Podium resets each day; 1st, 2nd and 3rd get " + MG_BONUS.join(", ") + " bonus points.</p>";
+      if (on && !MG[k].led) h += '<p class="mgtnow">Round ' + ((g && g.round) || 1) + ": " + played + " played. " + (top.length ? top.map(function (r, i) { return MG_PLACE[i] + " " + esc(r[0]) + " (" + r[1] + ")"; }).join(", ") : "No podium yet.") + "</p>" +
+        '<div class="mgtbtns"><button type="button" class="linky" data-mgnew="' + k + '">New round</button> <button type="button" class="linky" data-mgshow="' + (v.show === k ? "" : k) + '">' + (v.show === k ? "Hide the podium on the whiteboard" : "Show the podium on the whiteboard") + "</button></div>";
+      h += (MG_LED[k] ? MG_LED[k](on) : "") + "</div>";
+    });
+    return h + "</div>";
+  }
+  var MG_LED_READY = {}, MG_LED = {};
+  function mgTeacherSummary() { var n = Object.keys((mgView && mgView.on) || {}).length; return n ? n + " on" : "all off"; }
+  function mgTeacherBind(box) {
+    box.querySelectorAll("[data-mgset],[data-mgnew],[data-mgshow]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var body = b.hasAttribute("data-mgset") ? { action: "mgset", game: b.getAttribute("data-mgset"), on: b.getAttribute("data-on") }
+                 : b.hasAttribute("data-mgnew") ? { action: "mgnew", game: b.getAttribute("data-mgnew") }
+                 : { action: "mgshow", game: b.getAttribute("data-mgshow") };
+        if (body.action === "mgnew" && !window.confirm("Start a new round of " + MG[body.game].name + "? Today’s podium gets its bonus and everyone gets 3 fresh tries.")) return;
+        b.disabled = true;
+        teacherClassAction(body).then(function () { drawBoard(); }, function () { b.disabled = false; });
+      });
+    });
+  }
+  window.__mg = { open: mgOpen, run: function () { return mgRun; }, view: function () { return mgView; }, finish: function () { if (mgRun) mgRun.end = Date.now(); }, q: function (k, L) { return MGQ[k](L); }, status: function () { return fetchSheet(sharedUrl({ action: "status", room: CLASS }), { method: "GET", redirect: "follow" }); } };
+  /* The whiteboard asks for the class state every 8 seconds, so a podium the
+     teacher puts up appears within a few seconds rather than twenty. */
+  if (DISPLAY && shared.on) {
+    setTimeout(function () { window.__mg.status().catch(function () {}); }, 1500);
+    setInterval(function () { if (!document.hidden) window.__mg.status().catch(function () {}); }, 8000);
   }
 
   function rbDraw2() {

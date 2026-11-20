@@ -9,7 +9,7 @@
 
   Change the version below whenever index.html changes, so iPads drop the old copy.
 */
-var CACHE = "measuring-lab-v99";
+var CACHE = "measuring-lab-v100";
 var FILES = [
   "./", "index.html", "config.js", "manifest.webmanifest",
   "icon-192.png", "icon-512.png", "apple-touch-icon.png",
