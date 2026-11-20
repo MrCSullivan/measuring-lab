@@ -5270,6 +5270,143 @@
   body.rb .toast b { font: 800 12px/1 "DM Sans", system-ui, sans-serif; letter-spacing: .08em; color: #FFD43B; }
   body.rb .toast small { font: 800 19px/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: #FFFFFF; }
 
+  /* ==================== v93: wide screens and iPads ==================== */
+  .rbwcard { display: none; }
+  .rbwide { display: block; }
+  @media (min-width: 700px) {
+    body.rb .rbwide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "grid grid" "me cls"; gap: 16px; align-items: stretch; }
+    body.rb .rbwide > .rbgrid { grid-area: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; }
+    body.rb .rbwide > .rbwme { grid-area: me; } body.rb .rbwide > .rbwclass { grid-area: cls; }
+    body.rb .rbwcard { display: flex; flex-direction: column; gap: 14px; padding: 18px; border-radius: 22px; background: var(--card); border: 2px solid var(--edge); color: var(--ink); min-width: 0; }
+    body.rb .rbwcard small { font: 700 12.5px/1.3 "DM Sans", system-ui, sans-serif; color: var(--ink-soft); letter-spacing: .03em; }
+    .rbw-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .rbw-who > span:last-child { display: flex; flex-direction: column; min-width: 0; }
+    .rbw-who b { font: 800 22px/1.15 Outfit, "DM Sans", system-ui, sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rbw-who small { color: #8A5A00 !important; font-weight: 800 !important; }
+    .rbw-avi { flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--card-sunk); }
+    .rbw-avi .avi { width: 34px; height: 34px; }
+    .rbw-title { display: flex; flex-direction: column; gap: 6px; }
+    .rbw-bar { display: block; height: 12px; border-radius: 6px; background: var(--card-sunk); overflow: hidden; }
+    .rbw-bar i { display: block; height: 100%; border-radius: 6px; background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+    .rbw-bar.dark { background: rgba(255,255,255,.16); }
+    .rbw-bar.dark i { background: #FFFFFF; }
+    .rbw-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .rbw-stats span { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 14px; background: var(--card-sunk); }
+    .rbw-stats b { font: 800 24px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); }
+    .rbw-jar { display: flex; flex-direction: column; gap: 6px; margin: -18px -18px 0; padding: 16px 18px 18px; border-radius: 20px 20px 16px 16px; background: #1B1B2F; color: #FFFFFF; }
+    body.rb .rbw-jar small { color: #C9C9DA; }
+    .rbw-jar b { font: 800 34px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+    .rbw-jar em { font-style: normal; font-size: 16px; color: #C9C9DA; }
+    .rbw-top { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .rbw-top ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+    .rbw-top li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 12px; background: var(--card-sunk); }
+    .rbw-top li.me { box-shadow: inset 0 0 0 2px var(--ink); }
+    .rbw-top .p { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--card); font: 800 13px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+    .rbw-top li:nth-child(1) .p { background: #F7C948; color: #4A3200; } .rbw-top li:nth-child(2) .p { background: #DDE3EA; color: #2C3A47; } .rbw-top li:nth-child(3) .p { background: #E9A877; color: #4A2208; }
+    .rbw-top .n { font: 700 15px/1.2 "DM Sans", system-ui, sans-serif; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rbw-top .s { font: 800 15px/1 Outfit, "DM Sans", system-ui, sans-serif; }
+    .rbw-top p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+    .rbw-go { margin-top: auto; min-height: 42px; border-radius: 12px; border: 2px solid var(--edge); background: var(--card-sunk); color: var(--ink); font: 700 14.5px/1 "DM Sans", system-ui, sans-serif; cursor: pointer; }
+    .rbw-go:hover { border-color: var(--ink-soft); }
+  }
+  @media (min-width: 700px) {
+    body.rb .rbwide > .rbgrid { grid-auto-rows: 1fr; align-content: stretch; }
+    /* a lone tile on the last row (English, when it is on) runs the full width, so the grid stays even */
+    body.rb .rbwide > .rbgrid > :last-child:nth-child(3n + 1) { grid-column: 1 / -1; }
+  }
+  @media (min-width: 1300px) {
+    body.rb:not(.display):is([data-view="home"], [data-view="class"], [data-view="teach"]) .wrap { max-width: 1340px; }
+    body.rb .rbwide { grid-template-columns: 290px minmax(0, 1fr) 290px; grid-template-areas: "me grid cls"; }
+  }
+
+  /* ==================== v94: subjects without an instrument ==================== */
+  .bench.pack { flex-direction: column; align-items: center; gap: 16px; }
+  .packpics { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 18px; width: 100%; }
+  .packpic { max-width: 100%; height: auto; }
+  .packpics > .packpic { flex: 0 1 auto; min-width: 0; }
+  body.rb .stage:has(.bench.pack) #gaps { display: none !important; }
+  .bench.pack .cvbig { font: 800 clamp(30px, 6vw, 46px)/1.2 Outfit, "DM Sans", system-ui, sans-serif; color: var(--ink); text-align: center; }
+  .bench.pack .cvbig span { color: var(--ink-soft); }
+  .packopts { width: 100%; }
+
+  /* ==================== v95: area and perimeter ==================== */
+  .packpic .acell { fill: #DCE3FB; stroke: none; }
+  body.rb .packpic .acell { fill: color-mix(in srgb, var(--rb-col, #364FC7) 22%, #FFFFFF); }
+  .packpic .alines line { stroke: #8C97B8; stroke-width: 1.2; }
+  .packpic .akey { font: 700 13px/1 "DM Sans", system-ui, sans-serif; fill: var(--ink-soft, #4A4A60); }
+  .packpic .ashape { fill: #E8ECFB; stroke: #26388F; stroke-width: 3; stroke-linejoin: round; }
+  body.rb .packpic .ashape { fill: color-mix(in srgb, var(--rb-col, #364FC7) 14%, #FFFFFF); stroke: var(--rb-ink, #26388F); }
+  .packpic .alab { font: 800 17px/1 Outfit, "DM Sans", system-ui, sans-serif; fill: #1B1B2F; }
+  .packpic .alab.q { fill: #C92A2A; font-size: 22px; }
+
+  /* ==================== v96: angles ==================== */
+  .packpic .garm { stroke: #1B1B2F; stroke-width: 4; stroke-linecap: round; }
+  .packpic .garm.hour { stroke-width: 6; }
+  .packpic .gdot { fill: #1B1B2F; }
+  .packpic .gsec { fill: #F0E2F4; }
+  body.rb .packpic .gsec { fill: color-mix(in srgb, var(--rb-col, #862E9C) 16%, #FFFFFF); }
+  .packpic .gsec.q { fill: #FFE3E3; }
+  .packpic .garc { fill: none; stroke: #862E9C; stroke-width: 2.5; }
+  body.rb .packpic .garc { stroke: var(--rb-col, #862E9C); }
+  .packpic .gsq { fill: none; stroke: #1B1B2F; stroke-width: 2.5; }
+  .packpic .glab { font: 800 18px/1 Outfit, "DM Sans", system-ui, sans-serif; fill: #1B1B2F; }
+  .packpic .glab.small { font-size: 14px; }
+  .packpic .glab.q { fill: #C92A2A; font-size: 22px; }
+  .packpic .pbody { fill: #F4F7FF; stroke: #6B7AA8; stroke-width: 2; }
+  .packpic .ptick { stroke: #3B4566; stroke-width: 1.3; }
+  .packpic .pnum { font: 700 12px/1 "DM Sans", system-ui, sans-serif; }
+  .packpic .pnum.out { fill: #1B1B2F; }
+  .packpic .pnum.in { fill: #1C5DAA; font-size: 11px; }
+  .packpic .parm { stroke: #C92A2A; stroke-width: 3.5; stroke-linecap: round; }
+  .packpic .garrowhead { fill: #C92A2A; }
+  .packpic .gpizza { fill: #F6C66B; stroke: #B5651D; stroke-width: 6; }
+  .packpic .gcut { stroke: #8A4B12; stroke-width: 2.5; }
+  .packpic .gslice { fill: #E8590C; opacity: .35; }
+  .packpic .gcar { fill: #862E9C; }
+  .packpic .garc.big { stroke-width: 5; }
+  .bench.pack:empty { display: none; }
+
+  /* ==================== v97: fractions ==================== */
+  .fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.05; font-size: .9em; margin: 0 .08em; }
+  .fr i { font-style: normal; padding: 0 .18em; }
+  .fr i:first-child { border-bottom: .09em solid currentColor; }
+  .fr b { font-size: 0; line-height: 0; width: 0; overflow: hidden; }
+  .mxn { white-space: nowrap; }
+  .lifeopt .fr { font-size: .95em; }
+  .bench.pack .cvbig.frbig { display: flex; align-items: center; justify-content: center; gap: .3em; flex-wrap: wrap; }
+  .frbox { display: inline-block; min-width: 1.1em; padding: 0 .15em; border: .07em dashed currentColor; border-radius: .15em; color: #C92A2A; text-align: center; line-height: 1.1; }
+  .fr .frq, .fr i:only-child { color: #C92A2A; }
+  .packpic .fpart { fill: #FFFFFF; stroke: #1B1B2F; stroke-width: 2.5; stroke-linejoin: round; }
+  .packpic .fpart.on { fill: #8DB33A; }
+  .packpic .fpart.on2 { fill: #F2C14E; }
+  body.rb .packpic .fpart.on { fill: color-mix(in srgb, var(--rb-col, #5C7F0E) 70%, #FFFFFF); }
+  .packpic .fdot { fill: #FFFFFF; stroke: #1B1B2F; stroke-width: 2.5; }
+  .packpic .fdot.on { fill: #E8590C; }
+  .packpic .fline { stroke: #1B1B2F; stroke-width: 2.5; stroke-linecap: round; }
+  .packpic .flab { font: 800 20px/1 Outfit, "DM Sans", system-ui, sans-serif; fill: #1B1B2F; }
+  .packpic .farrow { fill: #C92A2A; }
+
+  /* ==================== v98: home tiles in two groups ==================== */
+  body.rb #rbgrid.grouped, body.rb .rbwide > #rbgrid.grouped { display: flex; flex-direction: column; gap: 18px; grid-template-columns: none; }
+  .rbgroup { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .rbgh { margin: 0; font: 800 13px/1 "DM Sans", system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .rbgtiles { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+  .rbgtiles > .rbtile { grid-column: span var(--s2, 6); container-type: inline-size; }
+  .rbgtiles > .rbtile b { overflow-wrap: anywhere; }
+  @container (max-width: 175px) { .rbgtiles > .rbtile b { font-size: 19px; } .rbgtiles > .rbtile small { font-size: 13px; } }
+  .rbgrow { display: flex; flex-direction: column; gap: 18px; }
+  @media (min-width: 700px) {
+    .rbgtiles > .rbtile { grid-column: span var(--s4, 3); }
+    .rbgrow { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
+    .rbgrow > .g-number { grid-column: span 9; } .rbgrow > .g-english { grid-column: span 3; }
+    body.rb .rbwide > #rbgrid.grouped { justify-content: flex-start; }
+  }
+  @media (min-width: 1300px) {
+    body.rb .rbwide > #rbgrid.grouped { justify-content: space-between; }
+    body.rb .rbwide > #rbgrid.grouped > :last-child { flex: 1; }
+    body.rb .rbwide > #rbgrid.grouped > :last-child .rbgtiles, body.rb .rbwide > #rbgrid.grouped > .rbgroup:last-child .rbgtiles { flex: 1; }
+  }
+
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -5689,6 +5826,10 @@
     <button class="measure" data-measure="temperature" aria-pressed="false">Temperature<small>thermometers · °C</small></button>
     <button class="measure" data-measure="time" aria-pressed="false">Time<small>clocks · minutes</small></button>
     <button class="measure number" data-measure="number" aria-pressed="false">Number<small>&#215; and &#247;</small></button>
+    <button class="measure" data-measure="money" aria-pressed="false">Money<small>coins, notes and change</small></button>
+    <button class="measure" data-measure="area" aria-pressed="false">Area<small>squares, sides and space</small></button>
+    <button class="measure" data-measure="angles" aria-pressed="false">Angles<small>degrees, turns and lines</small></button>
+    <button class="measure" data-measure="fractions" aria-pressed="false">Fractions<small>parts, decimals and&nbsp;%</small></button>
   </nav>
 
   <button type="button" class="gotd" id="gotd" hidden></button>
@@ -7043,6 +7184,54 @@
         life:  { label: "Fix it",      blurb: "Spot the mistake. Make it better." }
       }
     },
+    money: {
+      label: "Money", short: "money", shape: "pack", layout: "wide", thing: "amount", things: "amounts",
+      games: {
+        step:    { label: "Count it",          blurb: "How much money is there?" },
+        read:    { label: "Price tags",        blurb: "Read, compare and round prices." },
+        add:     { label: "Add it up",         blurb: "The total on the receipt." },
+        about:   { label: "Change",            blurb: "What comes back when you pay?" },
+        set:     { label: "Make it",           blurb: "The fewest coins and notes." },
+        convert: { label: "Dollars and cents", blurb: "Write it both ways." },
+        life:    { label: "Real life",         blurb: "Budgets, saving and better buys." }
+      }
+    },
+    area: {
+      label: "Area", short: "area", shape: "pack", layout: "wide", thing: "shape", things: "shapes",
+      games: {
+        step:    { label: "Count squares", blurb: "Count the squares inside." },
+        read:    { label: "Perimeter",     blurb: "All the way round the edge." },
+        add:     { label: "Area",          blurb: "Length times width, and beyond." },
+        about:   { label: "Missing side",  blurb: "Work backwards to the side." },
+        set:     { label: "Which shape",   blurb: "Compare area and perimeter." },
+        convert: { label: "Units",         blurb: "cm, m, square units, hectares." },
+        life:    { label: "Real life",     blurb: "Fences, tiles, carpet and paint." }
+      }
+    },
+    angles: {
+      label: "Angles", short: "angles", shape: "pack", layout: "wide", thing: "angle", things: "angles",
+      games: {
+        step:    { label: "Name it",       blurb: "Acute, right, obtuse and more." },
+        read:    { label: "Protractor",    blurb: "Read the angle in degrees." },
+        add:     { label: "Add angles",    blurb: "Angles side by side." },
+        about:   { label: "Missing angle", blurb: "Lines, points and triangles." },
+        set:     { label: "Estimate",      blurb: "About how big is it?" },
+        convert: { label: "Turns",         blurb: "Turns, compass and clocks." },
+        life:    { label: "Real life",     blurb: "Pizza, ramps, robots and spins." }
+      }
+    },
+    fractions: {
+      label: "Fractions", short: "fractions", shape: "pack", layout: "wide", thing: "fraction", things: "fractions",
+      games: {
+        step:    { label: "Shaded part",  blurb: "What fraction is shaded?" },
+        read:    { label: "Number line",  blurb: "Where is the arrow?" },
+        add:     { label: "Add and take", blurb: "Adding and taking away parts." },
+        about:   { label: "Equivalent",   blurb: "Same amount, different numbers." },
+        set:     { label: "Compare",      blurb: "Bigger, smaller and in order." },
+        convert: { label: "Decimals and %", blurb: "Fractions, decimals, percentages." },
+        life:    { label: "Real life",    blurb: "Parts of groups, money and time." }
+      }
+    },
     capacity: {
       label: "Capacity", short: "jugs", shape: "jug", layout: "side",
       thing: "jug", things: "jugs",
@@ -7328,10 +7517,1130 @@
   /* English uses all seven slots: the five above, and Grammar and Fix it in
      the two the measures use for Convert and Real life. */
   var ENG_GAMES = ["step", "read", "add", "about", "set", "convert", "life"];
-  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time", "english"];
-  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "english"];
-  var MATHS_ORDER = ["capacity", "mass", "length", "temperature", "time", "number"];
+  /* Money, Area, Angles and Fractions go on the end of the sheet order, for
+     the same reason as above. */
+  var MEASURE_KEYS = ["capacity", "mass", "length", "number", "temperature", "time", "english", "money", "area", "angles", "fractions"];
+  var MEASURE_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "money", "area", "angles", "fractions", "english"];
+  var MATHS_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "money", "area", "angles", "fractions"];
   var GAME_KEYS = ["step", "read", "add", "about", "set", "convert", "life"];
+  /* ================================================================ v94: subjects without an instrument (packs)
+     Money, and later Area, Angles and Fractions. Each pack makes its own
+     questions: a picture, the question, and either a typed number or a choice
+     of answers. Everything else (levels, points, hints, the worked answer, the
+     sheet) treats them like any other subject. */
+  var PACKS = {};
+  function packTier(lv) { return lv <= 2 ? 1 : lv <= 4 ? 2 : lv <= 6 ? 3 : lv <= 8 ? 4 : 5; }
+  function packChoices(right, wrongs) {
+    var seen = {}, list = [right];
+    seen[right] = 1;
+    wrongs.forEach(function (w) { if (list.length < 4 && !seen[w]) { seen[w] = 1; list.push(w); } });
+    shuffle(list);
+    return { choices: list, answer: list.indexOf(right) + 1 };
+  }
+  function makePackQuestion(m, game, lv) {
+    var q = PACKS[m][game](lv, packTier(lv));
+    q.measure = m; q.mode = game; q.level = lv; q.kind = "pack";
+    if (q.choices) { q.rightText = q.choices[q.answer - 1]; }
+    q.key = m + "|" + game + "|" + (q.key || (q.ask + "|" + q.answer + "|" + (q.choices || []).join("/")));
+    return q;
+  }
+
+  /* ---------------------------------------------------------------- money
+     Australian coins and notes. Amounts are kept in whole cents and only turned
+     into dollars to show them, so nothing is ever a cent out. Cash amounts are
+     multiples of 5c, because there are no 1c or 2c coins. */
+  var COINS = [5, 10, 20, 50, 100, 200], NOTES = [500, 1000, 2000, 5000, 10000];
+  var NOTE_COL = { 500: "#E599C8", 1000: "#4DABF7", 2000: "#FF8787", 5000: "#FFD43B", 10000: "#69DB7C" };
+  function $c(c) { return "$" + (c / 100).toFixed(2); }
+  function $d(c) { return c % 100 === 0 ? "$" + (c / 100) : $c(c); }
+  function cWord(c) { return c < 100 ? c + "c" : $d(c); }
+  function moneySVG(items, opts) {
+    opts = opts || {};
+    var x = 10, y = 10, rowH = 0, out = "", W = opts.w || 640, maxX = 0;
+    items.forEach(function (v) {
+      var w, h;
+      if (v >= 500) { w = 128; h = 64; } else { var r = { 5: 17, 10: 20, 20: 25, 50: 27, 100: 22, 200: 19 }[v]; w = h = r * 2; }
+      if (x + w > W - 10) { x = 10; y += rowH + 12; rowH = 0; }
+      if (v >= 500) {
+        out += '<g class="mnote"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="8" fill="' + NOTE_COL[v] + '" stroke="#1B1B2F" stroke-width="2.5"/>' +
+               '<rect x="' + (x + 8) + '" y="' + (y + 8) + '" width="' + (w - 16) + '" height="' + (h - 16) + '" rx="5" fill="none" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="2"/>' +
+               '<circle cx="' + (x + w - 26) + '" cy="' + (y + h / 2) + '" r="13" fill="#FFFFFF" fill-opacity=".55"/>' +
+               '<text x="' + (x + 16) + '" y="' + (y + h / 2 + 9) + '" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="26" fill="#1B1B2F">$' + (v / 100) + "</text></g>";
+      } else {
+        var gold = v >= 100, cx = x + w / 2, cy = y + h / 2, R = w / 2, edge = "";
+        if (v === 50) { var pts = []; for (var k = 0; k < 12; k++) { var a = Math.PI * 2 * k / 12 - Math.PI / 12; pts.push((cx + Math.cos(a) * R).toFixed(1) + "," + (cy + Math.sin(a) * R).toFixed(1)); } edge = '<polygon points="' + pts.join(" ") + '"'; }
+        else edge = '<circle cx="' + cx + '" cy="' + cy + '" r="' + R + '"';
+        out += '<g class="mcoin">' + edge + ' fill="' + (gold ? "#F2C14E" : "#D7DEE5") + '" stroke="' + (gold ? "#8A5A00" : "#6B7785") + '" stroke-width="2.5"/>' +
+               '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R - 5) + '" fill="none" stroke="' + (gold ? "#8A5A00" : "#6B7785") + '" stroke-opacity=".45" stroke-width="1.5"/>' +
+               '<text x="' + cx + '" y="' + (cy + 6) + '" text-anchor="middle" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="' + (R < 20 ? 14 : 16) + '" fill="#1B1B2F">' + (v >= 100 ? "$" + v / 100 : v + "c") + "</text></g>";
+      }
+      x += w + 12; rowH = Math.max(rowH, h); maxX = Math.max(maxX, x);
+    });
+    var H = y + rowH + 10;
+    var VW = Math.max(maxX, 120);
+    return '<svg class="packpic money" viewBox="0 0 ' + VW + " " + H + '" style="width:' + Math.round(VW * 1.15) + 'px" role="img" aria-label="' + esc(items.map(cWord).join(", ")) + '">' + out + "</svg>";
+  }
+  function tagSVG(list) {
+    // price tags: [[label, cents, extra]]
+    var out = "", x = 10;
+    list.forEach(function (t) {
+      var w = Math.max(150, 26 + String(t[0]).length * 9);
+      out += '<g><path d="M' + (x + 22) + ' 14 h' + (w - 22) + ' v96 h-' + (w - 22) + ' l-18 -48 z" fill="#FFF4C2" stroke="#1B1B2F" stroke-width="2.5" stroke-linejoin="round"/>' +
+             '<circle cx="' + (x + 18) + '" cy="62" r="5" fill="#FFFFFF" stroke="#1B1B2F" stroke-width="2"/>' +
+             '<text x="' + (x + 30) + '" y="44" font-family="DM Sans, system-ui, sans-serif" font-weight="700" font-size="15" fill="#56677A">' + esc(t[0]) + "</text>" +
+             '<text x="' + (x + 30) + '" y="84" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="30" fill="#1B1B2F">' + esc(t[2] || $c(t[1])) + "</text></g>";
+      x += w + 16;
+    });
+    return '<svg class="packpic tags" viewBox="0 0 ' + x + ' 124" style="width:' + Math.round(x * 1.1) + 'px" role="img" aria-label="Price tags">' + out + "</svg>";
+  }
+  function receiptSVG(lines, total) {
+    var h = 64 + lines.length * 30 + (total ? 40 : 10), out = "";
+    lines.forEach(function (l, i) {
+      var y = 60 + i * 30;
+      out += '<text x="22" y="' + y + '" font-family="DM Sans, system-ui, sans-serif" font-weight="600" font-size="17" fill="#1B1B2F">' + esc(l[0]) + "</text>" +
+             '<text x="298" y="' + y + '" text-anchor="end" font-family="DM Sans, system-ui, sans-serif" font-weight="700" font-size="17" fill="#1B1B2F">' + esc(l[1]) + "</text>";
+    });
+    if (total) out += '<line x1="22" y1="' + (h - 40) + '" x2="298" y2="' + (h - 40) + '" stroke="#1B1B2F" stroke-dasharray="4 4"/><text x="22" y="' + (h - 14) + '" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="19" fill="#1B1B2F">' + esc(total[0]) + '</text><text x="298" y="' + (h - 14) + '" text-anchor="end" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="19" fill="#C2410C">' + esc(total[1]) + "</text>";
+    return '<svg class="packpic receipt" viewBox="0 0 320 ' + h + '" style="width:340px" role="img" aria-label="Receipt"><path d="M10 6 h300 v' + (h - 12) + ' l-15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 -15 -6 -15 6 z" fill="#FFFFFF" stroke="#1B1B2F" stroke-width="2"/>' +
+           '<text x="160" y="32" text-anchor="middle" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="16" fill="#56677A">CLASS SHOP</text>' + out + "</svg>";
+  }
+  var SHOP = [["apple", 60, 150], ["banana", 40, 120], ["pencil", 50, 200], ["eraser", 80, 250], ["juice box", 150, 350], ["muffin", 200, 450], ["sticker sheet", 120, 300],
+              ["notebook", 250, 600], ["ruler", 150, 400], ["sandwich", 450, 850], ["water bottle", 300, 900], ["comic", 500, 1200], ["football", 1200, 2500],
+              ["paint set", 800, 1800], ["board game", 1500, 3500], ["scooter helmet", 2500, 4500], ["book", 900, 2200], ["yoyo", 350, 700]];
+  function shopItem(t, step) {
+    var cap = t === 1 ? 500 : t === 2 ? 1000 : t === 3 ? 2500 : 1e9;
+    var it = pickOne(SHOP.filter(function (s) { return s[1] <= cap; })), lo = it[1], hi = Math.min(it[2], cap);
+    if (t === 1) step = Math.max(step, 10);
+    if (t >= 4) { lo *= 1.5; hi *= 2; }
+    var c = Math.round(rint(lo, hi) / step) * step;
+    return [it[0], Math.max(step, c)];
+  }
+  function splitCoins(c, use) {
+    // a mix of coins and notes that adds to c, not the fewest: real purses are messy
+    var out = [], left = c, pool = use.slice().sort(function (a, b) { return b - a; });
+    while (left > 0 && out.length < 12) {
+      var ok = pool.filter(function (v) { return v <= left; });
+      if (!ok.length) break;
+      var v = Math.random() < 0.65 ? ok[0] : pickOne(ok);
+      out.push(v); left -= v;
+    }
+    if (left) return null;
+    return out.sort(function (a, b) { return b - a; });
+  }
+  function fewest(c) {
+    var n = 0, list = [], all = NOTES.concat(COINS).sort(function (a, b) { return b - a; });
+    all.forEach(function (v) { while (c >= v) { c -= v; n++; list.push(v); } });
+    return { n: n, list: list };
+  }
+  function dollarsQ(q, cents, word) {
+    q.answer = cents / 100; q.unitText = "dollars"; q.placeholder = "0.00";
+    q.fact = (word || "It is") + " <b>" + $c(cents) + "</b>.";
+    return q;
+  }
+
+  PACKS.money = {
+    /* Count the money: coins at first, then notes and coins together. */
+    step: function (lv, t) {
+      var use = t === 1 ? [5, 10, 20, 50] : t === 2 ? [5, 10, 20, 50, 100, 200] : t === 3 ? [10, 20, 50, 100, 200, 500, 1000] : [5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000];
+      var target = t === 1 ? rint(3, 19) * 5 : t === 2 ? rint(10, 60) * 10 : t === 3 ? rint(12, 70) * 50 : rint(60, 400) * 25;
+      if (t === 1 && lv === 1) target = rint(2, 10) * 10;
+      var items = null, tries = 0;
+      while (!items && tries++ < 20) { items = splitCoins(target, use); if (items && (items.length < (t === 1 ? 2 : 3) || items.length > (t >= 4 ? 10 : 7))) items = null; if (!items) target += 5 * (t === 1 ? 1 : 10); }
+      if (!items) items = fewest(target).list;
+      var q = { html: moneySVG(items) };
+      var gap = t === 5 && Math.random() < 0.6;
+      if (gap) {
+        var goal = Math.ceil((target + 100) / 1000) * 1000;
+        q.ask = "How much more do you need to make " + $d(goal) + "?";
+        q.sub = "Count the money first, then count on to " + $d(goal) + ".";
+        q.why = ["Count the biggest first: " + items.map(cWord).join(" + ") + " = <b>" + $c(target) + "</b>.", "From " + $c(target) + " up to " + $d(goal) + " is <b>" + $c(goal - target) + "</b>."];
+        q.hint = ["Add the notes first, then the coins. Write down the total.", "You have " + $c(target) + ". Count on to " + $d(goal) + "."];
+        return dollarsQ(q, goal - target, "You need");
+      }
+      if (target < 100) {
+        q.ask = "How many cents is this altogether?"; q.answer = target; q.unitText = "cents"; q.placeholder = "?";
+        q.fact = "It is <b>" + target + "c</b>.";
+      } else { q.ask = "How much money is this altogether?"; dollarsQ(q, target); }
+      q.sub = items.length > 6 ? "Start with the biggest, then add the rest one by one." : "Add them up, biggest first.";
+      q.why = ["Biggest first: " + items.map(cWord).join(" + ") + ".", "That makes <b>" + (q.unitText === "cents" ? target + "c" : $c(target)) + "</b>."];
+      q.hint = ["Start with the biggest note or coin, then add the next biggest.", "The biggest ones make " + cWord(items.slice(0, Math.ceil(items.length / 2)).reduce(function (a, b) { return a + b; }, 0)) + ". Now add the rest."];
+      return q;
+    },
+    /* Price tags: reading, comparing, rounding and sales. */
+    read: function (lv, t) {
+      var kinds = t === 1 ? ["cents", "cheaper"] : t === 2 ? ["cents", "cheaper", "round", "dear3"] : t === 3 ? ["round", "dear3", "sale", "diff"] : ["sale", "diff", "percent", "round", "dear3"];
+      var k = pickOne(kinds), q = {};
+      if (k === "cents") {
+        var c = t === 1 ? rint(3, 19) * 10 + pickOne([0, 5]) : rint(101, 999);
+        if (t === 1) c = Math.max(105, c * 2);
+        q.html = tagSVG([[pickOne(SHOP)[0], c]]);
+        q.ask = "How many cents is " + $c(c) + "?"; q.answer = c; q.unitText = "cents";
+        q.fact = $c(c) + " is <b>" + c + "c</b>.";
+        q.why = ["Each dollar is 100 cents.", Math.floor(c / 100) + " dollars is " + Math.floor(c / 100) * 100 + "c, and " + (c % 100) + "c more makes <b>" + c + "c</b>."];
+        q.hint = ["One dollar is 100 cents.", Math.floor(c / 100) + " dollars is " + Math.floor(c / 100) * 100 + " cents. Add the cents after the point."];
+        return q;
+      }
+      if (k === "cheaper" || k === "dear3") {
+        var n = k === "cheaper" ? 2 : 3, items = [], used = {};
+        while (items.length < n) { var it = shopItem(t, t <= 2 ? 5 : 1); if (!used[it[1]] && !used["n" + it[0]]) { used[it[1]] = 1; used["n" + it[0]] = 1; items.push(it); } }
+        if (t >= 3) { // close prices, so the cents matter
+          var base = Math.max(200, items[0][1]), offs = shuffle([-35, -20, -10, 10, 15, 25, 40]).slice(0, n - 1);
+          items = items.map(function (it, i) { return [it[0], base + (i === 0 ? 0 : offs[i - 1])]; });
+        }
+        q.html = tagSVG(items.map(function (it) { return [it[0], it[1]]; }));
+        var dear = k === "dear3", best = items.slice().sort(function (a, b) { return dear ? b[1] - a[1] : a[1] - b[1]; })[0];
+        q.ask = dear ? "Which one costs the most?" : "Which one is cheaper?";
+        var pc = packChoices(best[0], items.map(function (x) { return x[0]; }));
+        q.choices = pc.choices; q.answer = pc.answer;
+        q.fact = "The " + esc(best[0]) + " at <b>" + $c(best[1]) + "</b>.";
+        q.why = ["Look at the dollars first.", "If the dollars are the same, look at the cents.", "So it is the <b>" + esc(best[0]) + "</b> at " + $c(best[1]) + "."];
+        q.hint = ["Compare the dollars before the point first.", "Line up the prices: " + items.map(function (x) { return $c(x[1]); }).join(", ") + "."];
+        q.key = items.map(function (x) { return x[0] + x[1]; }).join(",");
+        return q;
+      }
+      if (k === "round") {
+        var ri = shopItem(t, 1), p = Math.max(105, ri[1]);
+        if (p % 100 === 0 || p % 100 === 50) p += pickOne([-3, 7, 12]);
+        var to = Math.round(p / 100) * 100;
+        q.html = tagSVG([[ri[0], p]]);
+        q.ask = "About how much is it, to the nearest dollar?"; dollarsQ(q, to, "To the nearest dollar it is");
+        q.answer = to / 100; q.placeholder = "?";
+        q.why = [$c(p) + " is between " + $d(Math.floor(p / 100) * 100) + " and " + $d(Math.ceil(p / 100) * 100) + ".", (p % 100) + " cents is " + (p % 100 >= 50 ? "50c or more, so round up" : "less than 50c, so round down") + ": <b>" + $d(to) + "</b>."];
+        q.hint = ["Look at the cents. Is it 50c or more?", "50c or more rounds up to the next dollar. Less than 50c rounds down."];
+        return q;
+      }
+      if (k === "sale") {
+        var was = rint(t >= 4 ? 20 : 6, t >= 4 ? 120 : 30) * 100 + pickOne([0, 50]), off = pickOne([100, 200, 250, 300, 500, 1000].filter(function (o) { return o < was / 2; }));
+        q.html = tagSVG([["was", was], ["sale", off, "$" + (off / 100).toFixed(off % 100 ? 2 : 0) + " off"]]);
+        q.ask = "How much does it cost in the sale?"; dollarsQ(q, was - off, "In the sale it costs");
+        q.why = ["It was " + $c(was) + " and there is " + $d(off) + " off.", $c(was) + " − " + $d(off) + " = <b>" + $c(was - off) + "</b>."];
+        q.hint = ["Take the amount off from the old price.", $c(was) + " take away " + $d(off) + "."];
+        return q;
+      }
+      if (k === "percent") {
+        var w2 = rint(2, 20) * 1000, pct = pickOne([10, 25, 50]);
+        q.html = tagSVG([["was", w2], ["sale", 0, pct + "% off"]]);
+        q.ask = "It is " + pct + "% off. What does it cost now?"; dollarsQ(q, w2 - w2 * pct / 100, "Now it costs");
+        q.why = [pct + "% of " + $d(w2) + " is " + $c(w2 * pct / 100) + (pct === 10 ? " (divide by 10)" : pct === 25 ? " (a quarter)" : " (half)") + ".", $d(w2) + " − " + $c(w2 * pct / 100) + " = <b>" + $c(w2 - w2 * pct / 100) + "</b>."];
+        q.hint = [pct === 10 ? "10% is one tenth: divide by 10." : pct === 25 ? "25% is one quarter: halve it, then halve again." : "50% is half.", "Work out the " + pct + "% first, then take it off " + $d(w2) + "."];
+        return q;
+      }
+      var a = shopItem(t, 5), b = shopItem(t, 5);
+      while (b[1] === a[1] || b[0] === a[0]) b = shopItem(t, 5);
+      q.html = tagSVG([[a[0], a[1]], [b[0], b[1]]]);
+      q.ask = "How much more does the " + (a[1] > b[1] ? a[0] : b[0]) + " cost?"; dollarsQ(q, Math.abs(a[1] - b[1]), "It costs");
+      q.fact = "It costs <b>" + $c(Math.abs(a[1] - b[1])) + "</b> more.";
+      q.why = ["Take the smaller price from the bigger one.", $c(Math.max(a[1], b[1])) + " − " + $c(Math.min(a[1], b[1])) + " = <b>" + $c(Math.abs(a[1] - b[1])) + "</b>."];
+      q.hint = ["How much more means take away.", "Count on from " + $c(Math.min(a[1], b[1])) + " to " + $c(Math.max(a[1], b[1])) + "."];
+      return q;
+    },
+    /* Add up a receipt: two items, then more, then some bought several times. */
+    add: function (lv, t) {
+      var n = t <= 2 ? 2 : t === 3 ? 3 : 4, lines = [], total = 0, used = {}, why = [];
+      for (var i = 0; i < n; i++) {
+        var it = shopItem(t, t === 1 ? 50 : t === 2 ? 10 : 5); if (used[it[0]]) { i--; continue; } used[it[0]] = 1;
+        var qty = t >= 4 && Math.random() < 0.5 ? rint(2, 4) : t === 3 && i === 0 && Math.random() < 0.4 ? 2 : 1;
+        lines.push([(qty > 1 ? qty + " × " : "") + it[0] + (qty > 1 ? " (" + $c(it[1]) + " each)" : ""), qty > 1 ? "" : $c(it[1])]);
+        total += it[1] * qty;
+        why.push(qty > 1 ? qty + " × " + $c(it[1]) + " = " + $c(it[1] * qty) : esc(it[0]) + " " + $c(it[1]));
+      }
+      var q = { html: receiptSVG(lines, ["TOTAL", "?"]) };
+      q.ask = "What is the total?"; dollarsQ(q, total, "The total is");
+      q.sub = t >= 4 ? "Work out any × lines first, then add everything." : "Add the dollars, then the cents.";
+      q.why = why.concat(["Add them all: <b>" + $c(total) + "</b>."]);
+      q.hint = ["Add the dollars first, then the cents. 100 cents makes another dollar.", "Do it one line at a time and keep a running total."];
+      return q;
+    },
+    /* Change: paying with a note and working out what comes back. */
+    about: function (lv, t) {
+      var cost, paid;
+      if (t === 1) { cost = rint(2, 9) * 10; paid = 100; }
+      else if (t === 2) { cost = rint(6, 48) * 10; paid = 500; }
+      else if (t === 3) { cost = rint(30, 380) * 5; paid = cost < 1000 ? 1000 : 2000; }
+      else { cost = rint(100, 900) * 5; paid = cost < 2000 ? 2000 : 5000; }
+      var q = {}, two = t >= 4 && Math.random() < 0.5, a = 0;
+      if (two) { a = Math.round(cost * (0.3 + Math.random() * 0.4) / 5) * 5; q.html = receiptSVG([["first thing", $c(a)], ["second thing", $c(cost - a)]], ["PAID", $d(paid)]); q.ask = "You pay " + $d(paid) + " for both. How much change?"; }
+      else { var it = pickOne(SHOP.filter(function (s) { return s[1] <= cost && cost <= s[2] * 1.5; })) || pickOne([["lolly"], ["sticker"], ["bouncy ball"], ["party hat"]]); q.html = tagSVG([[it[0], cost]]) + moneySVG([paid], { w: 200 }); q.ask = "You buy the " + it[0] + " with " + (paid >= 500 ? "a " + $d(paid) + " note" : "a " + $d(paid) + " coin") + ". How much change do you get?"; }
+      dollarsQ(q, paid - cost, "The change is");
+      if (paid === 100) { q.answer = paid - cost; q.unitText = "cents"; q.placeholder = "?"; q.fact = "The change is <b>" + (paid - cost) + "c</b>."; }
+      q.sub = "Count on from the price up to what you paid.";
+      q.why = (two ? ["Add the two things: " + $c(a) + " + " + $c(cost - a) + " = " + $c(cost) + "."] : []).concat(["Count on from " + $c(cost) + " to the next whole dollar, then on to " + $d(paid) + ".", $d(paid) + " − " + $c(cost) + " = <b>" + $c(paid - cost) + "</b>."]);
+      q.hint = [two ? "Add up the two things first." : "Count on from the price, like a shopkeeper does.", "From " + $c(cost) + ", how much to " + $d(Math.ceil(cost / 100) * 100) + "? Then on to " + $d(paid) + "."];
+      return q;
+    },
+    /* Make the amount: the fewest coins and notes, or which set makes it. */
+    set: function (lv, t) {
+      var c = t === 1 ? rint(3, 19) * 5 : t === 2 ? rint(21, 99) * 5 : t === 3 ? rint(41, 399) * 5 : rint(201, 1999) * 5;
+      var f = fewest(c), q = { html: moneySVG(NOTES.concat(COINS).filter(function (v) { return v <= Math.max(c, 50) * 2 && v >= 5; }).sort(function (a, b) { return a - b; }).slice(-8), { w: 700 }) };
+      if (Math.random() < 0.5) {
+        q.ask = "What is the fewest coins and notes that make " + cWord(c) + "?"; q.answer = f.n; q.unitText = "coins and notes";
+        q.fact = cWord(c) + " = " + f.list.map(cWord).join(" + ") + ": <b>" + f.n + "</b>.";
+        q.why = ["Take the biggest coin or note that fits, again and again.", f.list.map(cWord).join(" + ") + " = " + cWord(c) + ".", "That is <b>" + f.n + "</b>."];
+        q.hint = ["Start with the biggest one that is not more than " + cWord(c) + ".", "After " + cWord(f.list[0]) + " you still need " + cWord(c - f.list[0]) + ". Keep going."];
+        return q;
+      }
+      var right = f.list.map(cWord).join(" + "), wrongs = [];
+      for (var i = 0; i < 6 && wrongs.length < 3; i++) {
+        var d = c + pickOne([-1, 1]) * pickOne([5, 10, 20, 50, 100]); if (d <= 0 || d === c) continue;
+        wrongs.push(fewest(d).list.map(cWord).join(" + "));
+      }
+      var pc = packChoices(right, wrongs);
+      q.ask = "Which of these makes exactly " + cWord(c) + "?"; q.choices = pc.choices; q.answer = pc.answer; q.html = "";
+      q.fact = "<b>" + right + "</b> makes " + cWord(c) + ".";
+      q.why = ["Add up each one.", right + " = <b>" + cWord(c) + "</b>."];
+      q.hint = ["Add up each choice. Only one makes " + cWord(c) + " exactly.", "Check the biggest coin or note in each one first."];
+      return q;
+    },
+    /* Dollars and cents: writing amounts both ways and counting coins of one kind. */
+    convert: function (lv, t) {
+      var kinds = t === 1 ? ["toC", "howMany"] : t === 2 ? ["toC", "toD", "howMany"] : ["toC", "toD", "howMany", "notes"];
+      var k = pickOne(kinds), q = {};
+      if (k === "toC") { var c = t === 1 ? rint(1, 9) * 100 + rint(0, 19) * 5 : t === 2 ? rint(21, 199) * 5 : rint(105, 2995); q.html = '<div class="cvbig">' + $c(c) + ' <span>= ? cents</span></div>'; q.ask = "Write " + $c(c) + " in cents."; q.answer = c; q.unitText = "cents"; q.fact = $c(c) + " = <b>" + c + "c</b>."; q.why = ["1 dollar = 100 cents.", $c(c) + " = " + Math.floor(c / 100) + " × 100 + " + c % 100 + " = <b>" + c + "c</b>."]; q.hint = ["Each dollar is 100 cents.", "Take away the $ and the point: " + $c(c).replace("$", "") + " becomes " + c + "."]; return q; }
+      if (k === "toD") { var c2 = rint(t === 2 ? 105 : 1005, t === 2 ? 995 : 9995); q.html = '<div class="cvbig">' + c2 + 'c <span>= $ ?</span></div>'; q.ask = "Write " + c2 + "c in dollars."; dollarsQ(q, c2, c2 + "c ="); q.why = ["100 cents make 1 dollar.", c2 + "c = " + Math.floor(c2 / 100) + " dollars and " + c2 % 100 + " cents = <b>" + $c(c2) + "</b>."]; q.hint = ["Every 100 cents is a dollar.", "The last two digits are the cents: " + c2 + "c is $" + Math.floor(c2 / 100) + " and " + c2 % 100 + "c."]; return q; }
+      if (k === "notes") { var nv = pickOne([500, 1000, 2000, 5000]), cnt = rint(3, 12); q.html = moneySVG([nv], { w: 200 }); q.ask = "How many " + $d(nv) + " notes make " + $d(nv * cnt) + "?"; q.answer = cnt; q.unitText = "notes"; q.fact = cnt + " × " + $d(nv) + " = " + $d(nv * cnt) + ": <b>" + cnt + " notes</b>."; q.why = ["Divide the total by the note.", $d(nv * cnt) + " ÷ " + $d(nv) + " = <b>" + cnt + "</b>."]; q.hint = ["Count in " + $d(nv) + "s.", "How many " + (nv / 100) + "s make " + (nv * cnt / 100) + "?"]; return q; }
+      var cv = pickOne(t === 1 ? [10, 20, 50] : [5, 10, 20, 50]), total = cv * rint(3, t === 1 ? 10 : 20);
+      if (total % 100 && t === 1) total = cv * 10;
+      q.html = moneySVG([cv], { w: 120 }); q.ask = "How many " + cv + "c coins make " + cWord(total) + "?"; q.answer = total / cv; q.unitText = "coins";
+      q.fact = (total / cv) + " × " + cv + "c = " + cWord(total) + ": <b>" + total / cv + " coins</b>.";
+      q.why = [cWord(total) + " is " + total + " cents.", total + " ÷ " + cv + " = <b>" + total / cv + "</b>."];
+      q.hint = ["Turn it into cents first: " + cWord(total) + " is " + total + " cents.", "Count in " + cv + "s up to " + total + "."];
+      return q;
+    },
+    /* Real life: better buys, saving up, budgets and sharing. */
+    life: function (lv, t) {
+      var kinds = t === 1 ? ["afford", "left"] : t === 2 ? ["afford", "left", "save"] : t === 3 ? ["left", "save", "share", "better"] : ["save", "share", "better", "budget"];
+      var k = pickOne(kinds), q = { html: "" };
+      if (k === "afford") {
+        var have = rint(4, 20) * 50, it = shopItem(t, 5), yes = it[1] <= have;
+        q.html = moneySVG(fewest(have).list) + tagSVG([[it[0], it[1]]]);
+        q.ask = "You have " + $c(have) + ". Can you buy the " + it[0] + "?";
+        var pc = packChoices(yes ? "Yes, with " + $c(have - it[1]) + " left" : "No, " + $c(it[1] - have) + " short", [yes ? "No, " + $c(Math.abs(it[1] - have) + 50) + " short" : "Yes, with " + $c(have - it[1] + 100) + " left", yes ? "Yes, with " + $c(have - it[1] + 50) + " left" : "No, " + $c(it[1] - have + 50) + " short", yes ? "No, it costs too much" : "Yes, exactly enough"]);
+        q.choices = pc.choices; q.answer = pc.answer;
+        q.fact = yes ? "Yes. " + $c(have) + " − " + $c(it[1]) + " leaves <b>" + $c(have - it[1]) + "</b>." : "No. It costs " + $c(it[1]) + ", which is <b>" + $c(it[1] - have) + "</b> more than you have.";
+        q.why = ["Compare " + $c(have) + " with " + $c(it[1]) + ".", q.fact];
+        q.hint = ["Is the price more or less than the money you have?", "Now work out the difference."];
+        return q;
+      }
+      if (k === "left") {
+        var lstep = t === 1 ? 50 : t === 2 ? 10 : 5, start = (t <= 2 ? rint(1, 2) : rint(2, 10)) * 500, a = shopItem(t, lstep), b = shopItem(t, lstep);
+        while (a[1] + b[1] >= start) start += 500;
+        q.html = receiptSVG([[a[0], $c(a[1])], [b[0], $c(b[1])]], ["YOU HAD", $d(start)]);
+        q.ask = "You had " + $d(start) + " and bought both. How much is left?"; dollarsQ(q, start - a[1] - b[1], "You have");
+        q.why = ["Add what you spent: " + $c(a[1]) + " + " + $c(b[1]) + " = " + $c(a[1] + b[1]) + ".", $d(start) + " − " + $c(a[1] + b[1]) + " = <b>" + $c(start - a[1] - b[1]) + "</b>."];
+        q.hint = ["Add up what you spent first.", "Then take that away from " + $d(start) + "."];
+        return q;
+      }
+      if (k === "save") {
+        var per = pickOne([200, 250, 300, 400, 500, 1000]), goal = per * rint(3, 12), item = pickOne(["bike bell", "skateboard", "art kit", "video game", "pair of shoes", "telescope"]);
+        q.ask = "You save " + $d(per) + " every week for a " + item + " that costs " + $d(goal) + ". How many weeks until you can buy it?"; q.answer = goal / per; q.unitText = "weeks";
+        q.html = tagSVG([[item, goal]]);
+        q.fact = $d(goal) + " ÷ " + $d(per) + " = <b>" + goal / per + " weeks</b>.";
+        q.why = ["Count up in " + $d(per) + "s until you reach " + $d(goal) + ".", "That takes <b>" + goal / per + "</b> weeks."];
+        q.hint = ["Count in " + $d(per) + "s: " + $d(per) + ", " + $d(per * 2) + ", " + $d(per * 3) + "...", "How many " + $d(per) + "s make " + $d(goal) + "?"];
+        return q;
+      }
+      if (k === "share") {
+        var people = rint(2, 6), each = rint(t >= 4 ? 300 : 150, t >= 4 ? 1500 : 800);
+        each = Math.round(each / 5) * 5; var bill = each * people;
+        q.html = receiptSVG([["pizza and drinks", $c(bill)]], ["SPLIT", people + " ways"]);
+        q.ask = people + " friends share the bill equally. How much does each pay?"; dollarsQ(q, each, "Each pays");
+        q.why = [$c(bill) + " ÷ " + people + ".", "That is <b>" + $c(each) + "</b> each. Check: " + people + " × " + $c(each) + " = " + $c(bill) + "."];
+        q.hint = ["Share means divide.", "Try a guess and multiply it by " + people + " to check."];
+        return q;
+      }
+      if (k === "better") {
+        var single = rint(8, 30) * 10, packN = pickOne([3, 4, 5, 6]), packP = single * packN + pickOne([-1, 1]) * rint(1, 4) * 20;
+        var item2 = pickOne(["muesli bar", "juice box", "pencil", "tennis ball", "apple"]), packCheaper = packP < single * packN;
+        q.html = tagSVG([["1 " + item2, single], ["pack of " + packN, packP]]);
+        q.ask = "You need " + packN + " " + item2 + "s. Which is the better buy?";
+        var pc2 = packChoices(packCheaper ? "The pack of " + packN : packN + " single ones", [packCheaper ? packN + " single ones" : "The pack of " + packN, "They cost the same"]);
+        q.choices = pc2.choices; q.answer = pc2.answer;
+        q.fact = packN + " single ones cost " + $c(single * packN) + ". The pack costs " + $c(packP) + ". So <b>" + (packCheaper ? "the pack" : "the single ones") + "</b>, saving " + $c(Math.abs(packP - single * packN)) + ".";
+        q.why = [packN + " × " + $c(single) + " = " + $c(single * packN) + ".", "Compare with the pack at " + $c(packP) + ".", q.fact];
+        q.hint = ["Work out what " + packN + " single ones cost.", packN + " × " + $c(single) + ". Now compare it with the pack."];
+        return q;
+      }
+      var budget = rint(3, 8) * 1000, price = shopItem(4, 5)[1], most = Math.floor(budget / price);
+      while (most < 2) { price = Math.round(price / 2 / 5) * 5; most = Math.floor(budget / price); }
+      var thing = pickOne(["prize", "ticket", "book", "plant", "packet of seeds"]);
+      q.html = tagSVG([[thing, price]]);
+      q.ask = "The class has " + $d(budget) + ". Each " + thing + " costs " + $c(price) + ". What is the most you can buy?"; q.answer = most; q.unitText = thing + "s";
+      q.fact = most + " × " + $c(price) + " = " + $c(most * price) + ", and one more would cost " + $c((most + 1) * price) + ": <b>" + most + "</b>.";
+      q.why = ["Keep adding " + $c(price) + " until you would go over " + $d(budget) + ".", q.fact];
+      q.hint = ["Try 2, then 5, then 10 of them. Which is closest without going over?", "Multiply your guess by " + $c(price) + " and check it is not more than " + $d(budget) + "."];
+      return q;
+    }
+  };
+  /* What each level covers, in a few words, for the level line. */
+  var PACK_NOTES = {
+    money: {
+      step: ["silver coins, in cents", "all the coins", "notes and coins", "bigger piles of notes and coins", "how much more to the next amount"],
+      read: ["prices in cents, and which is cheaper", "rounding to the dollar, and the dearest", "sales, rounding and differences", "close prices, sales and differences", "percent off, and close prices"],
+      add: ["two prices, in 50c steps", "two prices, in 10c steps", "three prices, one bought twice", "four prices, several of some", "four prices, several of some"],
+      about: ["change from $1, in cents", "change from $5", "change from $10 or $20", "change from $20 or $50, two things", "change from $20 or $50, two things"],
+      set: ["the fewest coins for small amounts", "the fewest coins up to $5", "notes and coins up to $20", "notes and coins up to $100", "notes and coins up to $100"],
+      convert: ["dollars to cents, and counting coins", "dollars and cents both ways", "both ways, and counting notes", "both ways, and counting notes", "both ways, and counting notes"],
+      life: ["can you afford it, and what is left", "affording, change left, and saving up", "saving up, sharing, and the better buy", "budgets, better buys and sharing", "budgets, better buys and sharing"]
+    }
+  };
+  /* ---------------------------------------------------------------- area and perimeter
+     Shapes on a square grid first, then labelled shapes with no grid, then
+     shapes made of two rectangles. Every shape is built from whole units so a
+     child can always check by counting. */
+  var AREA_INK = "#1B1B2F";
+  function gridSVG(cols, rows, cells, opts) {
+    opts = opts || {};
+    var u = opts.u || Math.max(22, Math.min(40, Math.floor(420 / Math.max(cols, rows)))), pad = 14, W = cols * u + pad * 2, H = rows * u + pad * 2, out = "";
+    var on = {}; cells.forEach(function (c) { on[c[0] + "," + c[1]] = c[2] || 1; });
+    for (var y = 0; y < rows; y++) for (var x = 0; x < cols; x++) {
+      var v = on[x + "," + y];
+      if (v === 1) out += '<rect x="' + (pad + x * u) + '" y="' + (pad + y * u) + '" width="' + u + '" height="' + u + '" class="acell"/>';
+      else if (v) { // half a square, cut corner to corner: v is "a", "b", "c" or "d" for which half
+        var X = pad + x * u, Y = pad + y * u, pts = { a: [[X, Y], [X + u, Y], [X, Y + u]], b: [[X + u, Y], [X + u, Y + u], [X, Y + u]], c: [[X, Y], [X + u, Y], [X + u, Y + u]], d: [[X, Y], [X + u, Y + u], [X, Y + u]] }[v];
+        out += '<polygon points="' + pts.map(function (p) { return p.join(","); }).join(" ") + '" class="acell"/>';
+      }
+    }
+    var lines = "";
+    for (var i = 0; i <= cols; i++) lines += '<line x1="' + (pad + i * u) + '" y1="' + pad + '" x2="' + (pad + i * u) + '" y2="' + (pad + rows * u) + '"/>';
+    for (var j = 0; j <= rows; j++) lines += '<line x1="' + pad + '" y1="' + (pad + j * u) + '" x2="' + (pad + cols * u) + '" y2="' + (pad + j * u) + '"/>';
+    var key = opts.key ? '<text x="' + pad + '" y="' + (H + 6) + '" class="akey">' + esc(opts.key) + "</text>" : "";
+    return '<svg class="packpic agrid" viewBox="0 0 ' + W + " " + (H + (opts.key ? 16 : 0)) + '" style="width:' + Math.round(W * 1.15) + 'px" role="img" aria-label="Shape on a square grid">' +
+           out + '<g class="alines">' + lines + "</g>" + key + "</svg>";
+  }
+  function rectCells(x0, y0, w, h) { var c = []; for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) c.push([x0 + x, y0 + y]); return c; }
+  /* a shape drawn to size with its sides labelled; pts go round the outside, labels match each side */
+  function shapeSVG(pts, labels, unit) {
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    pts.forEach(function (p) { minX = Math.min(minX, p[0]); minY = Math.min(minY, p[1]); maxX = Math.max(maxX, p[0]); maxY = Math.max(maxY, p[1]); });
+    var sw = maxX - minX, sh = maxY - minY, k = Math.min(340 / sw, 220 / sh), pad = 70;
+    var P = pts.map(function (p) { return [pad + (p[0] - minX) * k, pad + (p[1] - minY) * k]; });
+    var cx = pad + sw * k / 2, cy = pad + sh * k / 2, out = '<polygon points="' + P.map(function (p) { return p.map(function (v) { return v.toFixed(1); }).join(","); }).join(" ") + '" class="ashape"/>';
+    var placed = [];
+    P.forEach(function (a, i) {
+      var b = P[(i + 1) % P.length], lab = labels[i];
+      if (lab == null || lab === "") return;
+      var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[1] - a[1], dy = -(b[0] - a[0]), len = Math.sqrt(dx * dx + dy * dy) || 1;
+      // push the label outwards, away from the middle of the shape
+      var ox = dx / len, oy = dy / len;
+      if ((mx + ox * 10 - cx) * ox + (my + oy * 10 - cy) * oy < 0) { ox = -ox; oy = -oy; }
+      var txt = lab === "?" ? "?" : String(lab + " " + unit).trim(), side = Math.abs(ox) > 0.8, anc = side ? (ox > 0 ? "start" : "end") : "middle";
+      var tx = side ? mx + ox * 10 : mx + ox * 22, ty = side ? my + 6 : my + oy * 20 + 6;
+      // keep clear of any label already placed: slide this one further out
+      var wd = txt.length * 9.5 + 4, box = function () { var x0 = anc === "start" ? tx : anc === "end" ? tx - wd : tx - wd / 2; return [x0, ty - 17, x0 + wd, ty + 3]; };
+      for (var tries = 0; tries < 6 && placed.some(function (o) { var m = box(); return m[0] < o[2] && m[2] > o[0] && m[1] < o[3] && m[3] > o[1]; }); tries++) { tx += ox * 12; ty += oy * 12; }
+      placed.push(box());
+      out += '<text x="' + tx.toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="' + anc + '" class="alab' + (lab === "?" ? " q" : "") + '">' + esc(txt) + "</text>";
+    });
+    var W = sw * k + pad * 2, H = sh * k + pad * 2;
+    return '<svg class="packpic ashapes" viewBox="0 0 ' + W.toFixed(0) + " " + H.toFixed(0) + '" style="width:' + Math.round(Math.min(560, W * 1.1)) + 'px" role="img" aria-label="Shape with labelled sides">' + out + "</svg>";
+  }
+  function rectPts(w, h) { return [[0, 0], [w, 0], [w, h], [0, h]]; }
+  /* an L shape: a W by H rectangle with an a by b piece cut from the top right corner */
+  function lPts(W, H, a, b) { return [[0, 0], [W - a, 0], [W - a, b], [W, b], [W, H], [0, H]]; }
+  var AU = ["cm", "m"];
+  function areaUnit(t) { return t <= 2 ? "cm" : pickOne(AU); }
+  function sq(u) { return u + "²"; }
+
+  PACKS.area = {
+    /* Count the squares: rectangles, then other shapes, then half squares. */
+    step: function (lv, t) {
+      var cols = 10, rows = 8, cells = [], q = {}, n, halves = 0;
+      if (t === 1) { var w = rint(2, 6), h = rint(2, 5); cells = rectCells(rint(0, cols - w), rint(0, rows - h), w, h); }
+      else if (t <= 3) {
+        var w1 = rint(3, 7), h1 = rint(2, 4), w2 = rint(1, w1 - 1), h2 = rint(1, 3), x0 = rint(0, cols - w1), y0 = rint(0, rows - h1 - h2);
+        cells = rectCells(x0, y0, w1, h1).concat(rectCells(x0 + pickOne([0, w1 - w2]), y0 + h1, w2, h2));
+        if (t === 3 && Math.random() < 0.5) cells = cells.concat(rectCells(x0 + w1, y0, 1, rint(1, h1)).filter(function (c) { return c[0] < cols; }));
+      } else {
+        var w3 = rint(3, 7), h3 = rint(2, 5), x3 = rint(1, cols - w3 - 1), y3 = rint(1, rows - h3 - 1);
+        cells = rectCells(x3, y3, w3, h3);
+        // a triangle roof or ramp of half squares
+        for (var i = 0; i < w3; i++) if (Math.random() < 0.6) { cells.push([x3 + i, y3 - 1, pickOne(["b", "d"])]); halves++; }
+        if (!halves) { cells.push([x3, y3 - 1, "b"]); halves = 1; }
+      }
+      var whole = cells.filter(function (c) { return !c[2] || c[2] === 1; }).length;
+      n = whole + halves / 2;
+      var scale = t >= 5 && Math.random() < 0.5 ? pickOne([2, 4, 10]) : 0;
+      q.html = gridSVG(cols, rows, cells, { key: scale ? "each square is " + scale + " cm²" : "each square is 1 cm²" });
+      q.ask = scale ? "Each square is " + scale + " cm². What is the area of the shape?" : "What is the area of the shaded shape?";
+      q.answer = scale ? n * scale : n; q.unitText = "cm²";
+      q.sub = halves ? "Two half squares make one whole square." : "Count the whole squares.";
+      q.fact = "The area is <b>" + q.answer + " cm²</b>.";
+      q.why = [halves ? whole + " whole squares and " + halves + " halves (" + halves + " halves = " + (halves / 2) + ")." : "There are " + whole + " squares.", scale ? n + " squares × " + scale + " cm² = <b>" + q.answer + " cm²</b>." : "So the area is <b>" + n + " cm²</b>."];
+      q.hint = ["Count along each row, then add the rows together.", halves ? "Count the whole squares, then pair up the half squares." : "Count the rows. How many squares are in each one?"];
+      q.key = JSON.stringify(cells.slice(0, 40)) + scale;
+      return q;
+    },
+    /* Perimeter: walk round the edge. */
+    read: function (lv, t) {
+      var q = {}, u = areaUnit(t);
+      if (t === 1) {
+        var w = rint(2, 7), h = rint(2, 5), cells = rectCells(rint(0, 9 - w), rint(0, 7 - h), w, h);
+        q.html = gridSVG(10, 8, cells, { key: "each side of a square is 1 cm" });
+        q.answer = 2 * (w + h); q.unitText = "cm";
+        q.ask = "What is the perimeter of the rectangle?";
+        q.why = ["Walk round the edge and count the sides of squares.", "Top " + w + " + right " + h + " + bottom " + w + " + left " + h + " = <b>" + q.answer + " cm</b>."];
+        q.key = w + "x" + h;
+      } else if (t === 2) {
+        var a = rint(3, 15), b = rint(2, 12); if (a === b) a++;
+        var showAll = Math.random() < 0.5;
+        q.html = shapeSVG(rectPts(a, b), showAll ? [a, b, a, b] : [a, b, "", ""], u);
+        q.answer = 2 * (a + b); q.unitText = u;
+        q.ask = "What is the perimeter of the rectangle?";
+        q.why = [showAll ? "Add all four sides." : "Opposite sides of a rectangle are the same length.", a + " + " + b + " + " + a + " + " + b + " = <b>" + q.answer + " " + u + "</b>."];
+        q.key = a + "x" + b + showAll;
+      } else if (t === 3 || t === 4) {
+        var W = rint(6, 14), H = rint(5, 12), ca = rint(2, W - 3), cb = rint(2, H - 3), hide = t === 4;
+        var labels = [W - ca, cb, ca, H - cb, W, H];
+        if (hide) { labels[1] = ""; labels[2] = ""; }
+        q.html = shapeSVG(lPts(W, H, ca, cb), labels, u);
+        q.answer = 2 * (W + H); q.unitText = u;
+        q.ask = "What is the perimeter of the shape?";
+        q.sub = hide ? "Two sides are not labelled. Work them out from the others." : "Add every side.";
+        q.why = (hide ? ["The missing step across is " + W + " − " + (W - ca) + " = " + ca + ", and the missing step down is " + H + " − " + (H - cb) + " = " + cb + "."] : []).concat(["Add all six sides: " + [W - ca, cb, ca, H - cb, W, H].join(" + ") + " = <b>" + q.answer + " " + u + "</b>."]);
+        q.key = [W, H, ca, cb, hide].join(",");
+      } else {
+        var n = pickOne([3, 5, 6, 8]), s = rint(3, 25), name = { 3: "equilateral triangle", 5: "regular pentagon", 6: "regular hexagon", 8: "regular octagon" }[n];
+        var pts = []; for (var i = 0; i < n; i++) { var ang = -Math.PI / 2 + i * 2 * Math.PI / n; pts.push([Math.cos(ang) * 10, Math.sin(ang) * 10]); }
+        var lab = pts.map(function (_, i) { return i === 0 ? s : ""; });
+        q.html = shapeSVG(pts, lab, u);
+        var back = Math.random() < 0.4;
+        if (back) { q.ask = "A " + name + " has a perimeter of " + n * s + " " + u + ". How long is each side?"; q.answer = s; q.html = shapeSVG(pts, pts.map(function () { return ""; }), u); }
+        else { q.ask = "All the sides of this " + name + " are the same. What is its perimeter?"; q.answer = n * s; }
+        q.unitText = u;
+        q.why = ["A " + name + " has " + n + " equal sides.", back ? n * s + " ÷ " + n + " = <b>" + s + " " + u + "</b>." : n + " × " + s + " = <b>" + n * s + " " + u + "</b>."];
+        q.key = n + "," + s + back;
+      }
+      q.fact = "The " + (/each side/.test(q.ask) ? "side" : "perimeter") + " is <b>" + q.answer + " " + q.unitText + "</b>.";
+      q.hint = ["Perimeter is the distance all the way round the outside.", "Write down every side, then add them up."];
+      return q;
+    },
+    /* Area of rectangles by multiplying, then shapes made of two rectangles. */
+    add: function (lv, t) {
+      var q = {}, u = areaUnit(t);
+      if (t <= 2) {
+        var a = rint(2, t === 1 ? 9 : 12), b = rint(2, t === 1 ? 6 : 10);
+        q.html = t === 1 ? gridSVG(Math.max(a, 4), Math.max(b, 3), rectCells(0, 0, a, b), { u: 30, key: "each square is 1 cm²" }) : shapeSVG(rectPts(a, b), [a, b, "", ""], u);
+        q.answer = a * b; q.unitText = sq(t === 1 ? "cm" : u);
+        q.ask = t === 1 ? "Use rows and columns. What is the area?" : "What is the area of the rectangle?";
+        q.why = [b + " rows of " + a + ".", a + " × " + b + " = <b>" + a * b + " " + q.unitText + "</b>."];
+        q.key = a + "x" + b + t;
+      } else if (t === 3 || t === 4) {
+        var W = rint(5, 14), H = rint(4, 12), ca = rint(2, W - 2), cb = rint(2, H - 2);
+        q.html = shapeSVG(lPts(W, H, ca, cb), [W - ca, cb, ca, H - cb, W, H], u);
+        q.answer = W * H - ca * cb; q.unitText = sq(u);
+        q.ask = "What is the area of the shape?";
+        q.sub = "Split it into two rectangles, or find the big rectangle and take away the missing corner.";
+        q.why = ["The whole rectangle would be " + W + " × " + H + " = " + W * H + ".", "The missing corner is " + ca + " × " + cb + " = " + ca * cb + ".", W * H + " − " + ca * cb + " = <b>" + q.answer + " " + sq(u) + "</b>."];
+        q.key = [W, H, ca, cb].join(",");
+      } else {
+        var kind = pickOne(["squareP", "path", "tri"]);
+        if (kind === "squareP") { var s = rint(3, 15); q.html = shapeSVG(rectPts(1, 1), ["", "", "", ""], u); q.ask = "A square has a perimeter of " + 4 * s + " " + u + ". What is its area?"; q.answer = s * s; q.unitText = sq(u); q.why = ["Each side is " + 4 * s + " ÷ 4 = " + s + " " + u + ".", s + " × " + s + " = <b>" + s * s + " " + sq(u) + "</b>."]; q.key = "sq" + s; }
+        else if (kind === "tri") { var bw = rint(2, 10) * 2, th = rint(3, 12); q.html = shapeSVG([[0, th], [bw / 2, 0], [bw, th]], ["", "", bw], u); q.ask = "The triangle is " + bw + " " + u + " wide and " + th + " " + u + " tall. What is its area?"; q.answer = bw * th / 2; q.unitText = sq(u); q.sub = "A triangle is half of the rectangle around it."; q.why = ["The rectangle around it is " + bw + " × " + th + " = " + bw * th + ".", "The triangle is half: <b>" + bw * th / 2 + " " + sq(u) + "</b>."]; q.key = "t" + bw + "," + th; }
+        else { var PW = rint(6, 14), PH = rint(4, 10), p = rint(1, 2); q.html = shapeSVG(rectPts(PW, PH), [PW, PH, "", ""], "m"); q.ask = "A pool is " + PW + " m by " + PH + " m. A path " + p + " m wide goes all the way round it. What is the area of the path?"; q.answer = (PW + 2 * p) * (PH + 2 * p) - PW * PH; q.unitText = "m²"; q.why = ["Pool and path together: " + (PW + 2 * p) + " × " + (PH + 2 * p) + " = " + (PW + 2 * p) * (PH + 2 * p) + ".", "Take away the pool: " + PW + " × " + PH + " = " + PW * PH + ".", "The path is <b>" + q.answer + " m²</b>."]; q.key = "p" + PW + PH + p; }
+      }
+      q.fact = "The area is <b>" + q.answer + " " + q.unitText + "</b>.";
+      q.hint = ["Area of a rectangle is length × width.", "Find the parts you can multiply first, then put them together."];
+      return q;
+    },
+    /* Missing sides: working backwards from the area or the perimeter. */
+    about: function (lv, t) {
+      var q = {}, u = areaUnit(t), a = rint(2, t <= 2 ? 9 : 15), b = rint(2, t <= 2 ? 9 : 12), kind = t === 1 ? "area" : pickOne(t <= 3 ? ["area", "perim"] : ["area", "perim", "square", "lside"]);
+      if (kind === "area") { q.html = shapeSVG(rectPts(a, b), [a, "?", "", ""], u); q.ask = "The area is " + a * b + " " + sq(u) + ". How long is the side marked ?"; q.answer = b; q.why = ["Area = length × width, so " + a + " × ? = " + a * b + ".", a * b + " ÷ " + a + " = <b>" + b + " " + u + "</b>."]; q.hint = ["Which number times " + a + " makes " + a * b + "?", "Divide the area by the side you know."]; }
+      else if (kind === "perim") { q.html = shapeSVG(rectPts(a, b), [a, "?", "", ""], u); q.ask = "The perimeter is " + 2 * (a + b) + " " + u + ". How long is the side marked ?"; q.answer = b; q.why = ["Half the perimeter is one long side and one short side: " + 2 * (a + b) + " ÷ 2 = " + (a + b) + ".", (a + b) + " − " + a + " = <b>" + b + " " + u + "</b>."]; q.hint = ["Two sides are " + a + " " + u + " each. Take them off the perimeter.", "What is left is shared between the other two sides."]; }
+      else if (kind === "square") { q.html = shapeSVG(rectPts(1, 1), ["?", "", "", ""], u); q.ask = "A square has an area of " + a * a + " " + sq(u) + ". How long is each side?"; q.answer = a; q.why = ["Which number times itself makes " + a * a + "?", a + " × " + a + " = " + a * a + ", so each side is <b>" + a + " " + u + "</b>."]; q.hint = ["The sides of a square are all the same, so it is ? × ?.", "Try 5 × 5, 6 × 6, 7 × 7... Which one makes " + a * a + "?"]; }
+      else { var W = rint(6, 14), H = rint(5, 12), ca = rint(2, W - 2), cb = rint(2, H - 2); q.html = shapeSVG(lPts(W, H, ca, cb), [W - ca, "?", ca, H - cb, W, ""], u); q.ask = "How long is the side marked ?"; q.answer = cb; q.why = ["Look across to the left side: the whole height is the missing piece plus " + (H - cb) + ".", "Work out the full height from the right side, then take " + (H - cb) + " away: <b>" + cb + " " + u + "</b>."]; q.html = shapeSVG(lPts(W, H, ca, cb), [W - ca, "?", ca, H - cb, W, H], u); q.why = [H + " − " + (H - cb) + " = <b>" + cb + " " + u + "</b>."]; q.hint = ["The left side is the whole height. The step on the right is part of it.", "Take the right-hand piece away from the whole height."]; }
+      q.unitText = u; q.fact = "It is <b>" + q.answer + " " + u + "</b>.";
+      q.key = kind + a + "," + b;
+      return q;
+    },
+    /* Which shape: comparing area and perimeter by eye and by working out. */
+    set: function (lv, t) {
+      var shapes = [], used = {}, q = {}, cmp = t === 1 ? "area" : pickOne(t <= 3 ? ["area", "perim", "same"] : ["perim", "same", "most"]);
+      while (shapes.length < 3) { var w = rint(2, t === 1 ? 6 : 8), h = rint(1, 5); var k2 = w * h + "," + 2 * (w + h); if (used[w + "x" + h] || used["a" + w * h] && cmp === "area") continue; used[w + "x" + h] = 1; used["a" + w * h] = 1; shapes.push([w, h]); }
+      if (cmp === "same") { // make one share its perimeter with a target
+        var tw = rint(3, 7), th = rint(2, 4), P = 2 * (tw + th), mw = Math.max(1, (P / 2) - th - pickOne([1, 2])), mh = P / 2 - mw; if (mw === tw) { mw++; mh--; }
+        if (mh < 1) { mh = 1; mw = P / 2 - 1; }
+        shapes = [[mw, mh], [tw + 1, th + 1], [Math.max(1, tw - 1), th]]; q.target = [tw, th]; q.same = shapes[0];
+        shapes.sort(function () { return Math.random() - 0.5; });
+      }
+      var names = ["A", "B", "C"];
+      q.html = shapes.map(function (s, i) { return gridSVG(Math.max(s[0], 3), Math.max(s[1], 3), rectCells(0, 0, s[0], s[1]), { u: 26, key: "Shape " + names[i] }); }).join("");
+      var best;
+      if (cmp === "area") { best = shapes.slice().sort(function (a, b) { return b[0] * b[1] - a[0] * a[1]; })[0]; q.ask = "Which shape has the biggest area?"; }
+      else if (cmp === "perim") { var ps = shapes.map(function (s) { return 2 * (s[0] + s[1]); }); if (new Set(ps).size < 3) shapes[2] = [shapes[2][0] + 2, shapes[2][1]]; q.html = shapes.map(function (s, i) { return gridSVG(Math.max(s[0], 3), Math.max(s[1], 3), rectCells(0, 0, s[0], s[1]), { u: 26, key: "Shape " + names[i] }); }).join(""); best = shapes.slice().sort(function (a, b) { return (b[0] + b[1]) - (a[0] + a[1]); })[0]; q.ask = "Which shape has the longest perimeter?"; }
+      else if (cmp === "most") { best = shapes.slice().sort(function (a, b) { return a[0] * a[1] - b[0] * b[1]; })[0]; q.ask = "Which shape has the smallest area?"; }
+      else { best = q.same; q.ask = "Which shape has the same perimeter as a " + q.target[0] + " by " + q.target[1] + " rectangle?"; }
+      var bi = shapes.indexOf(best);
+      var dupe = shapes.filter(function (s) { return cmp === "area" || cmp === "most" ? s[0] * s[1] === best[0] * best[1] : cmp === "perim" ? s[0] + s[1] === best[0] + best[1] : 2 * (s[0] + s[1]) === 2 * (best[0] + best[1]); }).length > 1;
+      if (dupe) return PACKS.area.set(lv, t);
+      q.choices = ["Shape A", "Shape B", "Shape C"]; q.answer = bi + 1;
+      q.fact = "<b>Shape " + names[bi] + "</b>: " + best[0] + " by " + best[1] + ", area " + best[0] * best[1] + ", perimeter " + 2 * (best[0] + best[1]) + ".";
+      q.why = shapes.map(function (s, i) { return "Shape " + names[i] + ": " + s[0] + " × " + s[1] + " = area " + s[0] * s[1] + ", perimeter " + 2 * (s[0] + s[1]) + "."; }).concat(["So it is <b>Shape " + names[bi] + "</b>."]);
+      q.hint = [/perimeter/.test(q.ask) ? "Count the edges all the way round each one." : "Count the squares in each one.", "Write each one down, then compare."];
+      q.key = JSON.stringify(shapes) + cmp;
+      return q;
+    },
+    /* Units: square units, metres and centimetres, and hectares at the top. */
+    convert: function (lv, t) {
+      var q = {}, k = pickOne(t === 1 ? ["mcm", "unit"] : t === 2 ? ["mcm", "unit", "sqscale"] : t <= 4 ? ["perimM", "unit", "sqscale", "m2cm2"] : ["m2cm2", "ha", "perimM"]);
+      if (k === "mcm") { var m = rint(1, 9), c = rint(0, 9) * 10; q.html = '<div class="cvbig">' + m + " m " + (c ? c + " cm " : "") + "<span>= ? cm</span></div>"; q.ask = "How many centimetres is " + m + " m" + (c ? " " + c + " cm" : "") + "?"; q.answer = m * 100 + c; q.unitText = "cm"; q.why = ["1 m = 100 cm.", m + " × 100" + (c ? " + " + c : "") + " = <b>" + q.answer + " cm</b>."]; q.hint = ["Every metre is 100 cm.", m + " metres is " + m * 100 + " cm" + (c ? ". Add the " + c + " cm." : ".")]; }
+      else if (k === "unit") {
+        var things = [["a postage stamp", "cm²"], ["a book cover", "cm²"], ["a classroom floor", "m²"], ["a footy oval", "m²"], ["a farm", "hectares"], ["a phone screen", "cm²"], ["a backyard", "m²"], ["a national park", "km²"], ["a netball court", "m²"], ["a sticky note", "cm²"]];
+        var th = pickOne(t <= 2 ? things.filter(function (x) { return x[1] === "cm²" || x[1] === "m²"; }) : things);
+        var pc = packChoices(th[1], ["cm²", "m²", "hectares", "km²"]);
+        if (t <= 2) pc = packChoices(th[1], ["cm²", "m²"]);
+        q.ask = "Which unit would you use for the area of " + th[0] + "?"; q.choices = pc.choices; q.answer = pc.answer; q.html = "";
+        q.fact = "<b>" + th[1] + "</b> for " + th[0] + "."; q.why = ["Small things like a stamp use cm². Rooms and yards use m². Farms use hectares, and huge places use km².", q.fact]; q.hint = ["Picture how big it is. Could you cover it with your hand, your body, or would it take a long walk?", "Small: cm². Room-sized: m². Farm-sized: hectares."]; q.key = th[0];
+      }
+      else if (k === "sqscale") { var s2 = pickOne([2, 3, 5, 10]), w = rint(2, 5), h = rint(2, 4); q.html = gridSVG(Math.max(w, 3), Math.max(h, 3), rectCells(0, 0, w, h), { u: 30, key: "each square is " + s2 + " cm by " + s2 + " cm" }); q.ask = "Each square is " + s2 + " cm by " + s2 + " cm. What is the area of the rectangle?"; q.answer = w * h * s2 * s2; q.unitText = "cm²"; q.why = ["Each square has an area of " + s2 + " × " + s2 + " = " + s2 * s2 + " cm².", "There are " + w * h + " squares: " + w * h + " × " + s2 * s2 + " = <b>" + q.answer + " cm²</b>."]; q.hint = ["First work out the area of one square.", "Then multiply by how many squares there are."]; q.key = s2 + "," + w + "," + h; }
+      else if (k === "perimM") { var a = rint(2, 9), b = rint(1, 9) * 10 + (Math.random() < 0.5 ? 0 : 5); q.html = shapeSVG(rectPts(5, 2), [a + " m", b + " cm", "", ""], "").replace(/ (?=<\/text>)/g, ""); q.ask = "The rectangle is " + a + " m long and " + b + " cm wide. What is the perimeter in centimetres?"; q.answer = 2 * (a * 100 + b); q.unitText = "cm"; q.why = [a + " m = " + a * 100 + " cm.", "2 × (" + a * 100 + " + " + b + ") = <b>" + q.answer + " cm</b>."]; q.hint = ["Change the metres into centimetres first.", "Then add all four sides."]; q.key = a + "," + b; }
+      else if (k === "m2cm2") { var n = rint(1, 6), back = Math.random() < 0.5; q.html = '<div class="cvbig">' + (back ? n * 10000 + " cm² <span>= ? m²</span>" : n + " m² <span>= ? cm²</span>") + "</div>"; q.ask = back ? "How many square metres is " + n * 10000 + " cm²?" : "How many square centimetres is " + n + " m²?"; q.answer = back ? n : n * 10000; q.unitText = back ? "m²" : "cm²"; q.why = ["A 1 m square is 100 cm by 100 cm.", "So 1 m² = 100 × 100 = 10 000 cm².", "That makes <b>" + q.answer + " " + q.unitText + "</b>."]; q.hint = ["1 m is 100 cm, so a square metre is 100 cm by 100 cm.", "1 m² = 10 000 cm²."]; q.key = n + "" + back; }
+      else { var ha = rint(1, 9), back2 = Math.random() < 0.5; q.html = '<div class="cvbig">' + (back2 ? ha * 10000 + " m² <span>= ? ha</span>" : ha + " ha <span>= ? m²</span>") + "</div>"; q.ask = back2 ? "How many hectares is " + ha * 10000 + " m²?" : "How many square metres is " + ha + " hectares?"; q.answer = back2 ? ha : ha * 10000; q.unitText = back2 ? "hectares" : "m²"; q.why = ["A hectare is a square 100 m by 100 m.", "1 ha = 10 000 m², so it is <b>" + q.answer + " " + q.unitText + "</b>."]; q.hint = ["A hectare is 100 m by 100 m.", "1 hectare = 10 000 m²."]; q.key = "ha" + ha + back2; }
+      q.fact = q.fact || "It is <b>" + q.answer + " " + (q.unitText || "") + "</b>.";
+      return q;
+    },
+    /* Real life: carpet, fences, tiles and gardens. */
+    life: function (lv, t) {
+      var q = {}, k = pickOne(t === 1 ? ["fence", "tiles"] : t === 2 ? ["fence", "tiles", "which"] : t <= 4 ? ["carpet", "fence", "tiles", "which", "bed"] : ["carpet", "paint", "bed", "posts"]);
+      var a = rint(3, 12), b = rint(2, 9);
+      if (k === "fence") { q.html = shapeSVG(rectPts(a, b), [a, b, "", ""], "m"); q.ask = "A vegie garden is " + a + " m by " + b + " m. How much fencing goes all the way round?"; q.answer = 2 * (a + b); q.unitText = "m"; q.why = ["Fencing goes round the outside, so it is the perimeter.", "2 × (" + a + " + " + b + ") = <b>" + q.answer + " m</b>."]; q.hint = ["Is fencing round the edge (perimeter) or covering the inside (area)?", "Add all four sides."]; }
+      else if (k === "tiles") { q.html = gridSVG(a, b, [], { u: 26, key: "1 tile is 1 square" }); q.ask = "A floor is " + a + " tiles long and " + b + " tiles wide. How many tiles cover it?"; q.answer = a * b; q.unitText = "tiles"; q.why = ["Covering the floor is area.", a + " × " + b + " = <b>" + a * b + " tiles</b>."]; q.hint = ["How many tiles in one row?", "Multiply by the number of rows."]; }
+      else if (k === "which") { var right = pickOne([["putting a fence round a paddock", "Perimeter"], ["laying grass on a backyard", "Area"], ["sticking ribbon round a card", "Perimeter"], ["painting a wall", "Area"], ["putting a frame round a photo", "Perimeter"], ["covering a table with a cloth", "Area"]]); var pc = packChoices(right[1], ["Area", "Perimeter"]); q.html = ""; q.ask = "Do you need area or perimeter for " + right[0] + "?"; q.choices = pc.choices; q.answer = pc.answer; q.fact = "<b>" + right[1] + "</b>."; q.why = ["Going round the edge is perimeter. Covering the inside is area.", "For " + right[0] + " you need <b>" + right[1].toLowerCase() + "</b>."]; q.hint = ["Does it go round the edge, or cover the whole thing?", "Round the edge: perimeter. Covering: area."]; q.key = right[0]; }
+      else if (k === "carpet") { var cost = pickOne([10, 12, 15, 20, 25, 30]); q.html = shapeSVG(rectPts(a, b), [a, b, "", ""], "m"); q.ask = "Carpet costs $" + cost + " for each square metre. How much to carpet a room " + a + " m by " + b + " m?"; q.answer = a * b * cost; q.unitText = "dollars"; q.why = ["The area is " + a + " × " + b + " = " + a * b + " m².", a * b + " × $" + cost + " = <b>$" + a * b * cost + "</b>."]; q.hint = ["Find the area of the room first.", "Then multiply by the price for each square metre."]; }
+      else if (k === "paint") { var walls = rint(2, 4), wa = rint(3, 6), wh = rint(2, 3), per = pickOne([5, 6, 8, 10]); var area = walls * wa * wh; area = Math.ceil(area / per) * per; q.html = shapeSVG(rectPts(wa, wh), [wa, wh, "", ""], "m"); q.ask = walls + " walls are each " + wa + " m by " + wh + " m. A tin of paint covers " + per + " m². How many tins are needed?"; q.answer = Math.ceil(walls * wa * wh / per); q.unitText = "tins"; q.why = ["One wall: " + wa + " × " + wh + " = " + wa * wh + " m². " + walls + " walls: " + walls * wa * wh + " m².", walls * wa * wh + " ÷ " + per + " = " + (walls * wa * wh / per).toFixed(1).replace(/\.0$/, "") + ", so you need <b>" + q.answer + " tins</b> (you cannot buy part of a tin)."]; q.hint = ["Work out the area of all the walls.", "How many lots of " + per + " m² is that? Round up."]; }
+      else if (k === "posts") { var len = rint(2, 6) * 10, gap = pickOne([2, 5, 10]); q.html = shapeSVG(rectPts(len, 2), [len, "", "", ""], "m"); q.ask = "A straight fence is " + len + " m long with a post every " + gap + " m, including both ends. How many posts?"; q.answer = len / gap + 1; q.unitText = "posts"; q.why = [len + " ÷ " + gap + " = " + len / gap + " gaps.", "There is one more post than gaps: <b>" + q.answer + " posts</b>."]; q.hint = ["How many gaps are there between posts?", "Draw a short one: 3 gaps need 4 posts."]; }
+      else { var bw = rint(2, 5), bl = rint(3, 8), n = rint(2, 4); q.html = shapeSVG(rectPts(bl, bw), [bl, bw, "", ""], "m"); q.ask = "The school has " + n + " garden beds, each " + bl + " m by " + bw + " m. What is their total area?"; q.answer = n * bl * bw; q.unitText = "m²"; q.why = ["One bed: " + bl + " × " + bw + " = " + bl * bw + " m².", n + " beds: " + n + " × " + bl * bw + " = <b>" + q.answer + " m²</b>."]; q.hint = ["Find the area of one bed first.", "Then multiply by how many beds there are."]; }
+      q.fact = q.fact || "It is <b>" + q.answer + " " + (q.unitText || "") + "</b>.";
+      q.key = q.key || k + a + "," + b + q.ask.length;
+      return q;
+    }
+  };
+  /* ---------------------------------------------------------------- angles
+     Angles are drawn the maths way: 0 degrees points right and angles turn
+     anticlockwise. Compass and clock pictures turn clockwise from the top. */
+  function gP(cx, cy, r, d) { var a = d * Math.PI / 180; return [+(cx + r * Math.cos(a)).toFixed(1), +(cy - r * Math.sin(a)).toFixed(1)]; }
+  function gArc(cx, cy, r, a1, a2, sector) {
+    var p1 = gP(cx, cy, r, a1), p2 = gP(cx, cy, r, a2), big = ((a2 - a1) % 360 + 360) % 360 > 180 ? 1 : 0;
+    return (sector ? "M" + cx + "," + cy + " L" : "M") + p1.join(",") + " A" + r + " " + r + " 0 " + big + " 0 " + p2.join(",") + (sector ? " Z" : "");
+  }
+  /* o: { W, H, cx, cy, R, rays: [deg], arcs: [{ a1, a2, lab, sq, r }] } */
+  function angSVG(o) {
+    var W = o.W || 300, H = o.H || 260, cx = o.cx != null ? o.cx : W / 2, cy = o.cy != null ? o.cy : H / 2, R = o.R || 110, out = "", labs = "";
+    (o.arcs || []).forEach(function (a, i) {
+      var span = ((a.a2 - a.a1) % 360 + 360) % 360 || 360, r = a.r || (span < 25 ? 70 : span < 50 ? 54 : 40) + (o.arcs.length > 1 ? (i % 2) * 6 : 0);
+      if (a.sq) {
+        var s = 20, q1 = gP(cx, cy, s, a.a1), q2 = gP(cx, cy, s * Math.SQRT2, a.a1 + 45), q3 = gP(cx, cy, s, a.a1 + 90);
+        out += '<path d="M' + q1.join(",") + " L" + q2.join(",") + " L" + q3.join(",") + '" class="gsq"/>';
+      } else {
+        out += '<path d="' + gArc(cx, cy, r, a.a1, a.a1 + span, true) + '" class="gsec' + (a.lab === "?" ? " q" : "") + '"/>';
+        out += '<path d="' + gArc(cx, cy, r, a.a1, a.a1 + span) + '" class="garc"/>';
+      }
+      if (a.lab != null && a.lab !== "") {
+        var lr = (a.sq ? 30 : r) + (span < 35 ? 30 : 24), lp = gP(cx, cy, lr, a.a1 + span / 2);
+        labs += '<text x="' + lp[0] + '" y="' + (lp[1] + 6) + '" text-anchor="middle" class="glab' + (a.lab === "?" ? " q" : "") + '">' + esc(String(a.lab)) + "</text>";
+      }
+    });
+    (o.rays || []).forEach(function (d) { var e = gP(cx, cy, R, d); out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + e[0] + '" y2="' + e[1] + '" class="garm"/>'; });
+    out += '<circle cx="' + cx + '" cy="' + cy + '" r="4.5" class="gdot"/>';
+    return '<svg class="packpic gang" viewBox="0 0 ' + W + " " + H + '" style="width:' + Math.round(W * 1.15) + 'px" role="img" aria-label="' + esc(o.aria || "An angle") + '">' + out + labs + "</svg>";
+  }
+  /* a protractor with two arms; the arms are angles measured from the right */
+  function protSVG(a1, a2) {
+    var cx = 236, cy = 236, R = 200, W = 472, H = 262, out = "";
+    out += '<path d="M' + (cx - R - 8) + "," + cy + " A" + (R + 8) + " " + (R + 8) + " 0 0 1 " + (cx + R + 8) + "," + cy + ' Z" class="pbody"/>';
+    for (var d = 0; d <= 180; d++) {
+      var len = d % 10 === 0 ? 16 : d % 5 === 0 ? 10 : 5, p = gP(cx, cy, R, d), q = gP(cx, cy, R - len, d);
+      out += '<line x1="' + p[0] + '" y1="' + p[1] + '" x2="' + q[0] + '" y2="' + q[1] + '" class="ptick"/>';
+      if (d % 10 === 0) {
+        var dl = d === 0 ? 3.5 : d === 180 ? 176.5 : d, o1 = gP(cx, cy, R - 28, dl), i1 = gP(cx, cy, R - 50, dl);
+        out += '<text x="' + o1[0] + '" y="' + (o1[1] + 4) + '" text-anchor="middle" class="pnum out">' + (180 - d) + "</text>";
+        out += '<text x="' + i1[0] + '" y="' + (i1[1] + 4) + '" text-anchor="middle" class="pnum in">' + d + "</text>";
+      }
+    }
+    out += '<line x1="' + (cx - R) + '" y1="' + cy + '" x2="' + (cx + R) + '" y2="' + cy + '" class="ptick"/>';
+    var lo = Math.min(a1, a2), hi = Math.max(a1, a2);
+    out += '<path d="' + gArc(cx, cy, 34, lo, hi, true) + '" class="gsec q"/>';
+    [a1, a2].forEach(function (a) { var e = gP(cx, cy, R + 20, a); out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + e[0] + '" y2="' + e[1] + '" class="parm"/>'; });
+    out += '<circle cx="' + cx + '" cy="' + cy + '" r="5" class="gdot"/>';
+    return '<svg class="packpic gprot" viewBox="-12 -14 ' + (W + 24) + " " + (H + 18) + '" style="width:560px" role="img" aria-label="Angle on a protractor">' + out + "</svg>";
+  }
+  /* a triangle from two of its angles; labs are for the corners: bottom left, bottom right, top */
+  function triSVG(A, B, labs) {
+    var C = 180 - A - B, r = Math.PI / 180, ac = Math.sin(B * r) / Math.sin(C * r);
+    var pts = [[0, 0], [1, 0], [ac * Math.cos(A * r), ac * Math.sin(A * r)]];
+    var minX = Math.min(0, pts[2][0]), maxX = Math.max(1, pts[2][0]), maxY = pts[2][1], k = Math.min(340 / (maxX - minX), 200 / maxY), pad = 40;
+    var S = pts.map(function (p) { return [pad + (p[0] - minX) * k, pad + (maxY - p[1]) * k]; });
+    var gx = (S[0][0] + S[1][0] + S[2][0]) / 3, gy = (S[0][1] + S[1][1] + S[2][1]) / 3, out = '<polygon points="' + S.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join(" ") + '" class="ashape"/>';
+    S.forEach(function (p, i) {
+      if (labs[i] == null || labs[i] === "") return;
+      var dx = gx - p[0], dy = gy - p[1], l = Math.sqrt(dx * dx + dy * dy), sharp = [A, B, C][i] < 40 ? 62 : 40;
+      out += '<text x="' + (p[0] + dx / l * sharp).toFixed(1) + '" y="' + (p[1] + dy / l * sharp + 6).toFixed(1) + '" text-anchor="middle" class="glab' + (labs[i] === "?" ? " q" : "") + '">' + esc(String(labs[i])) + "</text>";
+    });
+    var W = (maxX - minX) * k + pad * 2, H = maxY * k + pad * 2;
+    return '<svg class="packpic gtri" viewBox="0 0 ' + W.toFixed(0) + " " + H.toFixed(0) + '" style="width:' + Math.round(Math.min(520, W * 1.1)) + 'px" role="img" aria-label="Triangle">' + out + "</svg>";
+  }
+  var COMPASS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"], COMPASS_WORD = { N: "north", NE: "north-east", E: "east", SE: "south-east", S: "south", SW: "south-west", W: "west", NW: "north-west" };
+  function compassSVG(bearing, eight) {
+    var cx = 130, cy = 130, out = '<circle cx="130" cy="130" r="96" class="pbody"/>';
+    COMPASS.forEach(function (n, i) {
+      if (!eight && i % 2) return;
+      var p = gP(cx, cy, 116, 90 - i * 45), t = gP(cx, cy, 96, 90 - i * 45), u = gP(cx, cy, 84, 90 - i * 45);
+      out += '<line x1="' + t[0] + '" y1="' + t[1] + '" x2="' + u[0] + '" y2="' + u[1] + '" class="ptick"/>';
+      out += '<text x="' + p[0] + '" y="' + (p[1] + 6) + '" text-anchor="middle" class="glab' + (i % 2 ? " small" : "") + '">' + n + "</text>";
+    });
+    if (bearing != null) { var e = gP(cx, cy, 78, 90 - bearing), b = gP(cx, cy, 22, 270 - bearing); out += '<line x1="' + b[0] + '" y1="' + b[1] + '" x2="' + e[0] + '" y2="' + e[1] + '" class="parm" marker-end="url(#garrow)"/>'; }
+    return '<svg class="packpic gcomp" viewBox="0 0 260 260" style="width:280px" role="img" aria-label="Compass"><defs><marker id="garrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10z" class="garrowhead"/></marker></defs>' + out + '<circle cx="130" cy="130" r="5" class="gdot"/></svg>';
+  }
+  function angClockSVG(h, m) {
+    var cx = 120, cy = 120, out = '<circle cx="120" cy="120" r="100" class="pbody"/>';
+    for (var i = 1; i <= 12; i++) { var p = gP(cx, cy, 80, 90 - i * 30); out += '<text x="' + p[0] + '" y="' + (p[1] + 7) + '" text-anchor="middle" class="glab">' + i + "</text>"; }
+    for (var j = 0; j < 60; j++) { var a = gP(cx, cy, 100, 90 - j * 6), b2 = gP(cx, cy, j % 5 ? 95 : 90, 90 - j * 6); out += '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b2[0] + '" y2="' + b2[1] + '" class="ptick"/>'; }
+    var hb = (h % 12) * 30 + m * 0.5, mb = m * 6, he = gP(cx, cy, 52, 90 - hb), me = gP(cx, cy, 78, 90 - mb);
+    out += '<line x1="120" y1="120" x2="' + he[0] + '" y2="' + he[1] + '" class="garm hour"/><line x1="120" y1="120" x2="' + me[0] + '" y2="' + me[1] + '" class="garm"/>';
+    return '<svg class="packpic gclock" viewBox="0 0 240 240" style="width:250px" role="img" aria-label="Clock">' + out + '<circle cx="120" cy="120" r="5" class="gdot"/></svg>';
+  }
+  function pizzaSVG(n) {
+    var out = '<circle cx="120" cy="120" r="100" class="gpizza"/>';
+    for (var i = 0; i < n; i++) { var p = gP(120, 120, 100, 90 - i * 360 / n); out += '<line x1="120" y1="120" x2="' + p[0] + '" y2="' + p[1] + '" class="gcut"/>'; }
+    out += '<path d="' + gArc(120, 120, 100, 90 - 360 / n, 90, true) + '" class="gslice"/>';
+    out += '<path d="' + gArc(120, 120, 28, 90 - 360 / n, 90) + '" class="garc"/>';
+    return '<svg class="packpic gpiz" viewBox="0 0 240 240" style="width:240px" role="img" aria-label="Pizza cut into equal slices">' + out + "</svg>";
+  }
+  function wheelSVG(n) {
+    var out = '<circle cx="130" cy="130" r="96" class="pbody"/>';
+    for (var i = 0; i < n; i++) { var p = gP(130, 130, 96, 90 - i * 360 / n); out += '<line x1="130" y1="130" x2="' + p[0] + '" y2="' + p[1] + '" class="ptick"/><rect x="' + (p[0] - 9) + '" y="' + (p[1] - 2) + '" width="18" height="14" rx="4" class="gcar"/>'; }
+    out += '<path d="' + gArc(130, 130, 30, 90 - 360 / n, 90, true) + '" class="gsec q"/>';
+    return '<svg class="packpic gwheel" viewBox="0 0 260 270" style="width:260px" role="img" aria-label="Ferris wheel">' + out + '<circle cx="130" cy="130" r="5" class="gdot"/><path d="M130 130L92 262M130 130L168 262" class="garm"/></svg>';
+  }
+  function spinSVG() {
+    return '<svg class="packpic gspin" viewBox="0 0 240 200" style="width:250px" role="img" aria-label="One full spin is 360 degrees"><path d="' + gArc(120, 96, 70, 100, 440) + '" class="garc big" marker-end="url(#gspinhead)"/><defs><marker id="gspinhead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" class="garrowhead"/></marker></defs><text x="120" y="104" text-anchor="middle" class="glab">1 spin</text><text x="120" y="192" text-anchor="middle" class="glab">= 360\u00b0</text></svg>';
+  }
+  function angType(d) { return d < 90 ? "Acute" : d === 90 ? "Right" : d < 180 ? "Obtuse" : d === 180 ? "Straight" : d < 360 ? "Reflex" : "Full turn"; }
+  function deg(n) { return n + "°"; }
+  function rot() { return pickOne([0, 0, 15, 30, 60, 100, 140, 200, 250, 300]); }
+  var ANG_FACT = "Acute is less than 90°. Right is exactly 90°. Obtuse is between 90° and 180°. Straight is 180°. Reflex is between 180° and 360°.";
+
+  PACKS.angles = {
+    /* Name the angle, then guess a size that fits the name. */
+    step: function (lv, t) {
+      var types = t === 1 ? ["Acute", "Right", "Obtuse"] : t === 2 ? ["Acute", "Right", "Obtuse", "Straight"] : ["Acute", "Right", "Obtuse", "Straight", "Reflex"];
+      var want = pickOne(types), d = { Acute: rint(2, 8) * 10 + pickOne([0, 5]), Right: 90, Obtuse: rint(10, 17) * 10 + pickOne([0, 5]), Straight: 180, Reflex: rint(20, 34) * 10 + pickOne([0, 5]) }[want];
+      if (d >= 180 && want !== "Straight" && want !== "Reflex") d = 175;
+      var r0 = t === 1 ? 0 : rot(), q = { html: angSVG({ rays: [r0, r0 + d], arcs: [{ a1: r0, a2: r0 + d, sq: d === 90 }] }) };
+      if (t >= 4 && want !== "Right" && want !== "Straight" && Math.random() < 0.5) {
+        var opts = { Acute: [30, 45, 60, 75], Obtuse: [100, 120, 135, 150, 170], Reflex: [200, 240, 270, 300, 330] }, rightN = pickOne(opts[want]);
+        var others = Object.keys(opts).filter(function (k) { return k !== want; }).map(function (k) { return pickOne(opts[k]); }).concat([want === "Reflex" ? 90 : 180]);
+        var pc = packChoices(deg(rightN), others.map(deg));
+        q.ask = "This angle is " + want.toLowerCase() + ". Which size could it be?"; q.choices = pc.choices; q.answer = pc.answer;
+        q.fact = "<b>" + deg(rightN) + "</b> is " + want.toLowerCase() + ".";
+        q.why = [ANG_FACT, deg(rightN) + " is the only one that is " + want.toLowerCase() + "."];
+        q.key = "s" + want + rightN + others.join();
+      } else {
+        var pc2 = packChoices(want, types.filter(function (x) { return x !== want; }));
+        q.ask = "What kind of angle is this?"; q.choices = pc2.choices; q.answer = pc2.answer;
+        q.sub = want === "Reflex" ? "Look at the shaded part. It goes the long way round." : t === 1 ? "Is it smaller than a square corner, a square corner, or bigger?" : "";
+        q.fact = "It is <b>" + want.toLowerCase() + "</b> (" + deg(d) + ").";
+        q.why = [ANG_FACT, "This one is " + deg(d) + ", so it is <b>" + want.toLowerCase() + "</b>."];
+        q.key = want + d + "," + r0;
+      }
+      q.hint = ["Hold the corner of a book up to it. A square corner is a right angle.", want === "Reflex" ? "If the shaded part is more than a straight line, it is reflex." : "Smaller than the square corner is acute. Bigger, but not yet flat, is obtuse."];
+      return q;
+    },
+    /* Read the protractor. */
+    read: function (lv, t) {
+      var side = t <= 2 ? 0 : t === 3 ? 180 : pickOne([0, 180]), q = {}, a2, a1, step = t === 1 ? 10 : 5;
+      if (t <= 4) { a1 = side; do { a2 = rint(1, 180 / step - 1) * step; } while (a2 === 90 && t > 1 && Math.random() < 0.7); q.answer = side === 0 ? a2 : 180 - a2; }
+      else { a1 = rint(1, 12) * 5; a2 = a1 + rint(4, 22) * 5; if (a2 > 175) a2 = 175; if (Math.random() < 0.5) { var tmp = a1; a1 = 180 - a2; a2 = 180 - tmp; } q.answer = Math.abs(a2 - a1); }
+      q.html = protSVG(a1, a2); q.unitText = "degrees";
+      q.ask = "How big is the angle between the red arms?";
+      q.sub = t >= 5 ? "Neither arm is on 0. Read both arms, then find the difference." : side === 180 ? "One arm is on the left, so read the scale that starts at 0 on the left." : "";
+      q.fact = "The angle is <b>" + deg(q.answer) + "</b>.";
+      q.why = t >= 5 ? ["One arm reads " + Math.min(a1, a2) + " and the other reads " + Math.max(a1, a2) + " on the inside scale.", Math.max(a1, a2) + " − " + Math.min(a1, a2) + " = <b>" + deg(q.answer) + "</b>."]
+                     : ["The arm on the " + (side === 0 ? "right" : "left") + " sits on 0 of the " + (side === 0 ? "inside" : "outside") + " scale.", "Follow that scale round to the other arm: <b>" + deg(q.answer) + "</b>.", q.answer < 90 ? "Check: it is smaller than a right angle, so the answer should be less than 90." : q.answer > 90 ? "Check: it is bigger than a right angle, so the answer should be more than 90." : "Check: it is a right angle."];
+      q.hint = [t >= 5 ? "Read where each arm crosses the same scale." : "Find the arm that sits on 0. Use the scale that starts at that 0.", "Is it smaller or bigger than a right angle? That tells you which number is right."];
+      q.key = a1 + "," + a2;
+      return q;
+    },
+    /* Add angles that sit next to each other. */
+    add: function (lv, t) {
+      var n = t <= 2 ? 2 : t === 3 ? 3 : pickOne([2, 3]), m = t === 1 ? 10 : 5, parts = [], tot = 0, cap = t <= 3 ? 170 : 330;
+      var past = t >= 4 && Math.random() < 0.6;
+      do { parts = []; tot = 0; for (var i = 0; i < n; i++) { var p = rint(20 / m, (past ? 140 : 100) / m) * m; parts.push(p); tot += p; } } while (tot > cap || (past && tot <= 185));
+      var r0 = t <= 2 ? 0 : rot(), rays = [r0], arcs = [], at = r0;
+      parts.forEach(function (p) { arcs.push({ a1: at, a2: at + p, lab: deg(p) }); at += p; rays.push(at); });
+      var q = { html: angSVG({ rays: rays, arcs: arcs, R: 120, W: 320, H: 290 }) };
+      q.ask = "What is the whole angle, from the first arm to the last?"; q.answer = tot; q.unitText = "degrees";
+      q.fact = "The whole angle is <b>" + deg(tot) + "</b>.";
+      q.why = ["Angles next to each other add up.", parts.join(" + ") + " = <b>" + deg(tot) + "</b>." + (tot > 180 ? " That is more than a straight line, so it is reflex." : "")];
+      q.hint = ["Add the angles together.", "Add the tens first, then the fives."];
+      q.key = parts.join(",") + r0;
+      return q;
+    },
+    /* Missing angles: right angles, straight lines, all the way round, triangles. */
+    about: function (lv, t) {
+      var kind = pickOne(t === 1 ? ["right"] : t === 2 ? ["right", "line"] : t === 3 ? ["line", "point"] : t === 4 ? ["line", "point", "tri"] : ["point", "tri", "iso", "cross"]), q = { unitText: "degrees" }, a, b, qs = Math.random() < 0.5;
+      if (kind === "right") { a = rint(5, 13) * 5; q.answer = 90 - a; q.html = angSVG({ rays: [0, a, 90], arcs: [{ a1: 0, a2: 90, sq: true }, { a1: qs ? 0 : a, a2: qs ? a : 90, lab: deg(qs ? a : 90 - a), r: 60 }, { a1: qs ? a : 0, a2: qs ? 90 : a, lab: "?", r: 72 }], cx: 60, cy: 220, W: 280, H: 250, R: 170 });
+        q.html = angSVG({ rays: [0, a, 90], arcs: [{ a1: 0, a2: 90, sq: true }].concat(qs ? [{ a1: 0, a2: a, lab: deg(a), r: 66 }, { a1: a, a2: 90, lab: "?", r: 82 }] : [{ a1: 0, a2: a, lab: "?", r: 66 }, { a1: a, a2: 90, lab: deg(90 - a), r: 82 }]), cx: 50, cy: 220, W: 280, H: 250, R: 170 });
+        q.answer = qs ? 90 - a : a; q.ask = "The two angles make a right angle. What is the missing angle?"; q.why = ["A right angle is 90°.", "90 − " + (qs ? a : 90 - a) + " = <b>" + deg(q.answer) + "</b>."]; q.key = "r" + a + qs; }
+      else if (kind === "line") { a = rint(4, 32) * 5; q.html = angSVG({ rays: [0, a, 180], arcs: qs ? [{ a1: 0, a2: a, lab: deg(a) }, { a1: a, a2: 180, lab: "?" }] : [{ a1: 0, a2: a, lab: "?" }, { a1: a, a2: 180, lab: deg(180 - a) }], cx: 180, cy: 180, W: 360, H: 210, R: 160 });
+        q.answer = qs ? 180 - a : a; q.ask = "The angles sit on a straight line. What is the missing angle?"; q.why = ["Angles on a straight line add up to 180°.", "180 − " + (qs ? a : 180 - a) + " = <b>" + deg(q.answer) + "</b>."]; q.key = "l" + a + qs; }
+      else if (kind === "point") { a = rint(8, 26) * 5; b = rint(8, 26) * 5; var c = 360 - a - b, which = rint(0, 2), vals = [a, b, c]; var arcs = [[0, a], [a, a + b], [a + b, 360]].map(function (r, i) { return { a1: r[0], a2: r[1], lab: i === which ? "?" : deg(vals[i]) }; });
+        q.html = angSVG({ rays: [0, a, a + b], arcs: arcs, R: 115, W: 320, H: 290 }); q.answer = vals[which]; var known = vals.filter(function (_, i) { return i !== which; });
+        q.ask = "The angles go all the way round a point. What is the missing angle?"; q.why = ["Angles all the way round a point add up to 360°.", known[0] + " + " + known[1] + " = " + (known[0] + known[1]) + ".", "360 − " + (known[0] + known[1]) + " = <b>" + deg(q.answer) + "</b>."]; q.key = "p" + a + "," + b + which; }
+      else if (kind === "tri") { a = rint(6, 16) * 5; b = rint(6, 16) * 5; if (a + b > 160) b = 160 - a; var C = 180 - a - b, w = rint(0, 2), v = [a, b, C]; q.html = triSVG(a, b, v.map(function (x, i) { return i === w ? "?" : deg(x); })); q.answer = v[w];
+        var kn = v.filter(function (_, i) { return i !== w; }); q.ask = "What is the missing angle in the triangle?"; q.why = ["The angles inside a triangle add up to 180°.", kn[0] + " + " + kn[1] + " = " + (kn[0] + kn[1]) + ".", "180 − " + (kn[0] + kn[1]) + " = <b>" + deg(q.answer) + "</b>."]; q.key = "t" + a + "," + b + w; }
+      else if (kind === "iso") { var top = rint(10, 70) * 2, base = (180 - top) / 2; q.html = triSVG(base, base, ["?", "", deg(top)]); q.answer = base; q.ask = "The two bottom angles are the same. How big is each one?"; q.why = ["The angles in a triangle add up to 180°.", "180 − " + top + " = " + (180 - top) + ", shared between two equal angles.", (180 - top) + " ÷ 2 = <b>" + deg(base) + "</b>."]; q.key = "i" + top; }
+      else { a = rint(5, 16) * 5; var opp = Math.random() < 0.5; q.html = angSVG({ rays: [0, a, 180, 180 + a], arcs: [{ a1: 0, a2: a, lab: deg(a) }, opp ? { a1: 180, a2: 180 + a, lab: "?" } : { a1: a, a2: 180, lab: "?" }], R: 130, W: 320, H: 290 });
+        q.answer = opp ? a : 180 - a; q.ask = "Two straight lines cross. What is the missing angle?"; q.why = opp ? ["Angles opposite each other where two lines cross are equal.", "So it is <b>" + deg(a) + "</b>."] : ["The two angles sit on a straight line, so they add up to 180°.", "180 − " + a + " = <b>" + deg(q.answer) + "</b>."]; q.key = "x" + a + opp; }
+      q.fact = "The missing angle is <b>" + deg(q.answer) + "</b>.";
+      q.hint = [{ right: "The square corner means 90° altogether.", line: "A straight line is 180°.", point: "All the way round is 360°.", tri: "A triangle's angles add to 180°.", iso: "Take the top angle away from 180°, then halve it.", cross: "Opposite angles are equal. Angles side by side on a line make 180°." }[kind], "Add what you know, then take it away from the total."];
+      return q;
+    },
+    /* Estimate: which size is closest? */
+    set: function (lv, t) {
+      var m = 5, gap = [0, 50, 40, 30, 25, 20][t], max = t <= 2 ? 170 : 345, d, r0 = t === 1 ? 0 : rot();
+      do { d = rint(2, max / m) * m; } while (d === 90 || d === 180);
+      var wrongs = [], tries = 0;
+      while (wrongs.length < 3 && tries++ < 200) { var w = rint(2, max / m) * m; if (Math.abs(w - d) >= gap && wrongs.every(function (x) { return Math.abs(x - w) >= 10; })) wrongs.push(w); }
+      var pc = packChoices(deg(d), wrongs.map(deg)), q = { html: angSVG({ rays: [r0, r0 + d], arcs: [{ a1: r0, a2: r0 + d }] }) };
+      q.ask = "About how big is this angle?"; q.choices = pc.choices; q.answer = pc.answer;
+      q.fact = "It is <b>" + deg(d) + "</b>.";
+      q.why = [d < 90 ? "It is smaller than a right angle, so it is less than 90°." : d < 180 ? "It is bigger than a right angle but not a straight line, so it is between 90° and 180°." : "It is more than a straight line, so it is more than 180°.", "The closest is <b>" + deg(d) + "</b>."];
+      q.hint = ["Compare it with a right angle (90°) and a straight line (180°).", "Half a right angle is 45°. Is it more or less than that?"];
+      q.key = d + "," + r0;
+      return q;
+    },
+    /* Turns, compass directions and clock hands. */
+    convert: function (lv, t) {
+      var k = pickOne(t === 1 ? ["turn", "back", "face4"] : t === 2 ? ["turn", "face4", "face8"] : t === 3 ? ["face4", "face8", "turnDeg"] : t === 4 ? ["face8", "turnDeg", "clock"] : ["clock", "minute", "turnDeg", "anti"]), q = {};
+      var TURNS = [["a quarter turn", 90], ["a half turn", 180], ["a three-quarter turn", 270], ["a full turn", 360]];
+      if (k === "turn") { var tn = pickOne(TURNS); q.html = angSVG({ rays: [90, 90 - tn[1]], arcs: [{ a1: 90 - tn[1], a2: 90, sq: tn[1] === 90 }], R: 100 }); q.ask = "How many degrees is " + tn[0] + "?"; q.answer = tn[1]; q.unitText = "degrees"; q.why = ["A full turn is 360°.", tn[0].replace("a ", "A ") + " is <b>" + deg(tn[1]) + "</b>."]; q.key = tn[0]; }
+      else if (k === "back") { var tb = pickOne(TURNS), pc = packChoices(tb[0].replace("a ", "A "), TURNS.filter(function (x) { return x !== tb; }).map(function (x) { return x[0].replace("a ", "A "); })); q.html = angSVG({ rays: [90, 90 - tb[1]], arcs: [{ a1: 90 - tb[1], a2: 90, sq: tb[1] === 90 }], R: 100 }); q.ask = "Which turn is " + deg(tb[1]) + "?"; q.choices = pc.choices; q.answer = pc.answer; q.fact = "<b>" + tb[0].replace("a ", "A ") + "</b>."; q.why = ["90° is a quarter, 180° is a half, 270° is three quarters, 360° is a full turn.", q.fact]; q.key = "b" + tb[1]; }
+      else if (k === "face4" || k === "face8") {
+        var eight = k === "face8", start = rint(0, 7), sb = (eight ? start : start - start % 2) * 45, amt = eight ? pickOne([45, 90, 135, 180, 225, 270]) : pickOne([90, 180, 270]), cw = Math.random() < 0.6 || !eight;
+        var end = ((sb + (cw ? amt : -amt)) % 360 + 360) % 360, ename = COMPASS[end / 45], sname = COMPASS[sb / 45];
+        var pool = (eight ? COMPASS : ["N", "E", "S", "W"]).filter(function (x) { return x !== ename; }), wr = []; while (wr.length < 3) { var x = pickOne(pool); if (wr.indexOf(x) < 0) wr.push(x); }
+        var pc2 = packChoices(COMPASS_WORD[ename], wr.map(function (x) { return COMPASS_WORD[x]; }));
+        q.html = compassSVG(sb, eight); q.ask = "You face " + COMPASS_WORD[sname] + ". You turn " + deg(amt) + " " + (cw ? "clockwise" : "anticlockwise") + ". Which way are you facing now?"; q.choices = pc2.choices; q.answer = pc2.answer;
+        q.fact = "You face <b>" + COMPASS_WORD[ename] + "</b>."; q.why = [eight ? "Each step round the compass, like N to NE, is 45°." : "Each step round the compass, like N to E, is 90°.", deg(amt) + " is " + amt / (eight ? 45 : 90) + " step" + (amt / (eight ? 45 : 90) > 1 ? "s" : "") + " " + (cw ? "clockwise" : "anticlockwise") + ", so you face <b>" + COMPASS_WORD[ename] + "</b>."]; q.key = sb + "," + amt + cw;
+      }
+      else if (k === "turnDeg" || k === "anti") {
+        var s2 = rint(0, 7), e2 = rint(0, 7); if (e2 === s2) e2 = (s2 + 3) % 8; var anti = k === "anti"; var dd = anti ? ((s2 - e2) * 45 % 360 + 360) % 360 : ((e2 - s2) * 45 % 360 + 360) % 360;
+        q.html = compassSVG(s2 * 45, true); q.ask = "How many degrees do you turn " + (anti ? "anticlockwise" : "clockwise") + " to go from " + COMPASS_WORD[COMPASS[s2]] + " to " + COMPASS_WORD[COMPASS[e2]] + "?"; q.answer = dd; q.unitText = "degrees";
+        q.why = ["Each step between the eight compass points is 45°.", "Going " + (anti ? "anticlockwise" : "clockwise") + " it is " + dd / 45 + " step" + (dd > 45 ? "s" : "") + ": " + dd / 45 + " × 45 = <b>" + deg(dd) + "</b>."]; q.key = s2 + ">" + e2 + anti;
+      }
+      else if (k === "clock") { var h = rint(1, 11), small = Math.min(h, 12 - h) * 30; q.html = angClockSVG(h, 0); q.ask = "It is " + h + " o'clock. What is the smaller angle between the hands?"; q.answer = small; q.unitText = "degrees"; q.why = ["The 12 numbers split 360°, so each gap is 30°.", "The hands are " + small / 30 + " gap" + (small > 30 ? "s" : "") + " apart: " + small / 30 + " × 30 = <b>" + deg(small) + "</b>."]; q.key = "c" + h; }
+      else { var mins = pickOne([5, 10, 15, 20, 25, 30, 40, 45, 50]); q.html = angClockSVG(12, mins); q.ask = "The minute hand moves from 12 to show " + mins + " minutes past. How many degrees has it turned?"; q.answer = mins * 6; q.unitText = "degrees"; q.why = ["The minute hand turns 360° in 60 minutes, so 6° each minute.", mins + " × 6 = <b>" + deg(mins * 6) + "</b>."]; q.key = "m" + mins; }
+      q.fact = q.fact || "It is <b>" + deg(q.answer) + "</b>.";
+      q.hint = q.hint || [k === "clock" || k === "minute" ? "A whole trip round the clock is 360°." : "A full turn is 360°. A quarter turn is 90°.", k === "clock" ? "Each number on the clock is 30° from the next." : k === "minute" ? "Each minute is 6°." : "Count the steps, then multiply."];
+      return q;
+    },
+    /* Real life: pizza, doors, ramps, robots, Ferris wheels and spins. */
+    life: function (lv, t) {
+      var list = t === 1 ? ["door", "pizza4", "spin", "robot"] : t === 2 ? ["door", "pizza", "spin", "robot"] : t <= 4 ? ["pizza", "spin", "robot", "ramp", "wheel", "scissors"] : ["pizza", "spin2", "robot", "ramp", "wheel", "scissors", "clockT"];
+      var k = pickOne(list), q = { unitText: "degrees" }, n;
+      if (k === "door") { var dt = pickOne([["a quarter turn", 90], ["half of a quarter turn", 45], ["all the way flat against the wall, a half turn", 180]].slice(0, t === 1 ? 1 : 3)); q.html = angSVG({ rays: [0, dt[1]], arcs: [{ a1: 0, a2: dt[1], sq: dt[1] === 90 }], cx: 160, cy: 180, W: 320, H: 210, R: 140 }); q.ask = "A door swings open " + dt[0] + ". How many degrees did it turn?"; q.answer = dt[1]; q.why = ["A quarter turn is 90°.", "So it turned <b>" + deg(dt[1]) + "</b>."]; q.key = "d" + dt[1]; }
+      else if (k === "pizza" || k === "pizza4") { n = k === "pizza4" ? pickOne([2, 4]) : pickOne([3, 4, 5, 6, 8, 9, 10, 12]); q.html = pizzaSVG(n); q.ask = "A pizza is cut into " + n + " equal slices. What is the angle at the point of each slice?"; q.answer = 360 / n; q.why = ["All the slices meet in the middle and go all the way round: 360°.", "360 ÷ " + n + " = <b>" + deg(360 / n) + "</b>."]; q.key = "p" + n; }
+      else if (k === "spin" || k === "spin2") { var sp = k === "spin" ? pickOne([["a half spin", 180], ["a full spin", 360], ["a quarter spin", 90]]) : pickOne([["one and a half spins", 540], ["two full spins", 720], ["a spin and a quarter", 450], ["three quarters of a spin", 270]]); q.html = spinSVG(); q.ask = "A skateboarder does " + sp[0] + " in the air. How many degrees is that?"; q.answer = sp[1]; q.why = ["One full spin is 360°.", "So " + sp[0] + " is <b>" + deg(sp[1]) + "</b>."]; q.key = "s" + sp[1]; }
+      else if (k === "robot") { var turns = []; for (var i = 0; i < (t <= 2 ? 2 : 3); i++) turns.push(pickOne(t <= 2 ? [90, 45, 180] : [30, 45, 60, 90, 120, 135])); var tot = turns.reduce(function (a, b) { return a + b; }, 0); q.html = compassSVG(0, false); q.ask = "A robot facing north turns right " + turns.map(deg).join(", then ") + ". How far has it turned altogether?"; q.answer = tot; q.why = ["All the turns go the same way, so add them.", turns.join(" + ") + " = <b>" + deg(tot) + "</b>."]; q.key = "r" + turns.join(","); }
+      else if (k === "ramp") { var ra = rint(3, 9) * 5; q.html = angSVG({ rays: [0, ra, 180], arcs: [{ a1: 0, a2: ra, lab: deg(ra) }, { a1: ra, a2: 180, lab: "?" }], cx: 180, cy: 170, W: 360, H: 200, R: 160 }); q.ask = "A skate ramp makes " + deg(ra) + " with the flat ground. What is the angle on the other side, along the ground?"; q.answer = 180 - ra; q.why = ["The ground is a straight line: 180°.", "180 − " + ra + " = <b>" + deg(180 - ra) + "</b>."]; q.key = "ra" + ra; }
+      else if (k === "wheel") { n = pickOne([4, 5, 6, 8, 9, 10, 12, 15, 18, 20]); q.html = wheelSVG(n); q.ask = "A Ferris wheel has " + n + " cars spaced evenly round it. What is the angle between two cars next to each other, at the middle?"; q.answer = 360 / n; q.why = ["All the way round the wheel is 360°.", "360 ÷ " + n + " = <b>" + deg(360 / n) + "</b>."]; q.key = "w" + n; }
+      else if (k === "scissors") { var so = rint(4, 14) * 5; q.html = angSVG({ rays: [180 - so / 2, 360 - so / 2, so / 2, 180 + so / 2], arcs: [{ a1: 360 - so / 2, a2: 360 + so / 2, lab: deg(so) }, { a1: 180 - so / 2, a2: 180 + so / 2, lab: "?" }], R: 130, W: 330, H: 260 }); q.ask = "Open scissors make an X. The blades open " + deg(so) + ". What is the angle between the handles?"; q.answer = so; q.why = ["The blades and handles are two straight lines crossing.", "Opposite angles are equal, so it is <b>" + deg(so) + "</b>."]; q.key = "sc" + so; }
+      else { var tm = pickOne([[3, "recess starts at 3 o'clock"], [9, "school starts at 9 o'clock"], [2, "the bell goes at 2 o'clock"], [4, "sport is at 4 o'clock"], [1, "lunch ends at 1 o'clock"], [5, "the bus comes at 5 o'clock"]]), sm = Math.min(tm[0], 12 - tm[0]) * 30; q.html = angClockSVG(tm[0], 0); q.ask = "The clock says " + tm[1].replace(/.* at /, "") + ". What is the smaller angle between the hands?"; q.ask = "At " + tm[0] + " o'clock, what is the smaller angle between the clock hands?"; q.answer = sm; q.why = ["Each gap between numbers is 30°.", Math.min(tm[0], 12 - tm[0]) + " gaps × 30 = <b>" + deg(sm) + "</b>."]; q.key = "ct" + tm[0]; }
+      q.fact = "It is <b>" + deg(q.answer) + "</b>.";
+      q.hint = ["A full turn is 360°, a half turn 180°, a quarter turn 90°.", "Draw a quick sketch, then work it out."];
+      return q;
+    }
+  };
+  PACK_NOTES.angles = {
+    step: ["acute, right or obtuse", "and straight angles", "and reflex angles, turned round", "names, and sizes that fit", "names, and sizes that fit"],
+    read: ["from 0 on the right, in tens", "from 0 on the right, in fives", "from 0 on the left", "from either side", "neither arm on 0"],
+    add: ["two angles, in tens", "two angles, in fives", "three angles", "past a straight line", "past a straight line"],
+    about: ["inside a right angle", "right angles and straight lines", "straight lines and round a point", "and triangles", "crossing lines and equal angles"],
+    set: ["estimate, far apart", "estimate, closer", "estimate, turned round", "estimate, close", "estimate, very close"],
+    convert: ["quarter, half and full turns", "turns, and the compass", "eight compass points", "compass and clock hands", "clock hands and anticlockwise"],
+    life: ["doors, pizza and spins", "pizza, spins and robots", "ramps, wheels and scissors", "ramps, wheels and scissors", "big spins, clocks and more"]
+  };
+  /* ---------------------------------------------------------------- fractions
+     Pictures first (bars, circles, groups and number lines), then the numbers
+     on their own. Choices that hold a fraction are written as HTML so the
+     fraction stacks; stripping the tags still reads "3/4". */
+  function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { var t = b; b = a % b; a = t; } return a || 1; }
+  function fr(n, d) { return '<span class="fr"><i>' + n + '</i><b>/</b><i>' + d + "</i></span>"; }
+  function mx(w, n, d) { return n ? '<span class="mxn">' + w + " " + fr(n, d) + "</span>" : String(w); }
+  function frs(n, d) { return n + "/" + d; }
+  var DEN_WORD = { 2: ["half", "halves"], 3: ["third", "thirds"], 4: ["quarter", "quarters"], 5: ["fifth", "fifths"], 6: ["sixth", "sixths"], 7: ["seventh", "sevenths"], 8: ["eighth", "eighths"], 9: ["ninth", "ninths"], 10: ["tenth", "tenths"], 12: ["twelfth", "twelfths"], 20: ["twentieth", "twentieths"], 100: ["hundredth", "hundredths"] };
+  function denW(d, n) { var w = DEN_WORD[d] || [d + "th", d + "ths"]; return n === 1 ? w[0] : w[1]; }
+  function fracChoices(right, wrongs, maxv) {
+    // keep only wrongs whose value differs from the right one and from each other
+    var seen = {}, list = [right], rv = right[0] / right[1]; seen[rv.toFixed(6)] = 1;
+    wrongs.forEach(function (w) { var v = w[0] / w[1]; if (w[1] > 0 && w[0] > 0 && v % 1 !== 0 && !(maxv && v >= maxv) && !seen[v.toFixed(6)] && list.length < 4) { seen[v.toFixed(6)] = 1; list.push(w); } });
+    var html = list.map(function (f) { return f[2] ? mx(f[2], f[0] - f[2] * f[1], f[1]) : fr(f[0], f[1]); });
+    var pc = packChoices(html[0], html.slice(1));
+    return pc;
+  }
+  var FR_ON = "#5C7F0E";
+  function barSVG(d, k, opts) {
+    opts = opts || {}; var W = opts.w || 360, H = opts.h || 54, out = "", cw = W / d;
+    for (var i = 0; i < d; i++) out += '<rect x="' + (2 + i * cw).toFixed(1) + '" y="2" width="' + cw.toFixed(1) + '" height="' + H + '" class="fpart' + (i < k ? " on" : i < k + (opts.k2 || 0) ? " on2" : "") + '"/>';
+    return '<svg class="packpic fbar" viewBox="0 0 ' + (W + 4) + " " + (H + 4) + '" style="width:' + Math.round((W + 4) * 1.1) + 'px" role="img" aria-label="Bar split into ' + d + ' parts">' + out + "</svg>";
+  }
+  function pieSVG(d, k, size) {
+    var r = (size || 120) / 2 - 4, c = r + 4, out = "";
+    if (d === 1) out = '<circle cx="' + c + '" cy="' + c + '" r="' + r + '" class="fpart' + (k ? " on" : "") + '"/>';
+    else for (var i = 0; i < d; i++) {
+      var a1 = -Math.PI / 2 + i * 2 * Math.PI / d, a2 = a1 + 2 * Math.PI / d;
+      out += '<path d="M' + c + "," + c + " L" + (c + r * Math.cos(a1)).toFixed(1) + "," + (c + r * Math.sin(a1)).toFixed(1) + " A" + r + " " + r + " 0 " + (d === 2 ? 0 : 0) + " 1 " + (c + r * Math.cos(a2)).toFixed(1) + "," + (c + r * Math.sin(a2)).toFixed(1) + ' Z" class="fpart' + (i < k ? " on" : "") + '"/>';
+    }
+    return '<svg class="packpic fpie" viewBox="0 0 ' + (2 * c) + " " + (2 * c) + '" style="width:' + Math.round(2 * c * 1.15) + 'px" role="img" aria-label="Circle split into ' + d + ' parts">' + out + "</svg>";
+  }
+  function gridFSVG(rows, cols, k) {
+    var u = 34, out = "", order = []; for (var i = 0; i < rows * cols; i++) order.push(i);
+    order = shuffle(order); var on = {}; order.slice(0, k).forEach(function (i) { on[i] = 1; });
+    for (var j = 0; j < rows * cols; j++) out += '<rect x="' + (2 + (j % cols) * u) + '" y="' + (2 + Math.floor(j / cols) * u) + '" width="' + u + '" height="' + u + '" class="fpart' + (on[j] ? " on" : "") + '"/>';
+    return '<svg class="packpic fgrid" viewBox="0 0 ' + (cols * u + 4) + " " + (rows * u + 4) + '" style="width:' + Math.round((cols * u + 4) * 1.2) + 'px" role="img" aria-label="Grid of squares">' + out + "</svg>";
+  }
+  function setFSVG(total, k) {
+    var cols = total <= 6 ? total : total <= 12 ? Math.ceil(total / 2) : Math.ceil(total / 3), out = "", order = shuffle(Array.apply(null, Array(total)).map(function (_, i) { return i; })), on = {};
+    order.slice(0, k).forEach(function (i) { on[i] = 1; });
+    for (var i = 0; i < total; i++) out += '<circle cx="' + (26 + (i % cols) * 46) + '" cy="' + (26 + Math.floor(i / cols) * 46) + '" r="18" class="fdot' + (on[i] ? " on" : "") + '"/>';
+    var rows = Math.ceil(total / cols);
+    return '<svg class="packpic fset" viewBox="0 0 ' + (cols * 46 + 6) + " " + (rows * 46 + 6) + '" style="width:' + Math.round((cols * 46 + 6) * 1.1) + 'px" role="img" aria-label="Group of counters">' + out + "</svg>";
+  }
+  /* a number line from 0 to U wholes, each whole cut into d parts; the arrow points at mark i */
+  function nlineSVG(U, d, i, opts) {
+    opts = opts || {}; var W = 560, x0 = 30, x1 = W - 30, y = 70, n = U * d, step = (x1 - x0) / n, out = '<line x1="' + x0 + '" y1="' + y + '" x2="' + x1 + '" y2="' + y + '" class="fline"/>';
+    for (var j = 0; j <= n; j++) {
+      var x = x0 + j * step, whole = j % d === 0;
+      out += '<line x1="' + x.toFixed(1) + '" y1="' + (y - (whole ? 16 : 10)) + '" x2="' + x.toFixed(1) + '" y2="' + (y + (whole ? 16 : 10)) + '" class="fline"/>';
+      if (whole) out += '<text x="' + x.toFixed(1) + '" y="' + (y + 40) + '" text-anchor="middle" class="flab">' + (opts.dec ? (j / d).toFixed(0) : j / d) + "</text>";
+    }
+    if (i != null) { var ax = x0 + i * step; out += '<path d="M' + ax.toFixed(1) + "," + (y - 20) + " l-9,-18 h18 z" + '" class="farrow"/>'; }
+    return '<svg class="packpic fnl" viewBox="0 0 ' + W + ' 120" style="width:600px" role="img" aria-label="Number line">' + out + "</svg>";
+  }
+  function bigFr(parts) { return '<div class="cvbig frbig">' + parts + "</div>"; }
+  var BOX = '<span class="frbox">?</span>';
+
+  PACKS.fractions = {
+    /* What fraction is shaded? */
+    step: function (lv, t) {
+      var q = {}, d, k, pic, total;
+      if (t <= 2) {
+        d = t === 1 ? pickOne([2, 3, 4]) : rint(3, 8); k = rint(1, d - 1);
+        pic = Math.random() < 0.5 ? barSVG(d, k) : pieSVG(d, k, 150);
+        var un = t === 2 && Math.random() < 0.4;
+        q.html = pic; q.ask = un ? "What fraction is NOT shaded?" : "What fraction is shaded?";
+        var r = un ? [d - k, d] : [k, d];
+        var pc = fracChoices(r, [un ? [k, d] : [d - k, d], [r[0], d + 1], [r[0], d - r[0]], [r[0] + 1, d], [r[0], d * 2], [Math.max(1, r[0] - 1), d], [1, r[0] + 1]], 1);
+        q.fact = fr(r[0], d) + " " + (un ? "is not shaded" : "is shaded") + ".";
+        q.why = ["There are " + d + " equal parts, so the bottom number is " + d + ".", r[0] + " of them " + (un ? "are not" : "are") + " shaded, so the top number is " + r[0] + ".", "That is <b>" + fr(r[0], d) + "</b>."];
+        q.hint = ["How many equal parts are there altogether? That is the bottom number.", "How many parts are " + (un ? "not " : "") + "shaded? That is the top number."];
+        q.choices = pc.choices; q.answer = pc.answer; q.key = d + "," + k + un + (pic.indexOf("fbar") > -1);
+      } else if (t === 3) {
+        var useSet = Math.random() < 0.5;
+        if (useSet) { total = pickOne([5, 6, 8, 9, 10, 12]); k = rint(1, total - 1); q.html = setFSVG(total, k); q.ask = "What fraction of the counters are coloured?"; }
+        else { var dims = pickOne([[2, 3], [2, 4], [2, 5], [3, 4], [2, 6]]); total = dims[0] * dims[1]; k = rint(1, total - 1); q.html = gridFSVG(dims[0], dims[1], k); q.ask = "What fraction of the grid is shaded?"; }
+        d = total;
+        var pc3 = fracChoices([k, d], [[d - k, d], [k, d - k], [k, d + 1], [k + 1, d], [Math.max(1, k - 1), d]], 1);
+        q.choices = pc3.choices; q.answer = pc3.answer;
+        q.fact = "<b>" + fr(k, d) + "</b>."; q.why = ["There are " + d + " altogether, so the bottom number is " + d + ".", k + " are " + (useSet ? "coloured" : "shaded") + ", so it is <b>" + fr(k, d) + "</b>."]; q.hint = ["Count all of them. That is the bottom number.", "The shaded ones are not all together. Count them carefully."]; q.key = d + "," + k + useSet;
+      } else if (t === 4) {
+        d = pickOne([2, 3, 4, 5, 6, 8]); var w = rint(1, 3); k = rint(1, d - 1);
+        var pics = ""; for (var i = 0; i < w; i++) pics += pieSVG(d, d, 110); pics += pieSVG(d, k, 110);
+        q.html = pics; q.ask = "How many circles are shaded, as a mixed number?";
+        var pc4 = fracChoices([w * d + k, d, w], [[(w + 1) * d + k, d, w + 1], [w * d + (d - k), d, w], [(w - 1) * d + k, d, w - 1], [k, d]]);
+        q.choices = pc4.choices; q.answer = pc4.answer;
+        q.fact = "<b>" + mx(w, k, d) + "</b> circles."; q.why = [w + " whole circle" + (w > 1 ? "s are" : " is") + " shaded.", "The last one has " + fr(k, d) + " shaded.", "Together that is <b>" + mx(w, k, d) + "</b>."]; q.hint = ["Count the whole circles first.", "Then look at the last circle. What fraction of it is shaded?"]; q.key = w + "," + k + "/" + d;
+      } else {
+        var base = pickOne([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5], [1, 6], [5, 6], [3, 8], [5, 8]]), m = pickOne([2, 3, 4]); d = base[1] * m; k = base[0] * m;
+        if (d > 16) { m = 2; d = base[1] * 2; k = base[0] * 2; }
+        q.html = Math.random() < 0.5 ? barSVG(d, k) : pieSVG(d, k, 160);
+        q.ask = "Which fraction is the same as the shaded part?";
+        q.sub = "Look for a fraction with smaller numbers.";
+        var pc5 = fracChoices([base[0], base[1]], [[base[0], base[1] + 1], [base[0] + 1, base[1] + 1], [base[0], base[1] * 2], [base[1] - base[0], base[1]], [base[0] + 1, base[1]]], 1);
+        q.choices = pc5.choices; q.answer = pc5.answer;
+        q.fact = fr(k, d) + " is the same as <b>" + fr(base[0], base[1]) + "</b>."; q.why = [fr(k, d) + " is shaded.", "Divide the top and bottom by " + m + ": " + k + " ÷ " + m + " = " + base[0] + ", " + d + " ÷ " + m + " = " + base[1] + ".", "So it is <b>" + fr(base[0], base[1]) + "</b>."]; q.hint = ["First write the shaded fraction: " + k + "/" + d + ".", "What number divides into both " + k + " and " + d + "?"]; q.key = k + "/" + d;
+      }
+      return q;
+    },
+    /* Where is the arrow on the number line? */
+    read: function (lv, t) {
+      var q = {}, U = t === 3 ? 2 : t === 4 ? pickOne([1, 2]) : t === 5 ? pickOne([2, 3]) : 1, d, i;
+      if (t <= 3) {
+        d = t === 1 ? pickOne([2, 3, 4, 5]) : t === 2 ? pickOne([3, 5, 6, 8, 10]) : pickOne([2, 3, 4, 5, 6, 8]);
+        do { i = rint(1, U * d - 1); } while (i % d === 0);
+        q.html = nlineSVG(U, d, i); q.ask = "What fraction is the arrow pointing to?";
+        var w = Math.floor(i / d), r = i % d;
+        var right = w ? [i, d, w] : [i, d], wr = [[i, d + 1], [i + 1, d], [Math.max(1, i - 1), d], [r, d]].map(function (f) { var ww = Math.floor(f[0] / f[1]); return ww && f[0] % f[1] ? [f[0], f[1], ww] : f; });
+        var pc = fracChoices(right, wr);
+        q.choices = pc.choices; q.answer = pc.answer;
+        q.fact = "The arrow is at <b>" + (w ? mx(w, r, d) : fr(i, d)) + "</b>.";
+        q.why = ["Count the gaps between 0 and 1. There are " + d + ", so each one is " + fr(1, d) + ".", "The arrow is " + i + " gap" + (i > 1 ? "s" : "") + " from 0" + (w ? ", which is " + w + " whole and " + r + " more" : "") + ".", "That is <b>" + (w ? mx(w, r, d) : fr(i, d)) + "</b>."];
+        q.hint = ["Count the gaps between 0 and 1, not the lines.", "Now count the gaps from 0 to the arrow."];
+        q.key = U + "," + d + "," + i;
+      } else {
+        d = 10; do { i = rint(1, U * 10 - 1); } while (i % 10 === 0);
+        q.html = nlineSVG(U, 10, i); q.ask = "What decimal is the arrow pointing to?"; q.answer = i / 10; q.unitText = ""; q.placeholder = "0.0";
+        q.fact = "The arrow is at <b>" + (i / 10) + "</b>."; q.why = ["Each whole is cut into 10 gaps, so each gap is 0.1.", "The arrow is " + i + " gaps from 0: <b>" + (i / 10) + "</b>."]; q.hint = ["Each small gap is one tenth, 0.1.", "Count in tenths from 0: 0.1, 0.2, 0.3..."]; q.key = "d" + U + "," + i;
+      }
+      return q;
+    },
+    /* Add and take away fractions. */
+    add: function (lv, t) {
+      var q = {}, d, a, b, plus = t === 1 || Math.random() < 0.55, ans;
+      if (t <= 3) {
+        d = pickOne([3, 4, 5, 6, 8, 10, 12]);
+        if (t <= 2) { a = rint(1, d - 2); b = rint(1, d - 1 - a); }
+        else { a = rint(2, d - 1); b = rint(2, d - 1); }
+        if (!plus) { if (t === 3 && Math.random() < 0.5) { a = d; b = rint(1, d - 1); } else { if (a < b) { var tmp = a; a = b; b = tmp; } if (a === b) a++; if (a > d) { a = d; } } }
+        ans = plus ? a + b : a - b;
+        var left = a === d && !plus ? "1" : fr(a, d);
+        q.html = bigFr(left + (plus ? " + " : " − ") + fr(b, d) + " = " + fr("?", d)) + (t === 1 ? barSVG(d, a, { k2: b }) : "");
+        q.ask = (a === d && !plus ? "1" : frs(a, d)) + (plus ? " + " : " − ") + frs(b, d) + " = ?/" + d + ". What is the top number?";
+        q.answer = ans; q.unitText = denW(d, ans);
+        q.why = [a === d && !plus ? "1 whole is " + fr(d, d) + "." : "The bottom numbers are the same, so the parts are the same size.", (plus ? "Add" : "Take away") + " the top numbers: " + a + (plus ? " + " : " − ") + b + " = " + ans + ".", "So it is <b>" + fr(ans, d) + "</b>" + (ans > d ? ", which is " + mx(Math.floor(ans / d), ans % d, d) : "") + "."];
+        q.hint = ["The bottom number stays the same.", (plus ? "Add" : "Take away") + " the top numbers only."];
+        q.key = a + (plus ? "+" : "-") + b + "/" + d; q.fact = "The answer is <b>" + fr(ans, d) + "</b>.";
+      } else if (t === 4) {
+        d = pickOne([3, 4, 5, 6, 8, 10]); var w = rint(1, 3);
+        if (plus) { a = rint(1, d - 2); b = rint(1, d - 1 - a); ans = a + b; q.html = bigFr(mx(w, a, d) + " + " + fr(b, d) + " = " + w + " " + fr("?", d)); q.ask = w + " " + frs(a, d) + " + " + frs(b, d) + " = " + w + " ?/" + d + ". What is the top number?"; q.why = ["Keep the " + w + " whole" + (w > 1 ? "s" : "") + ".", "Add the fractions: " + a + " + " + b + " = " + ans + ".", "So it is <b>" + mx(w, ans, d) + "</b>."]; }
+        else { b = rint(1, d - 1); ans = d - b; q.html = bigFr((w + 1) + " − " + fr(b, d) + " = " + w + " " + fr("?", d)); q.ask = (w + 1) + " − " + frs(b, d) + " = " + w + " ?/" + d + ". What is the top number?"; q.why = ["Take " + fr(b, d) + " from one of the wholes.", "1 whole is " + fr(d, d) + ", and " + d + " − " + b + " = " + ans + ".", "So it is <b>" + mx(w, ans, d) + "</b>."]; }
+        q.answer = ans; q.unitText = denW(d, ans); q.hint = ["Deal with the wholes and the fractions separately.", "One whole is " + d + "/" + d + "."]; q.key = w + "," + a + (plus ? "+" : "-") + b + "/" + d; q.fact = "The answer is <b>" + mx(w, ans, d) + "</b>.";
+      } else {
+        var pair = pickOne([[2, 4], [2, 6], [2, 8], [3, 6], [3, 12], [4, 8], [4, 12], [5, 10], [2, 10], [3, 9]]), s = pair[0], D = pair[1], f = D / s;
+        a = rint(1, s - 1); b = rint(1, D - 1);
+        if (plus) { while (a * f + b >= D * 2) b--; ans = a * f + b; } else { while (a * f - b <= 0) b = rint(1, a * f); ans = a * f - b; }
+        q.html = bigFr(fr(a, s) + (plus ? " + " : " − ") + fr(b, D) + " = " + fr("?", D));
+        q.ask = frs(a, s) + (plus ? " + " : " − ") + frs(b, D) + " = ?/" + D + ". What is the top number?"; q.answer = ans; q.unitText = denW(D, ans);
+        q.sub = "The bottom numbers are different. Make them the same first.";
+        q.why = ["Change " + fr(a, s) + " into " + denW(D, 2) + ": multiply top and bottom by " + f + " to get " + fr(a * f, D) + ".", a * f + (plus ? " + " : " − ") + b + " = " + ans + ".", "So it is <b>" + fr(ans, D) + "</b>."];
+        q.hint = ["How many " + denW(D, 2) + " make " + frs(a, s) + "?", "Multiply the top and bottom of " + frs(a, s) + " by " + f + ". Then " + (plus ? "add" : "take away") + "."];
+        q.key = a + "/" + s + (plus ? "+" : "-") + b + "/" + D; q.fact = "The answer is <b>" + fr(ans, D) + "</b>.";
+      }
+      return q;
+    },
+    /* Equivalent fractions: find the missing number. */
+    about: function (lv, t) {
+      var q = {}, base, m, top, A, B, C, D, miss;
+      if (t <= 2) { base = t === 1 ? pickOne([[1, 2], [1, 4], [3, 4], [1, 2], [1, 3], [2, 3], [1, 5]]) : pickOne([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [1, 5], [2, 5], [3, 5], [4, 5]]); m = t === 1 ? pickOne([2, 3]) : rint(2, 4); }
+      else if (t === 3) { base = pickOne([[1, 2], [1, 3], [2, 3], [1, 4], [3, 4], [2, 5], [3, 5], [4, 5], [5, 6]]); m = rint(2, 4); }
+      else { base = pickOne([[1, 3], [2, 3], [3, 4], [2, 5], [3, 5], [4, 5], [5, 6], [3, 8], [5, 8], [7, 10], [3, 10]]); m = pickOne([2, 3, 4, 5, 10]); if (base[1] === 10 && t === 5) m = 10; }
+      A = base[0]; B = base[1]; C = A * m; D = B * m;
+      var simplify = t >= 3 && Math.random() < 0.5, botMiss = t >= 2 && Math.random() < 0.4;
+      var L = simplify ? [C, D] : [A, B], R = simplify ? [A, B] : [C, D];
+      miss = botMiss ? R[1] : R[0];
+      q.html = bigFr(fr(L[0], L[1]) + " = " + (botMiss ? fr(R[0], "?") : fr("?", R[1]))) + (t <= 2 ? barSVG(L[1], L[0], { h: 40 }) + barSVG(R[1], 0, { h: 40 }) : "");
+      q.ask = frs(L[0], L[1]) + " = " + (botMiss ? R[0] + "/?" : "?/" + R[1]) + ". What is the missing number?"; q.answer = miss; q.unitText = "";
+      var k = simplify ? m : m;
+      q.why = [(simplify ? "Divide" : "Multiply") + " the top and the bottom by the same number.", (botMiss ? L[0] + (simplify ? " ÷ " : " × ") + k + " = " + R[0] + ", so " + L[1] + (simplify ? " ÷ " : " × ") + k + " = <b>" + R[1] + "</b>." : L[1] + (simplify ? " ÷ " : " × ") + k + " = " + R[1] + ", so " + L[0] + (simplify ? " ÷ " : " × ") + k + " = <b>" + R[0] + "</b>.")];
+      q.fact = fr(L[0], L[1]) + " = <b>" + fr(R[0], R[1]) + "</b>.";
+      q.hint = [botMiss ? "What did the top number get " + (simplify ? "divided" : "multiplied") + " by?" : "What did the bottom number get " + (simplify ? "divided" : "multiplied") + " by?", "Do the same to the other number."];
+      q.key = L.join("/") + "=" + R.join("/") + botMiss;
+      return q;
+    },
+    /* Compare and order. */
+    set: function (lv, t) {
+      var q = {}, f1, f2, kind = t === 1 ? "sameD" : t === 2 ? pickOne(["sameD", "sameN"]) : t === 3 ? pickOne(["sameN", "related", "half"]) : t === 4 ? pickOne(["order", "related", "half"]) : pickOne(["order", "cross", "sym"]);
+      function val(f) { return f[0] / f[1]; }
+      if (kind === "order") {
+        var D = pickOne([6, 8, 10, 12]), fs = [], tries = 0;
+        var dens = [2, 3, 4, 5, 6, 8, 10, 12].filter(function (x) { return D % x === 0; });
+        while (fs.length < 3 && tries++ < 50) { var dd = pickOne(dens), nn = rint(1, dd - 1), v = nn / dd; if (fs.every(function (f) { return Math.abs(val(f) - v) > 1e-6; })) fs.push([nn, dd]); }
+        var sorted = fs.slice().sort(function (x, y) { return val(x) - val(y); });
+        var perm = function (p) { return p.map(function (f) { return fr(f[0], f[1]); }).join(", "); };
+        var right = perm(sorted), w = [perm([sorted[2], sorted[1], sorted[0]]), perm([sorted[1], sorted[0], sorted[2]]), perm([sorted[0], sorted[2], sorted[1]])];
+        var pc = packChoices(right, w); q.choices = pc.choices; q.answer = pc.answer;
+        q.ask = "Which puts them in order, smallest first?"; q.html = bigFr(shuffle(fs.slice()).map(function (f) { return fr(f[0], f[1]); }).join("&emsp;"));
+        q.fact = "<b>" + right + "</b>."; q.why = ["Change them all into " + denW(D, 2) + ": " + sorted.map(function (f) { return fr(f[0] * D / f[1], D); }).join(", ") + ".", "Now compare the top numbers: <b>" + right + "</b>."]; q.hint = ["Turn them all into " + denW(D, 2) + ".", "Then the smaller top number is the smaller fraction."]; q.key = "o" + JSON.stringify(sorted);
+        return q;
+      }
+      if (kind === "sameD") { var d = rint(3, 10); var a = rint(1, d - 1), b; do { b = rint(1, d - 1); } while (b === a); f1 = [a, d]; f2 = [b, d]; }
+      else if (kind === "sameN") { var n = t === 2 ? 1 : rint(1, 3), d1 = rint(n + 1, 10), d2; do { d2 = rint(n + 1, 12); } while (d2 === d1); f1 = [n, d1]; f2 = [n, d2]; }
+      else if (kind === "related") { var pr = pickOne([[2, 4], [2, 8], [3, 6], [4, 8], [5, 10], [3, 12], [4, 12], [2, 6]]), x = rint(1, pr[0] - 1), y; do { y = rint(1, pr[1] - 1); } while (y * pr[0] === x * pr[1]); f1 = [x, pr[0]]; f2 = [y, pr[1]]; }
+      else if (kind === "half") { var dh = pickOne([3, 5, 6, 7, 8, 9, 10, 12]), nh; do { nh = rint(1, dh - 1); } while (nh * 2 === dh); f1 = [1, 2]; f2 = [nh, dh]; }
+      else { var dA = rint(3, 9), dB; do { dB = rint(3, 9); } while (dB === dA || gcd(dA, dB) > 1 && Math.random() < 0.5); var nA = rint(1, dA - 1), nB = rint(1, dB - 1); f1 = [nA, dA]; f2 = [nB, dB]; }
+      if (Math.random() < 0.5) { var sw = f1; f1 = f2; f2 = sw; }
+      var v1 = val(f1), v2 = val(f2);
+      if (Math.abs(v1 - v2) < 1e-9 && kind !== "sym") return PACKS.fractions.set(lv, t);
+      if (kind === "sym" || kind === "cross" && Math.random() < 0.4) {
+        if (kind === "sym" && Math.random() < 0.35) { var mm = rint(2, 4); f2 = [f1[0] * mm, f1[1] * mm]; v2 = v1; }
+        var sym = Math.abs(v1 - v2) < 1e-9 ? "=" : v1 > v2 ? ">" : "<";
+        var pc2 = packChoices(sym, ["<", ">", "="].filter(function (s) { return s !== sym; }));
+        q.choices = pc2.choices; q.answer = pc2.answer; q.html = bigFr(fr(f1[0], f1[1]) + ' <span class="frbox">?</span> ' + fr(f2[0], f2[1]));
+        q.ask = "Which sign goes in the box?"; q.fact = fr(f1[0], f1[1]) + " <b>" + esc(sym) + "</b> " + fr(f2[0], f2[1]) + ".";
+      } else {
+        var big = v1 > v2 ? f1 : f2;
+        var pc3 = packChoices(fr(big[0], big[1]), [fr((big === f1 ? f2 : f1)[0], (big === f1 ? f2 : f1)[1])]);
+        q.choices = pc3.choices; q.answer = pc3.answer; q.ask = "Which fraction is bigger?";
+        q.html = t <= 2 ? barSVG(f1[1], f1[0], { h: 40 }) + barSVG(f2[1], f2[0], { h: 40 }) : "";
+        q.fact = "<b>" + fr(big[0], big[1]) + "</b> is bigger.";
+      }
+      var L = f1[1] * f2[1] / gcd(f1[1], f2[1]), hf = f1[1] === 2 && f1[0] === 1 ? f2 : f1;
+      q.why = { sameD: ["The bottom numbers are the same, so the parts are the same size.", "More parts is bigger: " + q.fact], sameN: ["The top numbers are the same. Now look at the size of the parts.", "The bigger the bottom number, the smaller each part.", q.fact],
+                half: ["Compare " + fr(hf[0], hf[1]) + " with a half: half of " + hf[1] + " is " + hf[1] / 2 + ".", fr(hf[0], hf[1]) + " is " + (val(hf) > 0.5 ? "more" : "less") + " than a half.", q.fact] }[kind] ||
+              ["Make the bottom numbers the same: " + L + ".", fr(f1[0], f1[1]) + " = " + fr(f1[0] * L / f1[1], L) + " and " + fr(f2[0], f2[1]) + " = " + fr(f2[0] * L / f2[1], L) + ".", q.fact];
+      q.hint = { sameD: ["The parts are the same size. Which has more of them?", "Look at the top numbers."], sameN: ["Which is bigger: a third of a pizza or a tenth of a pizza?", "Same number of parts, so bigger parts win."], half: ["Is each one more or less than a half?", "Half of the bottom number is the top number of a half."] }[kind] || ["Make the bottom numbers the same.", "Then compare the top numbers."];
+      q.key = kind + frs(f1[0], f1[1]) + "," + frs(f2[0], f2[1]) + q.choices.length;
+      return q;
+    },
+    /* Fractions, decimals and percentages. */
+    convert: function (lv, t) {
+      var q = {}, k = pickOne(t === 1 ? ["t2d", "d2t"] : t === 2 ? ["t2d", "h2d", "d2t"] : t === 3 ? ["h2d", "q2d", "h2p", "d2t"] : t === 4 ? ["q2p", "d2p", "p2d", "q2d"] : ["mixed", "q2p", "p2d", "twenty", "small"]), n, F = [[1, 2, 0.5], [1, 4, 0.25], [3, 4, 0.75], [1, 5, 0.2], [2, 5, 0.4], [3, 5, 0.6], [4, 5, 0.8], [1, 10, 0.1], [7, 10, 0.7]];
+      if (k === "t2d") { n = rint(1, 9); q.html = bigFr(fr(n, 10) + " = ?") + barSVG(10, n, { h: 36 }); q.ask = "Write " + frs(n, 10) + " as a decimal."; q.answer = n / 10; q.placeholder = "0.0"; q.why = ["Tenths go in the first place after the point.", fr(n, 10) + " = <b>" + n / 10 + "</b>."]; q.hint = ["One tenth is 0.1.", n + " tenths is 0." + n + "."]; q.key = "t" + n; }
+      else if (k === "h2d") { n = rint(1, 99); if (n % 10 === 0) n++; q.html = bigFr(fr(n, 100) + " = ?"); q.ask = "Write " + frs(n, 100) + " as a decimal."; q.answer = n / 100; q.placeholder = "0.00"; q.why = ["Hundredths fill two places after the point.", fr(n, 100) + " = <b>" + (n / 100).toFixed(2) + "</b>."]; q.hint = ["One hundredth is 0.01.", n < 10 ? "It is less than one tenth, so it starts 0.0..." : n + " hundredths: the tens digit is tenths, the ones digit is hundredths."]; q.key = "h" + n; }
+      else if (k === "d2t") { n = rint(1, 9); var hund = t === 3 && Math.random() < 0.5, nn = hund ? rint(11, 99) : n; if (hund && nn % 10 === 0) nn++; q.html = bigFr((hund ? (nn / 100).toFixed(2) : (n / 10)) + " = " + fr("?", hund ? 100 : 10)); q.ask = (hund ? (nn / 100).toFixed(2) : n / 10) + " = ?/" + (hund ? 100 : 10) + ". What is the top number?"; q.answer = nn; q.why = [hund ? "Two places after the point are hundredths." : "One place after the point is tenths.", "So it is <b>" + fr(nn, hund ? 100 : 10) + "</b>."]; q.hint = ["How many places after the point?", hund ? "0.01 is 1/100." : "0.1 is 1/10."]; q.key = "dt" + nn + hund; }
+      else if (k === "q2d" || k === "q2p") { var f = pickOne(F), pc = k === "q2p"; q.html = bigFr(fr(f[0], f[1]) + " = ?" + (pc ? "%" : "")); q.ask = "Write " + frs(f[0], f[1]) + " as a " + (pc ? "percentage" : "decimal") + "."; q.answer = pc ? Math.round(f[2] * 100) : f[2]; q.unitText = pc ? "%" : ""; q.placeholder = pc ? "?" : "0.00"; q.why = ["Make the bottom number 10 or 100: " + fr(f[0], f[1]) + " = " + fr(f[0] * 100 / f[1], 100) + ".", pc ? "Out of 100 is per cent: <b>" + q.answer + "%</b>." : fr(f[0] * 100 / f[1], 100) + " = <b>" + f[2] + "</b>."]; q.hint = ["What do you multiply " + f[1] + " by to make 100?", "Do the same to the top number."]; q.key = k + f.join(); }
+      else if (k === "h2p") { n = rint(1, 99); q.html = bigFr(fr(n, 100) + " = ?%"); q.ask = "Write " + frs(n, 100) + " as a percentage."; q.answer = n; q.unitText = "%"; q.why = ["Per cent means out of 100.", fr(n, 100) + " = <b>" + n + "%</b>."]; q.hint = ["Per cent means out of 100.", "The top number of a fraction out of 100 is the percentage."]; q.key = "hp" + n; }
+      else if (k === "d2p") { n = rint(1, 99); q.html = bigFr((n / 100).toFixed(2) + " = ?%"); q.ask = "Write " + (n / 100).toFixed(2) + " as a percentage."; q.answer = n; q.unitText = "%"; q.why = [(n / 100).toFixed(2) + " is " + fr(n, 100) + ".", "That is <b>" + n + "%</b>."]; q.hint = ["Two places after the point are hundredths.", "Hundredths are the same as per cent."]; q.key = "dp" + n; }
+      else if (k === "p2d") { n = pickOne([5, 10, 15, 20, 25, 30, 40, 45, 50, 60, 64, 75, 80, 90, 99, 8, 3]); q.html = bigFr(n + "% = ?"); q.ask = "Write " + n + "% as a decimal."; q.answer = n / 100; q.placeholder = "0.00"; q.why = [n + "% is " + fr(n, 100) + ".", "That is <b>" + (n / 100) + "</b>."]; q.hint = ["Per cent means out of 100.", "Divide by 100: move the digits two places right of the point."]; q.key = "pd" + n; }
+      else if (k === "mixed") { var f2 = pickOne(F), w = rint(1, 4); q.html = bigFr(mx(w, f2[0], f2[1]) + " = ?"); q.ask = "Write " + w + " " + frs(f2[0], f2[1]) + " as a decimal."; q.answer = w + f2[2]; q.placeholder = "0.00"; q.why = [fr(f2[0], f2[1]) + " = " + f2[2] + ".", "Add the " + w + " whole" + (w > 1 ? "s" : "") + ": <b>" + (w + f2[2]) + "</b>."]; q.hint = ["Keep the whole number in front of the point.", "Change the fraction part to a decimal."]; q.key = "m" + w + f2.join(); }
+      else if (k === "twenty") { var dd = pickOne([20, 25, 50]), nn2 = rint(1, dd - 1); q.html = bigFr(fr(nn2, dd) + " = ?%"); q.ask = "Write " + frs(nn2, dd) + " as a percentage."; q.answer = nn2 * 100 / dd; q.unitText = "%"; q.why = ["Multiply top and bottom by " + 100 / dd + " to make it out of 100.", fr(nn2, dd) + " = " + fr(nn2 * 100 / dd, 100) + " = <b>" + q.answer + "%</b>."]; q.hint = ["What times " + dd + " is 100?", "Multiply the top number by the same."]; q.key = "tw" + nn2 + "/" + dd; }
+      else { n = rint(1, 9); q.html = bigFr("0.0" + n + " = ?%"); q.ask = "Write 0.0" + n + " as a percentage."; q.answer = n; q.unitText = "%"; q.why = ["0.0" + n + " is " + fr(n, 100) + ".", "That is <b>" + n + "%</b>."]; q.hint = ["How many hundredths is 0.0" + n + "?", "Hundredths are per cent."]; q.key = "s" + n; }
+      q.fact = "It is <b>" + q.answer + (q.unitText === "%" ? "%" : "") + "</b>.";
+      if (q.unitText == null) q.unitText = "";
+      return q;
+    },
+    /* Real life: fractions of amounts, time, money and recipes. */
+    life: function (lv, t) {
+      var q = {}, k = pickOne(t === 1 ? ["half", "quarter"] : t === 2 ? ["unit", "time", "half"] : t === 3 ? ["non", "money", "time", "unit"] : t === 4 ? ["left", "non", "money", "recipe"] : ["reverse", "spend", "neither", "left", "recipe"]);
+      var THINGS = ["apples", "stickers", "marbles", "students", "pencils", "cards", "lollies", "books"];
+      if (k === "half" || k === "quarter") { var dv = k === "half" ? 2 : 4, tot = dv * rint(2, k === "half" ? 10 : 5), th = pickOne(THINGS); q.html = setFSVG(tot, 0); q.ask = "What is " + (k === "half" ? "half" : "a quarter") + " of " + tot + " " + th + "?"; q.answer = tot / dv; q.unitText = th; q.why = [(k === "half" ? "Half" : "A quarter") + " means share into " + dv + " equal groups.", tot + " ÷ " + dv + " = <b>" + tot / dv + "</b>."]; q.hint = ["Share them into " + dv + " equal groups.", "How many in one group?"]; q.key = k + tot; }
+      else if (k === "unit") { var dd = pickOne([2, 3, 4, 5, 6, 8, 10]), tt = dd * rint(2, 10), th2 = pickOne(THINGS); q.html = tt <= 24 ? setFSVG(tt, 0) : ""; q.ask = "What is " + frs(1, dd) + " of " + tt + " " + th2 + "?"; q.answer = tt / dd; q.unitText = th2; q.why = [fr(1, dd) + " means one of " + dd + " equal groups.", tt + " ÷ " + dd + " = <b>" + tt / dd + "</b>."]; q.hint = ["Divide by the bottom number.", tt + " ÷ " + dd + " = ?"]; q.key = "u" + dd + "," + tt; }
+      else if (k === "time") { var tf = pickOne([[1, 2, 60, "an hour", "minutes"], [1, 4, 60, "an hour", "minutes"], [3, 4, 60, "an hour", "minutes"], [1, 3, 60, "an hour", "minutes"], [1, 2, 24, "a day", "hours"], [1, 4, 24, "a day", "hours"], [1, 2, 12, "a year", "months"], [1, 4, 12, "a year", "months"], [1, 10, 60, "an hour", "minutes"]].filter(function (x) { return t >= 3 || x[0] === 1; })); q.html = ""; q.ask = "How many " + tf[4] + " is " + frs(tf[0], tf[1]) + " of " + tf[3] + "?"; q.answer = tf[0] * tf[2] / tf[1]; q.unitText = tf[4]; q.why = [tf[3].replace(/^an? /, "One ") + " is " + tf[2] + " " + tf[4] + ".", tf[2] + " ÷ " + tf[1] + (tf[0] > 1 ? " × " + tf[0] : "") + " = <b>" + q.answer + "</b>."]; q.hint = ["How many " + tf[4] + " in " + tf[3] + "?", "Divide by the bottom number" + (tf[0] > 1 ? ", then multiply by the top number." : ".")]; q.key = "tm" + tf.join(); }
+      else if (k === "non") { var d3 = pickOne([3, 4, 5, 8, 10]), n3 = rint(2, d3 - 1), t3 = d3 * rint(2, 8), th3 = pickOne(THINGS); q.html = ""; q.ask = "What is " + frs(n3, d3) + " of " + t3 + " " + th3 + "?"; q.answer = n3 * t3 / d3; q.unitText = th3; q.why = ["First find " + fr(1, d3) + ": " + t3 + " ÷ " + d3 + " = " + t3 / d3 + ".", "Then " + n3 + " lots of that: " + n3 + " × " + t3 / d3 + " = <b>" + q.answer + "</b>."]; q.hint = ["Divide by the bottom number first.", "Then multiply by the top number."]; q.key = "n" + n3 + "/" + d3 + "," + t3; }
+      else if (k === "money") { var mf = pickOne([[1, 2], [1, 4], [3, 4], [1, 5], [2, 5], [1, 10], [3, 10]]), mt = pickOne([2, 4, 5, 10, 20, 40, 50]) * 100; q.html = ""; q.ask = "What is " + frs(mf[0], mf[1]) + " of $" + mt / 100 + "?"; q.answer = mf[0] * mt / mf[1] / 100; q.unitText = "dollars"; q.placeholder = "0.00"; q.why = ["$" + mt / 100 + " ÷ " + mf[1] + " = $" + (mt / mf[1] / 100).toFixed(2) + ".", (mf[0] > 1 ? mf[0] + " × $" + (mt / mf[1] / 100).toFixed(2) + " = " : "") + "<b>$" + q.answer.toFixed(2) + "</b>."]; q.hint = ["Change the dollars into cents if it helps: $" + mt / 100 + " is " + mt + "c.", "Divide by the bottom number, then multiply by the top."]; q.key = "m" + mf.join() + mt; }
+      else if (k === "left") { var slices = pickOne([6, 8, 10, 12]), ate = rint(1, slices - 1), ppl = pickOne([[24, "students"], [28, "students"], [30, "students"], [32, "people"], [20, "players"]]), lf = pickOne([[1, 4], [3, 4], [1, 2], [2, 5], [3, 5]]); if (ppl[0] % lf[1]) ppl = [lf[1] * 6, "students"];
+        if (Math.random() < 0.5) { q.html = pieSVG(slices, ate, 170); q.ask = "A pizza has " + slices + " slices. " + frs(ate, slices) + " of it was eaten. How many slices are left?"; q.answer = slices - ate; q.unitText = "slices"; q.why = [fr(ate, slices) + " eaten means " + ate + " slices.", slices + " − " + ate + " = <b>" + q.answer + "</b>."]; q.key = "pz" + slices + "," + ate; }
+        else { q.html = ""; q.ask = "There are " + ppl[0] + " " + ppl[1] + ". " + frs(lf[0], lf[1]) + " of them walked to school. How many did NOT walk?"; q.answer = ppl[0] - lf[0] * ppl[0] / lf[1]; q.unitText = ppl[1]; q.why = [fr(lf[0], lf[1]) + " of " + ppl[0] + " is " + lf[0] * ppl[0] / lf[1] + ".", ppl[0] + " − " + lf[0] * ppl[0] / lf[1] + " = <b>" + q.answer + "</b>."]; q.key = "w" + ppl[0] + lf.join(); }
+        q.hint = ["Work out how many the fraction is first.", "Then take that away from the total."]; }
+      else if (k === "recipe") { var amt = pickOne([[1, 2], [1, 4], [3, 4], [2, 3], [1, 3]]), mul = pickOne([2, 3, 4]), ing = pickOne(["cups of flour", "cups of milk", "cups of sugar", "cups of oats"]); var tot2 = amt[0] * mul / amt[1]; if (Math.abs(tot2 * 100 - Math.round(tot2 * 100)) > 1e-9) { amt = [1, 2]; tot2 = mul / 2; }
+        q.html = ""; q.ask = "A recipe needs " + frs(amt[0], amt[1]) + " " + ing.replace("cups", "cup") + " . You make it " + mul + " times. How many " + ing + " is that?"; q.ask = q.ask.replace(" .", "."); q.answer = tot2; q.unitText = ing.split(" ")[0]; q.placeholder = "0.0"; q.why = [mul + " × " + fr(amt[0], amt[1]) + " = " + fr(amt[0] * mul, amt[1]) + ".", "That is <b>" + tot2 + "</b> " + ing + "."]; q.hint = ["Multiply the top number by " + mul + ".", "Then change it to a decimal: " + frs(1, 2) + " = 0.5, " + frs(1, 4) + " = 0.25."]; q.key = "r" + amt.join() + mul; }
+      else if (k === "reverse") { var rd = pickOne([2, 3, 4, 5, 8, 10]), part = rint(2, 12); q.html = ""; q.ask = frs(1, rd) + " of a number is " + part + ". What is the number?"; q.answer = part * rd; q.unitText = ""; q.why = ["If one part of " + rd + " is " + part + ", there are " + rd + " parts like it.", rd + " × " + part + " = <b>" + part * rd + "</b>."]; q.hint = ["The whole is made of " + rd + " parts that size.", "Multiply."]; q.key = "rv" + rd + "," + part; }
+      else if (k === "spend") { var sf = pickOne([[1, 4], [3, 4], [2, 5], [3, 5], [1, 3], [2, 3], [3, 10]]), st = sf[1] * rint(2, 8) * 5; q.html = ""; q.ask = "You have $" + st + " and spend " + frs(sf[0], sf[1]) + " of it. How much is left?"; q.answer = st - sf[0] * st / sf[1]; q.unitText = "dollars"; q.why = [fr(sf[0], sf[1]) + " of $" + st + " is $" + sf[0] * st / sf[1] + ".", "$" + st + " − $" + sf[0] * st / sf[1] + " = <b>$" + q.answer + "</b>."]; q.hint = ["Find " + frs(1, sf[1]) + " first: divide by " + sf[1] + ".", "Or: you have " + frs(sf[1] - sf[0], sf[1]) + " left."]; q.key = "sp" + sf.join() + st; }
+      else { var cls = pickOne([12, 24, 36]), a1 = pickOne([[1, 3], [1, 4], [1, 2], [1, 6]]), a2 = pickOne([[1, 4], [1, 3], [1, 6], [1, 12]]); if (a1[1] === a2[1]) a2 = a1[1] === 4 ? [1, 3] : [1, 4]; var x1 = cls / a1[1], x2 = cls / a2[1]; q.html = ""; q.ask = "In a class of " + cls + ", " + frs(1, a1[1]) + " like footy best and " + frs(1, a2[1]) + " like netball best. The rest like cricket. How many like cricket?"; q.answer = cls - x1 - x2; q.unitText = "students"; q.why = [fr(1, a1[1]) + " of " + cls + " is " + x1 + ". " + fr(1, a2[1]) + " of " + cls + " is " + x2 + ".", cls + " − " + x1 + " − " + x2 + " = <b>" + q.answer + "</b>."]; q.hint = ["Work out each fraction of " + cls + ".", "Take both away from " + cls + "."]; q.key = "ne" + cls + a1.join() + a2.join(); }
+      q.fact = "It is <b>" + (q.unitText === "dollars" ? "$" + q.answer.toFixed(2) : q.answer + (q.unitText ? " " + q.unitText : "")) + "</b>.";
+      return q;
+    }
+  };
+  PACK_NOTES.fractions = {
+    step: ["halves, thirds and quarters", "up to eighths, shaded and not", "groups and grids", "mixed numbers", "simpler fractions"],
+    read: ["halves and quarters", "thirds to eighths", "past 1", "tenths as decimals", "tenths past 1"],
+    add: ["adding, same bottom number", "adding and taking away", "past 1, and from 1 whole", "mixed numbers", "different bottom numbers"],
+    about: ["halves and quarters", "times 2, 3 or 4", "bigger and simpler", "bigger jumps", "tenths and hundredths too"],
+    set: ["same bottom number", "same top number", "near a half, and related", "putting three in order", "any two, and < > ="],
+    convert: ["tenths as decimals", "tenths and hundredths", "halves, quarters, fifths and %", "percentages", "mixed numbers and %"],
+    life: ["half and a quarter of", "one part of, and time", "parts of money and time", "left over, and recipes", "working backwards"]
+  };
+  PACK_NOTES.area = {
+    step: ["rectangles on a grid", "two rectangles together", "trickier shapes", "half squares", "half squares and bigger squares"],
+    read: ["a rectangle on a grid", "labelled rectangles", "L shapes", "L shapes with missing sides", "regular shapes, both ways"],
+    add: ["rows and columns", "length × width", "L shapes", "L shapes", "triangles, squares and paths"],
+    about: ["a missing side from the area", "from the area or the perimeter", "from the area or the perimeter", "squares and L shapes too", "squares and L shapes too"],
+    set: ["the biggest area", "area and perimeter", "area, perimeter and same perimeter", "perimeter and smallest area", "perimeter and smallest area"],
+    convert: ["metres to centimetres, and which unit", "units and bigger squares", "square units and perimeter in cm", "m² to cm²", "hectares and m²"],
+    life: ["fences and tiles", "fences, tiles, area or perimeter", "carpet, fences and garden beds", "carpet, fences and garden beds", "carpet, paint and fence posts"]
+  };
+
 
   /* How many ladders there are altogether. Titles and several badges are
      scored out of this, and it moves whenever a measure or a game is added
@@ -7395,7 +8704,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "91";
+  var GAME_VERSION = "98";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -8548,7 +9857,8 @@
     if (state.q.kind === "life") setVerdict("Tap the one that makes sense.", "");
     else if (state.q.kind === "eng") setVerdict(state.q.textAns ? "Type the word, then press Check." : "Tap your answer.", "");
     else if (state.q.timeAns && /^Type your answer/.test(verdict.textContent)) setVerdict("Type the time, like " + (state.q.h24 ? "15:45" : "3:45") + ", then press Check.", "");
-    if (state.q.mode === "set" && /^Type your answer/.test(verdict.textContent)) {
+    if (state.q.kind === "pack") setVerdict(state.q.choices ? "Tap your answer." : "Type your answer, then press Check.", "");
+    else if (state.q.mode === "set" && /^Type your answer/.test(verdict.textContent)) {
       setVerdict("Set it, then press Check.", "");
     }
     /* Said after the question is on screen, never before, so the words a child
@@ -8566,7 +9876,8 @@
     var m = questionMeasure();
     var lv = level(m, state.mode);
     if (isCustom(m, state.mode)) {
-      state.q = m === "english" && englishOn() ? makeEnglishQuestion(state.mode, lv)
+      state.q = PACKS[m] ? makePackQuestion(m, state.mode, lv)
+              : m === "english" && englishOn() ? makeEnglishQuestion(state.mode, lv)
               : m === "time" && CORE_GAMES.indexOf(state.mode) > -1 ? makeTimeQuestion(state.mode, lv)
               : state.mode === "convert" ? makeConvertQuestion(m, lv) : makeLifeQuestion(m, lv);
       state.tries = 0;
@@ -9004,8 +10315,8 @@
     }
   }
   function renderCustom(q, reveal) {
-    var picks = q.kind === "life" || (q.kind === "eng" && !q.textAns);
-    stage.className = "stage" + ((q.kind === "convert" && q.picture) || q.kind === "eng" ? " wide" : "");
+    var picks = q.kind === "life" || (q.kind === "eng" && !q.textAns) || (q.kind === "pack" && !!q.choices);
+    stage.className = "stage" + ((q.kind === "convert" && q.picture) || q.kind === "eng" || q.kind === "pack" ? " wide" : "");
     checkBtn.hidden = picks && !state.answered;
     bench.dataset.shape = q.kind === "time" ? "clock" : q.kind;
     bench.className = "bench custom " + q.kind + (q.mode === "set" && q.kind === "time" ? " setting" : "");
@@ -9216,6 +10527,7 @@
      tries, points, streaks, badges, the sheet) treats them like any other.
      Badges keep counting only the original ladders, so none got harder. */
   function gameAvailable(m, g) {
+    if (PACKS[m]) return GAME_KEYS.indexOf(g) > -1;
     if (m === "english") return ENG_GAMES.indexOf(g) > -1;
     if (CORE_GAMES.indexOf(g) > -1) return true;
     if (g === "convert") return m === "capacity" || m === "mass" || m === "length" || m === "time";
@@ -9858,6 +11170,16 @@
   /* ---------------------------------------------------------------- drawing, hints and the worked example */
   function drawCustom(q, reveal) {
     if (q.kind === "eng") return drawEnglish(q, reveal);
+    if (q.kind === "pack") {
+      var po = q.html ? '<div class="packpics">' + q.html + "</div>" : "";
+      if (!q.choices) return po;
+      po += '<div class="lifeopts packopts" role="group" aria-label="Choose one">';
+      q.choices.forEach(function (c, i) {
+        var cls = reveal ? (i + 1 === q.answer ? " right" : " dim") : "";
+        po += '<button type="button" class="lifeopt' + cls + '" data-opt="' + (i + 1) + '"' + (reveal ? " disabled" : "") + ">" + (/^<span class="(fr|mxn)"|class="fr"/.test(c) ? c : esc(c)) + "</button>";
+      });
+      return po + "</div>";
+    }
     if (q.kind === "time") {
       if (q.mode === "add") {
         if (q.digital) return '<div class="digi"><span>' + q.from24 + '</span><b>→</b><span>' + q.to24 + "</span></div>";
@@ -9881,6 +11203,7 @@
     return out + "</div>";
   }
   function customFact(q) {
+    if (q.kind === "pack") return q.fact || "";
     if (q.kind === "eng") return q.textAns ? "The word is <b>" + esc(q.word) + "</b>." : "The answer is <b>" + esc(q.rightText) + "</b>.";
     if (q.kind === "time") {
       if (q.mode === "read") return q.h24 ? "It is " + clockText(q.h, q.m) + " " + "on the clock, which is <b>" + q.shown24 + "</b> in 24-hour time." : "It is <b>" + clockText(q.h, q.m) + "</b>, or " + timeWords(q.h, q.m) + ".";
@@ -9895,6 +11218,7 @@
     return "About <b>" + esc(q.rightText) + "</b> for " + esc(q.item[1]) + ".";
   }
   function customSentence(q) {
+    if (q.kind === "pack") return q.sub || "";
     if (q.kind === "eng") return q.textAns ? "Press a speaker to hear it. Type the word, then press Check." : "";
     if (q.kind === "time" && q.until) return "Read the clock, then count on to " + q.targetText + ".";
     if (q.kind === "time" && q.mode !== "set") return q.mode === "add" && !q.digital ? "The first clock is when it started, the second when it finished." : "The short hand shows the hour, the long hand the minutes.";
@@ -9903,6 +11227,7 @@
     return "";
   }
   function customHint(q, tries) {
+    if (q.kind === "pack") return tries >= 3 || !q.hint || !q.hint[tries - 1] ? "Not quite. " + String(q.fact || "").replace(/<[^>]+>/g, "") : q.hint[tries - 1];
     if (q.kind === "eng") return englishHint(q, tries);
     if (q.kind === "time") {
       if (tries >= 3) return "Not quite. " + customFact(q).replace(/<[^>]+>/g, "");
@@ -9926,6 +11251,7 @@
     return tries === 1 ? "Think about holding it, or seeing it. Which amount would really fit?" : "Two of these are far too big or far too small. Which one is left?";
   }
   function customWhy(q) {
+    if (q.kind === "pack") return q.why || [];
     if (q.kind === "eng") return q.why || [];
     if (q.kind === "time" && q.mode === "read") {
       var out = ["The short hand has just gone past <b>" + q.h + "</b>, so it is " + q.h + " o'clock and a bit.",
@@ -9989,12 +11315,13 @@
            "close comparisons, several of one thing, and how many times as much"]
   };
   function customNote(measure, mode, lv) {
+    if (PACK_NOTES[measure]) return (PACK_NOTES[measure][mode] || [])[packTier(lv) - 1] || "";
     if (measure === "english") return englishNote(mode, lv);
     var list = measure === "time" && CUSTOM_NOTES.time[mode] ? CUSTOM_NOTES.time[mode] : CUSTOM_NOTES[mode];
     if (!list) return "";
     return list[Math.min(lv, list.length) - 1];
   }
-  function isCustom(measure, mode) { return measure === "english" || measure === "time" || mode === "convert" || mode === "life"; }
+  function isCustom(measure, mode) { return !!PACKS[measure] || measure === "english" || measure === "time" || mode === "convert" || mode === "life"; }
 
   /* ---------------------------------------------------------------- real objects on the instruments */
   var LIQUIDS = [["🥛", "milk"], ["🧃", "apple juice"], ["🍋", "lemonade"], ["💧", "water"]];
@@ -12651,7 +13978,7 @@
       next(); return;
     }
     var raw = state.q && state.q.textAns ? (input.value.trim() ? "1" : "")
-      : state.q && state.q.mode === "set" && state.q.kind !== "eng"
+      : state.q && state.q.mode === "set" && state.q.kind !== "eng" && state.q.kind !== "pack"
       ? String(setValue())
       : input.value.replace(/[^0-9.\-]/g, "");
     if (raw === "" && state.q && state.q.textAns) { setVerdict("Type the word in the box first.", "hint"); input.focus(); return; }
@@ -14147,7 +15474,7 @@
   /* Where the points came from, measure by measure, with the level reached
      in that measure alongside. */
   function breakdown(row) {
-    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number", time: "Time", english: "English" };
+    var names = { capacity: "Jugs", mass: "Scales", length: "Rulers", temperature: "Temp", number: "Number", time: "Time", english: "English", money: "Money", area: "Area", angles: "Angles", fractions: "Fractions" };
     var bits = [];
     for (var i = 0; i < MEASURE_KEYS.length; i++) {
       var k = MEASURE_KEYS[i];
@@ -14829,7 +16156,7 @@
         '<button type="button" class="linky" id="tshowbtn"' + (showBusy ? " disabled" : "") + '>' +
         (showBusy ? "Saving..." : teacherShown ? "Hide me" : "Show me") + "</button></div>"
       : "";
-    var fsel = '<select id="tc-measure">' + ["capacity", "mass", "length", "temperature", "time", "number"].concat(englishOn() ? ["english"] : []).map(function (m) {
+    var fsel = '<select id="tc-measure">' + MATHS_ORDER.concat(englishOn() ? ["english"] : []).map(function (m) {
                  return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>"; }).join("") + "</select>" +
                '<select id="tc-game">' + ["step", "read", "add", "about", "set", "convert", "life"].map(function (g) {
                  var gl = gameLabel("capacity", g); return '<option value="' + g + '">' + esc(gl ? gl.label : g) + "</option>"; }).join("") + "</select>";
@@ -15127,7 +16454,7 @@
   }
 
   function worksheetView(list) {
-    var meas = MATHS_ORDER.filter(function (m) { return m !== "time"; }).map(function (m) {
+    var meas = MATHS_ORDER.filter(function (m) { return m !== "time" && !PACKS[m]; }).map(function (m) {
       return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>";
     }).join("");
     var games = CORE_GAMES.map(function (g) {
@@ -18792,7 +20119,7 @@
     if (!q) return null;
     if (q.choices) return { click: q.answer };
     if (q.textAns) return { type: q.word };
-    if (q.mode === "set" && q.kind !== "eng") {
+    if (q.mode === "set" && q.kind !== "eng" && q.kind !== "pack") {
       if (q.kind === "time") { state.setAt = q.answer; return { check: 1 }; }
       for (var at = 0; at <= 20000; at++) { state.setAt = at; if (Math.abs(setValue() - q.answer) < 1e-9) return { check: 1 }; }
       return { fail: "no position gives " + q.answer };
@@ -18913,9 +20240,11 @@
     capacity: ["#1864AB", "#E7F0FA", "#0F4A80"], mass: ["#C2410C", "#FBEDE5", "#8A2E08"],
     length: ["#237032", "#E6F2E8", "#18502A"], temperature: ["#C92A2A", "#FBE9E9", "#8F1D1D"],
     time: ["#6741D9", "#EFEAFC", "#4B2DA8"], number: ["#0B7285", "#E3F2F4", "#085261"],
-    english: ["#A61E4D", "#F9E7EE", "#781638"]
+    english: ["#A61E4D", "#F9E7EE", "#781638"], money: ["#8F6400", "#FBF3DE", "#664700"],
+    area: ["#364FC7", "#E8ECFB", "#26388F"], angles: ["#862E9C", "#F5E8F8", "#5F206F"], fractions: ["#5C7F0E", "#EEF5E1", "#405A09"]
   };
-  var RB_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "english"];
+  var RB_ORDER = ["capacity", "mass", "length", "temperature", "time", "number", "money", "area", "angles", "fractions", "english"];
+  var RB_GROUPS = [["Measuring", ["capacity", "mass", "length", "temperature", "time", "area", "angles"]], ["Number", ["number", "money", "fractions"]], ["English", ["english"]]];
   var RB_ON = !DISPLAY;
   var rbViewNow = "home", rbLast = {};
   try { rbLast = JSON.parse(localStorage.getItem("juglab.rb.last") || "{}") || {}; } catch (e) { rbLast = {}; }
@@ -19063,12 +20392,30 @@
     document.getElementById("rbname").textContent = rbLabel(m);
     document.getElementById("rblv").innerHTML = rbDots(lv) + "<span>" + rbLvWord(lv) + "</span>";
     var gt = gotd();
-    document.getElementById("rbgrid").innerHTML = rbSubjects().map(function (s) {
+    /* Two groups of tiles. Each group shares its tiles out evenly across rows
+       (4 to a row on an iPad or laptop, 2 on a phone), so no row is left with
+       one tile on its own. Spans are in twelfths of the width. */
+    var on = rbSubjects(), spans = {};
+    function share(list, per, key) {
+      var rows = Math.ceil(list.length / per), base = Math.floor(list.length / rows), extra = list.length % rows, i = 0;
+      for (var r = 0; r < rows; r++) { var n = base + (r < extra ? 1 : 0); for (var j = 0; j < n; j++, i++) { spans[list[i]] = spans[list[i]] || {}; spans[list[i]][key] = 12 / n; } }
+    }
+    var groups = RB_GROUPS.map(function (g) { return [g[0], g[1].filter(function (m) { return on.indexOf(m) > -1; })]; }).filter(function (g) { return g[1].length; });
+    groups.forEach(function (g) { share(g[1], 2, "s2"); share(g[1], 4, "s4"); });
+    document.getElementById("rbgrid").className = "rbgrid grouped";
+    var secs = groups.map(function (g) {
+      return '<section class="rbgroup g-' + g[0].toLowerCase() + '" aria-label="' + esc(g[0]) + '"><h3 class="rbgh">' + esc(g[0]) + '</h3><div class="rbgtiles">' + g[1].map(rbTileHtml).join("") + "</div></section>";
+    });
+    /* Number (3 tiles) and English (1 tile) share one row of four on wider screens */
+    var ni = groups.map(function (g) { return g[0]; }).indexOf("Number");
+    if (ni > -1 && groups[ni + 1] && groups[ni + 1][0] === "English") secs.splice(ni, 2, '<div class="rbgrow">' + secs[ni] + secs[ni + 1] + "</div>");
+    document.getElementById("rbgrid").innerHTML = secs.join("");
+    function rbTileHtml(s) {
       var col = RB_COL[s], best = rbBest(s);
-      return '<button type="button" class="rbtile" data-m="' + s + '" style="background:' + col[0] + ";--c:" + col[0] + '">' +
+      return '<button type="button" class="rbtile" data-m="' + s + '" style="background:' + col[0] + ";--c:" + col[0] + ";--s2:" + spans[s].s2 + ";--s4:" + spans[s].s4 + '">' +
         "<span><b>" + esc(rbLabel(s)) + "</b><small>" + esc(rbBlurb(s)) + "</small></span>" +
         '<span class="lv">' + (gt && gt.measure === s ? '<span class="x2">2× today</span>' : "") + "<span>" + (best > 1 ? "Up to " : "") + rbLvWord(best) + "</span>" + rbDots(best) + "</span></button>";
-    }).join("");
+    }
     document.getElementById("rbsubs").innerHTML = rbSubjects().map(function (s) {
       var col = RB_COL[s], best = rbBest(s), bar = "";
       for (var i = 1; i <= MAX_LEVEL; i++) bar += '<i class="' + (i <= best ? (isStretch(best) ? "on gold" : "on") : "") + '"></i>';
@@ -19115,6 +20462,18 @@
     } else if (m === "number") {
       body = '<circle cx="40" cy="40" r="32" fill="' + c + '" stroke="' + k + '" stroke-width="3"/><circle cx="40" cy="40" r="22" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".55"/>' +
              '<circle cx="26" cy="24" r="3.2" fill="#FFFFFF"/><circle cx="54" cy="24" r="3.2" fill="#FFFFFF"/><circle cx="22" cy="54" r="3.2" fill="#FFFFFF"/><circle cx="58" cy="54" r="3.2" fill="#FFFFFF"/>' + rbFace(mood, 40, 38, "#FFFFFF");
+    } else if (m === "money") {
+      body = '<circle cx="40" cy="42" r="30" fill="#F2C14E" stroke="' + k + '" stroke-width="3"/><circle cx="40" cy="42" r="23" fill="none" stroke="#8A5A00" stroke-width="2" opacity=".5"/>' +
+             '<path d="M62 18l6-6M66 26l8-2" stroke="#E8B923" stroke-width="3" stroke-linecap="round"/>' + rbFace(mood, 40, 42);
+    } else if (m === "area") {
+      body = '<rect x="10" y="12" width="60" height="60" rx="6" fill="' + c + '" stroke="' + k + '" stroke-width="3"/>' +
+             '<path d="M30 12v60M50 12v60M10 32h60M10 52h60" stroke="#FFFFFF" stroke-width="2" opacity=".6"/>' + rbFace(mood, 40, 42, "#FFFFFF");
+    } else if (m === "angles") {
+      body = '<path d="M12 68L68 68M12 68L54 14" stroke="' + k + '" stroke-width="5" stroke-linecap="round" fill="none"/>' +
+             '<path d="M12 68L40 68A28 28 0 0 0 29.2 46Z" fill="' + c + '" stroke="' + k + '" stroke-width="2.5"/>' + rbFace(mood, 44, 50);
+    } else if (m === "fractions") {
+      body = '<circle cx="40" cy="42" r="30" fill="#FFFFFF" stroke="' + k + '" stroke-width="3"/><path d="M40 42V12A30 30 0 0 1 70 42Z" fill="' + c + '" stroke="' + k + '" stroke-width="2.5" stroke-linejoin="round"/>' +
+             '<path d="M40 42H10" stroke="' + k + '" stroke-width="2.5"/>' + rbFace(mood, 34, 50);
     } else if (m === "english") {
       body = '<path d="M10 16h26a4 4 0 0 1 4 4v48a4 4 0 0 0-4-4H10zM70 16H44a4 4 0 0 0-4 4v48a4 4 0 0 1 4-4h26z" fill="#FFFFFF" stroke="' + k + '" stroke-width="3" stroke-linejoin="round"/>' +
              '<path d="M10 16h26v10H10zM44 16h26v10H44z" fill="' + c + '" opacity=".85"/>' + rbFace(mood, 40, 44);
@@ -19128,7 +20487,7 @@
     }
     return '<svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">' + spark + body + "</svg>";
   }
-  var RB_PAL_NAME = { capacity: "Flask", mass: "Weighty", length: "Inchy", temperature: "Mercury", time: "Tick", number: "Dot", english: "Page" };
+  var RB_PAL_NAME = { capacity: "Flask", mass: "Weighty", length: "Inchy", temperature: "Mercury", time: "Tick", number: "Dot", english: "Page", money: "Penny", area: "Tiles", angles: "Arc", fractions: "Slice" };
   var rbMood = "happy", rbLastPick = "";
   function rbPalURI(m, mood) { return 'url("data:image/svg+xml,' + encodeURIComponent(rbPal(m, mood).replace('aria-hidden="true"', 'xmlns="http://www.w3.org/2000/svg"')) + '")'; }
   function rbSetMood(mood) {
@@ -19158,7 +20517,7 @@
       else if (/\b(bad|hint)\b/.test(c) && state.tries > 0) {
         rbSetMood("think");
         var q = state.q, said = "";
-        if (q && (q.kind === "life" || (q.kind === "eng" && !q.textAns))) said = rbLastPick || (q.choices && q.choices[(Number(input.value) | 0) - 1]) || "";
+        if (q && (q.kind === "life" || (q.kind === "pack" && q.choices) || (q.kind === "eng" && !q.textAns))) said = String(rbLastPick || (q.choices && q.choices[(Number(input.value) | 0) - 1]) || "").replace(/<[^>]+>/g, "");
         else if (q && q.mode === "set" && q.kind !== "eng") said = "";
         else said = input.value.trim() + (q && q.unitText ? " " + q.unitText : document.getElementById("unit").hidden ? "" : " " + document.getElementById("unit").textContent);
         m.textContent = said; m.hidden = !said;
@@ -19442,6 +20801,7 @@
     rbBuild3();
     rbBuild4();
     rbBuild5();
+    rbBuild6();
   }
 
   /* ================================================================ v83: Rainbow finish
@@ -19609,6 +20969,51 @@
   var rbSetVerdict0 = setVerdict;
   setVerdict = function (text, kind) { rbSetVerdict0.apply(this, arguments); if (kind === "bad" || kind === "hint") { try { rbOops(); } catch (e) { /* fine */ } } };
 
+  /* ================================================================ v92: wide screens
+     On a laptop or a big screen the Play screen becomes three columns with the
+     subjects in the middle: the child's own week on the left, the class on the
+     right. Below about 1180 px nothing changes. */
+  function rbBuild6() {
+    var grid = document.getElementById("rbgrid");
+    if (!grid || document.getElementById("rbwide")) return;
+    var row = document.createElement("div");
+    row.className = "rbwide"; row.id = "rbwide";
+    grid.insertAdjacentElement("beforebegin", row);
+    var left = document.createElement("aside"); left.className = "rbwcard rbwme"; left.id = "rbwme"; left.setAttribute("aria-label", "My week");
+    var right = document.createElement("aside"); right.className = "rbwcard rbwclass"; right.id = "rbwclass"; right.setAttribute("aria-label", "My class");
+    row.appendChild(left); row.appendChild(grid); row.appendChild(right);
+    left.addEventListener("click", function (e) { if (e.target.closest("[data-go]")) rbView("me"); });
+    right.addEventListener("click", function (e) { if (e.target.closest("[data-go]")) rbView("class"); });
+  }
+  function rbDraw6() {
+    var left = document.getElementById("rbwme"), right = document.getElementById("rbwclass");
+    if (!left || !right || !state.name) return;
+    var ts = titleStanding(state.levels);
+    left.innerHTML =
+      '<div class="rbw-who"><span class="rbw-avi">' + avatarArt(state.avatar) + '</span><span><b>' + esc(state.name) + '</b><small>' + esc(ts.name) + '</small></span></div>' +
+      '<div class="rbw-title"><small>' + (ts.next ? esc(ts.need + " more level" + (ts.need === 1 ? "" : "s") + " to " + ts.next) : "Top title reached") + '</small>' +
+      '<span class="rbw-bar"><i style="width:' + ts.pct + '%"></i></span></div>' +
+      '<div class="rbw-stats">' +
+        '<span><b>' + (state.weekScore | 0) + '</b><small>points this week</small></span>' +
+        '<span><b>' + (state.bestStreak | 0) + '</b><small>best streak</small></span>' +
+        '<span><b>' + (state.correct | 0) + '</b><small>right answers</small></span>' +
+        '<span><b>' + (state.daysPlayed | 0) + '</b><small>days played</small></span>' +
+      '</div>' +
+      '<button type="button" class="rbw-go" data-go="me">My subjects and badges</button>';
+    var g = classProgress(), rows = [];
+    try { rows = boardRows(false).filter(function (r) { return !r.hidden && r.weekOf === weekKey() && r.weekScore > 0; })
+                 .sort(function (a, b) { return b.weekScore - a.weekScore; }).slice(0, 5); } catch (e) { rows = []; }
+    var me = String(state.name || "").toLowerCase();
+    right.innerHTML =
+      '<div class="rbw-jar"><small>Class jar</small><b>' + g.into + '<em> / ' + g.goal + '</em></b><span class="rbw-bar dark"><i style="width:' + g.pct + '%"></i></span></div>' +
+      '<div class="rbw-top"><small>Top this week</small>' +
+        (rows.length ? '<ol>' + rows.map(function (r, i) {
+          return '<li' + (r.name.toLowerCase() === me ? ' class="me"' : "") + '><span class="p">' + (i + 1) + '</span><span class="n">' + esc(r.name) + '</span><span class="s">' + r.weekScore + "</span></li>";
+        }).join("") + "</ol>" : '<p>No points on the board yet this week. Be the first.</p>') +
+      '</div>' +
+      '<button type="button" class="rbw-go" data-go="class">See the class</button>';
+  }
+
   function rbDraw2() {
     var tb = document.querySelector('.rbtabs [data-view="teach"]');
     if (tb) tb.hidden = !TEACHER;
@@ -19628,6 +21033,7 @@
     }
 
     rbDraw4();
+    try { rbDraw6(); } catch (e) { /* the side cards never stop the page */ }
     var ms = document.getElementById("rbmestats");
     if (ms) {
       var cell = function (big, small, col) { return '<div class="rbcard"><b' + (col ? ' style="color:' + col + '"' : "") + ">" + big + "</b><span>" + small + "</span></div>"; };
