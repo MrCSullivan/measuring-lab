@@ -5466,7 +5466,11 @@
   .mgstand span { font: 700 clamp(16px, 1.6vw, 24px)/1 "DM Sans", sans-serif; }
   .mgstand i { font-style: normal; margin-top: auto; font: 900 clamp(28px, 3vw, 48px)/1 Outfit, sans-serif; }
   /* the Teacher tab cards */
-  .mgtcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin-top: 8px; }
+  /* the teacher panel lays its children out as a flex column; the cards need a real grid so every card is the same width */
+  body.rb #rbteach .tgroup > div.mgtcards, body .mgtcards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0; width: auto; box-sizing: border-box; align-items: stretch; }
+  @media (min-width: 900px) { body.rb #rbteach .tgroup > div.mgtcards, body .mgtcards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  body .mgtcards > .mgtcard { width: auto; min-width: 0; align-self: stretch; display: flex; flex-direction: column; }
+  body .mgtcards > .mgtcard > .mgtbtns:last-child { margin-top: auto; padding-top: 8px; }
   .mgtcard { border-radius: 16px; padding: 14px; border: 2px solid var(--edge, #DDE3EA); border-left: 8px solid var(--mg); background: var(--card, #FFFFFF); }
   .mgtcard.on { background: color-mix(in srgb, var(--mg) 8%, var(--card, #FFFFFF)); }
   .mgthead { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -5474,6 +5478,177 @@
   .mgtcard p { margin: 8px 0 0; line-height: 1.45; font-size: 14.5px; }
   .mgtnow { font-weight: 700; }
   .mgtbtns { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .mgtcards > .mgrot { grid-column: 1 / -1; }
+  .mgtag { font: 800 12px/1 "DM Sans", sans-serif; padding: 7px 10px; border-radius: 999px; background: var(--card-sunk, #EEF1F6); color: var(--ink-soft, #4A4A60); white-space: nowrap; }
+  .mgtag.on { background: var(--mg); color: #FFFFFF; }
+  .mgtbtns select { min-height: 40px; border-radius: 10px; border: 2px solid var(--edge, #DDE3EA); padding: 0 8px; font: 700 14px/1 "DM Sans", sans-serif; background: var(--card, #FFFFFF); color: var(--ink, #1B1B2F); }
+  /* Estimation Station on an iPad */
+  .estq { text-align: center; }
+  .estref { margin: -6px 0 10px; font-weight: 700; color: #7A1A1A; }
+  .estpic { width: min(230px, 60vw); height: auto; }
+  .estpic.wide { width: min(360px, 80vw); }
+  .estin { display: flex; gap: 6px; padding: 6px; border-radius: 20px; border: 3px solid var(--mg); margin: 12px auto 0; max-width: 440px; }
+  .estin input { flex: 1; min-width: 0; height: 56px; border: 0; background: transparent; color: var(--ink, #1B1B2F); font: 800 26px/1 Outfit, sans-serif; padding: 0 10px; outline: none; }
+  .estin span { align-self: center; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--mg) 15%, #FFFFFF); color: #1B1B2F; font-weight: 800; }
+  .estin button { height: 56px; padding: 0 18px; border: 0; border-radius: 14px; background: var(--mg); color: #FFFFFF; font: 800 19px/1 Outfit, sans-serif; cursor: pointer; }
+  .estdone { margin-top: 14px; padding: 14px; border-radius: 16px; background: #E6F4EA; color: #14421F; font-weight: 700; }
+  .esterr { color: #C92A2A; font-weight: 700; }
+  /* Beat the Timer on an iPad */
+  .mgbeat { position: fixed; left: 50%; top: 10px; transform: translateX(-50%); z-index: 8500; display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 999px; background: #237032; color: #FFFFFF; box-shadow: 0 8px 24px rgba(0,0,0,.25); font: 800 16px/1 Outfit, "DM Sans", sans-serif; width: min(640px, calc(100vw - 20px)); }
+  .mgbeat[hidden] { display: none; }
+  .mgbeat .bb { flex: 1; height: 12px; border-radius: 6px; background: rgba(255,255,255,.3); overflow: hidden; display: block; }
+  .mgbeat .bb i { display: block; height: 100%; background: #FFFFFF; border-radius: 6px; transition: width .4s; }
+  .mgbeat small { font: 700 12px/1 "DM Sans", sans-serif; opacity: .85; white-space: nowrap; }
+  /* the live board */
+  .mglive { position: fixed; inset: 0; z-index: 8800; overflow: auto; background: #EEF3F7; color: #14213D; padding: 24px; font: 16px/1.4 "DM Sans", system-ui, sans-serif; }
+  .mglive[hidden] { display: none; }
+  .mglx { position: fixed; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; border-radius: 50%; border: 0; background: #1B1B2F; color: #FFFFFF; font-size: 28px; cursor: pointer; }
+  .estboard, .beatboard { position: relative; overflow: hidden; max-width: 1500px; margin: 0 auto; background: #FFFFFF; border-radius: 30px; padding: 30px 34px 28px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  .estboard::before, .beatboard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 10px; background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  .estboard .top { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .estboard .tag, .beatboard .tag { font: 800 14px/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #C2410C; }
+  .estboard h1 { margin: 6px 0 0; font: 800 clamp(30px, 3.4vw, 50px)/1.05 Outfit, system-ui, sans-serif; }
+  .estboard .ttl { flex: 1; min-width: 260px; }
+  .estboard .thing { flex: none; width: 190px; height: 190px; border-radius: 24px; background: #F1F4F8; display: grid; place-items: center; }
+  .estboard .thing .estpic { width: 170px; height: 170px; }
+  .estboard .ref { margin-top: 8px; display: inline-block; padding: 8px 14px; border-radius: 12px; background: #FDECEC; color: #7A1A1A; font-size: 18px; font-weight: 700; }
+  .estboard .count { text-align: right; }
+  .estboard .count b { display: block; font: 800 64px/1 Outfit, system-ui, sans-serif; }
+  .estboard .count small { color: #56677A; font-weight: 700; }
+  .estboard .live { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; font-weight: 700; color: #56677A; }
+  .estboard .live i { width: 10px; height: 10px; border-radius: 50%; background: #2B8A3E; animation: mgpulse 1.2s infinite; }
+  @keyframes mgpulse { 50% { opacity: .3; } }
+  .estboard .line { position: relative; height: 300px; margin: 34px 30px 6px; }
+  .estboard .axis { position: absolute; left: 0; right: 0; top: 190px; height: 6px; border-radius: 3px; background: #1B1B2F; }
+  .estboard .tick { position: absolute; top: 200px; transform: translateX(-50%); font: 700 16px/1 system-ui, sans-serif; color: #56677A; white-space: nowrap; }
+  .estboard .tick::before { content: ""; position: absolute; left: 50%; top: -14px; width: 2px; height: 10px; background: #1B1B2F; }
+  .estboard .dot { position: absolute; top: 140px; width: 44px; height: 44px; margin-left: -22px; border-radius: 50%; display: grid; place-items: center; font: 800 15px/1 system-ui, sans-serif; color: #FFFFFF; border: 3px solid #FFFFFF; box-shadow: 0 4px 10px rgba(0,0,0,.18); transition: top .5s, background .4s; }
+  .estboard.hidden .dot { background: #8D99A6 !important; }
+  .estboard .dot .nm { position: absolute; top: 46px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 700 13px/1 system-ui, sans-serif; color: #14213D; background: #FFFFFF; padding: 3px 7px; border-radius: 999px; box-shadow: 0 1px 4px rgba(0,0,0,.15); opacity: 0; }
+  .estboard.revealed .dot.top3 { z-index: 2; box-shadow: 0 0 0 4px #F7C948, 0 4px 10px rgba(0,0,0,.18); }
+  .estboard.revealed .dot.top3 .nm { opacity: 1; }
+  .estboard .truth { position: absolute; top: -18px; bottom: 54px; width: 0; border-left: 4px dashed #C92A2A; }
+  .estboard .truth span { position: absolute; top: -34px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: #C92A2A; color: #FFFFFF; font: 800 20px/1 system-ui, sans-serif; padding: 8px 14px; border-radius: 999px; }
+  .estboard .podium { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 16px; align-items: end; max-width: 820px; margin: 26px auto 0; }
+  .estboard .step { text-align: center; }
+  .estboard .who { font: 800 22px/1.1 Outfit, system-ui, sans-serif; margin-bottom: 4px; }
+  .estboard .g { font-weight: 700; color: #56677A; margin-bottom: 8px; }
+  .estboard .blk { border-radius: 18px 18px 6px 6px; display: grid; place-items: center; font: 800 44px/1 system-ui, sans-serif; color: rgba(0,0,0,.55); }
+  .estboard .s1 .blk { height: 150px; background: #F7C948; } .estboard .s2 .blk { height: 110px; background: #DDE3EA; } .estboard .s3 .blk { height: 84px; background: #E9A877; }
+  .beatboard { text-align: center; padding: 48px 34px; }
+  .beatboard .tag { color: #237032; font-size: 18px; }
+  .beatboard .clock { font: 900 clamp(90px, 14vw, 200px)/1 Outfit, system-ui, sans-serif; margin: 10px 0 20px; font-variant-numeric: tabular-nums; }
+  .beatboard .bigbar { position: relative; height: 70px; border-radius: 35px; background: #E3E9EF; overflow: hidden; max-width: 1100px; margin: 0 auto; }
+  .beatboard .bigbar i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, #2B8A3E, #74B816); border-radius: 35px; transition: width .6s; }
+  .beatboard .bigbar span { position: relative; display: grid; place-items: center; height: 100%; font: 900 30px/1 Outfit, sans-serif; color: #14213D; }
+  .beatboard p { font: 700 22px/1.3 "DM Sans", sans-serif; margin: 20px 0 0; }
+  .beatboard.won { background: #EBFBEE; } .beatboard.won .clock { color: #2B8A3E; }
+  .beatboard .helpers { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+  .beatboard .helpers span { padding: 8px 14px; border-radius: 999px; background: #F1F4F8; font-weight: 700; }
+  .mgtcards > .mgtcard.wide { grid-column: 1 / -1; }
+  .mglen { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+  .mgtile .mgtop { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+  .pd { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 4px; border-radius: 50%; font: 800 11px/1 Outfit, sans-serif; font-style: normal; vertical-align: -3px; }
+  .pd.p1 { background: #F7C948; color: #4A3200; } .pd.p2 { background: #DDE3EA; color: #2C3A47; } .pd.p3 { background: #E9A877; color: #4A2208; }
+  .mgpods { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .mgpods[hidden] { display: none; }
+  .mgpods h3 { margin: 0; font: 800 18px/1.2 Outfit, "DM Sans", sans-serif; }
+  .mgpod1 { border-left: 6px solid var(--mg); padding: 4px 0 4px 10px; }
+  .mgpod1 > b { font: 800 15px/1.2 Outfit, sans-serif; }
+  .mgpod1 ol { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .mgpod1 li { display: flex; align-items: center; gap: 6px; font-weight: 700; }
+  .mgpod1 li span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mgpod1 li em { font-style: normal; color: var(--ink-soft, #4A4A60); font-size: 13px; }
+  .mgpod1 .mgnote { margin: 4px 0 0; font-size: 13px; }
+  /* v104: live games */
+  .waiting { text-align: center; padding: 30px 10px; }
+  .waiting h3 { margin: 0 0 6px; font: 800 26px/1.1 Outfit, sans-serif; }
+  .spin { width: 60px; height: 60px; margin: 0 auto 14px; border-radius: 50%; border: 8px solid color-mix(in srgb, var(--mg) 20%, #FFFFFF); border-top-color: var(--mg); animation: mgspin 1s linear infinite; }
+  @keyframes mgspin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+  .iref { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: #FFF4E6; color: #4A2E00; font-weight: 800; margin-bottom: 8px; }
+  .iref span { font-size: 26px; }
+  .iclue { padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--mg) 12%, #FFFFFF); color: #1B1B2F; margin-bottom: 8px; font-weight: 700; }
+  .mgopts.mm4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mgopt.sel { background: var(--mg); color: #FFFFFF; border-color: var(--mg); }
+  .mgopt .fr i:first-child { border-bottom-color: currentColor; }
+  .tugmini { display: inline-block; position: relative; width: 70px; height: 10px; border-radius: 5px; vertical-align: middle; background: linear-gradient(90deg, rgba(255,255,255,.6) 0 50%, rgba(0,0,0,.3) 50% 100%); }
+  .tugmini i { position: absolute; top: -5px; width: 6px; height: 20px; margin-left: -3px; border-radius: 3px; background: #FFFFFF; transition: left .5s; }
+  .mghead .mgstat { font-size: 16px; }
+  /* boards */
+  .lobbyboard, .mmboard, .tugboard { position: relative; overflow: hidden; max-width: 1500px; margin: 0 auto; background: #FFFFFF; border-radius: 30px; padding: 30px 34px 28px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  .lobbyboard::before, .mmboard::before, .tugboard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 10px; background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
+  .lobbyboard { display: grid; grid-template-columns: 1fr 320px; gap: 30px; }
+  .lobbyboard .tag, .mmboard .tag, .tugboard .tag { font: 800 14px/1 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--mg, #7048E8); }
+  .mmboard .tag { color: #7048E8; } .tugboard .tag { color: #C92A2A; }
+  .lobbyboard h1, .mmboard h1, .tugboard h1 { margin: 6px 0 0; font: 800 clamp(30px, 3.4vw, 50px)/1.05 Outfit, system-ui, sans-serif; }
+  .ljoin { margin-top: 18px; display: inline-flex; align-items: center; gap: 14px; padding: 14px 20px; border-radius: 20px; background: color-mix(in srgb, var(--mg) 12%, #FFFFFF); font-size: 20px; font-weight: 700; }
+  .ljoin b { padding: 10px 18px; border-radius: 14px; background: var(--mg); color: #FFFFFF; }
+  .lchips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; align-content: flex-start; }
+  .lchip { padding: 10px 16px; border-radius: 999px; background: #FFFFFF; border: 3px solid var(--mg); font: 800 20px/1 system-ui, sans-serif; animation: lpop .45s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes lpop { from { transform: scale(.3); opacity: 0; } }
+  .lteams { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 22px; }
+  .lteam { border-radius: 22px; padding: 16px; border: 3px solid var(--tc); background: color-mix(in srgb, var(--tc) 8%, #FFFFFF); }
+  .lteam.t0, .tugboard .t0 { --tc: #E8590C; } .lteam.t1, .tugboard .t1 { --tc: #0B7285; }
+  .lteam h3 { margin: 0; font: 800 24px/1 Outfit, sans-serif; color: var(--tc); }
+  .lteam .lchip { border-color: var(--tc); font-size: 17px; padding: 8px 12px; }
+  .lside { text-align: center; padding: 26px; border-radius: 24px; background: #F1F4F8; align-self: start; }
+  .lside .n { font: 900 96px/1 Outfit, sans-serif; color: var(--mg); }
+  .lside .of { font-weight: 700; color: #56677A; }
+  .lside p { color: #56677A; font-size: 15px; }
+  .mmgrid { display: grid; grid-template-columns: 280px 1fr 290px; gap: 26px; align-items: start; margin-top: 18px; }
+  .ref2 { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 14px; border-radius: 18px; background: #FFF4E6; border: 3px solid #F59F00; }
+  .ref2 .refpic { font-size: 42px; line-height: 1; }
+  .ref2 small { display: block; font: 800 12px/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: #8F5A00; }
+  .ref2 b { font: 800 19px/1.15 system-ui, sans-serif; }
+  .mmboard .box { aspect-ratio: 1; border-radius: 26px; background: repeating-linear-gradient(45deg, #EDE7FF 0 16px, #F7F4FF 16px 32px); display: grid; place-items: center; border: 4px dashed #7048E8; position: relative; }
+  .mmboard .box .qm { font: 900 130px/1 system-ui, sans-serif; color: #7048E8; }
+  .mmboard .box.open { background: #FFFFFF; border-style: solid; }
+  .mmboard .box .big { font-size: 110px; line-height: 1; }
+  .mmboard .box .what { position: absolute; bottom: 12px; left: 8px; right: 8px; text-align: center; font: 800 18px/1.15 system-ui, sans-serif; }
+  .chipcat { display: inline-block; margin-top: 12px; padding: 8px 14px; border-radius: 999px; background: #7048E8; color: #FFFFFF; font-weight: 800; }
+  .mmboard .clues { display: flex; flex-direction: column; gap: 10px; }
+  .mmboard .clue { display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; align-items: center; padding: 14px 16px; border-radius: 16px; background: #F1F4F8; color: #9AA5B1; font: 800 21px/1.2 system-ui, sans-serif; border: 3px solid transparent; }
+  .mmboard .clue small { font: 800 12px/1 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .06em; }
+  .mmboard .clue .pts { font-size: 14px; white-space: nowrap; }
+  .mmboard .clue.shown { background: #FFFFFF; color: #14213D; border-color: #7048E8; }
+  .mmboard .clue.now .pts { color: #FFFFFF; background: #7048E8; padding: 6px 10px; border-radius: 10px; }
+  .mmboard .opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; }
+  .mmboard .opt { position: relative; overflow: hidden; padding: 18px 8px; border-radius: 18px; border: 3px solid #DCE3EA; background: #FFFFFF; text-align: center; font: 900 28px/1.1 system-ui, sans-serif; }
+  .mmboard .opt .o { position: relative; }
+  .mmboard .opt.out { opacity: .35; text-decoration: line-through; }
+  .mmboard .opt.right { border-color: #2B8A3E; background: #EBFBEE; }
+  .mmboard .opt .bar2 { position: absolute; inset: auto 0 0 0; background: rgba(112,72,232,.22); }
+  .mmboard .opt .cnt { position: relative; display: block; margin-top: 8px; font: 700 14px/1 system-ui, sans-serif; color: #56677A; }
+  .mmboard .locks { padding: 20px; border-radius: 22px; background: #F1F4F8; }
+  .mmboard .locks .n { font: 900 64px/1 Outfit, sans-serif; }
+  .mmboard .locks .of { font-weight: 700; color: #56677A; }
+  .mmboard .locks p { margin: 8px 0 0; font-size: 14px; color: #56677A; }
+  .mmboard .lead { margin-top: 14px; padding: 16px; border-radius: 22px; border: 3px solid #7048E8; }
+  .mmboard .lead h3 { margin: 0 0 6px; }
+  .mmboard .lead ol { margin: 0; padding-left: 22px; font-weight: 800; font-size: 18px; line-height: 1.6; }
+  .mmboard .lead ol span { float: right; color: #7048E8; }
+  .tugboard .head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .tugboard .clock { font: 900 72px/1 Outfit, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+  .tugboard .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+  .tugboard .side { padding: 16px 20px; border-radius: 22px; color: #FFFFFF; background: var(--tc); }
+  .tugboard .side.t1 { text-align: right; }
+  .tugboard .side h2 { margin: 0; font: 900 34px/1 Outfit, system-ui, sans-serif; }
+  .tugboard .side .s { font: 700 18px/1.3 system-ui, sans-serif; margin-top: 6px; }
+  .tugboard .field { position: relative; height: 220px; margin-top: 24px; border-radius: 26px; background: linear-gradient(90deg, #FFE8D9 0 50%, #D7EEF0 50% 100%); overflow: hidden; }
+  .tugboard .mid { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 4px dashed #1B1B2F; opacity: .35; }
+  .tugboard .goal { position: absolute; top: 0; bottom: 0; width: 6px; background: #1B1B2F; opacity: .55; }
+  .tugboard .goal.l { left: 15%; } .tugboard .goal.r { right: 15%; }
+  .tugboard .rope { position: absolute; top: 106px; left: -60%; width: 220%; height: 10px; border-radius: 5px; background: repeating-linear-gradient(90deg, #A0702A 0 14px, #C8964C 14px 28px); transition: transform .8s cubic-bezier(.3,1.4,.5,1); }
+  .tugboard .knot { position: absolute; top: 50%; left: 50%; width: 40px; height: 60px; margin: -50px 0 0 -20px; }
+  .tugboard .knot::before { content: ""; position: absolute; left: 18px; top: 0; width: 4px; height: 60px; background: #1B1B2F; }
+  .tugboard .knot::after { content: ""; position: absolute; left: 22px; top: 0; width: 34px; height: 24px; background: #C92A2A; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .tugboard .pl { position: absolute; z-index: 1; top: 80px; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--tc); color: #FFFFFF; font: 900 26px/1 Outfit, sans-serif; border: 4px solid #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+  .tugboard .pl.t0 { left: 2%; } .tugboard .pl.t1 { right: 2%; }
+  .tugboard .result { margin-top: 16px; text-align: center; font: 900 38px/1.1 Outfit, system-ui, sans-serif; min-height: 10px; }
+  .tugboard .fair { margin-top: 10px; text-align: center; color: #56677A; font-weight: 700; }
+  .mgtbtns .linky.go { background: var(--mg); }
+  @media (max-width: 1100px) { .mmgrid { grid-template-columns: 1fr; } .lobbyboard { grid-template-columns: 1fr; } }
 
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
@@ -8772,7 +8947,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "100";
+  var GAME_VERSION = "104";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -9960,7 +10135,7 @@
          so it is built here rather than with the counters. */
       state.q = state.mode === "set" ? makeLineQuestion(lv)
                                      : makeNumberQuestion(state.mode, lv);
-      if (state.mode === "set") state.setAt = 0;
+      if (state.mode === "set") { state.setAt = 0; state.setShow = null; }
       state.tries = 0;
       state.answered = false;
       return;
@@ -10230,7 +10405,7 @@
 
   function drawSetInstrument(q, labels, reveal) {
     var o = { scale: q.s, labels: labels.labels, classes: labels.classes,
-              fillTo: state.setAt || 0, gaps: state.showGaps, handle: true };
+              fillTo: state.setShow != null ? state.setShow : (state.setAt || 0), gaps: state.showGaps, handle: true };
     if (q.line) return lineSVG(o);
     return drawInstrument(q.measure, o);
   }
@@ -10259,7 +10434,8 @@
       var ang2 = Math.atan2(ddy, ddx) * 180 / Math.PI + 90;
       if (ang2 < 0) ang2 += 360;
       var mm2 = Math.round(ang2 / 6 / q.snap) * q.snap % 60;
-      if (mm2 !== state.setAt) { state.setAt = mm2; redrawSetter(); }
+      state.setAt = mm2;
+      slideTo(ang2 / 6 % 60);
       return;
     }
 
@@ -10289,9 +10465,32 @@
     var n = q.s.n;
     var raw = Math.max(0, Math.min(n, t * n));
     var snapped = q.s.halfMarks ? Math.round(raw * 2) / 2 : Math.round(raw);
-    if (snapped === state.setAt) return;
+    /* The value that counts is always on a mark; only the picture follows the
+       finger in between, and it glides onto the mark when the finger lifts. */
     state.setAt = snapped;
-    redrawSetter();
+    slideTo(raw);
+  }
+  var slideFrame = 0, slideGlide = 0;
+  function slideTo(v) {
+    cancelAnimationFrame(slideGlide);
+    state.setShow = v;
+    if (!slideFrame) slideFrame = requestAnimationFrame(function () { slideFrame = 0; redrawSetter(); });
+  }
+  function slideSettle() {
+    if (state.setShow == null) return;
+    cancelAnimationFrame(slideFrame); slideFrame = 0;
+    var from = state.setShow, to = state.setAt || 0, q = state.q, t0 = performance.now();
+    if (q && q.kind === "time" && Math.abs(to - from) > 30) from += to > from ? 60 : -60;
+    var still = document.body.classList.contains("lowfx") || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (still || Math.abs(to - from) < 0.02) { state.setShow = null; redrawSetter(); return; }
+    (function step() {
+      if (state.q !== q) { state.setShow = null; return; }
+      var k = Math.min(1, (performance.now() - t0) / 140), e = 1 - Math.pow(1 - k, 3);
+      state.setShow = k >= 1 ? null : from + (to - from) * e;
+      if (state.setShow != null && q && q.kind === "time") state.setShow = (state.setShow % 60 + 60) % 60;
+      redrawSetter();
+      if (k < 1) slideGlide = requestAnimationFrame(step);
+    })();
   }
 
   /* The number they have set goes into the answer box, which is what makes the
@@ -10343,7 +10542,8 @@
   function nudge(by) {
     var q = state.q;
     if (!q || q.mode !== "set" || state.answered) return;
-    if (q.kind === "time") { state.setAt = ((state.setAt | 0) + by * q.snap + 60) % 60; redrawSetter(); return; }
+    if (q.kind === "time") { state.setShow = null; state.setAt = ((state.setAt | 0) + by * q.snap + 60) % 60; redrawSetter(); return; }
+    state.setShow = null;
     var stepBy = q.s.halfMarks ? 0.5 : 1;
     state.setAt = Math.max(0, Math.min(q.s.n, (state.setAt || 0) + by * stepBy));
     redrawSetter();
@@ -11255,7 +11455,7 @@
                '<b class="arrow">→</b>' + clockSVG({ h: q.bh, m: q.bm, numbers: q.numbers, gaps: state.showGaps }) + "</div>";
       }
       if (q.mode === "set") {
-        var at = reveal ? q.answer : (state.setAt | 0);
+        var at = reveal ? q.answer : state.setShow != null ? state.setShow : (state.setAt | 0);
         return clockSVG({ h: q.h, m: at, numbers: q.numbers, setting: !reveal, gaps: state.showGaps });
       }
       return clockSVG({ h: q.h, m: q.m, numbers: q.numbers, minuteLabels: q.minuteLabels, gaps: state.showGaps, jump: q.until && state.hintJump && !reveal ? { from: q.m } : null });
@@ -15187,6 +15387,7 @@
   function applyClassState(cs) {
     if (!cs || typeof cs !== "object") return;
     try { mgTake(cs.mg); } catch (eMg) { /* minigames wait for the next status */ }
+    try { liveTake(cs.live); } catch (eLive) { /* the live game waits for the next status */ }
     var was = JSON.stringify(classState);
     classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
@@ -19885,7 +20086,7 @@
     if (dragging) { setFromPointer(e); e.preventDefault(); }
   });
   ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
-    bench.addEventListener(ev, function () { dragging = false; });
+    bench.addEventListener(ev, function () { if (dragging) slideSettle(); dragging = false; });
   });
 
   /* Keyboard, because a child who cannot use a mouse well is often exactly the
@@ -21105,21 +21306,42 @@
              how: "A clock face comes up with three digital times to choose from. Each right answer scores 1. O'clock and half past first, then quarters, then five minutes, then any minute." },
     est:   { name: "Estimation Station", col: "#C2410C", led: true, line: "Guess the amount. Closest wins.",
              how: "Teacher led. You start a round with a picture of a jug, scale or ruler that shows how much a full one holds. Every iPad locks in one guess. The whiteboard shows each guess as a grey dot while they come in, then you press Reveal: the real amount appears, the dots get names and the three closest go on the podium." },
-    beat:  { name: "Beat the Timer", col: "#237032", led: true, line: "The whole class against the clock.",
-             how: "Teacher led. You set a target and a time, for example 150 right answers in 3 minutes. Every right answer on any iPad, in any subject, fills one shared bar on the whiteboard. Beat the timer and everyone gets a bonus." }
+    mm:    { name: "Mystery Measure", col: "#7048E8", led: true, line: "Work it out from the clues.",
+             how: "Teacher led, in rounds. A mystery thing, four possible amounts and something everyone knows to compare with (a 1 kg bag of flour, a 1 L carton, a 30 cm ruler). You show three clues one at a time; every answer fits clue 1, and clues 2 and 3 rule answers out. Children pick and can change their pick. From clue 2 on, everyone whose pick is right when you move on banks 100 points, and nobody is told until the reveal, so working it out beats guessing. Mass, capacity, length or time; the things, amounts, units and clues are made fresh every round." },
+    tug:   { name: "Tug of War", col: "#C92A2A", led: true, line: "Two teams, one rope.",
+             how: "Teacher led. The class splits into two even teams in the lobby. For one to two minutes, every right answer on a child\u2019s iPad pulls the rope towards their team; the questions come from the topic you pick (units, money, time, ordering amounts, fractions, angles or mixed). Teams pull with right answers per player, so uneven teams are fair, and wrong answers cost nothing. Pull the flag over your win line, or be ahead when time runs out. The winning team gets 30 bonus points each." }
   };
-  var MG_TIMED = ["speed", "unit", "shop", "clock"], MG_SECS = 120, MG_TRIES = 3, MG_BONUS = [50, 30, 20], MG_PLACE = ["1st", "2nd", "3rd"];
+  var MG_TIMED = ["speed", "unit", "shop", "clock"], MG_LENGTHS = [30, 60, 90, 120], MG_TRIES = 3, MG_BONUS = [50, 30, 20], MG_PLACE = ["1st", "2nd", "3rd"];
   var mgView = null, mgRun = null, mgClaiming = {};
+  function mgSecs(k) { var g = mgView && mgView.g && mgView.g[k]; return (g && g.secs) || 30; }
+  function mgLenWord(s) { return s === 60 ? "1 minute" : s === 120 ? "2 minutes" : s + " seconds"; }
   function mgOn(k) { return !!(mgView && mgView.on && mgView.on[k]); }
   function mgMine(k) {
     var g = mgView && mgView.g && mgView.g[k], n = state.name || "";
     var best = g && g.best && g.best[n], tries = (g && g.tries && g.tries[n]) | 0;
     return { best: best ? best[0] : null, mist: best ? best[1] : 0, tries: tries, left: Math.max(0, MG_TRIES - tries), round: (g && g.round) || 1, top: (g && g.top) || [] };
   }
+  function mgPods() {
+    var side = document.getElementById("rbsidecard");
+    if (!side) return;
+    var el = document.getElementById("mgpods"), on = mgView ? MG_TIMED.filter(function (k) { return mgOn(k) || (mgMine(k).top || []).length; }) : [];
+    var est = mgView && (mgView.awards || []).filter(function (a) { return a.game === "est" && String(a.id).indexOf("est:") === 0; })[0];
+    var mmA = mgView && (mgView.awards || []).filter(function (a) { return a.game === "mm" && String(a.id).indexOf("mm:") === 0; })[0];
+    if (!on.length && !est && !mmA) { if (el) el.hidden = true; return; }
+    if (!el) { el = document.createElement("section"); el.id = "mgpods"; el.className = "mgpods"; el.setAttribute("aria-label", "Today\u2019s minigame podiums"); side.insertBefore(el, side.firstChild); }
+    var row = function (name, col, top, fmt) {
+      return '<div class="mgpod1" style="--mg:' + col + '"><b>' + esc(name) + "</b>" + (top.length ? "<ol>" + top.map(function (t, i) { return '<li><i class="pd p' + (i + 1) + '">' + (i + 1) + "</i><span>" + esc(t[0]) + "</span><em>" + fmt(t) + "</em></li>"; }).join("") + "</ol>" : '<p class="mgnote">Nobody yet today.</p>') + "</div>";
+    };
+    el.innerHTML = "<h3>Today\u2019s minigames</h3>" + on.map(function (k) { return row(MG[k].name, MG[k].col, mgMine(k).top || [], function (t) { return t[1] + " right"; }); }).join("") +
+      (est ? row("Estimation Station, last round", MG.est.col, est.top || [], function (t) { return t[2] ? t[2] + " off" : "spot on"; }) : "") +
+      (mmA ? row("Mystery Measure, last game", MG.mm.col, mmA.top || [], function (t) { return t[1] + " points"; }) : "");
+    el.hidden = false;
+  }
   function mgTake(v) {
     if (!v || typeof v !== "object") return;
     var was = JSON.stringify(mgView);
     mgView = v;
+    try { mgPods(); } catch (e) { /* drawn next time */ }
     if (JSON.stringify(v) === was) return;
     if (!mgRun && typeof rbDraw === "function" && state.name) { try { rbDraw(); } catch (e) { /* drawn next time */ } }
     if (mgRun && mgRun.phase === "done") mgDraw();
@@ -21137,6 +21359,7 @@
       if (isFinite(t) && t < cutoff) return;
       var place = -1;
       a.top.forEach(function (r, i) { if (String(r[0]).toLowerCase() === me) place = i; });
+      if (place < 0 && Array.isArray(a.all) && a.all.indexOf(me) > -1) place = 9;
       if (place < 0 || (a.claimed || []).indexOf(me) > -1) return;
       mgClaiming[a.id] = true;
       mgPost({ action: "mgclaim", id: a.id }).then(function (d) {
@@ -21144,10 +21367,10 @@
         var list = mgClaimed(); list.push(a.id);
         try { localStorage.setItem("mgclaimed:" + me, JSON.stringify(list.slice(-40))); } catch (e) { /* fine */ }
         if (!d.fresh) return;
-        var pts = MG_BONUS[d.place] || 0;
+        var pts = d.pts || MG_BONUS[d.place] || 0;
         state.score += pts; noteWeek(); state.weekScore += pts; noteToday(); state.dayScore += pts;
         saveProgress(); updateChrome(); schedulePush();
-        announce([{ art: "star", label: (MG[a.game] || {}).name + ": " + MG_PLACE[d.place] + " place", name: "+" + pts + " bonus points" }]);
+        announce([{ art: "star", label: (MG[a.game] || {}).name + ": " + (MG_PLACE[d.place] ? MG_PLACE[d.place] + " place" : "bonus"), name: "+" + pts + " bonus points" }]);
       }).then(function () { mgClaiming[a.id] = false; }, function () { mgClaiming[a.id] = false; });
     });
   }
@@ -21159,15 +21382,25 @@
   function mgSection() {
     if (!shared.on || !mgView) return "";
     var on = MG_TIMED.filter(mgOn);
+    var liveTile = "";
+    if (typeof liveNow !== "undefined" && liveNow && !TEACHER && liveNow.phase !== "done") {
+      var lj = liveJoined(liveNow);
+      if (!lj && !(liveNow.game === "est" && liveNow.phase === "reveal")) liveTile = "join";
+      else if (lj && liveNow.game === "est" && liveNow.phase === "guess" && estLocked(liveNow.id) == null) liveTile = "guess";
+      else if (lj && liveNow.game !== "est") liveTile = "back";
+    }
+    if (liveTile) on.unshift("live");
     if (!on.length) return "";
     var per = function (n, c) { var rows = Math.ceil(n / c), base = Math.floor(n / rows), extra = n % rows, out = [], r, j; for (r = 0; r < rows; r++) for (j = 0; j < base + (r < extra ? 1 : 0); j++) out.push(12 / (base + (r < extra ? 1 : 0))); return out; };
     var s2 = per(on.length, 2), s4 = per(on.length, 4);
-    return '<section class="rbgroup g-mini" aria-label="Minigames"><h3 class="rbgh">Minigames</h3><div class="rbgtiles">' + on.map(function (k, i) {
-      var m = mgMine(k), t = m.top[0];
+    var title = mgView.rotate && on.length === 1 && on[0] !== "live" ? "Today\u2019s minigame" : "Minigames";
+    return '<section class="rbgroup g-mini" aria-label="Minigames"><h3 class="rbgh">' + title + '</h3><div class="rbgtiles">' + on.map(function (k, i) {
+      if (k === "live") { var LG = MG[liveNow.game]; return '<button type="button" class="rbtile mgtile" data-mg="live" style="background:' + LG.col + ";--c:" + LG.col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '"><span><b>' + esc(LG.name) + "</b><small>" + (liveTile === "join" ? "Your teacher is running a live game" : "You are playing") + '</small></span><span class="lv"><span>' + (liveTile === "join" ? "Tap to join" : liveTile === "guess" ? "Tap to make your guess" : "Tap to go back to the game") + "</span></span></button>"; }
+      var m = mgMine(k);
       return '<button type="button" class="rbtile mgtile" data-mg="' + k + '" style="background:' + MG[k].col + ";--c:" + MG[k].col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '">' +
-        "<span><b>" + esc(MG[k].name) + "</b><small>2 minutes · " + MG_TRIES + " tries a day</small></span>" +
+        "<span><b>" + esc(MG[k].name) + "</b><small>" + mgLenWord(mgSecs(k)) + " · " + MG_TRIES + " tries a day</small></span>" +
         '<span class="lv"><span>' + (m.best != null ? "Your best " + m.best + " · " : "") + (m.left ? m.left + " " + (m.left === 1 ? "try" : "tries") + " left" : "No tries left today") + "</span>" +
-        '<span class="mgtop">' + (t ? "1st " + esc(t[0]) + " · " + t[1] : "Nobody on the podium yet") + "</span></span></button>";
+        '<span class="mgtop">' + (m.top.length ? m.top.map(function (t, i) { return '<i class="pd p' + (i + 1) + '">' + (i + 1) + "</i>" + esc(t[0]) + " " + t[1]; }).join(" ") : "Nobody on the podium yet") + "</span></span></button>";
     }).join("") + "</div></section>";
   }
   /* ---- the questions ---- */
@@ -21199,7 +21432,7 @@
       var pairs = L <= 2 ? [["m", "cm", 100], ["kg", "g", 1000], ["L", "mL", 1000], ["cm", "mm", 10]] : L <= 4 ? [["m", "cm", 100], ["kg", "g", 1000], ["L", "mL", 1000], ["cm", "mm", 10], ["km", "m", 1000]] : [["h", "min", 60], ["min", "s", 60], ["km", "m", 1000], ["kg", "g", 1000], ["L", "mL", 1000], ["m", "cm", 100]];
       var p = pickOne(pairs), back = L >= 2 && Math.random() < 0.45, big;
       if (p[2] === 60) big = pickOne([1, 1.5, 2, 2.5, 3, 4, 0.5, 0.25]);
-      else big = L === 1 ? rint(1, 9) : L === 2 ? rint(1, 12) : L === 3 ? rint(1, 9) + pickOne([0.5, 0.25, 0.1, 0.2, 0.75]) : pickOne([rint(1, 9) + rint(1, 9) / 10, rint(1, 9) / 10, rint(1, 99) / 100 + rint(0, 3)]);
+      else big = L === 1 ? rint(1, 20) : L === 2 ? rint(1, 12) : L === 3 ? rint(1, 9) + pickOne([0.5, 0.25, 0.1, 0.2, 0.75]) : pickOne([rint(1, 9) + rint(1, 9) / 10, rint(1, 9) / 10, rint(1, 99) / 100 + rint(0, 3)]);
       big = Math.round(big * 100) / 100;
       var small = Math.round(big * p[2] * 100) / 100, right = back ? big : small;
       var ask = back ? small + " " + p[1] + " = ? " + p[0] : big + " " + p[0] + " = ? " + p[1];
@@ -21209,7 +21442,7 @@
       return { kind: "pick", ask: ask, choices: choices.map(function (c) { return c + " " + (back ? p[0] : p[1]); }), answer: choices.indexOf(right) };
     },
     shop: function (L) {
-      var step = L === 1 ? 50 : L === 2 ? 10 : 5, change = L >= 2 && Math.random() < 0.5, items = [], total = 0, n = L >= 5 && !change ? 3 : change ? 1 : 2, ask, right, pic = "";
+      var step = L === 1 ? 50 : L === 2 ? 10 : 5, change = Math.random() < (L === 1 ? 0.35 : 0.5), items = [], total = 0, n = L >= 5 && !change ? 3 : change ? 1 : 2, ask, right, pic = "";
       for (var i = 0; i < n; i++) { var c = rint(Math.ceil(60 / step), Math.floor((L <= 2 ? 500 : 1500) / step)) * step; items.push(c); total += c; }
       if (change) { var note = total < 500 ? 500 : total < 1000 ? 1000 : 2000; right = note - total; ask = "It costs " + $c(total) + ". You are paid " + $d(note) + ". Change?"; }
       else { right = total; ask = "Total?"; pic = '<div class="mgtags">' + items.map(function (c) { return "<span>" + $c(c) + "</span>"; }).join("<i>+</i>") + "</div>"; }
@@ -21218,7 +21451,7 @@
       return { kind: "pick", ask: ask, pic: pic, choices: choices.map($c), answer: choices.indexOf(right) };
     },
     clock: function (L) {
-      var h = rint(1, 12), m = L === 1 ? pickOne([0, 30]) : L === 2 ? pickOne([0, 15, 30, 45]) : L <= 4 ? rint(0, 11) * 5 : rint(0, 59);
+      var h = rint(1, 12), m = L === 1 ? pickOne([0, 30, 15, 45]) : L === 2 ? rint(0, 11) * 5 : L <= 4 ? rint(0, 11) * 5 : rint(0, 59);
       var t = function (hh, mm) { hh = ((hh - 1) % 12 + 12) % 12 + 1; mm = (mm % 60 + 60) % 60; return hh + ":" + (mm < 10 ? "0" : "") + mm; };
       var right = t(h, m), sw = Math.round(m / 5) % 12 || 12, wr = [t(sw, (h % 12) * 5), t(h + 1, m), t(h - 1, m), t(h, m + 5), t(h, m - 5), t(h, 60 - m)];
       wr = wr.filter(function (x, i) { return x !== right && wr.indexOf(x) === i; });
@@ -21240,6 +21473,14 @@
     return p;
   }
   function mgOpen(k) {
+    if (k === "live") {
+      if (!liveNow) return;
+      if (!liveJoined(liveNow) || liveNow.phase === "lobby") liveOpen("lobby");
+      else if (liveNow.game === "est") estOpen();
+      else if (liveNow.game === "mm") liveOpen("mm");
+      else if (liveNow.phase === "run") tugStart();
+      return;
+    }
     if (!MG[k] || !mgOn(k)) return;
     var p = mgPanel();
     mgRun = { game: k, phase: "intro", score: 0, mist: 0 };
@@ -21249,6 +21490,7 @@
     mgDraw();
   }
   function mgClose() {
+    if (mgRun && mgRun.game === "tug") { clearInterval(mgRun.timer); clearInterval(mgRun.poster); mgRun = null; var pt = document.getElementById("mgpanel"); if (pt) pt.hidden = true; document.body.classList.remove("mg-open"); try { rbDraw(); } catch (e) { /* fine */ } return; }
     if (mgRun && mgRun.phase === "play" && !window.confirm("Stop now? This try will still count.")) return;
     if (mgRun && mgRun.phase === "play") mgFinish();
     clearInterval(mgRun && mgRun.timer);
@@ -21268,10 +21510,10 @@
     var r = mgRun; if (!r) return;
     var k = r.game, body = document.getElementById("mg-body"), m = mgMine(k);
     document.getElementById("mg-title").textContent = MG[k].name;
-    document.getElementById("mg-stat").textContent = r.phase === "play" ? r.score + " right" : "";
+    if (r.game !== "tug") document.getElementById("mg-stat").textContent = r.phase === "play" ? r.score + " right" : "";
     if (r.phase === "intro") {
       document.getElementById("mg-time").style.width = "100%";
-      body.innerHTML = '<div class="mgintro"><p class="mgline">' + esc(MG[k].line) + "</p><ul><li>You have 2 minutes.</li><li>Every right answer scores 1. A wrong one costs nothing, but it is counted if there is a tie.</li><li>" + MG_TRIES + " tries a day. Your best one counts.</li></ul>" +
+      body.innerHTML = '<div class="mgintro"><p class="mgline">' + esc(MG[k].line) + "</p><ul><li>You have " + mgLenWord(mgSecs(k)) + ".</li><li>Every right answer scores 1. A wrong one costs nothing, but it is counted if there is a tie.</li><li>" + MG_TRIES + " tries a day. Your best one counts.</li></ul>" +
         (m.best != null ? '<p class="mgnote">Your best today: <b>' + m.best + "</b>.</p>" : "") +
         (m.left ? '<button type="button" class="mggo" data-mggo="1">Start (' + m.left + " " + (m.left === 1 ? "try" : "tries") + " left)</button>" : '<p class="mgnote">No tries left today. Come back tomorrow, or when your teacher starts a new round.</p>') +
         "<h4>Today’s podium</h4>" + mgPodium(k, (state.name || "").toLowerCase()) + "</div>";
@@ -21280,7 +21522,7 @@
     } else if (r.phase === "play") {
       var q = r.q, h = '<div class="mgq"><p class="mgask">' + esc(q.ask) + "</p>" + (q.pic ? '<div class="mgpic">' + q.pic + "</div>" : "");
       if (q.kind === "sort") h += '<div class="mgopts sort">' + q.items.map(function (it, i) { var at = r.order.indexOf(i); return '<button type="button" class="mgopt' + (at > -1 ? " done" : "") + '" data-mgi="' + i + '"' + (at > -1 ? " disabled" : "") + ">" + (at > -1 ? '<i class="n">' + (at + 1) + "</i>" : "") + esc(it.t) + "</button>"; }).join("") + "</div>";
-      else h += '<div class="mgopts">' + q.choices.map(function (c, i) { return '<button type="button" class="mgopt" data-mgi="' + i + '">' + esc(c) + "</button>"; }).join("") + "</div>";
+      else h += '<div class="mgopts' + (q.choices.length === 4 ? " mm4" : "") + '">' + q.choices.map(function (c, i) { return '<button type="button" class="mgopt" data-mgi="' + i + '">' + (q.raw ? c : esc(c)) + "</button>"; }).join("") + "</div>";
       body.innerHTML = h + "</div>";
     } else if (r.phase === "done") {
       var place = -1; m.top.forEach(function (x, i) { if (String(x[0]).toLowerCase() === (state.name || "").toLowerCase()) place = i; });
@@ -21299,15 +21541,27 @@
       r.count--;
       if (r.count > 0) { mgDraw(); return; }
       clearInterval(tick);
-      r.phase = "play"; r.end = Date.now() + MG_SECS * 1000; mgNext();
+      r.phase = "play"; r.secs = mgSecs(r.game); r.end = Date.now() + r.secs * 1000; mgNext();
       r.timer = setInterval(function () {
         var left = Math.max(0, r.end - Date.now()), bar = document.getElementById("mg-time");
-        if (bar) bar.style.width = (left / (MG_SECS * 10)) + "%";
+        if (bar) bar.style.width = (left / (r.secs * 10)) + "%";
         if (!left) mgFinish();
       }, 200);
     }, 800);
   }
-  function mgNext() { var r = mgRun; r.q = MGQ[r.game](mgLevel()); r.order = []; r.busy = false; mgDraw(); }
+  /* No question twice in a run, and none of the last 200 this iPad has seen in
+     that game, as long as a fresh one can be found. */
+  function mgSeenList(k) { try { return JSON.parse(localStorage.getItem("mgseen:" + k) || "[]"); } catch (e) { return []; } }
+  function mgNext() {
+    var r = mgRun, q, key, i = 0, past = r.past || (r.past = mgSeenList(r.game)), now = r.seen || (r.seen = {});
+    do {
+      q = MGQ[r.game](mgLevel());
+      key = JSON.stringify(q.kind === "sort" ? q.items.map(function (x) { return x.t; }).sort() : [q.ask, q.pic || "", q.choices[q.answer]]);
+    } while ((now[key] || (i < 8 && past.indexOf(key) > -1)) && ++i < 16);
+    now[key] = 1; past.push(key); if (past.length > 200) past.splice(0, past.length - 200);
+    try { localStorage.setItem("mgseen:" + r.game, JSON.stringify(past)); } catch (e) { /* fine */ }
+    r.q = q; r.order = []; r.busy = false; mgDraw();
+  }
   function mgClick(e) {
     var r = mgRun; if (!r) return;
     if (e.target.closest("#mg-x") || e.target.closest("[data-mgx]")) { mgClose(); return; }
@@ -21325,11 +21579,11 @@
     var opts = b.parentNode.querySelectorAll(".mgopt");
     if (i === q.answer) { r.score++; b.classList.add("yes"); }
     else { r.mist++; b.classList.add("no"); if (opts[q.answer]) opts[q.answer].classList.add("yes"); }
-    document.getElementById("mg-stat").textContent = r.score + " right";
+    if (r.game !== "tug") document.getElementById("mg-stat").textContent = r.score + " right";
     setTimeout(function () { if (mgRun === r && r.phase === "play") mgNext(); }, i === q.answer ? 220 : 750);
   }
   function mgFinish() {
-    var r = mgRun; if (!r || r.phase !== "play") return;
+    var r = mgRun; if (!r || r.phase !== "play" || r.game === "tug") return;
     clearInterval(r.timer); r.phase = "done"; r.sent = "sending";
     var bar = document.getElementById("mg-time"); if (bar) bar.style.width = "0%";
     mgDraw();
@@ -21361,13 +21615,17 @@
   }
   /* ---- the Teacher tab ---- */
   function mgTeacherBits() {
-    var v = mgView || { on: {}, g: {} }, h = '<p class="tc-note">Turn on a minigame and it appears at the top of every child’s home screen. Each one says how it works below.</p><div class="mgtcards">';
-    ["speed", "unit", "shop", "clock", "est", "beat"].forEach(function (k) {
-      var on = !!(v.on && v.on[k]), g = v.g && v.g[k], top = (g && g.top) || [], played = g && g.tries ? Object.keys(g.tries).length : 0, soon = MG[k].led && !MG_LED_READY[k];
-      h += '<div class="mgtcard' + (on ? " on" : "") + '" style="--mg:' + MG[k].col + '"><div class="mgthead"><b>' + esc(MG[k].name) + "</b>" +
-        (soon ? '<span class="tc-note">Coming in the next update</span>' : '<button type="button" class="linky" data-mgset="' + k + '" data-on="' + (on ? "0" : "1") + '">' + (on ? "Turn off" : "Turn on") + "</button>") + "</div>" +
+    var v = mgView || { on: {}, g: {} }, rot = !!v.rotate, idx = MG_TIMED.indexOf(v.today), next = MG_TIMED[(idx + 1) % 4], lv = typeof liveNow !== "undefined" ? liveNow : null;
+    var h = '<p class="tc-note">A minigame that is on appears at the top of every child’s home screen. Each one says how it works below.</p><span id="mg-lphase" hidden data-k="' + (lv ? lv.id + lv.phase + (lv.left ? "" : "x") : "") + '"></span><div class="mgtcards">' +
+      '<div class="mgtcard mgrot' + (rot ? " on" : "") + '" style="--mg:#1B1B2F"><div class="mgthead"><b>Daily rotation</b><button type="button" class="linky" data-mgrot="' + (rot ? "0" : "1") + '">' + (rot ? "Turn off" : "Turn on") + "</button></div>" +
+      "<p>" + (rot ? "One timed minigame each school day, in turn. Today: <b>" + esc((MG[v.today] || {}).name || "") + "</b>. Next school day: <b>" + esc((MG[next] || {}).name || "") + "</b>. Turn this off to choose the timed games yourself." : "Off: the timed games below are on or off as you set them. Turn this on to have one each school day, in turn.") + " Estimation Station, Mystery Measure and Tug of War only run when you start them.</p></div>";
+    ["speed", "unit", "shop", "clock", "est", "mm", "tug"].forEach(function (k) {
+      var on = !!(v.on && v.on[k]), g = v.g && v.g[k], top = (g && g.top) || [], played = g && g.tries ? Object.keys(g.tries).length : 0, soon = MG[k].led && !MG_LED_READY[k], byRot = rot && !MG[k].led;
+      h += '<div class="mgtcard' + (on ? " on" : "") + (MG[k].led ? " wide" : "") + '" style="--mg:' + MG[k].col + '"><div class="mgthead"><b>' + esc(MG[k].name) + "</b>" +
+        (soon ? '<span class="tc-note">Coming in the next update</span>' : byRot ? '<span class="mgtag' + (on ? " on" : "") + '">' + (on ? "On today" : k === next ? "Next school day" : "Not today") + "</span>" : '<button type="button" class="linky" data-mgset="' + k + '" data-on="' + (on ? "0" : "1") + '">' + (on ? "Turn off" : "Turn on") + "</button>") + "</div>" +
         "<p>" + esc(MG[k].how) + "</p>";
-      if (!MG[k].led) h += '<p class="tc-note">2 minutes, ' + MG_TRIES + " tries a day, best score counts. Ties go to fewer mistakes. Podium resets each day; 1st, 2nd and 3rd get " + MG_BONUS.join(", ") + " bonus points.</p>";
+      if (!MG[k].led) h += '<div class="mgtbtns"><label class="mglen">Each go lasts <select data-mgsecs="' + k + '">' + MG_LENGTHS.map(function (s) { return '<option value="' + s + '"' + (s === mgSecs(k) ? " selected" : "") + ">" + mgLenWord(s) + "</option>"; }).join("") + "</select></label></div>" +
+        '<p class="tc-note">' + MG_TRIES + " tries a day, best score counts. Ties go to fewer mistakes. Podium resets each day; 1st, 2nd and 3rd get " + MG_BONUS.join(", ") + " bonus points.</p>";
       if (on && !MG[k].led) h += '<p class="mgtnow">Round ' + ((g && g.round) || 1) + ": " + played + " played. " + (top.length ? top.map(function (r, i) { return MG_PLACE[i] + " " + esc(r[0]) + " (" + r[1] + ")"; }).join(", ") : "No podium yet.") + "</p>" +
         '<div class="mgtbtns"><button type="button" class="linky" data-mgnew="' + k + '">New round</button> <button type="button" class="linky" data-mgshow="' + (v.show === k ? "" : k) + '">' + (v.show === k ? "Hide the podium on the whiteboard" : "Show the podium on the whiteboard") + "</button></div>";
       h += (MG_LED[k] ? MG_LED[k](on) : "") + "</div>";
@@ -21375,8 +21633,17 @@
     return h + "</div>";
   }
   var MG_LED_READY = {}, MG_LED = {};
-  function mgTeacherSummary() { var n = Object.keys((mgView && mgView.on) || {}).length; return n ? n + " on" : "all off"; }
+  function mgTeacherSummary() { var v = mgView || {}, n = Object.keys(v.on || {}).length; return v.rotate ? "today: " + ((MG[v.today] || {}).name || "") : n ? n + " on" : "all off"; }
   function mgTeacherBind(box) {
+    if (typeof liveTeacherBind === "function") liveTeacherBind(box);
+    box.querySelectorAll("select[data-mgsecs]").forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var k = sel.getAttribute("data-mgsecs");
+        if (!window.confirm("Change " + MG[k].name + " to " + mgLenWord(Number(sel.value)) + "? A new round starts, so everyone on today\u2019s podium played the same length. Today\u2019s podium still gets its bonus.")) { sel.value = String(mgSecs(k)); return; }
+        sel.disabled = true;
+        teacherClassAction({ action: "mgsecs", game: k, secs: Number(sel.value) }).then(function () { drawBoard(); }, function () { sel.disabled = false; });
+      });
+    });
     box.querySelectorAll("[data-mgset],[data-mgnew],[data-mgshow]").forEach(function (b) {
       b.addEventListener("click", function () {
         var body = b.hasAttribute("data-mgset") ? { action: "mgset", game: b.getAttribute("data-mgset"), on: b.getAttribute("data-on") }
@@ -21395,6 +21662,493 @@
     setTimeout(function () { window.__mg.status().catch(function () {}); }, 1500);
     setInterval(function () { if (!document.hidden) window.__mg.status().catch(function () {}); }, 8000);
   }
+
+  /* ================================================================ v104: teacher-led live games
+     Every live game opens with a lobby: children tap Join, and only they play.
+     Estimation Station: one guess each, nameless grey dots until Reveal.
+     Mystery Measure: clues one at a time, points for being right at each check.
+     Tug of War: two teams, every right answer pulls the rope. */
+  var liveNow = null, liveAt = 0, liveFull = null, liveTimer = null, liveShown = false, beatN = 0, beatSent = 0, beatId = "", estSeen = {};
+  MG_LED_READY.est = 1;
+  function srand(seed) { seed = (seed | 0) || 1; return function () { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }; }
+  function estLocked(id) { try { return JSON.parse(localStorage.getItem("estlock:" + (state.name || "").toLowerCase()) || "{}")[id]; } catch (e) { return null; } }
+  function estLock(id, v) { try { var o = JSON.parse(localStorage.getItem("estlock:" + (state.name || "").toLowerCase()) || "{}"); o[id] = v; var ks = Object.keys(o); if (ks.length > 20) delete o[ks[0]]; localStorage.setItem("estlock:" + (state.name || "").toLowerCase(), JSON.stringify(o)); } catch (e) { /* fine */ } }
+  /* ---- a round's picture: each one shows a full amount or a reference to work from ---- */
+  var EST_KINDS = { jug: "Water in a jug", line: "Length of a line", scale: "Mass on a scale", jar: "Marbles in a jar", thermo: "Thermometer" };
+  function estMake(kind) {
+    if (!EST_KINDS[kind]) kind = pickOne(Object.keys(EST_KINDS));
+    var p = { kind: kind, seed: rint(1, 1e8) };
+    if (kind === "jug") { p.cap = pickOne([1000, 2000]); p.truth = rint(2, p.cap / 50 - 1) * 50; p.max = p.cap; p.tick = p.cap / 10; p.unit = "mL"; p.ask = "How much water is in the jug?"; p.ref = "Full to the red line, this jug holds " + p.cap / 1000 + " L (" + p.cap + " mL)."; }
+    else if (kind === "line") { p.truth = rint(3, 28); p.max = 30; p.tick = 5; p.cap = 10; p.unit = "cm"; p.ask = "How long is the blue line?"; p.ref = "The red bar is exactly 10 cm long."; }
+    else if (kind === "scale") { p.cap = pickOne([1000, 2000]); p.truth = rint(2, p.cap / 50 - 1) * 50; p.max = p.cap; p.tick = p.cap / 10; p.unit = "g"; p.ask = "How heavy is the parcel?"; p.ref = "Round to the red mark is " + p.cap / 1000 + " kg (" + p.cap + " g)."; }
+    else if (kind === "jar") { p.truth = rint(18, 140); p.max = 200; p.tick = 20; p.cap = 10; p.unit = "marbles"; p.ask = "How many marbles are in the jar?"; p.ref = "The little box holds 10 marbles."; }
+    else { p.truth = rint(5, 95); p.max = 100; p.tick = 10; p.cap = 100; p.unit = "°C"; p.ask = "What temperature does it show?"; p.ref = "Only 0 °C and 100 °C are marked."; }
+    return p;
+  }
+  /* the picture is drawn from the round's numbers, so every iPad and the whiteboard draw the same one */
+  function estSVG(p, truth) {
+    var t = truth != null ? truth : p.truth, f = Math.max(0, Math.min(1, t / (p.cap || p.max || 1))), R = srand(p.seed), o;
+    if (p.kind === "jug") {
+      var h = Math.round(f * 160);
+      o = '<svg class="estpic" viewBox="0 0 200 220" role="img" aria-label="Jug of water"><path d="M150 50 q34 4 30 40 q-4 30 -30 34" fill="none" stroke="#1B1B2F" stroke-width="8"/>' +
+          '<rect x="52" y="' + (200 - h) + '" width="96" height="' + h + '" fill="#74C0FC"/>' +
+          '<path d="M50 24 V196 q0 6 6 6 H144 q6 0 6 -6 V24" fill="none" stroke="#1B1B2F" stroke-width="5" stroke-linejoin="round"/>' +
+          '<line x1="44" y1="40" x2="156" y2="40" stroke="#C92A2A" stroke-width="3" stroke-dasharray="7 4"/><text x="100" y="33" text-anchor="middle" font-size="15" font-weight="800" fill="#C92A2A">' + p.cap / 1000 + " L</text></svg>";
+    } else if (p.kind === "line") {
+      o = '<svg class="estpic wide" viewBox="0 0 400 120" role="img" aria-label="A line and a 10 cm bar"><rect x="20" y="22" width="120" height="12" rx="3" fill="#C92A2A"/><text x="80" y="18" text-anchor="middle" font-size="14" font-weight="800" fill="#C92A2A">10 cm</text>' +
+          '<line x1="20" y1="84" x2="' + (20 + t * 12) + '" y2="84" stroke="#1864AB" stroke-width="8" stroke-linecap="round"/></svg>';
+    } else if (p.kind === "scale") {
+      var a = (-225 + 270 * f) * Math.PI / 180, nx = 110 + 66 * Math.cos(a), ny = 120 + 66 * Math.sin(a), e0 = [110 + 80 * Math.cos(-225 * Math.PI / 180), 120 + 80 * Math.sin(-225 * Math.PI / 180)], e1 = [110 + 80 * Math.cos(45 * Math.PI / 180), 120 + 80 * Math.sin(45 * Math.PI / 180)];
+      o = '<svg class="estpic" viewBox="0 0 220 220" role="img" aria-label="A kitchen scale"><rect x="70" y="4" width="80" height="34" rx="4" fill="#C08A4B" stroke="#1B1B2F" stroke-width="3"/><line x1="110" y1="4" x2="110" y2="38" stroke="#1B1B2F" stroke-width="2"/>' +
+          '<rect x="22" y="40" width="176" height="168" rx="26" fill="#F1F3F5" stroke="#1B1B2F" stroke-width="4"/><circle cx="110" cy="120" r="84" fill="#FFFFFF" stroke="#1B1B2F" stroke-width="3"/>' +
+          '<line x1="' + e0[0].toFixed(1) + '" y1="' + e0[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(-225 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(-225 * Math.PI / 180)).toFixed(1) + '" stroke="#1B1B2F" stroke-width="4"/><text x="58" y="186" font-size="15" font-weight="800">0</text>' +
+          '<line x1="' + e1[0].toFixed(1) + '" y1="' + e1[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(45 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(45 * Math.PI / 180)).toFixed(1) + '" stroke="#C92A2A" stroke-width="5"/><text x="150" y="196" font-size="14" font-weight="800" fill="#C92A2A">' + p.cap / 1000 + " kg</text>" +
+          '<line x1="110" y1="120" x2="' + nx.toFixed(1) + '" y2="' + ny.toFixed(1) + '" stroke="#C92A2A" stroke-width="4" stroke-linecap="round"/><circle cx="110" cy="120" r="7" fill="#1B1B2F"/></svg>';
+    } else if (p.kind === "jar") {
+      var cells = [], dots = "", k;
+      for (var y = 0; y < 13; y++) for (var x = 0; x < 11; x++) cells.push([34 + x * 14, 58 + y * 13]);
+      for (k = cells.length - 1; k > 0; k--) { var j = Math.floor(R() * (k + 1)), tmp = cells[k]; cells[k] = cells[j]; cells[j] = tmp; }
+      cells.slice(0, t).forEach(function (c) { dots += '<circle cx="' + (c[0] + (R() - 0.5) * 3).toFixed(1) + '" cy="' + (c[1] + (R() - 0.5) * 3).toFixed(1) + '" r="5.6" fill="' + ["#E8590C", "#1864AB", "#2B8A3E", "#C2255C", "#F59F00"][Math.floor(R() * 5)] + '"/>'; });
+      for (k = 0; k < 10; k++) dots += '<circle cx="' + (238 + (k % 5) * 12) + '" cy="' + (192 + Math.floor(k / 5) * 13) + '" r="5.6" fill="#E8590C"/>';
+      o = '<svg class="estpic wide" viewBox="0 0 310 240" role="img" aria-label="A jar of marbles and a box of 10"><path d="M40 24 h132 v16 q14 6 14 24 v152 q0 12 -12 12 h-136 q-12 0 -12 -12 v-152 q0 -18 14 -24 Z" fill="#F4FAFF" stroke="#1B1B2F" stroke-width="4"/>' +
+          dots + '<rect x="228" y="182" width="70" height="40" rx="6" fill="none" stroke="#C92A2A" stroke-width="3"/><text x="263" y="176" text-anchor="middle" font-size="13" font-weight="800" fill="#C92A2A">10</text></svg>';
+    } else {
+      var top = 20, zero = 200, lv = zero - (zero - top) * (t / 100);
+      o = '<svg class="estpic" viewBox="0 0 150 250" role="img" aria-label="A thermometer"><rect x="58" y="10" width="28" height="206" rx="14" fill="#FFFFFF" stroke="#1B1B2F" stroke-width="4"/><circle cx="72" cy="226" r="20" fill="#E03131" stroke="#1B1B2F" stroke-width="4"/>' +
+          '<rect x="66" y="' + lv.toFixed(1) + '" width="12" height="' + (222 - lv).toFixed(1) + '" fill="#E03131"/>' +
+          '<line x1="86" y1="' + zero + '" x2="100" y2="' + zero + '" stroke="#1B1B2F" stroke-width="3"/><text x="104" y="' + (zero + 5) + '" font-size="14" font-weight="800">0 °C</text>' +
+          '<line x1="86" y1="' + top + '" x2="100" y2="' + top + '" stroke="#1B1B2F" stroke-width="3"/><text x="104" y="' + (top + 5) + '" font-size="14" font-weight="800">100 °C</text></svg>';
+    }
+    return o;
+  }
+  /* ---------------------------------------------------------------- Mystery Measure rounds
+     A round is a real thing with a known measure, three other amounts, a
+     thing everyone knows to compare with, and three clues. Clue 1 fits all
+     four answers. Clues 2 and 3 rule answers out until only the real one is
+     left. The amounts, units, comparisons and wording are all chosen fresh, so
+     the same round almost never comes up twice. */
+  var MM = {
+    mass: { cat: "Mass", ask: ["What does {it} weigh?", "How heavy is {it}?", "What is the mass of {it}?"], more: ["is heavier than", "weighs more than"], less: ["is lighter than", "weighs less than"],
+      refs: [["a 1 kg bag of flour", "bag of flour", "bags of flour", 1000, "🌾"], ["a 250 g block of butter", "block of butter", "blocks of butter", 250, "🧈"], ["a 2 kg bag of rice", "bag of rice", "bags of rice", 2000, "🍚"],
+             ["a 100 g chocolate bar", "chocolate bar", "chocolate bars", 100, "🍫"], ["a 500 g tub of yoghurt", "tub of yoghurt", "tubs of yoghurt", 500, "🥛"], ["a 10 kg bag of potting mix", "bag of potting mix", "bags of potting mix", 10000, "🪴"]],
+      things: [["a pineapple", 1000, "🍍"], ["a watermelon", 4000, "🍉"], ["a pet cat", 4000, "🐈"], ["a full school bag", 3500, "🎒"], ["an apple", 150, "🍎"], ["a banana", 120, "🍌"],
+               ["a newborn baby", 3500, "👶"], ["a bag of potatoes", 2500, "🥔"], ["a footy", 450, "🏉"], ["a basketball", 600, "🏀"], ["a laptop", 1500, "💻"], ["a pumpkin", 3000, "🎃"],
+               ["a loaf of bread", 700, "🍞"], ["a dictionary", 1200, "📕"], ["a small dog", 6000, "🐕"], ["a pair of runners", 800, "👟"], ["a bike helmet", 350, "🚴"], ["a bowling ball", 6000, "🎳"],
+               ["a mobile phone", 180, "📱"], ["a teddy bear", 400, "🧸"], ["a guitar", 3000, "🎸"], ["a cabbage", 1200, "🥬"], ["a coconut", 700, "🥥"], ["a chicken", 2000, "🐔"],
+               ["a cricket ball", 160, "🏏"], ["a tennis ball", 60, "🎾"], ["an egg", 60, "🥚"], ["a wombat", 30000, "🦡"], ["a koala", 9000, "🐨"], ["a brick", 3000, "🧱"]] },
+    capacity: { cat: "Capacity", ask: ["How much does {it} hold?", "What is the capacity of {it}?", "How much water fits in {it}?"], more: ["holds more than", "can hold more than"], less: ["holds less than", "can hold less than"],
+      refs: [["a 1 L carton of milk", "carton of milk", "cartons of milk", 1000, "🥛"], ["a 250 mL juice box", "juice box", "juice boxes", 250, "🧃"], ["a 10 L bucket", "bucket", "buckets", 10000, "🪣"],
+             ["a 2 L bottle of water", "bottle of water", "bottles of water", 2000, "🧴"], ["a 5 mL teaspoon", "teaspoon", "teaspoons", 5, "🥄"], ["a 375 mL can", "can", "cans", 375, "🥫"]],
+      things: [["a coffee mug", 300, "☕"], ["a drink bottle", 750, "🧴"], ["a bathtub", 150000, "🛁"], ["a kitchen sink", 20000, "🚰"], ["a fish tank", 60000, "🐠"], ["a watering can", 8000, "🪴"],
+               ["a glass", 250, "🥛"], ["a teapot", 1200, "🫖"], ["a saucepan", 3000, "🍲"], ["a wheelbarrow", 80000, "🧱"], ["a kettle", 1700, "☕"], ["an ice cream tub", 2000, "🍨"],
+               ["a cereal bowl", 400, "🥣"], ["a vase", 1500, "💐"], ["a paddling pool", 400000, "🏊"], ["a soup ladle", 120, "🥄"], ["a hot water bottle", 2000, "♨"], ["an eye dropper", 1, "💧"],
+               ["a lunch box", 1500, "🍱"], ["a petrol can", 20000, "⛽"], ["a rain gauge", 250, "🌧"], ["a laundry basin", 30000, "🧺"], ["a thermos", 500, "☕"], ["a car's petrol tank", 60000, "🚗"]] },
+    length: { cat: "Length", ask: ["How long is {it}?", "What is the length of {it}?", "How far is it from one end of {it} to the other?"], more: ["is longer than", "measures more than"], less: ["is shorter than", "measures less than"],
+      refs: [["a 30 cm ruler", "ruler", "rulers", 300, "📏"], ["a 1 m metre stick", "metre stick", "metre sticks", 1000, "📏"], ["a 15 cm pencil", "pencil", "pencils", 150, "✏"],
+             ["a 2 m doorway", "doorway", "doorways", 2000, "🚪"], ["a 1 cm wide fingernail", "fingernail", "fingernails", 10, "💅"], ["a 50 m swimming pool", "pool length", "pool lengths", 50000, "🏊"]],
+      things: [["a new pencil", 180, "✏"], ["a classroom desk", 1200, "🪑"], ["a bed", 1900, "🛏"], ["a bus", 12000, "🚌"], ["a car", 4500, "🚗"], ["a giraffe, from hooves to head", 5000, "🦒"],
+               ["a mobile phone", 150, "📱"], ["a banana", 200, "🍌"], ["a tennis court", 24000, "🎾"], ["a cricket pitch", 20000, "🏏"], ["a footy oval", 165000, "🏉"], ["a runner", 250, "👟"],
+               ["a toothbrush", 190, "🪥"], ["a crocodile", 4000, "🐊"], ["a whiteboard", 2400, "🖼"], ["an ant", 5, "🐜"], ["a kangaroo, standing up", 1500, "🦘"], ["a train carriage", 20000, "🚃"],
+               ["a surfboard", 2100, "🏄"], ["a paperclip", 30, "📎"], ["the height of a basketball hoop", 3050, "🏀"], ["a skateboard", 800, "🛹"], ["a guitar", 1000, "🎸"], ["a soccer field", 100000, "⚽"]] },
+    time: { cat: "Time", ask: ["How long does {it} take?", "How much time does {it} take?", "How long is {it}?"], more: ["takes longer than", "lasts longer than"], less: ["takes less time than", "is over sooner than"],
+      refs: [["a 3 minute song", "song", "songs", 180, "🎵"], ["a 50 minute lesson", "lesson", "lessons", 3000, "🔔"], ["one hour", "hour", "hours", 3600, "⏰"], ["a 20 minute recess", "recess", "recesses", 1200, "🍎"],
+             ["one minute", "minute", "minutes", 60, "⏱"], ["a 30 second ad", "ad", "ads", 30, "📺"]],
+      things: [["brushing your teeth", 120, "🪥"], ["boiling an egg", 360, "🥚"], ["a movie", 6000, "🎬"], ["a quarter of footy", 1200, "🏉"], ["a soccer match", 5400, "⚽"], ["baking a cake", 2400, "🎂"],
+               ["a flight from Adelaide to Melbourne", 4500, "✈"], ["a 100 m sprint", 15, "🏃"], ["microwave popcorn", 180, "🍿"], ["a shower", 420, "🚿"], ["walking 1 km", 720, "🚶"], ["cooking rice", 1080, "🍚"],
+               ["a cartoon episode", 1320, "📺"], ["a night's sleep", 36000, "😴"], ["a school day", 23400, "🏫"], ["tying your shoelaces", 10, "👟"], ["a lap of the oval", 120, "🏃"], ["a marathon", 14400, "🏅"],
+               ["a car wash", 900, "🚗"], ["drying your hair", 300, "💨"], ["a haircut", 1800, "✂"], ["a Test match day of cricket", 25200, "🏏"], ["eating lunch", 900, "🥪"], ["a bus ride to the city", 2400, "🚌"]] }
+  };
+  MM.length.refs = MM.length.refs.filter(function (r) { return r[3] > 0; });
+  function mmNice(v) {
+    if (v <= 0) return 1;
+    var m = Math.pow(10, Math.floor(Math.log10(v))), r = Math.round(v / m * 2) / 2 * m;
+    return Math.max(1, Math.round(r));
+  }
+  /* an amount in one of the ways it could be written, chosen at random */
+  function mmFmt(cat, v) {
+    var o = [], r2 = function (x) { return Math.round(x * 100) / 100; };
+    if (cat === "mass") { if (v < 1000 || v % 10 === 0 && v < 10000) o.push(v + " g"); if (v >= 500 && v % 10 === 0) o.push(r2(v / 1000) + " kg"); if (v > 1000 && v % 1000 && v < 10000 && v % 10 === 0) o.push(Math.floor(v / 1000) + " kg " + (v % 1000) + " g"); }
+    else if (cat === "capacity") { if (v < 1000 || v % 10 === 0 && v < 10000) o.push(v + " mL"); if (v >= 500 && v % 10 === 0) o.push(r2(v / 1000) + " L"); }
+    else if (cat === "length") { if (v < 100) o.push(v + " mm"); if (v % 10 === 0 && v < 100000) o.push(v / 10 + " cm"); if (v >= 1000 && v % 10 === 0) o.push(r2(v / 1000) + " m"); if (v >= 100000 && v % 100 === 0) o.push(r2(v / 1000) + " m"); }
+    else { if (v < 180) o.push(v + " s"); if (v >= 60 && v % 30 === 0 && v < 10800) o.push(r2(v / 60) + " min"); if (v >= 3600 && v % 60 === 0) { var h = Math.floor(v / 3600), mi = (v % 3600) / 60; o.push(h + " h" + (mi ? " " + mi + " min" : "")); } }
+    if (!o.length) o.push(cat === "mass" ? v + " g" : cat === "capacity" ? v + " mL" : cat === "length" ? (v % 10 ? v + " mm" : v / 10 + " cm") : (v % 60 ? v + " s" : v / 60 + " min"));
+    return pickOne(o);
+  }
+  /* a tidy number strictly between lo and hi, or null */
+  function mmBetween(lo, hi, cat) {
+    var c = [], steps = [];
+    for (var k = 7; k >= 0; k--) [5, 2, 1].forEach(function (m) { steps.push(m * Math.pow(10, k)); });
+    if (cat === "time") steps = [36000, 18000, 7200, 3600, 1800, 1200, 600, 300, 120, 60, 30, 10, 5, 1];
+    for (var i = 0; i < steps.length && c.length < 3; i++) { var s = steps[i], v = Math.floor(lo / s) * s + s; if (v > lo && v < hi && c.indexOf(v) < 0) c.push(v); }
+    return c.length ? pickOne(c.slice(0, 2)) : null;
+  }
+  function mmMake(catKey, avoid) {
+    avoid = avoid || {};
+    for (var tries = 0; tries < 40; tries++) {
+      var key = MM[catKey] ? catKey : pickOne(Object.keys(MM)), C = MM[key], fresh = C.things.filter(function (t) { return !avoid[t[0]]; });
+      var thing = pickOne(fresh.length ? fresh : C.things), T = thing[1];
+      // three other amounts, spread out so clues can tell them apart
+      var factors = shuffle([0.25, 0.4, 0.5, 0.6, 2, 2.5, 3, 4, 0.3, 1.6, 5]), vals = [T];
+      for (var f = 0; f < factors.length && vals.length < 4; f++) {
+        var x = mmNice(T * factors[f]);
+        if (vals.every(function (y) { return Math.max(x, y) / Math.min(x, y) >= 1.3; })) vals.push(x);
+      }
+      if (vals.length < 4) continue;
+      var sorted = vals.slice().sort(function (a, b) { return a - b; }), t = sorted.indexOf(T), lo = sorted[0], hi = sorted[3];
+      // clue 1: compared with a thing everyone knows, true for all four
+      var c1 = [];
+      C.refs.forEach(function (r) { [1, 2, 3, 4, 5, 10].forEach(function (n) { var v = r[3] * n; if (v < lo) c1.push([r, n, "more", v]); if (v > hi) c1.push([r, n, "less", v]); }); });
+      c1 = c1.filter(function (c) { return (c[2] === "more" ? lo / c[3] : c[3] / hi) < 6; });
+      if (!c1.length) continue;
+      var pick1 = pickOne(c1), R = pick1[0], refName = R[0];
+      var near = function (c) { return c[1] === 1 ? "the " + R[1] : c[1] + " " + R[2]; };
+      var clue1 = "It " + pickOne(pick1[2] === "more" ? C.more : C.less) + " " + near(pick1) + ".";
+      // clues 2 and 3 knock out the rest, a side at a time
+      var below = sorted.slice(0, t), above = sorted.slice(t + 1), steps = [];
+      if (below.length && above.length) steps = Math.random() < 0.5 ? [["less", above], ["more", below]] : [["more", below], ["less", above]];
+      else if (above.length) steps = [["less", above.slice(1)], ["less", above.slice(0, 1)]];
+      else steps = [["more", below.slice(0, below.length - 1)], ["more", below.slice(below.length - 1)]];
+      if (steps.some(function (s) { return !s[1].length; })) continue;
+      var clues = [clue1], outs = [[]], bad = false, left = sorted.slice();
+      steps.forEach(function (s, i) {
+        if (bad) return;
+        var dir = s[0], gone = s[1], lim, X;
+        if (dir === "less") { lim = Math.min.apply(null, gone); var keep = left.filter(function (v) { return gone.indexOf(v) < 0; }); X = mmBetween(Math.max.apply(null, keep), lim, key); }
+        else { lim = Math.max.apply(null, gone); var keep2 = left.filter(function (v) { return gone.indexOf(v) < 0; }); X = mmBetween(lim, Math.min.apply(null, keep2), key); }
+        if (X == null) { bad = true; return; }
+        // sometimes said with the thing everyone knows, if it lands on a whole number of them
+        var n = X / R[3], words;
+        if (n === Math.round(n) && n >= 2 && n <= 12 && Math.random() < 0.45) words = "It " + pickOne(dir === "less" ? C.less : C.more) + " " + n + " " + R[2] + ".";
+        else if (i === 1 && Math.random() < 0.3) words = dir === "less" ? "It is under " + mmFmt(key, X) + "." : "It is over " + mmFmt(key, X) + ".";
+        else words = "It " + pickOne(dir === "less" ? C.less : C.more) + " " + mmFmt(key, X) + ".";
+        clues.push(words); outs.push(gone.map(function (v) { return vals.indexOf(v); }));
+        left = left.filter(function (v) { return gone.indexOf(v) < 0; });
+      });
+      if (bad || left.length !== 1 || left[0] !== T) continue;
+      var shown = shuffle(vals.slice()), opts = shown.map(function (v) { return mmFmt(key, v); });
+      if (new Set(opts).size !== 4) continue;
+      return { cat: C.cat, ask: pickOne(C.ask).replace("{it}", "the mystery thing"), ref: refName, refIcon: R[4], opts: opts, vals: shown, ans: shown.indexOf(T),
+               clues: clues, outs: outs.map(function (o) { return o.map(function (i) { return shown.indexOf(vals[i]); }); }), what: thing[0].charAt(0).toUpperCase() + thing[0].slice(1) + ": " + mmFmt(key, T), icon: thing[2], thing: thing[0] };
+    }
+    return null;
+  }
+  /* the teacher's iPad remembers the last 60 things, so a class meets new ones */
+  function mmRounds(catKey, n) {
+    var out = [], recent = [], avoid = {};
+    try { recent = JSON.parse(localStorage.getItem("mmrecent") || "[]"); } catch (e) { recent = []; }
+    recent.forEach(function (t) { avoid[t] = 1; });
+    for (var i = 0; out.length < n && i < n * 10; i++) {
+      var r = mmMake(catKey === "any" ? "" : catKey, avoid);
+      if (r && !avoid[r.thing]) { avoid[r.thing] = 1; recent.push(r.thing); out.push(r); }
+    }
+    try { localStorage.setItem("mmrecent", JSON.stringify(recent.slice(-60))); } catch (e) { /* fine */ }
+    return out;
+  }
+
+  function liveFmt(v, p) { return (Math.round(v * 100) / 100) + " " + p.unit; }
+  function liveMe() { return nameKeyLocal(state.name); }
+  function nameKeyLocal(n) { return String(n || "").trim().toLowerCase().replace(/\s+/g, " "); }
+  function liveJoined(lv) { lv = lv || liveNow; if (!lv || !state.name) return false; var me = liveMe(); return (lv.j || []).some(function (x) { return nameKeyLocal(x[0]) === me; }); }
+  function liveTeam(lv) { lv = lv || liveNow; var me = liveMe(), t = -1; (lv && lv.j || []).forEach(function (x) { if (nameKeyLocal(x[0]) === me) t = x[1] | 0; }); return t; }
+  function liveGet() { return fetchSheet(sharedUrl({ action: "live", room: CLASS }), { method: "GET", redirect: "follow" }); }
+  /* ---- the class state brings the live game to every iPad ---- */
+  function liveTake(v) {
+    var was = liveNow && liveNow.id + liveNow.phase + (liveNow.c || "") + (liveNow.r || "");
+    var keepEnd = liveNow && v && liveNow.id === v.id ? liveNow.endsAt : null;
+    liveNow = v && typeof v === "object" && v.game ? v : null; liveAt = Date.now();
+    if (liveNow && liveNow.game === "tug") liveNow.endsAt = liveNow.phase === "run" ? Date.now() + (liveNow.left || 0) : keepEnd || Date.now();
+    var key = liveNow && liveNow.id + liveNow.phase + (liveNow.c || "") + (liveNow.r || "");
+    if (DISPLAY) { if (liveNow) liveBoardOpen(); else liveBoardClose(); return; }
+    if (!state.name) return;
+    if (TEACHER) { liveTeachTick(); if (key !== was && liveShown) liveBoardPoll(); return; }
+    if (!liveNow) { if (mgRun && /^(lobby|est|mm|tug)$/.test(mgRun.phase)) mgCloseLive(); if (was) try { rbDraw(); } catch (e) { /* next time */ } return; }
+    var lv = liveNow, joined = liveJoined(lv);
+    // a panel left over from an earlier live game gives way to the new one
+    if (mgRun && /^(lobby|est|mm|tugwait|tugdone)$/.test(mgRun.phase) && mgRun.liveId && mgRun.liveId !== lv.id) mgCloseLive();
+    if (!joined) {
+      // the lobby pops up once; after that the home screen keeps a Join tile
+      if (lv.phase !== "done" && !(lv.game === "est" && lv.phase === "reveal") && !estSeen["j" + lv.id] && (!mgRun || mgRun.phase === "lobby")) { estSeen["j" + lv.id] = 1; liveOpen("lobby"); }
+    } else if (lv.phase === "lobby") { if (!mgRun || mgRun.phase === "lobby") liveOpen("lobby"); }
+    else if (lv.game === "est") {
+      if (lv.phase === "guess" && estLocked(lv.id) == null && (!mgRun || mgRun.phase === "lobby") && !estSeen[lv.id]) { estSeen[lv.id] = 1; estOpen(); }
+      if (lv.phase === "reveal" && estLocked(lv.id) != null && !estSeen[lv.id + "r"]) { estSeen[lv.id + "r"] = 1; estResult(); }
+    } else if (lv.game === "mm") {
+      // the final podium shows once; a child who closes it is not pulled back
+      if (lv.phase === "done" && estSeen["d" + lv.id] && (!mgRun || mgRun.phase !== "mm")) { /* closed */ }
+      else if (!mgRun || /^(lobby|mm)$/.test(mgRun.phase)) { if (lv.phase === "done") estSeen["d" + lv.id] = 1; liveOpen("mm"); }
+    }
+    else if (lv.game === "tug") {
+      if (lv.phase === "run" && (!mgRun || mgRun.phase === "lobby")) tugStart();
+      if (lv.phase === "done" && mgRun && mgRun.game === "tug" && mgRun.phase !== "tugdone") tugDone();
+    }
+    if (key !== was) { try { rbDraw(); } catch (e) { /* drawn next time */ } }
+  }
+  // while a live game runs, iPads ask for the class state every 5 seconds instead of every 20
+  setInterval(function () {
+    if (!shared.on || DISPLAY || !liveNow || document.hidden) return;
+    if (Date.now() - liveAt > 5000) { liveAt = Date.now(); window.__mg.status().catch(function () {}); }
+  }, 1000);
+  function liveOpen(phase) {
+    var p = mgPanel(), g = liveNow && liveNow.game;
+    if (!mgRun || mgRun.phase !== phase || mgRun.liveId !== liveNow.id) mgRun = { game: g, phase: phase, score: 0, mist: 0, liveId: liveNow.id };
+    p.style.setProperty("--mg", (MG[g] || MG.est).col); p.hidden = false; document.body.classList.add("mg-open");
+    if (phase === "lobby") lobbyDraw(); else if (phase === "mm") mmDraw();
+  }
+  function mgCloseLive() { var p = document.getElementById("mgpanel"); if (p) p.hidden = true; document.body.classList.remove("mg-open"); clearInterval(mgRun && mgRun.timer); mgRun = null; }
+  function livePanelHead(title, stat) {
+    document.getElementById("mg-title").textContent = title; document.getElementById("mg-stat").textContent = stat || "";
+    document.getElementById("mg-time").style.width = "100%";
+  }
+  /* ---- the lobby on a child's iPad ---- */
+  function lobbyDraw(msg) {
+    var lv = liveNow, body = document.getElementById("mg-body"); if (!lv || !body) return;
+    var name = MG[lv.game].name, joined = liveJoined(lv), team = liveTeam(lv);
+    livePanelHead(name);
+    body.innerHTML = joined
+      ? '<div class="waiting"><div class="spin"></div><h3>You’re in!</h3><p class="mgnote">' + (lv.game === "tug" && lv.teams ? "You are on the <b>" + esc(lv.teams[team].name) + "</b>. " : "") + (lv.phase === "lobby" ? "Waiting for your teacher to press Start." : "Get ready…") + "</p><p class=\"mgnote\">" + (lv.j || []).length + " joined so far.</p></div>"
+      : '<div class="mgintro"><p class="mgline">' + esc(MG[lv.game].line) + '</p><p class="mgnote">Your teacher is running ' + esc(name) + " on the board. Join to play.</p>" +
+        '<button type="button" class="mggo" data-livejoin="1">Join</button>' + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "") + "</div>";
+    var b = body.querySelector("[data-livejoin]");
+    if (b) b.addEventListener("click", function () {
+      b.disabled = true;
+      mgPost({ action: "ljoin", id: lv.id }).then(function (d) {
+        if (d && d.ok) { if (d.live) liveTake(d.live); lobbyDraw(); if (liveNow && liveNow.phase !== "lobby") liveTake(liveNow); }
+        else lobbyDraw(d && d.error === "over" ? "This game has finished." : "That did not send. Try again.");
+      }, function () { lobbyDraw("That did not send. Try again."); });
+    });
+  }
+  /* ---- Estimation Station on a child's iPad ---- */
+  function estOpen() {
+    if (!liveNow || liveNow.game !== "est") return;
+    var p = mgPanel();
+    mgRun = { game: "est", phase: "est", score: 0, mist: 0, liveId: liveNow.id };
+    p.style.setProperty("--mg", MG.est.col); p.hidden = false; document.body.classList.add("mg-open");
+    estDraw();
+  }
+  function estDraw(msg) {
+    var lv = liveNow, body = document.getElementById("mg-body"); if (!lv || !body || lv.game !== "est") return;
+    livePanelHead(MG.est.name);
+    var mine = estLocked(lv.id);
+    body.innerHTML = '<div class="estq"><p class="mgask">' + esc(lv.p.ask) + '</p><p class="estref">' + esc(lv.p.ref) + "</p>" + estSVG(lv.p) +
+      (mine != null ? '<p class="estdone">Locked in: <b>' + esc(liveFmt(mine, lv.p)) + "</b>. Watch the board for the reveal.</p>"
+        : lv.phase !== "guess" ? '<p class="estdone">Guessing has closed for this round.</p>'
+        : '<p class="mgnote">One guess each. Closest wins.</p><form class="estin" id="est-form"><input id="est-g" inputmode="decimal" autocomplete="off" placeholder="Your guess" aria-label="Your guess"><span>' + esc(lv.p.unit) + '</span><button type="submit">Lock it in</button></form>' + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "")) + "</div>";
+    var f = document.getElementById("est-form");
+    if (f) f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var raw = String(document.getElementById("est-g").value).replace(/,/g, "").trim(), v = Number(raw);
+      if (!raw || !/^\d+(\.\d+)?$/.test(raw) || !isFinite(v)) { estDraw("Type a number first."); return; }
+      f.querySelector("button").disabled = true;
+      mgPost({ action: "eguess", id: lv.id, value: v }).then(function (d) {
+        if (d && d.ok) { estLock(lv.id, d.already ? d.value : v); if (d.live) liveNow = d.live; estDraw(); }
+        else estDraw(d && d.error === "over" ? "Guessing has closed." : "That did not send. Try again.");
+      }, function () { estDraw("That did not send. Try again."); });
+    });
+  }
+  function estResult() {
+    liveGet().then(function (d) {
+      var lv = d && d.live; if (!lv || lv.game !== "est" || lv.phase !== "reveal") return;
+      if (mgRun && mgRun.phase !== "est") return;
+      if (!mgRun) estOpen();
+      var mine = estLocked(lv.id), me = liveMe(), list = (lv.guesses || []).slice().sort(function (a, b) { return Math.abs(a[1] - lv.p.truth) - Math.abs(b[1] - lv.p.truth) || a[2] - b[2]; });
+      var place = -1; list.forEach(function (g, i) { if (nameKeyLocal(g[0]) === me && place < 0) place = i; });
+      var off = Math.abs(mine - lv.p.truth);
+      document.getElementById("mg-body").innerHTML = '<div class="mgdone"><p class="mgnote">The real amount was</p><p class="mgbig">' + esc(liveFmt(lv.p.truth, lv.p)) + "</p>" + estSVG(lv.p) +
+        "<p>You guessed <b>" + esc(liveFmt(mine, lv.p)) + "</b>: " + (off ? esc(liveFmt(off, lv.p)) + " off" : "spot on!") + (place > -1 ? ". You came <b>" + (place + 1) + "</b> of " + list.length + "." : ".") + "</p>" +
+        '<ol class="mgpod">' + (lv.top || []).map(function (r, i) { return '<li class="p' + (i + 1) + (nameKeyLocal(r[0]) === me ? " me" : "") + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + esc(liveFmt(r[1], lv.p)) + "</span></li>"; }).join("") + "</ol>" +
+        '<div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div></div>';
+    }, function () { /* the board shows it anyway */ });
+  }
+  /* ---- Mystery Measure on a child's iPad ---- */
+  var mmPicks = {}, mmSeenReveal = {};
+  function mmDraw() {
+    var lv = liveNow, body = document.getElementById("mg-body"); if (!lv || !body || lv.game !== "mm") return;
+    var q = lv.q || {}, key = lv.id + ":" + lv.r, mine = mmPicks[key], rev = lv.phase === "reveal" || lv.phase === "done";
+    livePanelHead(MG.mm.name, "Round " + (lv.r + 1) + " of " + lv.of);
+    if (rev && !mmSeenReveal[key]) { mmSeenReveal[key] = 1; liveGet().then(function (d) { if (d && d.live && d.live.id === lv.id) { mmSeenReveal[key] = d.live; mmDraw(); } }, function () {}); }
+    var full = typeof mmSeenReveal[key] === "object" ? mmSeenReveal[key] : null, myScore = 0, place = -1;
+    if (full && full.scores) full.scores.forEach(function (s, i) { if (nameKeyLocal(s[0]) === liveMe()) { myScore = s[1]; place = i; } });
+    var h = '<div class="mmq"><div class="iref"><span>' + esc(q.refIcon || "") + "</span>Something you know: " + esc(q.ref || "") + "</div>" +
+      (q.clues || []).map(function (c, i) { return '<div class="iclue">Clue ' + (i + 1) + ": " + esc(c) + "</div>"; }).join("") +
+      '<p class="mgask">' + esc(q.ask || "") + '</p><div class="mgopts mm4">' + (q.opts || []).map(function (o, i) {
+        var cls = mine === i ? " sel" : ""; if (rev && i === q.ans) cls += " yes"; else if (rev && mine === i) cls += " no";
+        return '<button type="button" class="mgopt' + cls + '" data-mmi="' + i + '"' + (rev || lv.phase !== "clue" ? " disabled" : "") + ">" + esc(o) + "</button>"; }).join("") + "</div>";
+    if (rev) h += '<p class="estdone">It was <b>' + esc(q.opts[q.ans]) + "</b>: " + esc(q.what || "") + " " + esc(q.icon || "") + (full ? "<br>You have " + myScore + " points" + (place > -1 ? ", " + (place + 1) + " of " + full.scores.length : "") + "." : "") + "</p>" +
+      (lv.phase === "done" && full ? "<h4>Final podium</h4>" + '<ol class="mgpod">' + (full.lead || []).slice(0, 3).map(function (r, i) { return '<li class="p' + (i + 1) + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + r[1] + "</span></li>"; }).join("") + '</ol><div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div>' : "");
+    else h += '<p class="mgnote">' + (mine == null ? "Pick the one you think it is. You can change it until the next clue." : "You picked <b>" + esc(q.opts[mine]) + "</b>. From clue 2 on, if your pick is right when the next clue comes, you bank 100 points. Nobody finds out until the reveal.") + "</p>";
+    body.innerHTML = h + "</div>";
+    body.querySelectorAll("[data-mmi]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var i = Number(b.getAttribute("data-mmi")); mmPicks[key] = i; mmDraw();
+        mgPost({ action: "mmpick", id: lv.id, r: lv.r, pick: i }).then(function () {}, function () {
+          setTimeout(function () { if (mmPicks[key] === i) mgPost({ action: "mmpick", id: lv.id, r: lv.r, pick: i }); }, 1500);
+        });
+      });
+    });
+  }
+  /* ---- Tug of War on a child's iPad: quick questions from the teacher's topic ---- */
+  var TUG_TOPICS = { mixed: "Mixed", unit: "Converting units", shop: "Money", clock: "Telling the time", speed: "Ordering amounts", fractions: "Fractions", angles: "Angles" };
+  function tugQ(topic, L) {
+    var t = topic === "mixed" ? pickOne(["unit", "shop", "clock", "speed", "fractions", "angles"]) : topic;
+    if (MGQ[t]) return MGQ[t](L);
+    var tier = Math.min(5, Math.max(1, Math.ceil(L))), g = t === "fractions" ? pickOne(["step", "set", "step"]) : pickOne(["step", "set"]), q = null;
+    for (var i = 0; i < 10 && !(q && q.choices); i++) q = PACKS[t][g](tier * 2 - 1, tier);
+    if (!q || !q.choices) return MGQ.unit(L);
+    return { kind: "pick", ask: q.ask, pic: q.html || "", choices: q.choices, answer: q.answer - 1, raw: true };
+  }
+  function tugStart() {
+    var lv = liveNow, p = mgPanel();
+    mgRun = { game: "tug", phase: "play", score: 0, mist: 0, live: lv.id, liveId: lv.id, sent: 0, topic: lv.topic };
+    p.style.setProperty("--mg", MG.tug.col); p.hidden = false; document.body.classList.add("mg-open");
+    var r = mgRun; r.secs = lv.secs; r.end = lv.endsAt;
+    mgNext();
+    r.timer = setInterval(function () {
+      if (mgRun !== r) { clearInterval(r.timer); return; }
+      var left = Math.max(0, (liveNow && liveNow.id === r.live ? liveNow.endsAt : r.end) - Date.now()), bar = document.getElementById("mg-time");
+      if (bar) bar.style.width = (left / (r.secs * 10)) + "%";
+      tugBand();
+      if (!left && r.phase === "play") { r.phase = "tugwait"; tugSend(true); tugWait(); }
+    }, 250);
+    r.poster = setInterval(function () { if (mgRun !== r) { clearInterval(r.poster); return; } tugSend(false); }, 3000);
+  }
+  function tugSend(force) {
+    var r = mgRun; if (!r || r.game !== "tug" || (!force && r.score === r.sent)) return;
+    var n = r.score;
+    fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: "tcount", room: CLASS, name: state.name, id: r.live, n: n }) })
+      .then(function (d) { if (d && d.ok) r.sent = Math.max(r.sent, n); if (d && d.live) liveTake(d.live); }, function () {});
+  }
+  function tugBand() {
+    var lv = liveNow, r = mgRun, el = document.getElementById("mg-stat"); if (!lv || lv.game !== "tug" || !r || !el) return;
+    var team = liveTeam(lv), x = Math.max(-1, Math.min(1, (lv.pull || 0) / (lv.win || 4))) * (team === 1 ? -1 : 1);
+    var left = Math.max(0, (lv.endsAt || 0) - Date.now()), s = Math.ceil(left / 1000);
+    el.innerHTML = '<span class="tugmini" title="The rope"><i style="left:' + (50 + x * 45) + '%"></i></span> ' + (lv.teams ? esc(lv.teams[team].name) : "") + " · " + r.score + " pulls · " + Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + s % 60;
+  }
+  function tugWait() { var body = document.getElementById("mg-body"); if (body) body.innerHTML = '<div class="waiting"><div class="spin"></div><h3>Time!</h3><p class="mgnote">You pulled ' + (mgRun ? mgRun.score : 0) + " times. Watch the board.</p></div>"; }
+  function tugDone() {
+    var r = mgRun, lv = liveNow; if (!r || !lv) return;
+    clearInterval(r.timer); clearInterval(r.poster); r.phase = "tugdone";
+    var team = liveTeam(lv), won = lv.winner === team, draw = lv.winner === -1, body = document.getElementById("mg-body");
+    livePanelHead(MG.tug.name);
+    if (body) body.innerHTML = '<div class="mgdone"><p class="mgbig">' + (draw ? "A draw!" : won ? "You won!" : "So close!") + "</p><p>" + (lv.teams ? esc(lv.teams[0].name) + " " + lv.teams[0].right + " right · " + esc(lv.teams[1].name) + " " + lv.teams[1].right + " right" : "") + "</p><p>You pulled <b>" + r.score + "</b> times for your team." + (won ? " Everyone on your team gets 30 bonus points." : draw ? " Everyone gets 15 bonus points." : "") + '</p><div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div></div>';
+  }
+  MGQ.tug = function (L) { return tugQ((mgRun && mgRun.topic) || "mixed", L); };
+  /* ---- the live board: the whiteboard, or the teacher's screen when asked ---- */
+  function liveBoardOpen() {
+    var el = document.getElementById("mglive");
+    if (!el) { el = document.createElement("div"); el.id = "mglive"; el.className = "mglive"; document.body.appendChild(el); el.addEventListener("click", function (e) { if (e.target.closest("[data-livex]")) liveBoardClose(true); }); }
+    el.hidden = false; liveShown = true;
+    if (!liveTimer) { liveBoardPoll(); liveTimer = setInterval(liveBoardPoll, 2500); }
+  }
+  function liveBoardClose() {
+    var el = document.getElementById("mglive"); if (el) el.hidden = true;
+    liveShown = false; clearInterval(liveTimer); liveTimer = null; liveFull = null;
+  }
+  function liveBoardPoll() {
+    if (!shared.on) return;
+    liveGet().then(function (d) {
+      if (!d || !d.ok) return;
+      if (!d.live) { if (DISPLAY) liveBoardClose(); return; }
+      var keep = liveFull && liveFull.id === d.live.id ? liveFull.endsAt : null;
+      liveFull = d.live; liveFull.endsAt = d.live.phase === "run" ? Date.now() + (d.live.left || 0) : keep || Date.now();
+      liveBoardDraw();
+    }, function () {});
+  }
+  var LIVE_COLS = ["#1864AB", "#C2410C", "#237032", "#C92A2A", "#6741D9", "#0B7285", "#A61E4D", "#5C7F0E"];
+  function liveBoardDraw() {
+    var el = document.getElementById("mglive"), lv = liveFull; if (!el || !lv) return;
+    var x = TEACHER ? '<button type="button" class="mglx" data-livex="1" aria-label="Close the board">×</button>' : "", G = MG[lv.game] || MG.est;
+    if (lv.phase === "lobby") {
+      var chips = lv.game === "tug" && lv.teams
+        ? '<div class="lteams">' + lv.teams.map(function (t, ti) { return '<div class="lteam t' + ti + '"><h3>' + esc(t.name) + "</h3><div class=\"lchips\">" + (lv.j || []).filter(function (j) { return (j[1] | 0) === ti; }).map(function (j) { return '<span class="lchip">' + esc(j[0]) + "</span>"; }).join("") + "</div></div>"; }).join("") + "</div>"
+        : '<div class="lchips">' + (lv.j || []).map(function (j) { return '<span class="lchip">' + esc(j[0]) + "</span>"; }).join("") + "</div>";
+      el.innerHTML = x + '<section class="lobbyboard" style="--mg:' + G.col + '"><div class="lmain"><div class="tag">' + esc(G.name) + ' · getting ready</div><h1>Join on your iPad</h1><div class="ljoin">Tap <b>Join</b> on your iPad</div>' + chips + "</div>" +
+        '<div class="lside"><div class="n">' + (lv.j || []).length + '</div><div class="of">of ' + (lv.roster || "the class") + " have joined</div><p>Only children who join play, appear on the board and can win.</p></div></section>";
+      return;
+    }
+    if (lv.game === "est") {
+      var p = lv.p, rev = lv.phase === "reveal", gs = lv.guesses || [], max = p.max, pct = function (v) { return Math.max(0, Math.min(100, v / max * 100)); };
+      var ticks = ""; for (var v = 0; v <= max + 1e-9; v += p.tick) ticks += '<span class="tick" style="left:' + pct(v) + '%">' + v + (v + p.tick > max ? " " + esc(p.unit) : "") + "</span>";
+      var order = gs.map(function (g, i) { return { n: g[0], v: g[1], t: g[2], i: i }; }).sort(function (a, b) { return a.v - b.v; });
+      var topNames = rev ? (lv.top || []).map(function (t) { return t[0]; }) : [];
+      el.innerHTML = x + '<section class="estboard' + (rev ? " revealed" : " hidden") + '"><div class="top"><div class="thing">' + estSVG(p, rev ? p.truth : undefined) + '</div><div class="ttl"><div class="tag">Estimation Station</div><h1>' + esc(p.ask) + '</h1><div class="ref">' + esc(p.ref) + '</div><div class="live"><i></i><span>' + (rev ? "Revealed" : "Guesses arriving live") + '</span></div></div><div class="count"><b>' + gs.length + "</b><small>of " + (lv.j || []).length + " players have guessed</small></div></div>" +
+        '<div class="line" id="estline"><div class="axis"></div>' + ticks + (rev ? '<div class="truth" style="left:' + pct(p.truth) + '%"><span>Real amount: ' + esc(liveFmt(p.truth, p)) + "</span></div>" : "") +
+        order.map(function (g) { var at = topNames.indexOf(g.n); return '<div class="dot' + (at > -1 ? " top3" : "") + '" data-v="' + g.v + '" style="left:' + pct(g.v) + "%;background:" + LIVE_COLS[g.i % LIVE_COLS.length] + '">' + (rev ? (at > -1 ? at + 1 : esc(String(g.n).slice(0, 1))) : "") + (rev ? '<span class="nm">' + esc(g.n) + " · " + esc(liveFmt(g.v, p)) + "</span>" : "") + "</div>"; }).join("") + "</div>" +
+        (rev && lv.top && lv.top.length ? '<div class="podium">' + [1, 0, 2].map(function (i) { var t = lv.top[i]; return t ? '<div class="step s' + (i + 1) + '"><div class="who">' + esc(t[0]) + '</div><div class="g">' + esc(liveFmt(t[1], p)) + " · " + (t[2] ? esc(liveFmt(t[2], p)) + " off" : "spot on") + '</div><div class="blk">' + (i + 1) + "</div></div>" : '<div class="step"></div>'; }).join("") + "</div>" : "") + "</section>";
+      var line = document.getElementById("estline"), W = line.clientWidth, rows = [];
+      line.querySelectorAll(".dot").forEach(function (d) { var px = pct(+d.dataset.v) / 100 * W, r = 0; while (rows[r] != null && px - rows[r] < 47) r++; rows[r] = px; d.style.top = Math.max(0, 140 - r * 48) + "px"; });
+      return;
+    }
+    if (lv.game === "mm") {
+      var q = lv.q, rv = lv.phase === "reveal" || lv.phase === "done", outs = [];
+      if (rv && q.outs) q.outs.forEach(function (o) { outs = outs.concat(o); });
+      el.innerHTML = x + '<section class="mmboard"><div class="tag">Mystery Measure · round ' + (lv.r + 1) + " of " + lv.of + "</div><h1>" + esc(q.ask) + '</h1><div class="mmgrid"><div><div class="ref2"><div class="refpic">' + esc(q.refIcon || "") + "</div><div><small>Something you know</small><b>" + esc(q.ref) + '</b></div></div><div class="box' + (rv ? " open" : "") + '">' + (rv ? '<span class="big">' + esc(q.icon || "") + '</span><span class="what">' + esc(q.what || "") + "</span>" : '<span class="qm">?</span>') + '</div><span class="chipcat">' + esc(q.cat || "") + "</span></div>" +
+        '<div><div class="clues">' + [0, 1, 2].map(function (i) { var on = i < (q.clues || []).length; return '<div class="clue' + (on ? " shown" : "") + (on && i === q.clues.length - 1 && !rv ? " now" : "") + '"><small>Clue ' + (i + 1) + "</small><span>" + (on ? esc(q.clues[i]) : "Not yet") + '</span><span class="pts">' + (on && !rv && i === q.clues.length - 1 ? "picking now" : on && i > 0 ? "checked" : "") + "</span></div>"; }).join("") + "</div>" +
+        '<div class="opts">' + q.opts.map(function (o, i) { return '<div class="opt' + (rv && i === q.ans ? " right" : rv && outs.indexOf(i) > -1 ? " out" : "") + '"><div class="bar2" style="height:' + (rv && lv.counts ? lv.counts[i] / Math.max(1, (lv.j || []).length) * 100 : 0) + '%"></div><span class="o">' + esc(o) + "</span>" + (rv && lv.counts ? '<span class="cnt">' + lv.counts[i] + " picked this</span>" : "") + "</div>"; }).join("") + "</div></div>" +
+        '<div><div class="locks"><div class="n">' + (lv.picked || 0) + '</div><div class="of">of ' + (lv.j || []).length + " players have picked</div><p>Picks can change until the next clue. Nobody sees what anyone picked.</p></div>" +
+        (rv && lv.lead ? '<div class="lead"><h3>' + (lv.phase === "done" ? "Final leaderboard" : "Leaderboard") + "</h3><ol>" + lv.lead.map(function (r) { return "<li>" + esc(r[0]) + "<span>" + r[1] + "</span></li>"; }).join("") + "</ol></div>" : "") + "</div></div></section>";
+      return;
+    }
+    // Tug of War
+    var left = Math.max(0, (lv.endsAt || 0) - Date.now()), s = Math.ceil(left / 1000), pull = Math.max(-1, Math.min(1, (lv.pull || 0) / (lv.win || 4)));
+    var t0 = lv.teams[0], t1 = lv.teams[1], done = lv.phase === "done";
+    el.innerHTML = x + '<section class="tugboard"><div class="head"><div><div class="tag">Tug of War · ' + esc(TUG_TOPICS[lv.topic] || "Mixed") + '</div><h1>Every right answer pulls the rope</h1></div><div class="clock">' + Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + s % 60 + "</div></div>" +
+      '<div class="sides"><div class="side t0"><h2>' + esc(t0.name) + '</h2><div class="s">' + t0.n + " players · " + t0.right + ' right</div></div><div class="side t1"><h2>' + esc(t1.name) + '</h2><div class="s">' + t1.n + " players · " + t1.right + " right</div></div></div>" +
+      '<div class="field"><div class="mid"></div><div class="goal l"></div><div class="goal r"></div><span class="pl t0">' + esc(t0.name.charAt(0)) + '</span><span class="pl t1">' + esc(t1.name.charAt(0)) + '</span><div class="rope" style="transform:translateX(' + (-pull * 15.9) + '%)"><div class="knot"></div></div></div>' +
+      '<div class="result">' + (done ? (lv.winner === -1 ? "A draw! Everyone gets 15 bonus points." : esc(lv.teams[lv.winner].name) + " win! 30 bonus points each.") : "") + '</div><div class="fair">Each team pulls with its right answers per player, so a team with fewer players is not behind.</div></section>';
+  }
+  setInterval(function () { if (liveShown && liveFull && liveFull.game === "tug" && liveFull.phase === "run") liveBoardDraw(); }, 1000);
+  /* ---- the Teacher tab ---- */
+  function liveTeachTick() {
+    var c = document.getElementById("mg-lcount");
+    if (c && liveNow) c.textContent = liveTeachLine(liveNow);
+    var was = document.getElementById("mg-lphase");
+    if (was && was.getAttribute("data-k") !== liveKeyOf(liveNow)) { try { drawBoard(); } catch (e) { /* fine */ } }
+  }
+  function liveKeyOf(lv) { return lv ? lv.id + lv.phase + (lv.c || "") + (lv.r || "") : ""; }
+  function liveTeachLine(lv) {
+    if (lv.phase === "lobby") return (lv.j || []).length + " of " + (lv.roster || "?") + " have joined";
+    if (lv.game === "est") return lv.count + " of " + (lv.j || []).length + " have guessed";
+    if (lv.game === "mm") return "Round " + (lv.r + 1) + " of " + lv.of + (lv.phase === "clue" ? ", clue " + lv.c + ": " + (lv.picked || 0) + " of " + (lv.j || []).length + " have picked" : lv.phase === "reveal" ? ": revealed" : ": finished");
+    return lv.phase === "run" ? (lv.teams ? lv.teams[0].name + " " + lv.teams[0].right + ", " + lv.teams[1].name + " " + lv.teams[1].right : "") + ", " + Math.ceil((lv.left || 0) / 1000) + " s left" : "Finished";
+  }
+  function liveControls(k, on) {
+    if (!on) return "";
+    var lv = liveNow, show = '<button type="button" class="linky" data-liveshow="1">Show the board on this screen</button>';
+    if (lv && lv.game !== k) return '<p class="tc-note">' + esc(MG[lv.game].name) + " is running. End it to start this one.</p>";
+    if (!lv) {
+      if (k === "est") return '<div class="mgtbtns"><select id="mg-estkind" aria-label="Picture"><option value="">Any picture</option>' + Object.keys(EST_KINDS).map(function (x) { return '<option value="' + x + '">' + EST_KINDS[x] + "</option>"; }).join("") + '</select><button type="button" class="linky" data-livestart="est">Open the lobby</button></div>';
+      if (k === "mm") return '<div class="mgtbtns"><select id="mg-mmcat" aria-label="Measure"><option value="any">Any measure</option><option value="mass">Mass</option><option value="capacity">Capacity</option><option value="length">Length</option><option value="time">Time</option></select><select id="mg-mmn" aria-label="Rounds"><option value="3">3 rounds</option><option value="5" selected>5 rounds</option><option value="8">8 rounds</option></select><button type="button" class="linky" data-livestart="mm">Open the lobby</button></div>';
+      return '<div class="mgtbtns"><select id="mg-tugtopic" aria-label="Questions">' + Object.keys(TUG_TOPICS).map(function (x) { return '<option value="' + x + '">' + TUG_TOPICS[x] + "</option>"; }).join("") + '</select><select id="mg-tugsecs" aria-label="Time"><option value="60">1 minute</option><option value="90">90 seconds</option><option value="120">2 minutes</option></select><button type="button" class="linky" data-livestart="tug">Open the lobby</button></div>';
+    }
+    var line = '<p class="mgtnow" id="mg-lcount">' + esc(liveTeachLine(lv)) + "</p>", b = "";
+    if (lv.phase === "lobby") b = '<button type="button" class="linky go" data-live="livego">Start</button>' + (k === "tug" ? '<button type="button" class="linky" data-live="liveshuffle">Shuffle the teams</button>' : "");
+    else if (k === "est") b = lv.phase === "guess" ? '<button type="button" class="linky go" data-live="livereveal">Reveal</button>' : '<button type="button" class="linky go" data-livestart="est">Next round</button>';
+    else if (k === "mm") b = lv.phase === "clue" ? '<button type="button" class="linky go" data-live="livenext">' + (lv.c < 3 ? "Next clue" : "Reveal") + "</button>" : lv.phase === "reveal" ? '<button type="button" class="linky go" data-live="livenext">' + (lv.r < lv.of - 1 ? "Next round" : "Finish") + "</button>" : '<button type="button" class="linky go" data-livestart="mm">Play again</button>';
+    else b = lv.phase === "done" ? '<button type="button" class="linky go" data-livestart="tug">Play again</button>' : "";
+    return line + '<div class="mgtbtns">' + b + '<button type="button" class="linky" data-live="liveend">End</button>' + show + "</div>";
+  }
+  MG_LED.est = function (on) { return liveControls("est", on); };
+  MG_LED.mm = function (on) { return liveControls("mm", on); };
+  MG_LED.tug = function (on) { return liveControls("tug", on); };
+  MG_LED_READY.mm = 1; MG_LED_READY.tug = 1;
+  function liveTeacherBind(box) {
+    box.querySelectorAll("[data-livestart],[data-live],[data-liveshow],[data-mgrot]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (b.hasAttribute("data-liveshow")) { liveBoardOpen(); return; }
+        var body, k = b.getAttribute("data-livestart");
+        if (b.hasAttribute("data-mgrot")) body = { action: "mgrotate", on: b.getAttribute("data-mgrot") };
+        else if (b.hasAttribute("data-live")) body = { action: b.getAttribute("data-live") };
+        else if (k === "est") { var kind = (document.getElementById("mg-estkind") || {}).value || (liveNow && liveNow.p && liveNow.p.kind) || ""; body = { action: "livestart", game: "est", p: estMake(kind) }; }
+        else if (k === "mm") { var cat = (document.getElementById("mg-mmcat") || {}).value || mgLastMm.cat, n = Number((document.getElementById("mg-mmn") || {}).value) || mgLastMm.n; mgLastMm = { cat: cat, n: n }; body = { action: "livestart", game: "mm", rounds: mmRounds(cat, n) }; }
+        else { var topic = (document.getElementById("mg-tugtopic") || {}).value || mgLastTug.topic, secs = Number((document.getElementById("mg-tugsecs") || {}).value) || mgLastTug.secs; mgLastTug = { topic: topic, secs: secs }; body = { action: "livestart", game: "tug", topic: topic, secs: secs }; }
+        if (body.action === "liveend" && !window.confirm("End this game for everyone?")) return;
+        b.disabled = true;
+        teacherClassAction(body).then(function () { drawBoard(); if (liveShown) liveBoardPoll(); }, function () { b.disabled = false; });
+      });
+    });
+  }
+  var mgLastMm = { cat: "any", n: 5 }, mgLastTug = { topic: "mixed", secs: 60 };
+  window.__live = { take: liveTake, seen: function () { return estSeen; }, now: function () { return liveNow; }, make: estMake, svg: estSVG, board: liveBoardOpen, full: function () { return liveFull; }, mm: mmRounds, tugq: tugQ, picks: function () { return mmPicks; } };
 
   function rbDraw2() {
     var tb = document.querySelector('.rbtabs [data-view="teach"]');
