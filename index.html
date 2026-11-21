@@ -8987,7 +8987,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "106";
+  var GAME_VERSION = "107";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -21985,14 +21985,22 @@
     document.getElementById("mg-time").style.width = "100%";
   }
   /* ---- the lobby on a child's iPad ---- */
+  /* A message about a join stays on screen until that game ends or the join
+     works, so the next check of the class state does not wipe it. A live game
+     with no list of who has joined comes from a sheet script older than the
+     lobby, where Join can never work, so the child is told that instead. */
+  var joinMsg = {}, LIVE_OLD = "The class sheet needs its script updated before anyone can join. Tell your teacher.";
+  function liveOld(lv) { return !!lv && !Array.isArray(lv.j); }
   function lobbyDraw(msg) {
     var lv = liveNow, body = document.getElementById("mg-body"); if (!lv || !body) return;
+    if (msg) joinMsg[lv.id] = msg; else msg = joinMsg[lv.id] || "";
+    if (liveOld(lv)) msg = LIVE_OLD;
     var name = MG[lv.game].name, joined = liveJoined(lv), team = liveTeam(lv);
     livePanelHead(name);
     body.innerHTML = joined
       ? '<div class="waiting"><div class="spin"></div><h3>You’re in!</h3><p class="mgnote">' + (lv.game === "tug" && lv.teams ? "You are on the <b>" + esc(lv.teams[team].name) + "</b>. " : "") + (lv.phase === "lobby" ? "Waiting for your teacher to press Start." : "Get ready…") + "</p><p class=\"mgnote\">" + (lv.j || []).length + " joined so far.</p></div>"
       : '<div class="mgintro"><p class="mgline">' + esc(MG[lv.game].line) + '</p><p class="mgnote">Your teacher is running ' + esc(name) + " on the board. Join to play.</p>" +
-        '<button type="button" class="mggo" data-livejoin="1">Join</button>' + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "") + "</div>";
+        (liveOld(lv) ? "" : '<button type="button" class="mggo" data-livejoin="1">Join</button>') + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "") + "</div>";
     var b = body.querySelector("[data-livejoin]");
     if (b) b.addEventListener("click", function () {
       b.disabled = true; b.textContent = "Joining…";
@@ -22000,9 +22008,12 @@
       (function go(n) {
         var again = function () { if (n < 3 && liveNow && liveNow.id === lv.id) setTimeout(function () { go(n + 1); }, 2000 + Math.random() * 2500); else lobbyDraw("That did not send. Try again."); };
         mgPost({ action: "ljoin", id: lv.id }).then(function (d) {
-          if (d && d.ok) { if (d.live) liveTake(d.live); lobbyDraw(); if (liveNow && liveNow.phase !== "lobby") liveTake(liveNow); }
+          if (d && d.ok && d.live) { delete joinMsg[lv.id]; liveTake(d.live); lobbyDraw(); if (liveNow && liveNow.phase !== "lobby") liveTake(liveNow); }
+          else if (d && d.ok) lobbyDraw(LIVE_OLD);
           else if (d && d.error === "over") lobbyDraw("This game has finished.");
           else if (d && d.error === "busy") again();
+          else if (d && d.error === "pin") lobbyDraw("Your PIN did not match. Sign out, sign back in with your PIN, then press Join.");
+          else if (d && d.error === "unknown") lobbyDraw("Your name is not on this class list, so you cannot join. Check with your teacher.");
           else lobbyDraw("That did not send. Try again.");
         }, again);
       })(0);
@@ -22234,7 +22245,10 @@
         else { var topic = (document.getElementById("mg-tugtopic") || {}).value || mgLastTug.topic, secs = Number((document.getElementById("mg-tugsecs") || {}).value) || mgLastTug.secs; mgLastTug = { topic: topic, secs: secs }; body = { action: "livestart", game: "tug", topic: topic, secs: secs }; }
         if (body.action === "liveend" && !window.confirm("End this game for everyone?")) return;
         b.disabled = true;
-        teacherClassAction(body).then(function () { drawBoard(); if (liveShown) liveBoardPoll(); }, function () { b.disabled = false; });
+        teacherClassAction(body).then(function (d) {
+          if (body.action === "livestart" && d && d.ok && d.cs && liveOld(d.cs.live)) window.alert("Children cannot join yet: the class sheet is running an older script.\n\nIn Apps Script, paste in the new script (version 21 November), then choose Deploy, Manage deployments, the pencil, Version: New version, Deploy.");
+          drawBoard(); if (liveShown) liveBoardPoll();
+        }, function () { b.disabled = false; });
       });
     });
   }
