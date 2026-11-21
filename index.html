@@ -5582,6 +5582,8 @@
   .mgpod1 li span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .mgpod1 li em { font-style: normal; color: var(--ink-soft, #4A4A60); font-size: 13px; }
   .mgpod1 .mgnote { margin: 4px 0 0; font-size: 13px; }
+  .mgpod1 .mgdrop { flex: none; width: 28px; height: 28px; margin-left: 2px; border-radius: 50%; border: 0; background: rgba(27,27,47,0.08); color: inherit; font: 700 17px/1 system-ui, sans-serif; cursor: pointer; }
+  .mgpod1 .mgdrop:hover { background: rgba(201,42,42,0.15); color: #C92A2A; }
   /* v104: live games */
   .waiting { text-align: center; padding: 30px 10px; }
   .waiting h3 { margin: 0 0 6px; font: 800 26px/1.1 Outfit, sans-serif; }
@@ -8993,7 +8995,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "108";
+  var GAME_VERSION = "109";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -21403,17 +21405,38 @@
     var side = document.getElementById("rbsidecard");
     if (!side) return;
     var el = document.getElementById("mgpods"), on = mgView ? MG_TIMED.filter(function (k) { return mgOn(k) || (mgMine(k).top || []).length; }) : [];
-    var est = mgView && (mgView.awards || []).filter(function (a) { return a.game === "est" && String(a.id).indexOf("est:") === 0; })[0];
-    var mmA = mgView && (mgView.awards || []).filter(function (a) { return a.game === "mm" && String(a.id).indexOf("mm:") === 0; })[0];
-    if (!on.length && !est && !mmA) { if (el) el.hidden = true; return; }
-    if (!el) { el = document.createElement("section"); el.id = "mgpods"; el.className = "mgpods"; el.setAttribute("aria-label", "Today\u2019s minigame podiums"); side.insertBefore(el, side.firstChild); }
-    var row = function (name, col, top, fmt) {
-      return '<div class="mgpod1" style="--mg:' + col + '"><b>' + esc(name) + "</b>" + (top.length ? "<ol>" + top.map(function (t, i) { return '<li><i class="pd p' + (i + 1) + '">' + (i + 1) + "</i><span>" + esc(t[0]) + "</span><em>" + fmt(t) + "</em></li>"; }).join("") + "</ol>" : '<p class="mgnote">Nobody yet today.</p>') + "</div>";
+    // live results from today; a sheet older than 22 November has no dates, so its latest one stands in
+    var today = function (game) {
+      var list = ((mgView && mgView.awards) || []).filter(function (a) { return a.game === game && String(a.id).indexOf(game + ":") === 0; });
+      return mgView && mgView.day ? list.filter(function (a) { return a.day === mgView.day; }) : list.slice(0, 1);
     };
-    el.innerHTML = "<h3>Today\u2019s minigames</h3>" + on.map(function (k) { return row(MG[k].name, MG[k].col, mgMine(k).top || [], function (t) { return t[1] + " right"; }); }).join("") +
-      (est ? row("Estimation Station, last round", MG.est.col, est.top || [], function (t) { return t[2] ? t[2] + " off" : "spot on"; }) : "") +
-      (mmA ? row("Mystery Measure, last game", MG.mm.col, mmA.top || [], function (t) { return t[1] + " points"; }) : "");
+    var ests = today("est"), mmA = today("mm")[0];
+    if (!on.length && !ests.length && !mmA) { if (el) el.hidden = true; return; }
+    if (!el) {
+      el = document.createElement("section"); el.id = "mgpods"; el.className = "mgpods"; el.setAttribute("aria-label", "Today\u2019s minigame podiums"); side.insertBefore(el, side.firstChild);
+      el.addEventListener("click", function (e) { var x = e.target.closest("[data-drop]"); if (x) mgDropAsk(x); });
+    }
+    var drop = function (game, id, name) { return TEACHER ? '<button type="button" class="mgdrop" data-drop="' + game + '" data-dropid="' + esc(id || "") + '" data-dropname="' + esc(name) + '" aria-label="Take ' + esc(name) + ' off">\u00d7</button>' : ""; };
+    var li = function (place, name, note, game, id) { return '<li><i class="pd p' + place + '">' + place + "</i><span>" + esc(name) + "</span><em>" + note + "</em>" + drop(game, id, name) + "</li>"; };
+    var row = function (title, col, items) {
+      return '<div class="mgpod1" style="--mg:' + col + '"><b>' + esc(title) + "</b>" + (items.length ? "<ol>" + items.join("") + "</ol>" : '<p class="mgnote">Nobody yet today.</p>') + "</div>";
+    };
+    var off = function (t) { return t[2] ? esc(String(t[2])) + " off" : "spot on"; };
+    var estRow = "";
+    if (ests.length === 1) estRow = row("Estimation Station", MG.est.col, (ests[0].top || []).map(function (t, i) { return li(i + 1, t[0], off(t), "est", ests[0].id); }));
+    else if (ests.length > 1) estRow = row("Estimation Station, " + ests.length + " rounds today", MG.est.col, ests.slice(0, 6).map(function (a, i) {
+      var t = (a.top || [])[0]; return t ? li(1, t[0], "round " + (ests.length - i) + ", " + off(t), "est", a.id) : "";
+    }).filter(Boolean));
+    el.innerHTML = "<h3>Today\u2019s minigames</h3>" + on.map(function (k) { return row(MG[k].name, MG[k].col, (mgMine(k).top || []).map(function (t, i) { return li(i + 1, t[0], t[1] + " right", k, ""); })); }).join("") +
+      estRow + (mmA ? row("Mystery Measure, last game", MG.mm.col, (mmA.top || []).map(function (t, i) { return li(i + 1, t[0], t[1] + " points", "mm", mmA.id); })) : "");
     el.hidden = false;
+  }
+  function mgDropAsk(x) {
+    var game = x.getAttribute("data-drop"), id = x.getAttribute("data-dropid"), name = x.getAttribute("data-dropname");
+    var ask = id ? "Take " + name + " off this " + MG[game].name + " result? Anyone below moves up. A bonus already collected stays."
+                 : "Take " + name + " off today\u2019s " + MG[game].name + " podium? Their score and tries for today are cleared, so they can play again.";
+    if (!window.confirm(ask)) return;
+    mgTeach(id ? { action: "mgdrop", game: game, id: id, name: name } : { action: "mgdrop", game: game, name: name });
   }
   /* A teacher's switch shows straight away. Until the sheet answers, any class
      state that arrives has the switch put back on top, so it cannot flick back. */
@@ -21432,15 +21455,22 @@
       g.round = b.round; g.tries = {}; g.best = {}; g.top = [];
     }
     if (b.action === "mgsecs" && g) g.secs = Number(b.secs);
+    if (b.action === "mgdrop") {
+      var nk = String(b.name || "").trim().toLowerCase(), not = function (t) { return String(t[0]).trim().toLowerCase() !== nk; };
+      if (b.id) (v.awards || []).forEach(function (a) { if (a.id === b.id) a.top = (a.top || []).filter(not); });
+      else if (g) { g.top = (g.top || []).filter(not); Object.keys(g.tries || {}).forEach(function (n) { if (n.trim().toLowerCase() === nk) { delete g.tries[n]; if (g.best) delete g.best[n]; } }); }
+    }
   }
   function mgTeach(body) {
     var g = mgView && mgView.g && mgView.g[body.game];
     if (body.action === "mgnew" || body.action === "mgsecs") body.round = ((g && g.round) | 0) + 1;
     mgLocal(mgView, body); mgPend = body;
     try { drawBoard(); } catch (e) { /* drawn next time */ }
+    try { mgPods(); } catch (e) { /* drawn next time */ }
     var done = function (d) {
       if (mgPend === body) mgPend = null;
       if (!d || !d.ok) { window.alert("That change did not save. Please try again."); window.__mg.status().catch(function () {}); }
+      else if (!d.cs && body.action === "mgdrop") { window.alert("Taking a name off needs the newer sheet script (22 November). Paste it into Apps Script and deploy a new version."); window.__mg.status().catch(function () {}); }
       try { drawBoard(); } catch (e) { /* drawn next time */ }
       return d;
     };
@@ -21816,7 +21846,7 @@
      every iPad and the whiteboard draw while children guess is the real one. */
   function estTruth(p) {
     var R = srand(((p.seed | 0) * 7 + 13) % 2147483647), r = function (a, b) { return a + Math.floor(R() * (b - a + 1)); };
-    if (p.kind === "jug" || p.kind === "scale") return r(2, (p.cap || 1000) / 50 - 1) * 50;
+    if (p.kind === "jug" || p.kind === "scale") { var v = r(10, (p.cap || 1000) / 10 - 5) * 10; return R() < 0.12 ? Math.min((p.cap || 1000) - 100, Math.max(100, Math.round(v / 100) * 100)) : v; }
     if (p.kind === "line") return r(3, 28);
     if (p.kind === "jar") return r(18, 140);
     return r(5, 95);
@@ -21835,10 +21865,10 @@
           '<line x1="20" y1="84" x2="' + (20 + t * 12) + '" y2="84" stroke="#1864AB" stroke-width="8" stroke-linecap="round"/></svg>';
     } else if (p.kind === "scale") {
       var a = (-225 + 270 * f) * Math.PI / 180, nx = 110 + 66 * Math.cos(a), ny = 120 + 66 * Math.sin(a), e0 = [110 + 80 * Math.cos(-225 * Math.PI / 180), 120 + 80 * Math.sin(-225 * Math.PI / 180)], e1 = [110 + 80 * Math.cos(45 * Math.PI / 180), 120 + 80 * Math.sin(45 * Math.PI / 180)];
-      o = '<svg class="estpic" viewBox="0 0 220 220" role="img" aria-label="A kitchen scale"><rect x="70" y="4" width="80" height="34" rx="4" fill="#C08A4B" stroke="#1B1B2F" stroke-width="3"/><line x1="110" y1="4" x2="110" y2="38" stroke="#1B1B2F" stroke-width="2"/>' +
+      o = '<svg class="estpic" viewBox="0 0 220 238" role="img" aria-label="A kitchen scale"><rect x="70" y="4" width="80" height="34" rx="4" fill="#C08A4B" stroke="#1B1B2F" stroke-width="3"/><line x1="110" y1="4" x2="110" y2="38" stroke="#1B1B2F" stroke-width="2"/>' +
           '<rect x="22" y="40" width="176" height="168" rx="26" fill="#F1F3F5" stroke="#1B1B2F" stroke-width="4"/><circle cx="110" cy="120" r="84" fill="#FFFFFF" stroke="#1B1B2F" stroke-width="3"/>' +
-          '<line x1="' + e0[0].toFixed(1) + '" y1="' + e0[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(-225 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(-225 * Math.PI / 180)).toFixed(1) + '" stroke="#1B1B2F" stroke-width="4"/><text x="58" y="186" font-size="15" font-weight="800">0</text>' +
-          '<line x1="' + e1[0].toFixed(1) + '" y1="' + e1[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(45 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(45 * Math.PI / 180)).toFixed(1) + '" stroke="#C92A2A" stroke-width="5"/><text x="150" y="196" font-size="14" font-weight="800" fill="#C92A2A">' + p.cap / 1000 + " kg</text>" +
+          '<line x1="' + e0[0].toFixed(1) + '" y1="' + e0[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(-225 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(-225 * Math.PI / 180)).toFixed(1) + '" stroke="#1B1B2F" stroke-width="4"/><text x="56" y="230" text-anchor="middle" font-size="16" font-weight="800">0</text>' +
+          '<line x1="' + e1[0].toFixed(1) + '" y1="' + e1[1].toFixed(1) + '" x2="' + (110 + 68 * Math.cos(45 * Math.PI / 180)).toFixed(1) + '" y2="' + (120 + 68 * Math.sin(45 * Math.PI / 180)).toFixed(1) + '" stroke="#C92A2A" stroke-width="5"/><text x="166" y="230" text-anchor="middle" font-size="16" font-weight="800" fill="#C92A2A">' + p.cap / 1000 + " kg</text>" +
           '<line x1="110" y1="120" x2="' + nx.toFixed(1) + '" y2="' + ny.toFixed(1) + '" stroke="#C92A2A" stroke-width="4" stroke-linecap="round"/><circle cx="110" cy="120" r="7" fill="#1B1B2F"/></svg>';
     } else if (p.kind === "jar") {
       var cells = [], dots = "", k;
