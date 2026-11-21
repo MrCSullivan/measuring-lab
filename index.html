@@ -5518,6 +5518,12 @@
   /* the live board */
   .mglive { position: fixed; inset: 0; z-index: 8800; overflow: auto; background: #EEF3F7; color: #14213D; padding: 24px; font: 16px/1.4 "DM Sans", system-ui, sans-serif; }
   .mglive[hidden] { display: none; }
+  .mglctl { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 8900; display: flex; gap: 10px; padding: 10px 12px; border-radius: 16px; background: rgba(27,27,47,0.92); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .mglctl[hidden] { display: none; }
+  .mglive.withctl { padding-bottom: 104px; }
+  .mglctl .linky { min-height: 46px; padding: 0 20px; border-radius: 12px; border: 0; background: #FFFFFF; color: #1B1B2F; font: 800 16px/1 Outfit, "DM Sans", system-ui, sans-serif; cursor: pointer; }
+  .mglctl .linky.go { background: #2B8A3E; color: #FFFFFF; }
+  .mglctl .linky:disabled { opacity: 0.6; cursor: default; }
   .mglx { position: fixed; top: 14px; right: 14px; z-index: 2; width: 48px; height: 48px; border-radius: 50%; border: 0; background: #1B1B2F; color: #FFFFFF; font-size: 28px; cursor: pointer; }
   .estboard, .beatboard { position: relative; overflow: hidden; max-width: 1500px; margin: 0 auto; background: #FFFFFF; border-radius: 30px; padding: 30px 34px 28px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
   .estboard::before, .beatboard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 10px; background: linear-gradient(90deg,#1864AB,#C2410C,#237032,#C92A2A,#6741D9,#0B7285,#A61E4D); }
@@ -8987,7 +8993,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "107";
+  var GAME_VERSION = "108";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -15506,11 +15512,16 @@
   function teacherClassAction(body) {
     body.room = CLASS; body.teacher = TEACHER_CODE;
     return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) });
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
+      .then(function (d) { if (d && d.cs) csFloor = Date.now(); return d; });
   }
 
+  /* A check of the class state that set off before the teacher's last change
+     was saved can come back after it, carrying the old state. Anything sent
+     before that change's reply arrived is ignored for the class state. */
+  var csFloor = 0;
   function fetchSheet(url, opts, ms) {
-    var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0;
+    var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0, sentAt = Date.now();
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
     opts = opts || {};
     if (ctl) {
@@ -15523,7 +15534,7 @@
           clearTimeout(timer);
           var data = null;
           try { data = JSON.parse(txt); } catch (e) { data = null; }
-          if (data && typeof data === "object") { if (data.cs) applyClassState(data.cs); return data; }
+          if (data && typeof data === "object") { if (data.cs && sentAt >= csFloor) applyClassState(data.cs); return data; }
           var said = String(txt || "").replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, " ")
                        .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 90);
           if (!r.ok) throw sheetError("http", "HTTP " + r.status + (said ? ": " + said : ""));
@@ -21404,9 +21415,41 @@
       (mmA ? row("Mystery Measure, last game", MG.mm.col, mmA.top || [], function (t) { return t[1] + " points"; }) : "");
     el.hidden = false;
   }
+  /* A teacher's switch shows straight away. Until the sheet answers, any class
+     state that arrives has the switch put back on top, so it cannot flick back. */
+  var mgPend = null;
+  function mgLocal(v, b) {
+    if (!v || !b) return;
+    v.on = v.on || {}; v.g = v.g || {}; v.picked = v.picked || {};
+    var k = b.game, g = v.g[k], timed = MG_TIMED.indexOf(k) > -1;
+    if (b.action === "mgset") {
+      if (String(b.on) === "1") { v.picked[k] = 1; if (!(v.rotate && timed)) v.on[k] = 1; }
+      else { delete v.picked[k]; if (!(v.rotate && timed)) delete v.on[k]; }
+    }
+    if (b.action === "mgrotate") { v.rotate = String(b.on) === "1" ? 1 : 0; MG_TIMED.forEach(function (t) { if (v.rotate ? t === v.today : v.picked[t]) v.on[t] = 1; else delete v.on[t]; }); }
+    if (b.action === "mgshow") v.show = k || "";
+    if ((b.action === "mgnew" || b.action === "mgsecs") && g && (g.round | 0) < b.round) {
+      g.round = b.round; g.tries = {}; g.best = {}; g.top = [];
+    }
+    if (b.action === "mgsecs" && g) g.secs = Number(b.secs);
+  }
+  function mgTeach(body) {
+    var g = mgView && mgView.g && mgView.g[body.game];
+    if (body.action === "mgnew" || body.action === "mgsecs") body.round = ((g && g.round) | 0) + 1;
+    mgLocal(mgView, body); mgPend = body;
+    try { drawBoard(); } catch (e) { /* drawn next time */ }
+    var done = function (d) {
+      if (mgPend === body) mgPend = null;
+      if (!d || !d.ok) { window.alert("That change did not save. Please try again."); window.__mg.status().catch(function () {}); }
+      try { drawBoard(); } catch (e) { /* drawn next time */ }
+      return d;
+    };
+    return teacherClassAction(body).then(done, function () { return done(null); });
+  }
   function mgTake(v) {
     if (!v || typeof v !== "object") return;
     var was = JSON.stringify(mgView);
+    if (mgPend) mgLocal(v, mgPend);
     mgView = v;
     try { mgPods(); } catch (e) { /* drawn next time */ }
     if (JSON.stringify(v) === was) return;
@@ -21724,8 +21767,7 @@
       sel.addEventListener("change", function () {
         var k = sel.getAttribute("data-mgsecs");
         if (!window.confirm("Change " + MG[k].name + " to " + mgLenWord(Number(sel.value)) + "? A new round starts, so everyone on today\u2019s podium played the same length. Today\u2019s podium still gets its bonus.")) { sel.value = String(mgSecs(k)); return; }
-        sel.disabled = true;
-        teacherClassAction({ action: "mgsecs", game: k, secs: Number(sel.value) }).then(function () { drawBoard(); }, function () { sel.disabled = false; });
+        mgTeach({ action: "mgsecs", game: k, secs: Number(sel.value) });
       });
     });
     box.querySelectorAll("[data-mgset],[data-mgnew],[data-mgshow]").forEach(function (b) {
@@ -21734,8 +21776,7 @@
                  : b.hasAttribute("data-mgnew") ? { action: "mgnew", game: b.getAttribute("data-mgnew") }
                  : { action: "mgshow", game: b.getAttribute("data-mgshow") };
         if (body.action === "mgnew" && !window.confirm("Start a new round of " + MG[body.game].name + "? Today’s podium gets its bonus and everyone gets 3 fresh tries.")) return;
-        b.disabled = true;
-        teacherClassAction(body).then(function () { drawBoard(); }, function () { b.disabled = false; });
+        mgTeach(body);
       });
     });
   }
@@ -21762,16 +21803,27 @@
   function estMake(kind) {
     if (!EST_KINDS[kind]) kind = pickOne(Object.keys(EST_KINDS));
     var p = { kind: kind, seed: rint(1, 1e8) };
-    if (kind === "jug") { p.cap = pickOne([1000, 2000]); p.truth = rint(2, p.cap / 50 - 1) * 50; p.max = p.cap; p.tick = p.cap / 10; p.unit = "mL"; p.ask = "How much water is in the jug?"; p.ref = "Full to the red line, this jug holds " + p.cap / 1000 + " L (" + p.cap + " mL)."; }
-    else if (kind === "line") { p.truth = rint(3, 28); p.max = 30; p.tick = 5; p.cap = 10; p.unit = "cm"; p.ask = "How long is the blue line?"; p.ref = "The red bar is exactly 10 cm long."; }
-    else if (kind === "scale") { p.cap = pickOne([1000, 2000]); p.truth = rint(2, p.cap / 50 - 1) * 50; p.max = p.cap; p.tick = p.cap / 10; p.unit = "g"; p.ask = "How heavy is the parcel?"; p.ref = "Round to the red mark is " + p.cap / 1000 + " kg (" + p.cap + " g)."; }
-    else if (kind === "jar") { p.truth = rint(18, 140); p.max = 200; p.tick = 20; p.cap = 10; p.unit = "marbles"; p.ask = "How many marbles are in the jar?"; p.ref = "The little box holds 10 marbles."; }
-    else { p.truth = rint(5, 95); p.max = 100; p.tick = 10; p.cap = 100; p.unit = "°C"; p.ask = "What temperature does it show?"; p.ref = "Only 0 °C and 100 °C are marked."; }
+    if (kind === "jug") { p.cap = pickOne([1000, 2000]); p.max = p.cap; p.tick = p.cap / 10; p.unit = "mL"; p.ask = "How much water is in the jug?"; p.ref = "Full to the red line, this jug holds " + p.cap / 1000 + " L (" + p.cap + " mL)."; }
+    else if (kind === "line") { p.max = 30; p.tick = 5; p.cap = 10; p.unit = "cm"; p.ask = "How long is the blue line?"; p.ref = "The red bar is exactly 10 cm long."; }
+    else if (kind === "scale") { p.cap = pickOne([1000, 2000]); p.max = p.cap; p.tick = p.cap / 10; p.unit = "g"; p.ask = "How heavy is the parcel?"; p.ref = "Round to the red mark is " + p.cap / 1000 + " kg (" + p.cap + " g)."; }
+    else if (kind === "jar") { p.max = 200; p.tick = 20; p.cap = 10; p.unit = "marbles"; p.ask = "How many marbles are in the jar?"; p.ref = "The little box holds 10 marbles."; }
+    else { p.max = 100; p.tick = 10; p.cap = 100; p.unit = "°C"; p.ask = "What temperature does it show?"; p.ref = "Only 0 °C and 100 °C are marked."; }
+    p.truth = estTruth(p);
     return p;
+  }
+  /* The real amount comes from the round's seed. The sheet keeps the amount
+     itself back until the reveal, but sends the seed, so the jar, jug or line
+     every iPad and the whiteboard draw while children guess is the real one. */
+  function estTruth(p) {
+    var R = srand(((p.seed | 0) * 7 + 13) % 2147483647), r = function (a, b) { return a + Math.floor(R() * (b - a + 1)); };
+    if (p.kind === "jug" || p.kind === "scale") return r(2, (p.cap || 1000) / 50 - 1) * 50;
+    if (p.kind === "line") return r(3, 28);
+    if (p.kind === "jar") return r(18, 140);
+    return r(5, 95);
   }
   /* the picture is drawn from the round's numbers, so every iPad and the whiteboard draw the same one */
   function estSVG(p, truth) {
-    var t = truth != null ? truth : p.truth, f = Math.max(0, Math.min(1, t / (p.cap || p.max || 1))), R = srand(p.seed), o;
+    var t = truth != null ? truth : p.truth != null ? p.truth : estTruth(p), f = Math.max(0, Math.min(1, t / (p.cap || p.max || 1))), R = srand(p.seed), o;
     if (p.kind === "jug") {
       var h = Math.round(f * 160);
       o = '<svg class="estpic" viewBox="0 0 200 220" role="img" aria-label="Jug of water"><path d="M150 50 q34 4 30 40 q-4 30 -30 34" fill="none" stroke="#1B1B2F" stroke-width="8"/>' +
@@ -22138,21 +22190,21 @@
   function liveBoardOpen() {
     var el = document.getElementById("mglive");
     if (!el) { el = document.createElement("div"); el.id = "mglive"; el.className = "mglive"; document.body.appendChild(el); el.addEventListener("click", function (e) { if (e.target.closest("[data-livex]")) liveBoardClose(true); }); }
-    el.hidden = false; liveShown = true;
+    el.hidden = false; liveShown = true; liveCtlDraw();
     if (!liveTimer) { liveBoardPoll(); liveTimer = setInterval(liveBoardPoll, 2500); }
   }
   function liveBoardClose() {
     var el = document.getElementById("mglive"); if (el) el.hidden = true;
-    liveShown = false; clearInterval(liveTimer); liveTimer = null; liveFull = null;
+    liveShown = false; clearInterval(liveTimer); liveTimer = null; liveFull = null; liveCtlDraw();
   }
   function liveBoardPoll() {
     if (!shared.on) return;
     liveGet().then(function (d) {
       if (!d || !d.ok) return;
-      if (!d.live) { if (DISPLAY) liveBoardClose(); return; }
+      if (!d.live) { if (DISPLAY || TEACHER) liveBoardClose(); return; }
       var keep = liveFull && liveFull.id === d.live.id ? liveFull.endsAt : null;
       liveFull = d.live; liveFull.endsAt = d.live.phase === "run" ? Date.now() + (d.live.left || 0) : keep || Date.now();
-      liveBoardDraw();
+      liveBoardDraw(); liveCtlDraw();
     }, function () {});
   }
   var LIVE_COLS = ["#1864AB", "#C2410C", "#237032", "#C92A2A", "#6741D9", "#0B7285", "#A61E4D", "#5C7F0E"];
@@ -22222,35 +22274,65 @@
       if (k === "mm") return '<div class="mgtbtns"><select id="mg-mmcat" aria-label="Measure"><option value="any">Any measure</option><option value="mass">Mass</option><option value="capacity">Capacity</option><option value="length">Length</option><option value="time">Time</option></select><select id="mg-mmn" aria-label="Rounds"><option value="3">3 rounds</option><option value="5" selected>5 rounds</option><option value="8">8 rounds</option></select><button type="button" class="linky" data-livestart="mm">Open the lobby</button></div>';
       return '<div class="mgtbtns"><select id="mg-tugtopic" aria-label="Questions">' + Object.keys(TUG_TOPICS).map(function (x) { return '<option value="' + x + '">' + TUG_TOPICS[x] + "</option>"; }).join("") + '</select><select id="mg-tugsecs" aria-label="Time"><option value="60">1 minute</option><option value="90">90 seconds</option><option value="120">2 minutes</option></select><button type="button" class="linky" data-livestart="tug">Open the lobby</button></div>';
     }
-    var line = '<p class="mgtnow" id="mg-lcount">' + esc(liveTeachLine(lv)) + "</p>", b = "";
+    var line = '<p class="mgtnow" id="mg-lcount">' + esc(liveTeachLine(lv)) + "</p>";
+    return line + '<div class="mgtbtns">' + liveBtns(k, lv) + show + "</div>";
+  }
+  function liveBtns(k, lv) {
+    var b = "";
     if (lv.phase === "lobby") b = '<button type="button" class="linky go" data-live="livego">Start</button>' + (k === "tug" ? '<button type="button" class="linky" data-live="liveshuffle">Shuffle the teams</button>' : "");
     else if (k === "est") b = lv.phase === "guess" ? '<button type="button" class="linky go" data-live="livereveal">Reveal</button>' : '<button type="button" class="linky go" data-livestart="est">Next round</button>';
     else if (k === "mm") b = lv.phase === "clue" ? '<button type="button" class="linky go" data-live="livenext">' + (lv.c < 3 ? "Next clue" : "Reveal") + "</button>" : lv.phase === "reveal" ? '<button type="button" class="linky go" data-live="livenext">' + (lv.r < lv.of - 1 ? "Next round" : "Finish") + "</button>" : '<button type="button" class="linky go" data-livestart="mm">Play again</button>';
     else b = lv.phase === "done" ? '<button type="button" class="linky go" data-livestart="tug">Play again</button>' : "";
-    return line + '<div class="mgtbtns">' + b + '<button type="button" class="linky" data-live="liveend">End</button>' + show + "</div>";
+    return b + '<button type="button" class="linky" data-live="liveend">End</button>';
   }
   MG_LED.est = function (on) { return liveControls("est", on); };
   MG_LED.mm = function (on) { return liveControls("mm", on); };
   MG_LED.tug = function (on) { return liveControls("tug", on); };
   MG_LED_READY.mm = 1; MG_LED_READY.tug = 1;
+  var liveBusy = "";
+  var LIVE_BUSY = { livestart: "Opening…", livego: "Starting…", livereveal: "Revealing…", livenext: "Moving on…", liveend: "Ending…", liveshuffle: "Shuffling…" };
+  function liveAct(b) {
+    if (b.hasAttribute("data-liveshow")) { liveBoardOpen(); return; }
+    var body, k = b.getAttribute("data-livestart");
+    if (b.hasAttribute("data-mgrot")) { mgTeach({ action: "mgrotate", on: b.getAttribute("data-mgrot") }); return; }
+    if (b.hasAttribute("data-live")) body = { action: b.getAttribute("data-live") };
+    else if (k === "est") { var kind = (document.getElementById("mg-estkind") || {}).value || (liveNow && liveNow.p && liveNow.p.kind) || ""; body = { action: "livestart", game: "est", p: estMake(kind) }; }
+    else if (k === "mm") { var cat = (document.getElementById("mg-mmcat") || {}).value || mgLastMm.cat, n = Number((document.getElementById("mg-mmn") || {}).value) || mgLastMm.n; mgLastMm = { cat: cat, n: n }; body = { action: "livestart", game: "mm", rounds: mmRounds(cat, n) }; }
+    else { var topic = (document.getElementById("mg-tugtopic") || {}).value || mgLastTug.topic, secs = Number((document.getElementById("mg-tugsecs") || {}).value) || mgLastTug.secs; mgLastTug = { topic: topic, secs: secs }; body = { action: "livestart", game: "tug", topic: topic, secs: secs }; }
+    if (liveBusy === body.action) return;   // a second press of the same thing while the first is on its way
+    if (body.action === "liveend" && !window.confirm("End this game for everyone?")) return;
+    // the press shows at once on every button that does this, while the sheet catches up
+    liveBusy = body.action;
+    document.querySelectorAll("[data-live],[data-livestart]").forEach(function (x) { x.disabled = true; if (x === b || (x.getAttribute("data-live") || (x.hasAttribute("data-livestart") && "livestart")) === body.action) x.textContent = LIVE_BUSY[body.action] || "…"; });
+    var done = function (d) {
+      liveBusy = "";
+      if (body.action === "livestart" && d && d.ok && d.cs && liveOld(d.cs.live)) window.alert("Children cannot join yet: the class sheet is running an older script.\n\nIn Apps Script, paste in the new script (version 21 November), then choose Deploy, Manage deployments, the pencil, Version: New version, Deploy.");
+      else if (!d || !d.ok) window.alert("That did not reach the class sheet. Please try again.");
+      drawBoard(); liveCtlDraw(true); if (liveShown) liveBoardPoll();
+    };
+    teacherClassAction(body).then(done, function () { done(null); });
+  }
   function liveTeacherBind(box) {
     box.querySelectorAll("[data-livestart],[data-live],[data-liveshow],[data-mgrot]").forEach(function (b) {
-      b.addEventListener("click", function () {
-        if (b.hasAttribute("data-liveshow")) { liveBoardOpen(); return; }
-        var body, k = b.getAttribute("data-livestart");
-        if (b.hasAttribute("data-mgrot")) body = { action: "mgrotate", on: b.getAttribute("data-mgrot") };
-        else if (b.hasAttribute("data-live")) body = { action: b.getAttribute("data-live") };
-        else if (k === "est") { var kind = (document.getElementById("mg-estkind") || {}).value || (liveNow && liveNow.p && liveNow.p.kind) || ""; body = { action: "livestart", game: "est", p: estMake(kind) }; }
-        else if (k === "mm") { var cat = (document.getElementById("mg-mmcat") || {}).value || mgLastMm.cat, n = Number((document.getElementById("mg-mmn") || {}).value) || mgLastMm.n; mgLastMm = { cat: cat, n: n }; body = { action: "livestart", game: "mm", rounds: mmRounds(cat, n) }; }
-        else { var topic = (document.getElementById("mg-tugtopic") || {}).value || mgLastTug.topic, secs = Number((document.getElementById("mg-tugsecs") || {}).value) || mgLastTug.secs; mgLastTug = { topic: topic, secs: secs }; body = { action: "livestart", game: "tug", topic: topic, secs: secs }; }
-        if (body.action === "liveend" && !window.confirm("End this game for everyone?")) return;
-        b.disabled = true;
-        teacherClassAction(body).then(function (d) {
-          if (body.action === "livestart" && d && d.ok && d.cs && liveOld(d.cs.live)) window.alert("Children cannot join yet: the class sheet is running an older script.\n\nIn Apps Script, paste in the new script (version 21 November), then choose Deploy, Manage deployments, the pencil, Version: New version, Deploy.");
-          drawBoard(); if (liveShown) liveBoardPoll();
-        }, function () { b.disabled = false; });
-      });
+      b.addEventListener("click", function () { liveAct(b); });
     });
+  }
+  /* On the teacher's own screen the whiteboard view has the game's buttons
+     along the bottom, so the teacher can run the game without leaving it.
+     The bar sits outside the board, which redraws every second or so. */
+  function liveCtlDraw(force) {
+    var bar = document.getElementById("mglctl");
+    if (!TEACHER || DISPLAY || !liveShown) { if (bar) bar.hidden = true; return; }
+    var lv = liveFull || liveNow;
+    if (!bar) {
+      bar = document.createElement("div"); bar.id = "mglctl"; bar.className = "mglctl"; document.body.appendChild(bar);
+      bar.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b && !b.disabled) liveAct(b); });
+    }
+    var html = lv ? liveBtns(lv.game, lv) : "";
+    if (liveBusy) html = html.replace(/<button /g, "<button disabled ");
+    if (force || bar.getAttribute("data-k") !== html) { bar.innerHTML = html; bar.setAttribute("data-k", html); }
+    bar.hidden = !html;
+    var brd = document.getElementById("mglive"); if (brd) brd.classList.toggle("withctl", !!html);
   }
   var mgLastMm = { cat: "any", n: 5 }, mgLastTug = { topic: "mixed", secs: 60 };
   window.__live = { take: liveTake, seen: function () { return estSeen; }, now: function () { return liveNow; }, make: estMake, svg: estSVG, board: liveBoardOpen, full: function () { return liveFull; }, mm: mmRounds, tugq: tugQ, picks: function () { return mmPicks; } };
