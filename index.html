@@ -3345,6 +3345,11 @@
     /* Somewhere to write. The rule is a real line rather than an underscore
        row, so it stays straight whatever the font does. */
     .ws-line { display: flex; align-items: flex-end; gap: 2mm; margin-top: 2mm; }
+    .ws-art .packopts { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 1.5mm 5mm; margin-top: 1.5mm; }
+    .ws-art .ws-opt { display: inline-flex; align-items: center; gap: 1.5mm; font: 600 10pt/1.2 Arial, sans-serif; color: #000; }
+    .ws-art .ws-opt > i { font-style: normal; font-weight: 700; width: 5.5mm; height: 5.5mm; border: 0.8pt solid #000; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9pt; }
+    .ws-art .packpics svg { max-height: 40mm; }
+    .ws-circle span { font-style: italic; }
     .ws-line span { font-size: 9pt; color: #333; }
     .ws-line i { flex: 1 1 auto; border-bottom: 0.8pt solid #000; height: 9pt; }
     .ws-line em { font-style: normal; font-size: 9.5pt; }
@@ -3412,6 +3417,11 @@
   .ws-line span { font-size: 9pt; color: #333; }
   .ws-line i { flex: 1 1 auto; border-bottom: 0.8pt solid #000; height: 9pt; }
   .ws-line em { font-style: normal; font-size: 9.5pt; }
+  .ws-art .packopts { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 1.5mm 5mm; margin-top: 1.5mm; }
+  .ws-art .ws-opt { display: inline-flex; align-items: center; gap: 1.5mm; font: 600 10pt/1.2 Arial, sans-serif; color: #000; }
+  .ws-art .ws-opt > i { font-style: normal; font-weight: 700; width: 5.5mm; height: 5.5mm; border: 0.8pt solid #000; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 9pt; flex: none; }
+  .ws-art .packpics svg { max-height: 40mm; }
+  .ws-circle span { font-style: italic; }
 
   /* The answers, together at the back, so a class set can be marked in one
      pass and a child leafing through does not meet them. */
@@ -5349,6 +5359,12 @@
   .packpic .garc { fill: none; stroke: #862E9C; stroke-width: 2.5; }
   body.rb .packpic .garc { stroke: var(--rb-col, #862E9C); }
   .packpic .gsq { fill: none; stroke: #1B1B2F; stroke-width: 2.5; }
+  .packpic .phint { font: 800 15px/1 Outfit, "DM Sans", system-ui, sans-serif; fill: #C24B17; }
+  .packpic .pnum { font-size: 17px; paint-order: stroke; stroke: #FFFFFF; stroke-width: 3px; }
+  .packpic .pgap { font-size: 11px; }
+  .packpic .pcoin { font-size: 12.5px; }
+  .packpic .gref { fill: none; stroke: #C24B17; stroke-width: 2.5; stroke-dasharray: 7 5; }
+  .packpic .gphint { font-size: 13px; }
   .packpic .glab { font: 800 18px/1 Outfit, "DM Sans", system-ui, sans-serif; fill: #1B1B2F; }
   .packpic .glab.small { font-size: 14px; }
   .packpic .glab.q { fill: #C92A2A; font-size: 22px; }
@@ -7799,10 +7815,12 @@
   function cWord(c) { return c < 100 ? c + "c" : $d(c); }
   function moneySVG(items, opts) {
     opts = opts || {};
-    var x = 10, y = 10, rowH = 0, out = "", W = opts.w || 640, maxX = 0;
-    items.forEach(function (v) {
+    var x = 10, y = 10, rowH = 0, out = "", W = opts.w || 640, maxX = 0, run = 0, lab = opts.run ? 24 : 0;
+    items.forEach(function (v, idx) {
       var w, h;
       if (v >= 500) { w = 128; h = 64; } else { var r = { 5: 17, 10: 20, 20: 25, 50: 27, 100: 22, 200: 19 }[v]; w = h = r * 2; }
+      if (opts.run && x + w > W - 10) { x = 10; y += rowH + 12; rowH = 0; }
+      if (opts.run) { run += v; out += '<text x="' + (x + w / 2) + '" y="' + (y + h + 19) + '" text-anchor="middle" class="phint' + (v < 500 ? " pcoin" : "") + '">' + (idx < opts.run ? (run < 100 ? run + "c" : $d(run)) : "?") + "</text>"; }
       if (x + w > W - 10) { x = 10; y += rowH + 12; rowH = 0; }
       if (v >= 500) {
         out += '<g class="mnote"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="8" fill="' + NOTE_COL[v] + '" stroke="#1B1B2F" stroke-width="2.5"/>' +
@@ -7817,7 +7835,7 @@
                '<circle cx="' + cx + '" cy="' + cy + '" r="' + (R - 5) + '" fill="none" stroke="' + (gold ? "#8A5A00" : "#6B7785") + '" stroke-opacity=".45" stroke-width="1.5"/>' +
                '<text x="' + cx + '" y="' + (cy + 6) + '" text-anchor="middle" font-family="Outfit, DM Sans, system-ui, sans-serif" font-weight="800" font-size="' + (R < 20 ? 14 : 16) + '" fill="#1B1B2F">' + (v >= 100 ? "$" + v / 100 : v + "c") + "</text></g>";
       }
-      x += w + 12; rowH = Math.max(rowH, h); maxX = Math.max(maxX, x);
+      x += w + 12; rowH = Math.max(rowH, h + lab); maxX = Math.max(maxX, x);
     });
     var H = y + rowH + 10;
     var VW = Math.max(maxX, 120);
@@ -7890,7 +7908,7 @@
       var items = null, tries = 0;
       while (!items && tries++ < 20) { items = splitCoins(target, use); if (items && (items.length < (t === 1 ? 2 : 3) || items.length > (t >= 4 ? 10 : 7))) items = null; if (!items) target += 5 * (t === 1 ? 1 : 10); }
       if (!items) items = fewest(target).list;
-      var q = { html: moneySVG(items) };
+      var q = { html: moneySVG(items), hintHtml: moneySVG(items, { run: Math.max(1, Math.ceil(items.length / 2)) }) };
       var gap = t === 5 && Math.random() < 0.6;
       if (gap) {
         var goal = Math.ceil((target + 100) / 1000) * 1000;
@@ -8146,9 +8164,17 @@
     var lines = "";
     for (var i = 0; i <= cols; i++) lines += '<line x1="' + (pad + i * u) + '" y1="' + pad + '" x2="' + (pad + i * u) + '" y2="' + (pad + rows * u) + '"/>';
     for (var j = 0; j <= rows; j++) lines += '<line x1="' + pad + '" y1="' + (pad + j * u) + '" x2="' + (pad + cols * u) + '" y2="' + (pad + j * u) + '"/>';
-    var key = opts.key ? '<text x="' + pad + '" y="' + (H + 6) + '" class="akey">' + esc(opts.key) + "</text>" : "";
+    var key = opts.key ? '<text x="' + pad + '" y="' + (H + 6) + '" class="akey">' + esc(opts.key) + "</text>" : "", rl = "";
+    if (opts.rows) {
+      for (var ry = 0; ry < rows; ry++) {
+        var wh = 0, hf = 0;
+        for (var rx = 0; rx < cols; rx++) { var cv = on[rx + "," + ry]; if (cv === 1) wh++; else if (cv) hf++; }
+        if (wh || hf) rl += '<text x="' + (W - pad + 8) + '" y="' + (pad + ry * u + u / 2 + 6) + '" class="phint">' + (wh ? wh : "") + (hf ? (wh ? " + " : "") + hf + " × ½" : "") + "</text>";
+      }
+      W += 74;
+    }
     return '<svg class="packpic agrid" viewBox="0 0 ' + W + " " + (H + (opts.key ? 16 : 0)) + '" style="width:' + Math.round(W * 1.15) + 'px" role="img" aria-label="Shape on a square grid">' +
-           out + '<g class="alines">' + lines + "</g>" + key + "</svg>";
+           out + '<g class="alines">' + lines + "</g>" + key + rl + "</svg>";
   }
   function rectCells(x0, y0, w, h) { var c = []; for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) c.push([x0 + x, y0 + y]); return c; }
   /* a shape drawn to size with its sides labelled; pts go round the outside, labels match each side */
@@ -8204,6 +8230,7 @@
       n = whole + halves / 2;
       var scale = t >= 5 && Math.random() < 0.5 ? pickOne([2, 4, 10]) : 0;
       q.html = gridSVG(cols, rows, cells, { key: scale ? "each square is " + scale + " cm²" : "each square is 1 cm²" });
+      q.hintHtml = gridSVG(cols, rows, cells, { key: scale ? "each square is " + scale + " cm²" : "each square is 1 cm²", rows: true });
       q.ask = scale ? "Each square is " + scale + " cm². What is the area of the shape?" : "What is the area of the shaded shape?";
       q.answer = scale ? n * scale : n; q.unitText = "cm²";
       q.sub = halves ? "Two half squares make one whole square." : "Count the whole squares.";
@@ -8263,6 +8290,7 @@
       if (t <= 2) {
         var a = rint(2, t === 1 ? 9 : 12), b = rint(2, t === 1 ? 6 : 10);
         q.html = t === 1 ? gridSVG(Math.max(a, 4), Math.max(b, 3), rectCells(0, 0, a, b), { u: 30, key: "each square is 1 cm²" }) : shapeSVG(rectPts(a, b), [a, b, "", ""], u);
+        if (t === 1) q.hintHtml = gridSVG(Math.max(a, 4), Math.max(b, 3), rectCells(0, 0, a, b), { u: 30, key: "each square is 1 cm²", rows: true });
         q.answer = a * b; q.unitText = sq(t === 1 ? "cm" : u);
         q.ask = t === 1 ? "Use rows and columns. What is the area?" : "What is the area of the rectangle?";
         q.why = [b + " rows of " + a + ".", a + " × " + b + " = <b>" + a * b + " " + q.unitText + "</b>."];
@@ -8383,6 +8411,13 @@
         labs += '<text x="' + lp[0] + '" y="' + (lp[1] + 6) + '" text-anchor="middle" class="glab' + (a.lab === "?" ? " q" : "") + '">' + esc(String(a.lab)) + "</text>";
       }
     });
+    if (o.ref) {
+      var rf = gP(cx, cy, R * 0.92, o.ref.at + o.ref.by), rq = 16;
+      out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + rf[0] + '" y2="' + rf[1] + '" class="gref"/>';
+      if (o.ref.by === 90) { var s1 = gP(cx, cy, rq, o.ref.at), s2 = gP(cx, cy, rq * Math.SQRT2, o.ref.at + 45), s3 = gP(cx, cy, rq, o.ref.at + 90); out += '<path d="M' + s1.join(",") + " L" + s2.join(",") + " L" + s3.join(",") + '" class="gref"/>'; }
+      var rl2 = gP(cx, cy, R * 0.92 + 4, o.ref.at + o.ref.by);
+      labs += '<text x="' + rl2[0] + '" y="' + (rl2[1] - 8) + '" text-anchor="middle" class="phint gphint">' + (o.ref.by === 90 ? "square corner" : "straight line") + "</text>";
+    }
     (o.rays || []).forEach(function (d) { var e = gP(cx, cy, R, d); out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + e[0] + '" y2="' + e[1] + '" class="garm"/>'; });
     out += '<circle cx="' + cx + '" cy="' + cy + '" r="4.5" class="gdot"/>';
     return '<svg class="packpic gang" viewBox="0 0 ' + W + " " + H + '" style="width:' + Math.round(W * 1.15) + 'px" role="img" aria-label="' + esc(o.aria || "An angle") + '">' + out + labs + "</svg>";
@@ -8470,6 +8505,7 @@
       var want = pickOne(types), d = { Acute: rint(2, 8) * 10 + pickOne([0, 5]), Right: 90, Obtuse: rint(10, 17) * 10 + pickOne([0, 5]), Straight: 180, Reflex: rint(20, 34) * 10 + pickOne([0, 5]) }[want];
       if (d >= 180 && want !== "Straight" && want !== "Reflex") d = 175;
       var r0 = t === 1 ? 0 : rot(), q = { html: angSVG({ rays: [r0, r0 + d], arcs: [{ a1: r0, a2: r0 + d, sq: d === 90 }] }) };
+      q.hintHtml = angSVG({ rays: [r0, r0 + d], arcs: [{ a1: r0, a2: r0 + d, sq: d === 90 }], ref: { at: r0, by: want === "Reflex" ? 180 : 90 } });
       if (t >= 4 && want !== "Right" && want !== "Straight" && Math.random() < 0.5) {
         var opts = { Acute: [30, 45, 60, 75], Obtuse: [100, 120, 135, 150, 170], Reflex: [200, 240, 270, 300, 330] }, rightN = pickOne(opts[want]);
         var others = Object.keys(opts).filter(function (k) { return k !== want; }).map(function (k) { return pickOne(opts[k]); }).concat([want === "Reflex" ? 90 : 180]);
@@ -8626,15 +8662,17 @@
   function barSVG(d, k, opts) {
     opts = opts || {}; var W = opts.w || 360, H = opts.h || 54, out = "", cw = W / d;
     for (var i = 0; i < d; i++) out += '<rect x="' + (2 + i * cw).toFixed(1) + '" y="2" width="' + cw.toFixed(1) + '" height="' + H + '" class="fpart' + (i < k ? " on" : i < k + (opts.k2 || 0) ? " on2" : "") + '"/>';
+    if (opts.nums) for (var ni = 0; ni < d; ni++) out += '<text x="' + (2 + (ni + 0.5) * cw).toFixed(1) + '" y="' + (2 + H / 2 + 7) + '" text-anchor="middle" class="phint pnum">' + (ni + 1) + "</text>";
     return '<svg class="packpic fbar" viewBox="0 0 ' + (W + 4) + " " + (H + 4) + '" style="width:' + Math.round((W + 4) * 1.1) + 'px" role="img" aria-label="Bar split into ' + d + ' parts">' + out + "</svg>";
   }
-  function pieSVG(d, k, size) {
+  function pieSVG(d, k, size, opts) {
     var r = (size || 120) / 2 - 4, c = r + 4, out = "";
     if (d === 1) out = '<circle cx="' + c + '" cy="' + c + '" r="' + r + '" class="fpart' + (k ? " on" : "") + '"/>';
     else for (var i = 0; i < d; i++) {
       var a1 = -Math.PI / 2 + i * 2 * Math.PI / d, a2 = a1 + 2 * Math.PI / d;
       out += '<path d="M' + c + "," + c + " L" + (c + r * Math.cos(a1)).toFixed(1) + "," + (c + r * Math.sin(a1)).toFixed(1) + " A" + r + " " + r + " 0 " + (d === 2 ? 0 : 0) + " 1 " + (c + r * Math.cos(a2)).toFixed(1) + "," + (c + r * Math.sin(a2)).toFixed(1) + ' Z" class="fpart' + (i < k ? " on" : "") + '"/>';
     }
+    if (opts && opts.nums && d > 1) for (var ni = 0; ni < d; ni++) { var am = -Math.PI / 2 + (ni + 0.5) * 2 * Math.PI / d; out += '<text x="' + (c + r * 0.62 * Math.cos(am)).toFixed(1) + '" y="' + (c + r * 0.62 * Math.sin(am) + 7).toFixed(1) + '" text-anchor="middle" class="phint pnum">' + (ni + 1) + "</text>"; }
     return '<svg class="packpic fpie" viewBox="0 0 ' + (2 * c) + " " + (2 * c) + '" style="width:' + Math.round(2 * c * 1.15) + 'px" role="img" aria-label="Circle split into ' + d + ' parts">' + out + "</svg>";
   }
   function gridFSVG(rows, cols, k) {
@@ -8659,6 +8697,7 @@
       if (whole) out += '<text x="' + x.toFixed(1) + '" y="' + (y + 40) + '" text-anchor="middle" class="flab">' + (opts.dec ? (j / d).toFixed(0) : j / d) + "</text>";
     }
     if (i != null) { var ax = x0 + i * step; out += '<path d="M' + ax.toFixed(1) + "," + (y - 20) + " l-9,-18 h18 z" + '" class="farrow"/>'; }
+    if (opts.gaps) for (var gj = 0; gj < n; gj++) out += '<text x="' + (x0 + (gj + 0.5) * step).toFixed(1) + '" y="' + (y - 6) + '" text-anchor="middle" class="phint pgap">' + (gj + 1) + "</text>";
     return '<svg class="packpic fnl" viewBox="0 0 ' + W + ' 120" style="width:600px" role="img" aria-label="Number line">' + out + "</svg>";
   }
   function bigFr(parts) { return '<div class="cvbig frbig">' + parts + "</div>"; }
@@ -8670,9 +8709,10 @@
       var q = {}, d, k, pic, total;
       if (t <= 2) {
         d = t === 1 ? pickOne([2, 3, 4]) : rint(3, 8); k = rint(1, d - 1);
-        pic = Math.random() < 0.5 ? barSVG(d, k) : pieSVG(d, k, 150);
+        var isBar = Math.random() < 0.5;
+        pic = isBar ? barSVG(d, k) : pieSVG(d, k, 150);
         var un = t === 2 && Math.random() < 0.4;
-        q.html = pic; q.ask = un ? "What fraction is NOT shaded?" : "What fraction is shaded?";
+        q.html = pic; q.hintHtml = isBar ? barSVG(d, k, { nums: 1 }) : pieSVG(d, k, 150, { nums: 1 }); q.ask = un ? "What fraction is NOT shaded?" : "What fraction is shaded?";
         var r = un ? [d - k, d] : [k, d];
         var pc = fracChoices(r, [un ? [k, d] : [d - k, d], [r[0], d + 1], [r[0], d - r[0]], [r[0] + 1, d], [r[0], d * 2], [Math.max(1, r[0] - 1), d], [1, r[0] + 1]], 1);
         q.fact = fr(r[0], d) + " " + (un ? "is not shaded" : "is shaded") + ".";
@@ -8712,7 +8752,7 @@
       if (t <= 3) {
         d = t === 1 ? pickOne([2, 3, 4, 5]) : t === 2 ? pickOne([3, 5, 6, 8, 10]) : pickOne([2, 3, 4, 5, 6, 8]);
         do { i = rint(1, U * d - 1); } while (i % d === 0);
-        q.html = nlineSVG(U, d, i); q.ask = "What fraction is the arrow pointing to?";
+        q.html = nlineSVG(U, d, i); q.hintHtml = nlineSVG(U, d, i, { gaps: 1 }); q.ask = "What fraction is the arrow pointing to?";
         var w = Math.floor(i / d), r = i % d;
         var right = w ? [i, d, w] : [i, d], wr = [[i, d + 1], [i + 1, d], [Math.max(1, i - 1), d], [r, d]].map(function (f) { var ww = Math.floor(f[0] / f[1]); return ww && f[0] % f[1] ? [f[0], f[1], ww] : f; });
         var pc = fracChoices(right, wr);
@@ -8723,7 +8763,7 @@
         q.key = U + "," + d + "," + i;
       } else {
         d = 10; do { i = rint(1, U * 10 - 1); } while (i % 10 === 0);
-        q.html = nlineSVG(U, 10, i); q.ask = "What decimal is the arrow pointing to?"; q.answer = i / 10; q.unitText = ""; q.placeholder = "0.0";
+        q.html = nlineSVG(U, 10, i); q.hintHtml = nlineSVG(U, 10, i, { gaps: 1 }); q.ask = "What decimal is the arrow pointing to?"; q.answer = i / 10; q.unitText = ""; q.placeholder = "0.0";
         q.fact = "The arrow is at <b>" + (i / 10) + "</b>."; q.why = ["Each whole is cut into 10 gaps, so each gap is 0.1.", "The arrow is " + i + " gaps from 0: <b>" + (i / 10) + "</b>."]; q.hint = ["Each small gap is one tenth, 0.1.", "Count in tenths from 0: 0.1, 0.2, 0.3..."]; q.key = "d" + U + "," + i;
       }
       return q;
@@ -8947,7 +8987,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "104";
+  var GAME_VERSION = "106";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -11439,7 +11479,7 @@
   function drawCustom(q, reveal) {
     if (q.kind === "eng") return drawEnglish(q, reveal);
     if (q.kind === "pack") {
-      var po = q.html ? '<div class="packpics">' + q.html + "</div>" : "";
+      var po = q.html ? '<div class="packpics">' + (state.packHint && q.hintHtml ? q.hintHtml : q.html) + "</div>" : "";
       if (!q.choices) return po;
       po += '<div class="lifeopts packopts" role="group" aria-label="Choose one">';
       q.choices.forEach(function (c, i) {
@@ -13865,7 +13905,7 @@
   var whyBox = null;
   function clearWhy() {
     if (whyBox) { whyBox.hidden = true; whyBox.innerHTML = ""; }
-    state.hintJump = false;
+    state.hintJump = false; state.packHint = false;
     if (state.whyGaps) { state.showGaps = false; state.whyGaps = false; var gb = document.getElementById("gaps"); if (gb) gb.setAttribute("aria-pressed", "false"); }
   }
   function offerWhy() {
@@ -16705,7 +16745,8 @@
   function questionFor(measure, game, lv) {
     var keepQ = state.q, keepM = state.measure, keepG = state.mode;
     var keepLv = state.levels[measure][game];
-    var keepTries = state.tries, keepAns = state.answered, keepSet = state.setAt;
+    var keepTries = state.tries, keepAns = state.answered, keepSet = state.setAt, keepPH = state.packHint;
+    state.packHint = false;
     state.measure = measure; state.mode = game;
     state.levels[measure][game] = lv;
     var q = null, art = "", ask = "", sub2 = "";
@@ -16721,18 +16762,16 @@
     state.levels[measure][game] = keepLv;
     state.measure = keepM; state.mode = keepG;
     state.q = keepQ; state.tries = keepTries; state.answered = keepAns;
-    state.setAt = keepSet;
+    state.setAt = keepSet; state.packHint = keepPH;
     if (keepQ) { try { render(keepAns); } catch (e2) { /* redrawn next question */ } }
     return q ? { q: q, art: art, ask: ask, sub: sub2 } : null;
   }
 
   function worksheetView(list) {
-    var meas = MATHS_ORDER.filter(function (m) { return m !== "time" && !PACKS[m]; }).map(function (m) {
+    var meas = MATHS_ORDER.filter(function (m) { return m !== "time"; }).map(function (m) {
       return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>";
     }).join("");
-    var games = CORE_GAMES.map(function (g) {
-      return '<option value="' + g + '">' + esc(GAME_LABELS[g].label) + "</option>";
-    }).join("");
+    var games = wsGames(MATHS_ORDER[0]);
     var who = list.slice().sort(byName).map(function (r) {
       return '<option value="' + esc(r.name) + '">' + esc(r.name) + "</option>";
     }).join("");
@@ -16749,9 +16788,34 @@
       '<span class="note" id="ws-said"></span></div>';
   }
 
+  /* The games on offer follow the subject: Money, Area, Angles and Fractions
+     have seven of their own, each with its own name. */
+  function wsGames(m) {
+    return (PACKS[m] ? Object.keys(PACKS[m]) : CORE_GAMES).map(function (g) {
+      return '<option value="' + g + '">' + esc(gameLabel(m, g).label) + "</option>";
+    }).join("");
+  }
+  /* What goes on the answer line and in the key. A choice is printed as
+     letters to circle, so its answer is the letter and the choice itself. */
+  function wsAnswer(q) {
+    if (q.choices) return { html: "ABCD".charAt(q.answer - 1) + " &nbsp;" + wsChoice(q.choices[q.answer - 1]) };
+    var u = q.unit || q.unitText || "";
+    if (u === "dollars") return { text: "$" + Number(q.answer).toFixed(2) };
+    if (u === "cents") return { text: q.answer + "c" };
+    return { text: q.answer + (u ? " " + u : "") };
+  }
+  function wsChoice(c) { return /class="(fr|mxn)"/.test(c) ? c : esc(c); }
+  function wsArt(art) {
+    return art.replace(/<button type="button" class="lifeopt[^"]*" data-opt="(\d)"[^>]*>([\s\S]*?)<\/button>/g, function (all, n, inner) {
+      return '<span class="ws-opt"><i>' + "ABCD".charAt(n - 1) + "</i>" + inner + "</span>";
+    });
+  }
+
   function wireWorksheets(list) {
     var btn = document.getElementById("ws-make");
     if (!btn) return;
+    var mSel = document.getElementById("ws-measure");
+    if (mSel) mSel.addEventListener("change", function () { document.getElementById("ws-game").innerHTML = wsGames(mSel.value); });
     btn.addEventListener("click", function () {
       var measure = document.getElementById("ws-measure").value;
       var game = document.getElementById("ws-game").value;
@@ -16793,13 +16857,15 @@
         ' &middot; <span class="ws-date"></span></p></header><ol class="ws-qs">';
       var answers = [];
       for (var k = 0; k < qs.length; k++) {
+        var qq = qs[k].q, unit = qq.unit || (qq.kind === "pack" ? qq.unitText : "") || "";
         out += '<li><div class="ws-ask">' + esc(qs[k].ask) + "</div>" +
                '<div class="ws-sub">' + esc(qs[k].sub) + "</div>" +
-               '<div class="ws-art">' + qs[k].art + "</div>" +
-               '<div class="ws-line"><span>Answer</span><i></i>' +
-               (qs[k].q.unit ? "<em>" + esc(qs[k].q.unit) + "</em>" : "") +
-               "</div></li>";
-        answers.push(qs[k].q.answer + (qs[k].q.unit ? " " + qs[k].q.unit : ""));
+               '<div class="ws-art">' + wsArt(qs[k].art) + "</div>" +
+               (qq.choices && qq.kind === "pack" ? '<div class="ws-line ws-circle"><span>Circle one letter</span></div>' :
+               '<div class="ws-line"><span>Answer' + (unit === "dollars" ? " $" : "") + "</span><i></i>" +
+               (unit && unit !== "dollars" ? "<em>" + esc(unit) + "</em>" : "") +
+               "</div>") + "</li>";
+        answers.push(qq.kind === "pack" ? wsAnswer(qq) : { text: qq.answer + (qq.unit ? " " + qq.unit : "") });
       }
       out += "</ol></section>";
       keys.push({ name: row.name, lv: lv, answers: answers });
@@ -16813,7 +16879,7 @@
       esc(gameLabel(measure, game).label) + "</p></header><div class=\"ws-keys\">";
     for (var a = 0; a < keys.length; a++) {
       out += "<div><b>" + esc(keys[a].name) + "</b> <small>level " + keys[a].lv + "</small><ol>" +
-        keys[a].answers.map(function (v) { return "<li>" + esc(String(v)) + "</li>"; }).join("") +
+        keys[a].answers.map(function (v) { return "<li>" + (v.html || esc(String(v.text))) + "</li>"; }).join("") +
         "</ol></div>";
     }
     out += "</div></section>";
@@ -20882,6 +20948,7 @@
     if (!RB_ON || !q || state.answered) return;
     if (q.kind === "time" && q.until) { if (!state.hintJump) { state.hintJump = true; render(false); } return; }
     if (q.measure === "number" && !q.line) { var bag = document.querySelector("#bench .nbag"); if (bag) bag.classList.add("hintring"); return; }
+    if (q.kind === "pack") { if (q.hintHtml && !state.packHint) { state.packHint = true; render(false); } return; }
     if (!q.kind && (q.s || q.a) && !state.showGaps) {
       state.showGaps = true; state.whyGaps = true;
       var gb = document.getElementById("gaps"); if (gb) gb.setAttribute("aria-pressed", "true");
@@ -21380,7 +21447,7 @@
   }
   /* ---- the tiles on the home screen ---- */
   function mgSection() {
-    if (!shared.on || !mgView) return "";
+    if ((!shared.on && !mgDemo) || !mgView) return "";
     var on = MG_TIMED.filter(mgOn);
     var liveTile = "";
     if (typeof liveNow !== "undefined" && liveNow && !TEACHER && liveNow.phase !== "done") {
@@ -21582,11 +21649,28 @@
     if (r.game !== "tug") document.getElementById("mg-stat").textContent = r.score + " right";
     setTimeout(function () { if (mgRun === r && r.phase === "play") mgNext(); }, i === q.answer ? 220 : 750);
   }
+  /* The test copy has no class sheet, so a switch puts the four timed games
+     on this iPad alone: tries, bests and the podium are kept here and sent nowhere. */
+  var mgDemo = false;
+  function mgDemoOn(secs) {
+    mgDemo = true;
+    var g = {}; MG_TIMED.forEach(function (k) { g[k] = { round: 1, best: {}, tries: {}, top: [], secs: secs || 30 }; });
+    mgView = { on: { speed: 1, unit: 1, shop: 1, clock: 1 }, g: g, secs: secs || 30, rotate: 0 };
+    try { rbDraw(); } catch (e) { /* drawn next time */ }
+  }
+  function mgDemoSave(r) {
+    var g = mgView.g[r.game], n = state.name || "You", b = g.best[n];
+    g.tries[n] = (g.tries[n] | 0) + 1;
+    if (!b || r.score > b[0] || (r.score === b[0] && r.mist < b[1])) g.best[n] = [r.score, r.mist];
+    g.top = Object.keys(g.best).map(function (k) { return [k, g.best[k][0], g.best[k][1]]; }).sort(function (x, y) { return y[1] - x[1] || x[2] - y[2]; }).slice(0, 3);
+    r.sent = "saved"; mgDraw();
+  }
   function mgFinish() {
     var r = mgRun; if (!r || r.phase !== "play" || r.game === "tug") return;
     clearInterval(r.timer); r.phase = "done"; r.sent = "sending";
     var bar = document.getElementById("mg-time"); if (bar) bar.style.width = "0%";
     mgDraw();
+    if (mgDemo) { mgDemoSave(r); return; }
     var body = { action: "mg", game: r.game, round: r.round, score: r.score, mistakes: r.mist }, tries = 0;
     (function send() {
       mgPost(body).then(function (d) {
@@ -21655,7 +21739,7 @@
       });
     });
   }
-  window.__mg = { open: mgOpen, run: function () { return mgRun; }, view: function () { return mgView; }, finish: function () { if (mgRun) mgRun.end = Date.now(); }, q: function (k, L) { return MGQ[k](L); }, status: function () { return fetchSheet(sharedUrl({ action: "status", room: CLASS }), { method: "GET", redirect: "follow" }); } };
+  window.__mg = { demo: mgDemoOn, open: mgOpen, run: function () { return mgRun; }, view: function () { return mgView; }, finish: function () { if (mgRun) mgRun.end = Date.now(); }, q: function (k, L) { return MGQ[k](L); }, status: function () { return fetchSheet(sharedUrl({ action: "status", room: CLASS }), { method: "GET", redirect: "follow" }); } };
   /* The whiteboard asks for the class state every 8 seconds, so a podium the
      teacher puts up appears within a few seconds rather than twenty. */
   if (DISPLAY && shared.on) {
@@ -21883,10 +21967,11 @@
     }
     if (key !== was) { try { rbDraw(); } catch (e) { /* drawn next time */ } }
   }
-  // while a live game runs, iPads ask for the class state every 5 seconds instead of every 20
+  // while a live game runs, iPads that have joined ask for the class state every 6 seconds instead of every 20
+  // (a Tug of War pull reply carries the state too, so it counts as a check)
   setInterval(function () {
-    if (!shared.on || DISPLAY || !liveNow || document.hidden) return;
-    if (Date.now() - liveAt > 5000) { liveAt = Date.now(); window.__mg.status().catch(function () {}); }
+    if (!shared.on || DISPLAY || !liveNow || document.hidden || !liveJoined(liveNow)) return;
+    if (Date.now() - liveAt > 6000) { liveAt = Date.now(); window.__mg.status().catch(function () {}); }
   }, 1000);
   function liveOpen(phase) {
     var p = mgPanel(), g = liveNow && liveNow.game;
@@ -21910,11 +21995,17 @@
         '<button type="button" class="mggo" data-livejoin="1">Join</button>' + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "") + "</div>";
     var b = body.querySelector("[data-livejoin]");
     if (b) b.addEventListener("click", function () {
-      b.disabled = true;
-      mgPost({ action: "ljoin", id: lv.id }).then(function (d) {
-        if (d && d.ok) { if (d.live) liveTake(d.live); lobbyDraw(); if (liveNow && liveNow.phase !== "lobby") liveTake(liveNow); }
-        else lobbyDraw(d && d.error === "over" ? "This game has finished." : "That did not send. Try again.");
-      }, function () { lobbyDraw("That did not send. Try again."); });
+      b.disabled = true; b.textContent = "Joining…";
+      // when the class is busy, try again by itself a few times before asking the child to
+      (function go(n) {
+        var again = function () { if (n < 3 && liveNow && liveNow.id === lv.id) setTimeout(function () { go(n + 1); }, 2000 + Math.random() * 2500); else lobbyDraw("That did not send. Try again."); };
+        mgPost({ action: "ljoin", id: lv.id }).then(function (d) {
+          if (d && d.ok) { if (d.live) liveTake(d.live); lobbyDraw(); if (liveNow && liveNow.phase !== "lobby") liveTake(liveNow); }
+          else if (d && d.error === "over") lobbyDraw("This game has finished.");
+          else if (d && d.error === "busy") again();
+          else lobbyDraw("That did not send. Try again.");
+        }, again);
+      })(0);
     });
   }
   /* ---- Estimation Station on a child's iPad ---- */
@@ -22009,7 +22100,7 @@
       tugBand();
       if (!left && r.phase === "play") { r.phase = "tugwait"; tugSend(true); tugWait(); }
     }, 250);
-    r.poster = setInterval(function () { if (mgRun !== r) { clearInterval(r.poster); return; } tugSend(false); }, 3000);
+    r.poster = setInterval(function () { if (mgRun !== r) { clearInterval(r.poster); return; } tugSend(false); }, 4000);
   }
   function tugSend(force) {
     var r = mgRun; if (!r || r.game !== "tug" || (!force && r.score === r.sent)) return;
