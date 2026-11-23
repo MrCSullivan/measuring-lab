@@ -2402,6 +2402,12 @@
   .tviews { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
   .tviews button { font: 700 14px/1 Karla, sans-serif; padding: 9px 14px; min-height: 40px; border-radius: 999px; cursor: pointer;
                    border: 1px solid var(--edge); background: var(--card-sunk); color: var(--ink-soft); }
+  .helprange { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 0 0 12px; }
+  .helprange span { font: 700 13px/1 "DM Sans", system-ui, sans-serif; color: var(--ink-soft); margin-right: 2px; }
+  .helprange button { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #CED4DA; background: #FFFFFF; color: var(--ink); font: 700 14px/1 "DM Sans", system-ui, sans-serif; cursor: pointer; }
+  .helprange button.on { background: var(--water); border-color: var(--water); color: #FFFFFF; }
+  .helprange button:disabled { opacity: .45; cursor: default; }
+  .helprange em { flex-basis: 100%; font: 500 12.5px/1.3 "DM Sans", system-ui, sans-serif; font-style: normal; color: var(--ink-soft); }
   .tviews button[aria-pressed="true"], .tviews button[aria-selected="true"], .tviews button.on { background: var(--water); border-color: var(--water); color: #fff; }
   /* "Who needs me" rows: name, what is going on, and a number, in a line */
   .helplist { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
@@ -5478,6 +5484,10 @@
   .mgstand .st { width: clamp(160px, 20vw, 280px); display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 6px; padding: 18px 10px; border-radius: 22px 22px 0 0; background: rgba(255,255,255,.18); }
   .mgstand .s1 { height: 46vh; background: #F7C948; color: #4A3200; } .mgstand .s2 { height: 36vh; background: #DDE3EA; color: #2C3A47; } .mgstand .s3 { height: 28vh; background: #E9A877; color: #4A2208; }
   .mgstand .empty { opacity: .25; }
+  .mgnext { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 28px; margin: 18px auto 0; font: 800 clamp(18px, 1.8vw, 28px)/1.2 Outfit, sans-serif; }
+  .mgnext span { display: inline-flex; align-items: baseline; gap: 8px; padding: 8px 18px; border-radius: 14px; background: rgba(255,255,255,.18); }
+  .mgnext i { font-style: normal; opacity: .75; }
+  .mgnext em { font: 700 .75em/1 "DM Sans", sans-serif; font-style: normal; opacity: .8; }
   .mgstand b { font: 900 clamp(24px, 3vw, 44px)/1.1 Outfit, sans-serif; overflow-wrap: anywhere; }
   .mgstand span { font: 700 clamp(16px, 1.6vw, 24px)/1 "DM Sans", sans-serif; }
   .mgstand i { font-style: normal; margin-top: auto; font: 900 clamp(28px, 3vw, 48px)/1 Outfit, sans-serif; }
@@ -5570,8 +5580,9 @@
   .mgtcards > .mgtcard.wide { grid-column: 1 / -1; }
   .mglen { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
   .mgtile .mgtop { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+  .mgtile .mgtop > span { white-space: nowrap; }
   .pd { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 4px; border-radius: 50%; font: 800 11px/1 Outfit, sans-serif; font-style: normal; vertical-align: -3px; }
-  .pd.p1 { background: #F7C948; color: #4A3200; } .pd.p2 { background: #DDE3EA; color: #2C3A47; } .pd.p3 { background: #E9A877; color: #4A2208; }
+  .pd.p1 { background: #F7C948; color: #4A3200; } .pd.p2 { background: #DDE3EA; color: #2C3A47; } .pd.p3 { background: #E9A877; color: #4A2208; } .pd.p4, .pd.p5 { background: #E7EBF0; color: #56677A; }
   .mgpods { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
   .mgpods[hidden] { display: none; }
   .mgpods h3 { margin: 0; font: 800 18px/1.2 Outfit, "DM Sans", sans-serif; }
@@ -8995,7 +9006,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "109";
+  var GAME_VERSION = "111";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -15229,6 +15240,7 @@
     if (data && Array.isArray(data.settled)) {
       shared.settled = data.settled;
       if ("champ" in data) shared.champ = data.champ;
+      if (data.wkt && data.wkt.t) shared.wkt = data.wkt;
       if (typeof drawSettled === "function") drawSettled();
     }
     /* A short answer to a score post: it was written, and the board comes with
@@ -16642,6 +16654,13 @@
         drawBoard();
       });
     });
+    box.querySelectorAll("[data-helprange]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        helpRange = b.getAttribute("data-helprange");
+        try { localStorage.setItem("juglab.helprange", helpRange); } catch (e) { /* blocked */ }
+        drawBoard();
+      });
+    });
     if (teacherView === "sheets") wireWorksheets(list);
     if (teacherView === "reports") wireReports(list);
   }
@@ -16992,8 +17011,36 @@
      a child who has answered almost nothing is having a different hard time
      that looks identical on a leaderboard and needs a different sentence from
      the teacher. Both are worth knowing before the bell. */
-  function helpScore(row) {
+  /* This week or all time. The sheet sends each child's totals as they stood
+     when the week began; this week's are the totals now take away those. */
+  var helpRange = (function () { try { return localStorage.getItem("juglab.helprange") || "week"; } catch (e) { return "week"; } })();
+  var HELP_ORDER = ["capacity", "mass", "length", "number", "temperature", "time", "english", "money", "area", "angles", "fractions"];
+  function helpBase() { return helpRange === "week" && shared.wkt && shared.wkt.t && shared.wkt.w === weekKey() ? shared.wkt : null; }
+  function helpTally(row, base) {
     var t = row.tally || {};
+    if (!base) return t;
+    var b = String(base.t[String(row.name).toLowerCase()] || "").trim().split(/\s+/), out = {};
+    HELP_ORDER.forEach(function (m, i) {
+      var x = t[m] || {}, y = String(b[i] || "").split("-");
+      out[m] = { right: Math.max(0, (x.right | 0) - (Number(y[0]) || 0)), wrong: Math.max(0, (x.wrong | 0) - (Number(y[1]) || 0)), skipped: Math.max(0, (x.skipped | 0) - (Number(y[2]) || 0)) };
+    });
+    return out;
+  }
+  function helpSince(ms) {
+    var d = new Date(Number(ms) || 0);
+    if (!ms || isNaN(d)) return "Monday 8am";
+    try { return new Intl.DateTimeFormat("en-AU", { timeZone: "Australia/Adelaide", weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" }).format(d).replace(/,? at /, ", "); }
+    catch (e) { return d.toLocaleString(); }
+  }
+  function helpSwitch(base) {
+    var can = !!(shared.wkt && shared.wkt.t && shared.wkt.w === weekKey());
+    var btn = function (v, label) { return '<button type="button" data-helprange="' + v + '"' + ((can ? helpRange : "all") === v ? ' class="on"' : "") + (v === "week" && !can ? " disabled" : "") + ">" + label + "</button>"; };
+    return '<div class="helprange"><span>Counting</span>' + btn("week", "This week") + btn("all", "All time") +
+      "<em>" + (!can ? "This week needs the newer sheet script (23 November), so this is all time."
+               : base ? "Since " + helpSince(shared.wkt.since) + "." : "Every answer since each child started.") + "</em></div>";
+  }
+  function helpScore(row, base) {
+    var t = helpTally(row, base);
     var right = 0, wrong = 0, skipped = 0;
     for (var i = 0; i < MEASURE_KEYS.length; i++) {
       var r = t[MEASURE_KEYS[i]] || {};
@@ -17025,7 +17072,8 @@
   }
 
   function needsHelpView(list) {
-    var rows = list.map(helpScore);
+    var base = helpBase(), wkly = !!base;
+    var rows = list.map(function (r) { return helpScore(r, base); });
     var idle = rows.filter(function (r) { return r.idle; }).sort(byName);
     var busy = rows.filter(function (r) { return !r.idle; })
                    .sort(function (a, b) { return b.score - a.score; });
@@ -17072,13 +17120,13 @@
         }).join("") + "</ul>";
     }
     if (idle.length) {
-      out += '<p class="rules"' + (leavers.length || mistakers.length ? ' style="margin-top:14px"' : "") + '><b>Barely started.</b> Fewer than eight answers so far.</p><ul class="helplist">' +
+      out += '<p class="rules"' + (leavers.length || mistakers.length ? ' style="margin-top:14px"' : "") + '><b>Barely started' + (wkly ? " this week" : "") + ".</b> Fewer than eight answers " + (wkly ? "since Monday" : "so far") + '.</p><ul class="helplist">' +
         idle.map(function (r) {
-          return line(r, r.tried ? r.tried + " answered" : "nothing yet");
+          return line(r, r.tried ? r.tried + " answered" : wkly ? "nothing this week" : "nothing yet");
         }).join("") + "</ul>";
     }
     var real = busy.filter(function (r) { return r.acc < 0.75 || r.lows >= GAME_KEYS.length; });
-    out += '<p class="rules" style="margin-top:14px"><b>Having the hardest time.</b> ' +
+    out += '<p class="rules" style="margin-top:14px"><b>Having the hardest time' + (wkly ? " this week" : "") + ".</b> " +
       'Sorted by how much of it is going wrong, not by score.</p>';
     out += real.length
       ? '<ul class="helplist">' + real.slice(0, 12).map(function (r) {
@@ -17089,7 +17137,7 @@
           return line(r, why.join(" &middot; "));
         }).join("") + "</ul>"
       : '<p class="empty">Nobody is stuck. Everyone is getting most of them right.</p>';
-    return out;
+    return helpSwitch(base) + out;
   }
 
   function byName(a, b) {
@@ -21391,7 +21439,7 @@
     tug:   { name: "Tug of War", col: "#C92A2A", led: true, line: "Two teams, one rope.",
              how: "Teacher led. The class splits into two even teams in the lobby. For one to two minutes, every right answer on a child\u2019s iPad pulls the rope towards their team; the questions come from the topic you pick (units, money, time, ordering amounts, fractions, angles or mixed). Teams pull with right answers per player, so uneven teams are fair, and wrong answers cost nothing. Pull the flag over your win line, or be ahead when time runs out. The winning team gets 30 bonus points each." }
   };
-  var MG_TIMED = ["speed", "unit", "shop", "clock"], MG_LENGTHS = [30, 60, 90, 120], MG_TRIES = 3, MG_BONUS = [50, 30, 20], MG_PLACE = ["1st", "2nd", "3rd"];
+  var MG_TIMED = ["speed", "unit", "shop", "clock"], MG_LENGTHS = [30, 60, 90, 120], MG_TRIES = 3, MG_BONUS = [100, 80, 60, 40, 20], MG_PLACE = ["1st", "2nd", "3rd", "4th", "5th"];
   var mgView = null, mgRun = null, mgClaiming = {};
   function mgSecs(k) { var g = mgView && mgView.g && mgView.g[k]; return (g && g.secs) || 30; }
   function mgLenWord(s) { return s === 60 ? "1 minute" : s === 120 ? "2 minutes" : s + " seconds"; }
@@ -21540,7 +21588,7 @@
       return '<button type="button" class="rbtile mgtile" data-mg="' + k + '" style="background:' + MG[k].col + ";--c:" + MG[k].col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '">' +
         "<span><b>" + esc(MG[k].name) + "</b><small>" + mgLenWord(mgSecs(k)) + " · " + MG_TRIES + " tries a day</small></span>" +
         '<span class="lv"><span>' + (m.best != null ? "Your best " + m.best + " · " : "") + (m.left ? m.left + " " + (m.left === 1 ? "try" : "tries") + " left" : "No tries left today") + "</span>" +
-        '<span class="mgtop">' + (m.top.length ? m.top.map(function (t, i) { return '<i class="pd p' + (i + 1) + '">' + (i + 1) + "</i>" + esc(t[0]) + " " + t[1]; }).join(" ") : "Nobody on the podium yet") + "</span></span></button>";
+        '<span class="mgtop">' + (m.top.length ? m.top.map(function (t, i) { return '<span><i class="pd p' + (i + 1) + '">' + (i + 1) + "</i>" + esc(t[0]) + " " + t[1] + "</span>"; }).join(" ") : "Nobody on the podium yet") + "</span></span></button>";
     }).join("") + "</div></section>";
   }
   /* ---- the questions ---- */
@@ -21735,7 +21783,7 @@
     var g = mgView.g[r.game], n = state.name || "You", b = g.best[n];
     g.tries[n] = (g.tries[n] | 0) + 1;
     if (!b || r.score > b[0] || (r.score === b[0] && r.mist < b[1])) g.best[n] = [r.score, r.mist];
-    g.top = Object.keys(g.best).map(function (k) { return [k, g.best[k][0], g.best[k][1]]; }).sort(function (x, y) { return y[1] - x[1] || x[2] - y[2]; }).slice(0, 3);
+    g.top = Object.keys(g.best).map(function (k) { return [k, g.best[k][0], g.best[k][1]]; }).sort(function (x, y) { return y[1] - x[1] || x[2] - y[2]; }).slice(0, 5);
     r.sent = "saved"; mgDraw();
   }
   function mgFinish() {
@@ -21758,6 +21806,10 @@
     })();
   }
   /* ---- the podium on the whiteboard ---- */
+  function mgNext45(top, note) {
+    var more = (top || []).slice(3, 5);
+    return more.length ? '<p class="mgnext">' + more.map(function (t, i) { return "<span><i>" + MG_PLACE[i + 3] + "</i> " + esc(t[0]) + " <em>" + esc(note(t)) + "</em></span>"; }).join("") + "</p>" : "";
+  }
   function mgBoardShow() {
     if (!DISPLAY) return;
     var k = mgView && mgView.show, el = document.getElementById("mgboard");
@@ -21767,7 +21819,7 @@
     el.style.setProperty("--mg", MG[k].col);
     el.innerHTML = "<h2>" + esc(MG[k].name) + "</h2><p>Today’s podium</p>" + (top.length ? '<div class="mgstand">' + [1, 0, 2].map(function (i) {
       var t = top[i]; return t ? '<div class="st s' + (i + 1) + '"><b>' + esc(t[0]) + "</b><span>" + t[1] + " right</span><i>" + MG_PLACE[i] + "</i></div>" : '<div class="st s' + (i + 1) + ' empty"></div>';
-    }).join("") + "</div>" : '<p class="mgnote">Nobody has played yet.</p>');
+    }).join("") + "</div>" + mgNext45(top, function (t) { return t[1] + " right"; }) : '<p class="mgnote">Nobody has played yet.</p>');
     el.hidden = false;
   }
   /* ---- the Teacher tab ---- */
@@ -21782,7 +21834,7 @@
         (soon ? '<span class="tc-note">Coming in the next update</span>' : byRot ? '<span class="mgtag' + (on ? " on" : "") + '">' + (on ? "On today" : k === next ? "Next school day" : "Not today") + "</span>" : '<button type="button" class="linky" data-mgset="' + k + '" data-on="' + (on ? "0" : "1") + '">' + (on ? "Turn off" : "Turn on") + "</button>") + "</div>" +
         "<p>" + esc(MG[k].how) + "</p>";
       if (!MG[k].led) h += '<div class="mgtbtns"><label class="mglen">Each go lasts <select data-mgsecs="' + k + '">' + MG_LENGTHS.map(function (s) { return '<option value="' + s + '"' + (s === mgSecs(k) ? " selected" : "") + ">" + mgLenWord(s) + "</option>"; }).join("") + "</select></label></div>" +
-        '<p class="tc-note">' + MG_TRIES + " tries a day, best score counts. Ties go to fewer mistakes. Podium resets each day; 1st, 2nd and 3rd get " + MG_BONUS.join(", ") + " bonus points.</p>";
+        '<p class="tc-note">' + MG_TRIES + " tries a day, best score counts. Ties go to fewer mistakes. Podium resets each day; 1st to 5th get " + MG_BONUS.slice(0, -1).join(", ") + " and " + MG_BONUS[MG_BONUS.length - 1] + " bonus points.</p>";
       if (on && !MG[k].led) h += '<p class="mgtnow">Round ' + ((g && g.round) || 1) + ": " + played + " played. " + (top.length ? top.map(function (r, i) { return MG_PLACE[i] + " " + esc(r[0]) + " (" + r[1] + ")"; }).join(", ") : "No podium yet.") + "</p>" +
         '<div class="mgtbtns"><button type="button" class="linky" data-mgnew="' + k + '">New round</button> <button type="button" class="linky" data-mgshow="' + (v.show === k ? "" : k) + '">' + (v.show === k ? "Hide the podium on the whiteboard" : "Show the podium on the whiteboard") + "</button></div>";
       h += (MG_LED[k] ? MG_LED[k](on) : "") + "</div>";
@@ -22158,7 +22210,7 @@
         var cls = mine === i ? " sel" : ""; if (rev && i === q.ans) cls += " yes"; else if (rev && mine === i) cls += " no";
         return '<button type="button" class="mgopt' + cls + '" data-mmi="' + i + '"' + (rev || lv.phase !== "clue" ? " disabled" : "") + ">" + esc(o) + "</button>"; }).join("") + "</div>";
     if (rev) h += '<p class="estdone">It was <b>' + esc(q.opts[q.ans]) + "</b>: " + esc(q.what || "") + " " + esc(q.icon || "") + (full ? "<br>You have " + myScore + " points" + (place > -1 ? ", " + (place + 1) + " of " + full.scores.length : "") + "." : "") + "</p>" +
-      (lv.phase === "done" && full ? "<h4>Final podium</h4>" + '<ol class="mgpod">' + (full.lead || []).slice(0, 3).map(function (r, i) { return '<li class="p' + (i + 1) + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + r[1] + "</span></li>"; }).join("") + '</ol><div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div>' : "");
+      (lv.phase === "done" && full ? "<h4>Final podium</h4>" + '<ol class="mgpod">' + (full.lead || []).slice(0, 5).map(function (r, i) { return '<li class="p' + (i + 1) + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + r[1] + "</span></li>"; }).join("") + '</ol><div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div>' : "");
     else h += '<p class="mgnote">' + (mine == null ? "Pick the one you think it is. You can change it until the next clue." : "You picked <b>" + esc(q.opts[mine]) + "</b>. From clue 2 on, if your pick is right when the next clue comes, you bank 100 points. Nobody finds out until the reveal.") + "</p>";
     body.innerHTML = h + "</div>";
     body.querySelectorAll("[data-mmi]").forEach(function (b) {
@@ -22257,7 +22309,7 @@
       el.innerHTML = x + '<section class="estboard' + (rev ? " revealed" : " hidden") + '"><div class="top"><div class="thing">' + estSVG(p, rev ? p.truth : undefined) + '</div><div class="ttl"><div class="tag">Estimation Station</div><h1>' + esc(p.ask) + '</h1><div class="ref">' + esc(p.ref) + '</div><div class="live"><i></i><span>' + (rev ? "Revealed" : "Guesses arriving live") + '</span></div></div><div class="count"><b>' + gs.length + "</b><small>of " + (lv.j || []).length + " players have guessed</small></div></div>" +
         '<div class="line" id="estline"><div class="axis"></div>' + ticks + (rev ? '<div class="truth" style="left:' + pct(p.truth) + '%"><span>Real amount: ' + esc(liveFmt(p.truth, p)) + "</span></div>" : "") +
         order.map(function (g) { var at = topNames.indexOf(g.n); return '<div class="dot' + (at > -1 ? " top3" : "") + '" data-v="' + g.v + '" style="left:' + pct(g.v) + "%;background:" + LIVE_COLS[g.i % LIVE_COLS.length] + '">' + (rev ? (at > -1 ? at + 1 : esc(String(g.n).slice(0, 1))) : "") + (rev ? '<span class="nm">' + esc(g.n) + " · " + esc(liveFmt(g.v, p)) + "</span>" : "") + "</div>"; }).join("") + "</div>" +
-        (rev && lv.top && lv.top.length ? '<div class="podium">' + [1, 0, 2].map(function (i) { var t = lv.top[i]; return t ? '<div class="step s' + (i + 1) + '"><div class="who">' + esc(t[0]) + '</div><div class="g">' + esc(liveFmt(t[1], p)) + " · " + (t[2] ? esc(liveFmt(t[2], p)) + " off" : "spot on") + '</div><div class="blk">' + (i + 1) + "</div></div>" : '<div class="step"></div>'; }).join("") + "</div>" : "") + "</section>";
+        (rev && lv.top && lv.top.length ? '<div class="podium">' + [1, 0, 2].map(function (i) { var t = lv.top[i]; return t ? '<div class="step s' + (i + 1) + '"><div class="who">' + esc(t[0]) + '</div><div class="g">' + esc(liveFmt(t[1], p)) + " · " + (t[2] ? esc(liveFmt(t[2], p)) + " off" : "spot on") + '</div><div class="blk">' + (i + 1) + "</div></div>" : '<div class="step"></div>'; }).join("") + "</div>" + mgNext45(lv.top, function (t) { return liveFmt(t[1], p) + " · " + (t[2] ? liveFmt(t[2], p) + " off" : "spot on"); }) : "") + "</section>";
       var line = document.getElementById("estline"), W = line.clientWidth, rows = [];
       line.querySelectorAll(".dot").forEach(function (d) { var px = pct(+d.dataset.v) / 100 * W, r = 0; while (rows[r] != null && px - rows[r] < 47) r++; rows[r] = px; d.style.top = Math.max(0, 140 - r * 48) + "px"; });
       return;
