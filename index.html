@@ -5720,6 +5720,11 @@
   .nylist label { display: flex; align-items: center; gap: 8px; min-height: 34px; font: 600 15px/1.2 "DM Sans", system-ui, sans-serif; }
   .nygo { background: #C92A2A; }
 
+  /* ==================== v114: subjects children see ==================== */
+  .tc-subs { display: inline-flex; flex-wrap: wrap; gap: 6px; vertical-align: middle; margin: 2px 0; }
+  .tc-sub { min-height: 34px; padding: 0 12px; border-radius: 999px; border: 2px solid var(--sub); background: #FFFFFF; color: #56677A; font: 700 13.5px/1 "DM Sans", system-ui, sans-serif; text-decoration: line-through; cursor: pointer; }
+  .tc-sub.on { background: var(--sub); color: #FFFFFF; text-decoration: none; }
+  .tc-sub:disabled { opacity: .6; cursor: default; }
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -9041,7 +9046,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "113";
+  var GAME_VERSION = "114";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -10204,7 +10209,7 @@
   }
 
   function buildQuestion() {
-    if (state.measure === "english" && !englishOn()) { state.measure = "capacity"; if (!gameAvailable("capacity", state.mode)) state.mode = "read"; }
+    if (!subjectOn(state.measure)) { state.measure = firstSubject(); if (!gameAvailable(state.measure, state.mode)) state.mode = "read"; }
     if (warm.pending) planWarm();
     if (!gameAvailable(questionMeasure(), state.mode)) {
       state.mode = "read";
@@ -14283,7 +14288,7 @@
     var school = Math.floor(n / 7) * 5 + dow;
     var all = [];
     MEASURE_ORDER.forEach(function (m) {
-      if (m === "english" && !englishOn()) return;
+      if (!subjectOn(m)) return;
       GAME_KEYS.forEach(function (g) { if (gameAvailable(m, g)) all.push([m, g]); });
     });
     if (!all.length) return null;
@@ -14299,7 +14304,7 @@
   }
   var gotdMemo = { key: "", val: null };
   function gotd() {
-    var key = dayStamp() + "/" + (englishOn() ? 1 : 0);
+    var key = dayStamp() + "/" + subjectSig();
     if (gotdMemo.key !== key) gotdMemo = { key: key, val: gotdToday() };
     return gotdMemo.val;
   }
@@ -15486,6 +15491,20 @@
   /* English is one switch in the teacher panel, per class. Off until the
      teacher turns it on. Without a class sheet (one iPad on its own) it is on. */
   function englishOn() { return !shared.on || classState.english === true; }
+  /* Which subjects children see: the teacher can hide any of them in Class
+     setup (English has its own switch). Hidden ones keep their levels and
+     scores; they just leave the home screen, the daily challenge and the
+     lists, until they are shown again. Without a class sheet, all show. */
+  function subjectOn(m) {
+    if (m === "english") return englishOn();
+    return !(shared.on && classState.hide && classState.hide.indexOf(m) > -1);
+  }
+  function firstSubject() {
+    var order = ["capacity", "mass", "length", "temperature", "time", "number", "money", "area", "angles", "fractions", "english"];
+    for (var i = 0; i < order.length; i++) if (subjectOn(order[i])) return order[i];
+    return "capacity";
+  }
+  function subjectSig() { return (englishOn() ? 1 : 0) + "/" + ((shared.on && classState.hide) || []).join(","); }
   function applyClassState(cs) {
     if (!cs || typeof cs !== "object") return;
     try { mgTake(cs.mg); } catch (eMg) { /* minigames wait for the next status */ }
@@ -15495,14 +15514,20 @@
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
                    english: cs.english === true, by: typeof cs.by === "string" ? cs.by.slice(0, 24) : "",
                    cap: typeof cs.cap === "number" && cs.cap > 0 ? Math.round(cs.cap) : 0,
-                   spell: cleanSpellList(cs.spell), vote: cleanVote(cs.vote), squads: cleanSquads(cs.squads), rep: cs.rep === true };
+                   spell: cleanSpellList(cs.spell), vote: cleanVote(cs.vote), squads: cleanSquads(cs.squads), rep: cs.rep === true,
+                   hide: Array.isArray(cs.hide) ? cs.hide.filter(function (m) { return typeof m === "string" && MEASURES[m] && m !== "english"; }) : [] };
     try { rpDraw(); } catch (eRp) { /* drawn next time */ }
     if (JSON.stringify(classState) === was && !TEACHER) { lockToFocus(); return; }
-    if (!englishOn() && state.measure === "english" && state.name) {
-      state.measure = "capacity"; state.mode = "read";
+    var wasCs = JSON.parse(was), shownChanged = wasCs.english !== classState.english || JSON.stringify(wasCs.hide || []) !== JSON.stringify(classState.hide || []);
+    if (!subjectOn(state.measure) && state.name) {
+      state.measure = firstSubject(); state.mode = "read";
       document.querySelectorAll(".mode").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)); });
       next();
-    } else if (JSON.parse(was).english !== classState.english && state.name) { updateChrome(); drawLadders(); }
+      try { if (typeof rbDraw === "function" && RB_ON) rbDraw(); } catch (eRb) { /* drawn next time */ }
+    } else if (shownChanged && state.name) {
+      updateChrome(); drawLadders();
+      try { if (typeof rbDraw === "function" && RB_ON) rbDraw(); } catch (eRb) { /* drawn next time */ }
+    }
     if (JSON.parse(was).season !== classState.season) {
       reapplyWantedSkin();
       if (typeof drawRewards === "function" && state.name) drawRewards();
@@ -16233,7 +16258,7 @@
     if (!row) return;
     profileFor = row.name;
     var levels = row.levels || {};
-    var lv = MEASURE_ORDER.filter(function (m) { return m !== "english" || englishOn(); }).map(function (m) {
+    var lv = MEASURE_ORDER.filter(function (m) { return subjectOn(m); }).map(function (m) {
       var t = 1;
       try { if (levels[m]) t = topLevel(levels, m); } catch (e) { t = 1; }
       return '<span>' + esc(MEASURES[m].label) + ' <b class="' + (isStretch(t) ? "gold" : "") + '">' + (isStretch(t) ? "S" + (t - MAX_LEVEL) : "L" + t) + "</b></span>";
@@ -16536,7 +16561,7 @@
         '<button type="button" class="linky" id="tshowbtn"' + (showBusy ? " disabled" : "") + '>' +
         (showBusy ? "Saving..." : teacherShown ? "Hide me" : "Show me") + "</button></div>"
       : "";
-    var fsel = '<select id="tc-measure">' + MATHS_ORDER.concat(englishOn() ? ["english"] : []).map(function (m) {
+    var fsel = '<select id="tc-measure">' + MATHS_ORDER.concat(["english"]).filter(subjectOn).map(function (m) {
                  return '<option value="' + m + '">' + esc(MEASURES[m].label) + "</option>"; }).join("") + "</select>" +
                '<select id="tc-game">' + ["step", "read", "add", "about", "set", "convert", "life"].map(function (g) {
                  var gl = gameLabel("capacity", g); return '<option value="' + g + '">' + esc(gl ? gl.label : g) + "</option>"; }).join("") + "</select>";
@@ -16567,9 +16592,11 @@
     var setupBits =
           '<div><b>Add a student.</b> <input class="tc-name" id="tc-addname" type="text" maxlength="200" autocomplete="off" autocapitalize="words" placeholder="Name (commas between several)" aria-label="Names to add"> ' +
             '<button type="button" class="linky" id="tc-add">Add to the class list</button> <span class="tc-note" id="tc-added">' + esc(addedNote) + "</span></div>" +
-          '<div><b>English.</b> ' + (classState.english
-            ? 'On. <button type="button" class="linky" id="tc-eng" data-on="0">Turn English off</button>'
-            : 'Off. <button type="button" class="linky" id="tc-eng" data-on="1">Turn English on</button>') + "</div>" +
+          '<div><b>Subjects children see.</b> <span class="tc-subs">' + RB_ORDER.map(function (m) {
+              var on = m === "english" ? classState.english === true : !(classState.hide || []).length || classState.hide.indexOf(m) < 0;
+              return '<button type="button" class="tc-sub' + (on ? " on" : "") + '" aria-pressed="' + on + '" style="--sub:' + RB_COL[m][0] + '"' +
+                (m === "english" ? ' id="tc-eng" data-on="' + (on ? "0" : "1") + '"' : ' data-sub="' + m + '"') + ">" + esc(MEASURES[m].label) + "</button>";
+            }).join("") + '</span> <span class="tc-note">Tap one to hide or show it. Hidden subjects keep everyone’s levels and scores, ready for when you show them again.</span></div>' +
           '<div><b>Problem reports.</b> ' + (classState.rep
             ? 'Children can report. <button type="button" class="linky" id="tc-rep" data-on="0">Turn off for children</button>'
             : 'Only you can report. <button type="button" class="linky" id="tc-rep" data-on="1">Let children report too</button>') +
@@ -16693,6 +16720,21 @@
       trp.disabled = true;
       teacherClassAction({ action: "repset", on: trp.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { trp.disabled = false; });
     });
+    document.querySelectorAll("[data-sub]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var m = b.getAttribute("data-sub"), hide = (classState.hide || []).slice(), i = hide.indexOf(m);
+        if (i > -1) hide.splice(i, 1); else hide.push(m);
+        if (MATHS_ORDER.every(function (x) { return hide.indexOf(x) > -1; })) { window.alert("Keep at least one maths subject showing."); return; }
+        // show the change at once; the sheet catches up
+        classState.hide = hide; b.classList.toggle("on", i > -1); b.setAttribute("aria-pressed", String(i > -1));
+        document.querySelectorAll("[data-sub]").forEach(function (x) { x.disabled = true; });
+        teacherClassAction({ action: "hide", hide: hide }).then(function (d) {
+          if (!d || !d.ok) window.alert(d && d.error === "empty" ? "Keep at least one maths subject showing." : "That change did not save. Please try again.");
+          else if (!d.cs || !Array.isArray(d.cs.hide)) window.alert("Hiding subjects needs the newer sheet script (25 November, choose which subjects). Paste it into Apps Script and deploy a new version.");
+          drawBoard();
+        }, function () { window.alert("That change did not save. Please try again."); drawBoard(); });
+      });
+    });
     var ten = document.getElementById("tc-eng");
     if (ten) ten.addEventListener("click", function () {
       ten.disabled = true;
@@ -16788,7 +16830,7 @@
      iPad can show without scrolling sideways. */
   var teacherMeasure = "capacity";
   function levelsView(list) {
-    var measures = MATHS_ORDER.concat(englishOn() ? ["english"] : []);
+    var measures = MATHS_ORDER.concat(["english"]).filter(subjectOn);
     if (measures.indexOf(teacherMeasure) < 0) teacherMeasure = measures[0];
     var mk = teacherMeasure;
     var games = GAME_KEYS.filter(function (gk) { return gameAvailable(mk, gk); });
@@ -17989,7 +18031,7 @@
     if (!body) return;
     var games = 0, finished = 0;
     MEASURE_ORDER.forEach(function (mk) {
-      if (mk === "english" && !englishOn()) return;
+      if (!subjectOn(mk)) return;
       GAME_KEYS.forEach(function (gk) {
         if (!gameAvailable(mk, gk)) return;
         games++;
@@ -18006,7 +18048,7 @@
     var out = "";
     for (var m = 0; m < MEASURE_ORDER.length; m++) {
       var mk = MEASURE_ORDER[m];
-      if (mk === "english" && !englishOn()) continue;
+      if (!subjectOn(mk)) continue;
       out += '<div class="lad-group"><b>' + esc(MEASURES[mk].label) + "</b>";
       for (var g = 0; g < GAME_KEYS.length; g++) {
         var gk = GAME_KEYS[g];
@@ -20731,7 +20773,7 @@
     for (var i = 1; i <= MAX_LEVEL; i++) s += '<i class="' + (i <= l ? (isStretch(l) ? "on gold" : "on") : "") + '"></i>';
     return '<span class="rbdots" aria-hidden="true">' + s + "</span>";
   }
-  function rbSubjects() { return RB_ORDER.filter(function (m) { return m !== "english" || englishOn(); }); }
+  function rbSubjects() { return RB_ORDER.filter(function (m) { return subjectOn(m); }); }
 
   function rbView(v) {
     if (!RB_ON) return;

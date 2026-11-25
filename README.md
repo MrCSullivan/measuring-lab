@@ -15,7 +15,7 @@ Nothing secret is in these files. The teacher password lives only in the sheet.
 | File | What it is |
 | --- | --- |
 | index.html | The game. The same file you paste into Apps Script as `Page`. |
-| config.js | One line: the address of your Apps Script web app. The only file you edit. |
+| config.example.js | A blank copy of `config.js`, the one line with the address of your Apps Script web app. Only needed when setting up a new site (Step 2). Updates never include `config.js`, so the one already on your site is never overwritten. |
 | sw.js | Saves the game on the device and opens it when the connection is poor. |
 | manifest.webmanifest, icon-192.png, icon-512.png, apple-touch-icon.png | Make "Add to Home Screen" work, with an icon. |
 | fonts.css and the .woff2 files | The two fonts the game uses, kept next to index.html so the page never waits on another website for them. |
@@ -24,7 +24,7 @@ Keep all of them together in one folder, with no folders inside it.
 
 ## Step 1. Update the script
 
-1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_59.gs`.
+1. In the Apps Script editor, replace the code with `measuring-lab-leaderboard_60.gs`.
 2. Choose Deploy, Manage deployments, the pencil, New version, Deploy. Keep it as
    Execute as **Me** and Who has access **Anyone**. (Not "Anyone with a Google
    account": the hosted page cannot sign in.)
@@ -33,9 +33,9 @@ Keep all of them together in one folder, with no folders inside it.
 4. Reopen the sheet. In the Measuring Lab menu choose **Set teacher name and
    password** if you have not already.
 
-## Step 2. Put the address in config.js
+## Step 2. Make config.js (first time only)
 
-Open `config.js` in any text editor and paste the address between the quotes:
+Rename `config.example.js` to `config.js`, open it in any text editor and paste the address between the quotes:
 
     window.MEASURING_LAB_SHEET = "https://script.google.com/macros/s/AKfycb.../exec";
 
@@ -65,10 +65,11 @@ Give children the hosted address, not the Apps Script one.
 
 ## Changing the game later
 
-Replace `index.html` on the website with the new one. Each iPad picks it up the
-next time it is opened with a working connection. If the connection is slow, it
-opens the saved copy first and has the new one the time after. Changing
-`config.js` works the same way.
+Upload everything in the new zip over the old files on the website. Your
+`config.js` stays as it is: updates never include one. Each iPad picks up the
+new game the next time it is opened with a working connection. If the
+connection is slow, it opens the saved copy first and has the new one the time
+after. Changing `config.js` yourself works the same way.
 
 ## When a whole class opens it at once
 
