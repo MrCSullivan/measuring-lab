@@ -5685,6 +5685,41 @@
   .mgtbtns .linky.go { background: var(--mg); }
   @media (max-width: 1100px) { .mmgrid { grid-template-columns: 1fr; } .lobbyboard { grid-template-columns: 1fr; } }
 
+
+  /* ==================== v112: report a problem ==================== */
+  .rpflag { position: fixed; left: 14px; bottom: 14px; z-index: 9000; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px 0 11px; border-radius: 999px; border: 1.5px solid #CED4DA; background: #FFFFFF; color: #1B1B2F; font: 700 13.5px/1 "DM Sans", system-ui, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,0.12); cursor: pointer; opacity: .85; }
+  .rpflag:hover { opacity: 1; }
+  @media (max-width: 1179px) { body.rb .rpflag { bottom: 84px; } }   /* clear of the tab bar along the bottom */
+  .rpflag svg { width: 18px; height: 18px; color: #C92A2A; }
+  .rpflag[hidden], .rpkid[hidden], .rpbox[hidden] { display: none; }
+  .rpkid { display: block; margin: 6px auto 0; padding: 6px 10px; border: 0; background: none; color: var(--ink-soft, #56677A); font: 600 13px/1.2 "DM Sans", system-ui, sans-serif; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .rpbox { position: fixed; inset: 0; z-index: 9100; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(27,27,47,0.45); }
+  .rpcard { position: relative; width: min(460px, 100%); padding: 22px 22px 18px; border-radius: 20px; background: #FFFFFF; color: #1B1B2F; box-shadow: 0 16px 40px rgba(0,0,0,0.25); }
+  .rpcard h2 { margin: 0 34px 6px 0; font: 800 22px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  .rpsub { margin: 0 0 12px; color: #56677A; font: 500 14.5px/1.4 "DM Sans", system-ui, sans-serif; }
+  .rpx { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; border: 0; background: #F1F3F5; font: 700 20px/1 system-ui, sans-serif; cursor: pointer; }
+  .rpkinds { display: grid; gap: 8px; margin-bottom: 12px; }
+  .rpkinds button { min-height: 48px; padding: 0 14px; border-radius: 12px; border: 2px solid #DEE2E6; background: #FFFFFF; color: #1B1B2F; font: 700 16px/1.2 "DM Sans", system-ui, sans-serif; text-align: left; cursor: pointer; }
+  .rpkinds button.on { border-color: #1C7ED6; background: #E7F5FF; }
+  .rpcard textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #CED4DA; font: 500 15px/1.4 "DM Sans", system-ui, sans-serif; resize: vertical; }
+  .rpbtns { display: flex; justify-content: flex-end; margin-top: 12px; }
+  .rpgo { min-height: 46px; padding: 0 26px; border-radius: 12px; border: 0; background: #1B1B2F; color: #FFFFFF; font: 800 16px/1 Outfit, "DM Sans", system-ui, sans-serif; cursor: pointer; }
+  .rpgo:disabled { opacity: .45; cursor: default; }
+  .rpmsg { min-height: 1.2em; margin: 10px 0 0; color: #2B8A3E; font: 600 14px/1.3 "DM Sans", system-ui, sans-serif; }
+  @media print { .rpflag, .rpkid, .rpbox { display: none !important; } }
+
+
+  /* ==================== v113: a new school year ==================== */
+  .nycard { width: min(560px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; }
+  .nyrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 12px; font: 600 14.5px/1.3 "DM Sans", system-ui, sans-serif; }
+  .nyrow input[type="text"] { flex: 1 1 140px; min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1.5px solid #CED4DA; font: 600 15px/1 "DM Sans", system-ui, sans-serif; }
+  .nycheck input, .nylist input { width: 20px; height: 20px; }
+  .nyh { margin: 6px 0 2px; font: 800 16px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  .nysmall { margin: 0 0 10px; color: #56677A; font: 500 13.5px/1.4 "DM Sans", system-ui, sans-serif; }
+  .nylist { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px 12px; max-height: 240px; overflow-y: auto; margin: 0 0 12px; padding: 10px; border-radius: 12px; background: #F8F9FA; }
+  .nylist label { display: flex; align-items: center; gap: 8px; min-height: 34px; font: 600 15px/1.2 "DM Sans", system-ui, sans-serif; }
+  .nygo { background: #C92A2A; }
+
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -9006,7 +9041,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "111";
+  var GAME_VERSION = "113";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -14185,6 +14220,7 @@
   var checkBtn = document.getElementById("check");
 
   function setVerdict(text, kind) {
+    try { rpNoteMark(text, kind); } catch (e) { /* the report just has less */ }
     verdict.textContent = text;
     verdict.className = "verdict" + (kind ? " " + kind : "");
     var lc = document.getElementById("lvcard");
@@ -14538,6 +14574,7 @@
 
   function next() {
     clearWhy();
+    try { rpDraw(); } catch (eRp) { /* drawn next time */ }
     if (warm.active) { warm.done++; if (warm.done >= 3) endWarm(true); }
     input.value = "";
     checkBtn.textContent = "Check";
@@ -15131,7 +15168,12 @@
     var first = !everHeard();
     rememberReset(data.cleared);
     if (first) return false;
-    wipeLocally(data.clearedDeep === "all");
+    wipeLocally(data.clearedDeep === "all" || data.clearedDeep === "year");
+    if (data.clearedDeep === "year" && !TEACHER && state.name) {
+      state.name = "";
+      openGate("");
+      gateErr.textContent = "A new school year has started. Type your name to sign in again."; gateErr.hidden = false;
+    }
     return true;
   }
 
@@ -15203,7 +15245,7 @@
     if (typeof drawRewards === "function") drawRewards();
     if (typeof updateChrome === "function") updateChrome();
     if (state.name) {
-      setVerdict(deep ? "Your teacher started everyone again from scratch."
+      setVerdict(deep ? "Your teacher started everyone again. Your name and PIN are still on the class list."
                       : "Your teacher cleared the scores. Off you go again.", "hint");
     }
   }
@@ -15453,7 +15495,8 @@
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
                    english: cs.english === true, by: typeof cs.by === "string" ? cs.by.slice(0, 24) : "",
                    cap: typeof cs.cap === "number" && cs.cap > 0 ? Math.round(cs.cap) : 0,
-                   spell: cleanSpellList(cs.spell), vote: cleanVote(cs.vote), squads: cleanSquads(cs.squads) };
+                   spell: cleanSpellList(cs.spell), vote: cleanVote(cs.vote), squads: cleanSquads(cs.squads), rep: cs.rep === true };
+    try { rpDraw(); } catch (eRp) { /* drawn next time */ }
     if (JSON.stringify(classState) === was && !TEACHER) { lockToFocus(); return; }
     if (!englishOn() && state.measure === "english" && state.name) {
       state.measure = "capacity"; state.mode = "read";
@@ -15535,7 +15578,7 @@
      before that change's reply arrived is ignored for the class state. */
   var csFloor = 0;
   function fetchSheet(url, opts, ms) {
-    var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0, sentAt = Date.now();
+    var wait = ms || NET_TIMEOUT, timedOut = false, timer = 0, sentAt = Date.now(), act = rpAct(url, opts);
     var ctl = typeof AbortController === "function" ? new AbortController() : null;
     opts = opts || {};
     if (ctl) {
@@ -15548,7 +15591,7 @@
           clearTimeout(timer);
           var data = null;
           try { data = JSON.parse(txt); } catch (e) { data = null; }
-          if (data && typeof data === "object") { if (data.cs && sentAt >= csFloor) applyClassState(data.cs); return data; }
+          if (data && typeof data === "object") { rpNet(act, sentAt, data.ok === false ? String(data.error || "refused") : ""); if (data.cs && sentAt >= csFloor) applyClassState(data.cs); return data; }
           var said = String(txt || "").replace(/<style[\s\S]*?<\/style>|<script[\s\S]*?<\/script>/gi, " ")
                        .replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 90);
           if (!r.ok) throw sheetError("http", "HTTP " + r.status + (said ? ": " + said : ""));
@@ -15557,6 +15600,7 @@
       })
       .catch(function (err) {
         clearTimeout(timer);
+        rpNet(act, sentAt, err && err.kind ? err.kind : timedOut ? "timeout" : "network");
         if (err && err.kind) throw err;
         if (timedOut) throw sheetError("timeout", "no answer in " + Math.round(wait / 1000) + " seconds");
         if (typeof navigator !== "undefined" && navigator.onLine === false) {
@@ -16526,6 +16570,11 @@
           '<div><b>English.</b> ' + (classState.english
             ? 'On. <button type="button" class="linky" id="tc-eng" data-on="0">Turn English off</button>'
             : 'Off. <button type="button" class="linky" id="tc-eng" data-on="1">Turn English on</button>') + "</div>" +
+          '<div><b>Problem reports.</b> ' + (classState.rep
+            ? 'Children can report. <button type="button" class="linky" id="tc-rep" data-on="0">Turn off for children</button>'
+            : 'Only you can report. <button type="button" class="linky" id="tc-rep" data-on="1">Let children report too</button>') +
+            ' <span class="tc-note">Reports go to the Problems tab in your sheet.</span></div>' +
+          '<div><b>New school year.</b> Archive this year and start the class again, keeping any children who stay. <button type="button" class="linky" id="tc-ny">Start a new year…</button></div>' +
           '<div><b>Points per game each day.</b> <select id="tc-cap">' +
             [[0, "No limit"], [1000, "1,000"], [1500, "1,500 (suggested)"], [2500, "2,500"], [4000, "4,000"]].concat(
               [1000, 1500, 2500, 4000, 0].indexOf(classState.cap | 0) < 0 ? [[classState.cap, fmtNum(classState.cap)]] : []).map(function (o) {
@@ -16637,6 +16686,13 @@
     if (tss) tss.addEventListener("click", function () { saveSpell(document.getElementById("tc-spelltext").value, tss); });
     var tsc = document.getElementById("tc-spellclear");
     if (tsc) tsc.addEventListener("click", function () { saveSpell("", tsc); });
+    var tny = document.getElementById("tc-ny");
+    if (tny) tny.addEventListener("click", nyOpen);
+    var trp = document.getElementById("tc-rep");
+    if (trp) trp.addEventListener("click", function () {
+      trp.disabled = true;
+      teacherClassAction({ action: "repset", on: trp.getAttribute("data-on") }).then(function () { drawBoard(); }, function () { trp.disabled = false; });
+    });
     var ten = document.getElementById("tc-eng");
     if (ten) ten.addEventListener("click", function () {
       ten.disabled = true;
@@ -22418,6 +22474,257 @@
   }
   var mgLastMm = { cat: "any", n: 5 }, mgLastTug = { topic: "mixed", secs: 60 };
   window.__live = { take: liveTake, seen: function () { return estSeen; }, now: function () { return liveNow; }, make: estMake, svg: estSVG, board: liveBoardOpen, full: function () { return liveFull; }, mm: mmRounds, tugq: tugQ, picks: function () { return mmPicks; } };
+
+
+  /* ==================== v112: report a problem ====================
+     The teacher's flag sits in the corner of every screen, the whiteboard
+     view included. Children get "Something wrong?" under the question when
+     the class switch is on. A report carries what the game saw: the version,
+     the screen, the question and what was typed, the live game, the last
+     replies from the sheet and any errors. If it cannot send, it waits on
+     the iPad and goes with the next one that does. */
+  var rpNetLog = [], rpErrLog = [], rpMark = null, rpQueue = [];
+  try { rpQueue = JSON.parse(localStorage.getItem("juglab.reports") || "[]") || []; } catch (e) { rpQueue = []; }
+  function rpAct(url, opts) {
+    var m = /"action":"([a-z0-9]+)"/.exec(String((opts && opts.body) || "")) || /[?&]action=([a-z0-9]+)/.exec(String(url || ""));
+    return m ? m[1] : "?";
+  }
+  function rpNet(act, t0, err) {
+    rpNetLog.push({ a: act, ms: Date.now() - t0, e: err || "" , at: new Date().toISOString().slice(11, 19) });
+    if (rpNetLog.length > 20) rpNetLog.shift();
+  }
+  window.addEventListener("error", function (e) {
+    rpErrLog.push({ m: String((e && e.message) || "error").slice(0, 160), w: String((e && e.filename) || "").slice(-30) + ":" + ((e && e.lineno) || 0), at: new Date().toISOString().slice(11, 19) });
+    if (rpErrLog.length > 10) rpErrLog.shift();
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    var r = e && e.reason;
+    rpErrLog.push({ m: "promise: " + String((r && (r.detail || r.message)) || r || "").slice(0, 160), at: new Date().toISOString().slice(11, 19) });
+    if (rpErrLog.length > 10) rpErrLog.shift();
+  });
+  function rpQKey(q) {
+    if (!q) return "";
+    return String(q.key || [state.measure, state.mode, q.ask || "", q.answer].join("|")).slice(0, 80);
+  }
+  /* the question as plain values: anything long (a picture's markup) is just measured */
+  function rpQ() {
+    var q = state.q; if (!q) return null;
+    var lv = state.levels && state.levels[state.measure] ? state.levels[state.measure][state.mode] : null;
+    var out = { subject: state.measure, game: state.mode, level: lv, tries: state.tries | 0, answered: !!state.answered };
+    Object.keys(q).forEach(function (k) {
+      var v = q[k];
+      if (typeof v === "function") return;
+      if (typeof v === "string") { out[k] = v.length > 300 && k !== "ask" ? "(" + v.length + " characters)" : v; return; }
+      try { var s = JSON.stringify(v); out[k] = s && s.length > 500 ? "(" + s.length + " characters)" : v; } catch (e) { /* skip */ }
+    });
+    return out;
+  }
+  function rpNoteMark(text, kind) {
+    if (kind !== "bad" && kind !== "good" && kind !== "hint") return;
+    var inp = document.getElementById("answer");
+    rpMark = { key: rpQKey(state.q), kind: kind, said: String(text || "").slice(0, 200), typed: inp ? String(inp.value).slice(0, 40) : "", tries: state.tries | 0, at: new Date().toISOString().slice(11, 19) };
+  }
+  function rpLiveCtx() {
+    var lv = typeof liveNow !== "undefined" ? liveNow : null;
+    if (!lv) return null;
+    var me = state.name ? String(state.name).trim().toLowerCase() : "";
+    return { game: lv.game, phase: lv.phase, round: lv.r, joined: Array.isArray(lv.j) ? lv.j.length : "(old script)",
+             meJoined: Array.isArray(lv.j) ? lv.j.some(function (x) { return String((x && x[0]) || x).trim().toLowerCase() === me; }) : null, id: lv.id };
+  }
+  function rpCtx(kind) {
+    var c = {
+      version: GAME_VERSION, when: new Date().toISOString(), screen: (typeof rbViewNow !== "undefined" ? rbViewNow : "") + (typeof liveShown !== "undefined" && liveShown ? " + whiteboard view" : ""),
+      teacher: !!TEACHER, size: window.innerWidth + "x" + window.innerHeight, online: navigator.onLine !== false,
+      app: navigator.standalone ? "Home Screen app" : "browser", agent: String(navigator.userAgent || "").slice(0, 160),
+      net: rpNetLog.slice(-12), errors: rpErrLog.slice(), fails: (shared.log || []).slice(-5),
+      live: rpLiveCtx()
+    };
+    if (kind !== "flag" || (rbViewNow === "play" && state.q)) {
+      c.question = rpQ(); c.mark = rpMark && rpMark.key === rpQKey(state.q) ? rpMark : null;
+      var pr = document.getElementById("prompt"), sl = document.getElementById("scaleline");
+      c.asked = ((pr ? pr.textContent : "") + " " + (sl ? sl.textContent : "")).replace(/\s+/g, " ").trim().slice(0, 300);
+      var bench = document.getElementById("bench");
+      if (bench && kind !== "other") c.picture = bench.innerHTML.slice(0, 20000);
+    }
+    if (typeof mgRun !== "undefined" && mgRun) c.minigame = { game: mgRun.game, phase: mgRun.phase, score: mgRun.score, q: mgRun.q ? JSON.stringify(mgRun.q).slice(0, 600) : null };
+    return c;
+  }
+  /* one line a person can read in the sheet */
+  function rpSummary(c) {
+    var bits = ["v" + c.version, c.teacher ? "teacher" : "child", "screen: " + (c.screen || "?")];
+    var q = c.question;
+    if (q) {
+      var gl = ""; try { gl = gameLabel(q.subject, q.game).label; } catch (e) { gl = q.game; }
+      bits.push((MEASURES[q.subject] ? MEASURES[q.subject].label : q.subject) + ", " + gl + ", level " + q.level);
+      var asked = q.ask || c.asked;
+      if (asked) bits.push('asked "' + String(asked).slice(0, 120) + '"');
+      if (q.answer != null) bits.push("right answer " + (q.choices ? "choice " + q.answer : q.answer) + (q.unit || q.unitText ? " " + (q.unit || q.unitText) : ""));
+      if (c.mark) bits.push('typed "' + c.mark.typed + '", told: ' + String(c.mark.said).replace(/[.!?]+$/, ""));
+    }
+    if (c.live) bits.push("live " + c.live.game + " (" + c.live.phase + ", " + c.live.joined + " joined" + (c.teacher ? "" : c.live.meJoined ? ", this iPad joined" : ", this iPad not joined") + ")");
+    if (c.minigame) bits.push("minigame " + c.minigame.game + " (" + c.minigame.phase + ")");
+    var net = c.net || [], slow = net.filter(function (x) { return !x.e; }), bad = net.filter(function (x) { return x.e; });
+    if (net.length) bits.push("sheet: " + (slow.length ? "replies avg " + (slow.reduce(function (a, x) { return a + x.ms; }, 0) / slow.length / 1000).toFixed(1) + " s" : "no good replies") + (bad.length ? ", " + bad.length + " failed (" + bad.slice(-3).map(function (x) { return x.a + " " + x.e; }).join(", ") + ")" : ""));
+    if (c.errors && c.errors.length) bits.push(c.errors.length + " errors, last: " + c.errors[c.errors.length - 1].m);
+    if (!c.online) bits.push("iPad offline");
+    return bits.join(". ").slice(0, 600);
+  }
+  function rpPost(r) {
+    var body = { action: "report", room: CLASS, name: state.name || r.who || "", kind: r.kind, note: r.note, summary: r.summary, ctx: r.ctx, qkey: r.qkey };
+    if (r.teacher) body.teacher = TEACHER_CODE; else { body.pin = state.pin || ""; body.pinv = 1; }
+    return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) }, 20000);
+  }
+  function rpSave() { try { localStorage.setItem("juglab.reports", JSON.stringify(rpQueue.slice(-10))); } catch (e) { /* full: it goes on the next try */ } }
+  var rpFlushing = false;
+  function rpFlush() {
+    if (rpFlushing || !rpQueue.length || !CONFIG.SHARED_URL || navigator.onLine === false) return;
+    rpFlushing = true;
+    var r = rpQueue[0];
+    rpPost(r).then(function (d) {
+      rpFlushing = false;
+      if (d && (d.ok || d.error === "off" || d.error === "many" || d.error === "unknown")) { rpQueue.shift(); rpSave(); if (rpQueue.length) setTimeout(rpFlush, 1500); }
+    }, function () { rpFlushing = false; });
+  }
+  setInterval(rpFlush, 45000);
+  setInterval(function () { try { rpDraw(); } catch (e) { /* next time */ } }, 2500);
+  window.addEventListener("online", function () { setTimeout(rpFlush, 3000); });
+
+  function rpKidsOn() { return !!(shared.on && classState.rep && !TEACHER && state.name); }
+  function rpDraw() {
+    var flag = document.getElementById("rpflag");
+    if (!flag) {
+      flag = document.createElement("button"); flag.type = "button"; flag.id = "rpflag"; flag.className = "rpflag";
+      flag.setAttribute("aria-label", "Report a problem");
+      flag.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Report</span>';
+      flag.addEventListener("click", function () { rpOpen("flag"); });
+      document.body.appendChild(flag);
+    }
+    flag.hidden = !(TEACHER && shared.on);
+    var link = document.getElementById("rpkid");
+    var v = document.getElementById("verdict");
+    if (!link && v) {
+      link = document.createElement("button"); link.type = "button"; link.id = "rpkid"; link.className = "rpkid"; link.textContent = "Something wrong?";
+      link.addEventListener("click", function () { rpOpen("kid"); });
+      v.parentNode.insertBefore(link, v.nextSibling);
+    }
+    if (link) link.hidden = !(rpKidsOn() && state.q);
+  }
+  function rpOpen(who) {
+    var box = document.getElementById("rpbox");
+    if (!box) {
+      box = document.createElement("div"); box.id = "rpbox"; box.className = "rpbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-labelledby", "rp-title");
+      document.body.appendChild(box);
+      box.addEventListener("click", function (e) {
+        if (e.target === box || e.target.closest("[data-rpx]")) { box.hidden = true; return; }
+        var k = e.target.closest("[data-rpkind]");
+        if (k) { box.querySelectorAll("[data-rpkind]").forEach(function (x) { x.classList.toggle("on", x === k); }); box.setAttribute("data-kind", k.getAttribute("data-rpkind")); box.querySelector("[data-rpsend]").disabled = false; return; }
+        if (e.target.closest("[data-rpsend]")) rpSend(box);
+      });
+    }
+    var marked = state.q && (state.tries | 0) > 0;
+    box.setAttribute("data-who", who);
+    box.setAttribute("data-kind", who === "flag" ? "flag" : "");
+    box.innerHTML = '<div class="rpcard"><button type="button" class="rpx" data-rpx="1" aria-label="Close">×</button>' +
+      (who === "flag"
+        ? '<h2 id="rp-title">Report a problem</h2><p class="rpsub">What went wrong? A few words is plenty. What the game can see is sent with it.</p>' +
+          '<textarea id="rp-note" maxlength="400" rows="3" placeholder="e.g. Mia stuck joining"></textarea>'
+        : '<h2 id="rp-title">Something wrong?</h2><p class="rpsub">Tell your teacher. Pick one.</p><div class="rpkinds">' +
+          (marked ? '<button type="button" data-rpkind="answer">I think my answer was right</button>' : "") +
+          '<button type="button" data-rpkind="look">Something looks wrong</button><button type="button" data-rpkind="other">Something else</button></div>' +
+          '<textarea id="rp-note" maxlength="200" rows="2" placeholder="Tell us more (you can skip this)"></textarea>') +
+      '<div class="rpbtns"><button type="button" class="rpgo" data-rpsend="1"' + (who === "flag" ? "" : " disabled") + ">Send</button></div><p class=\"rpmsg\" id=\"rp-msg\" role=\"status\"></p></div>";
+    box.hidden = false;
+    var note = document.getElementById("rp-note"); if (note && who === "flag") note.focus();
+  }
+  function rpSend(box) {
+    var who = box.getAttribute("data-who"), kind = box.getAttribute("data-kind") || "other";
+    var note = (document.getElementById("rp-note") || {}).value || "", msg = document.getElementById("rp-msg"), btn = box.querySelector("[data-rpsend]");
+    if (who === "flag" && !note.trim()) { msg.textContent = "Type a few words first."; return; }
+    var ctx = rpCtx(kind), r = { teacher: who === "flag", kind: kind, note: note.trim(), ctx: ctx, summary: rpSummary(ctx), qkey: who === "flag" ? "" : rpQKey(state.q), who: state.name };
+    btn.disabled = true; btn.textContent = "Sending…";
+    var close = function (text) { msg.textContent = text; setTimeout(function () { box.hidden = true; }, 1400); };
+    var keep = function () { rpQueue.push(r); rpSave(); close("Saved on this iPad. It will send when the internet is back."); };
+    if (!CONFIG.SHARED_URL) { close("This copy is not connected to a class sheet, so nothing was sent."); return; }
+    rpPost(r).then(function (d) {
+      if (d && d.ok) close(d.dup ? "You already told us about this one. Thanks!" : who === "flag" ? "Sent to the Problems tab." : "Sent. Thanks for telling us!");
+      else if (d && d.error === "many") close("That is a lot of reports today. Tell your teacher instead.");
+      else if (d && d.error === "off") close("Reports are turned off for this class.");
+      else if (d && (d.error === "teacher" || d.error === "pin")) { btn.disabled = false; btn.textContent = "Send"; msg.textContent = who === "flag" ? "The sheet did not accept the teacher password. Sign in again." : "Your PIN did not match. Sign in again."; }
+      else keep();
+    }, keep);
+  }
+
+
+  /* ==================== v113: a new school year ====================
+     From Class setup. The teacher ticks the children staying in the class
+     (a composite class keeps half of them), says whether they keep their
+     levels, and types NEW YEAR. The sheet archives the whole tab first. */
+  function nyYear() {
+    var d = new Date(), y = d.getFullYear();
+    return String(d.getMonth() < 6 ? y - 1 : y);   // in January the year that just finished is last year
+  }
+  function nyOpen() {
+    var box = document.getElementById("nybox");
+    if (!box) {
+      box = document.createElement("div"); box.id = "nybox"; box.className = "rpbox"; box.setAttribute("role", "dialog"); box.setAttribute("aria-modal", "true"); box.setAttribute("aria-labelledby", "ny-title");
+      document.body.appendChild(box);
+      box.addEventListener("click", function (e) {
+        if (e.target === box || e.target.closest("[data-nyx]")) { box.hidden = true; return; }
+        var all = e.target.closest("[data-nyall]");
+        if (all) { box.querySelectorAll("[data-nyname]").forEach(function (c) { c.checked = all.getAttribute("data-nyall") === "1"; }); nyCount(); return; }
+        if (e.target.closest("[data-nygo]")) nyGo(box);
+      });
+      box.addEventListener("input", function () { nyCount(); });
+      box.addEventListener("change", function () { nyCount(); });
+    }
+    var names = (shared.rows || []).map(function (r) { return String(r.name || ""); }).filter(function (n) { return n && !isTeacherName(n); })
+      .sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; });
+    box.innerHTML = '<div class="rpcard nycard"><button type="button" class="rpx" data-nyx="1" aria-label="Close">×</button>' +
+      '<h2 id="ny-title">Start a new school year</h2>' +
+      '<p class="rpsub">Everything for ' + esc(CLASS) + ' this year is copied to an archive tab in your sheet first, so nothing is lost.</p>' +
+      '<label class="nyrow">Name the archive <input id="ny-label" type="text" maxlength="20" value="' + esc(nyYear()) + '"></label>' +
+      '<p class="nyh">Who is staying in this class next year?</p>' +
+      '<p class="nysmall">Ticked children keep their name, PIN and character. Everyone else comes off the list. <button type="button" class="linky" data-nyall="1">Tick all</button> <button type="button" class="linky" data-nyall="0">Tick none</button></p>' +
+      '<div class="nylist">' + (names.length ? names.map(function (n) { return '<label><input type="checkbox" data-nyname="' + esc(n) + '"> ' + esc(n) + "</label>"; }).join("") : '<p class="nysmall">Nobody is on the list yet.</p>') + "</div>" +
+      '<label class="nyrow nycheck"><input type="checkbox" id="ny-levels" checked> Children who stay keep their levels</label>' +
+      '<p class="nysmall">For everyone: points, streaks, badges, trophies, the class jar, duels, minigame podiums and this week’s totals start again. Your settings stay (English, minigames, reports, the points cap, spelling). Every iPad goes back to the sign-in screen.</p>' +
+      '<label class="nyrow">Type <b>NEW YEAR</b> to confirm <input id="ny-confirm" type="text" maxlength="12" autocomplete="off" autocapitalize="characters"></label>' +
+      '<div class="rpbtns"><button type="button" class="rpgo nygo" data-nygo="1" disabled>Archive and start the new year</button></div><p class="rpmsg" id="ny-msg" role="status"></p></div>';
+    box.hidden = false;
+    nyCount();
+  }
+  function nyCount() {
+    var box = document.getElementById("nybox"); if (!box) return;
+    var n = box.querySelectorAll("[data-nyname]:checked").length, all = box.querySelectorAll("[data-nyname]").length;
+    var ok = String((document.getElementById("ny-confirm") || {}).value || "").trim().toUpperCase() === "NEW YEAR";
+    var go = box.querySelector("[data-nygo]");
+    if (go && !go.classList.contains("busy")) { go.disabled = !ok; go.textContent = "Archive and start the new year" + (all ? " (" + n + " staying)" : ""); }
+  }
+  function nyGo(box) {
+    var go = box.querySelector("[data-nygo]"), msg = document.getElementById("ny-msg");
+    var stay = [].map.call(box.querySelectorAll("[data-nyname]:checked"), function (c) { return c.getAttribute("data-nyname"); });
+    go.disabled = true; go.classList.add("busy"); go.textContent = "Archiving…"; msg.textContent = "";
+    teacherClassAction({ action: "newyear", stay: stay, levels: document.getElementById("ny-levels").checked ? "1" : "0",
+                         label: document.getElementById("ny-label").value, confirm: document.getElementById("ny-confirm").value })
+      .then(function (d) {
+        go.classList.remove("busy");
+        if (d && d.ok) {
+          box.querySelector(".nycard").innerHTML = '<h2 id="ny-title">Done. Welcome to the new year.</h2>' +
+            '<p class="rpsub">This year is saved in your sheet as <b>' + esc(d.archived) + "</b>. " + (d.kept ? d.kept + (d.kept === 1 ? " child stayed" : " children stayed") + " on the list." : "The class list is empty.") + "</p>" +
+            '<p class="rpsub">Every iPad will go back to the sign-in screen within a minute. Add next year’s children in Class setup.</p>' +
+            '<div class="rpbtns"><button type="button" class="rpgo" data-nyx="1">Close</button></div>';
+          try { pullShared(); } catch (e) { /* the next check does it */ }
+        } else {
+          go.disabled = false; nyCount();
+          msg.style.color = "#C92A2A";
+          msg.textContent = d && d.error === "confirm" ? "Type NEW YEAR in the box to confirm."
+            : d && (d.error === "teacher" || d.error === "locked") ? "The sheet did not accept the teacher password. Switch player and sign in as the teacher again."
+            : d && d.error === "busy" ? "The sheet is busy with scores. Try again in a minute, ideally when nobody is playing."
+            : d && d.ok === undefined && !d.error ? "This needs the newer sheet script (25 November). Paste it into Apps Script and deploy a new version."
+            : "That did not reach the sheet. Nothing changed. Try again.";
+        }
+      }, function () { go.classList.remove("busy"); go.disabled = false; nyCount(); msg.style.color = "#C92A2A"; msg.textContent = "That did not reach the sheet. Nothing changed. Try again."; });
+  }
 
   function rbDraw2() {
     var tb = document.querySelector('.rbtabs [data-view="teach"]');
