@@ -5725,6 +5725,69 @@
   .tc-sub { min-height: 34px; padding: 0 12px; border-radius: 999px; border: 2px solid var(--sub); background: #FFFFFF; color: #56677A; font: 700 13.5px/1 "DM Sans", system-ui, sans-serif; text-decoration: line-through; cursor: pointer; }
   .tc-sub.on { background: var(--sub); color: #FFFFFF; text-decoration: none; }
   .tc-sub:disabled { opacity: .6; cursor: default; }
+  /* ==================== v115: the teacher's saving note ==================== */
+  .tcsave { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); z-index: 9300; padding: 10px 18px; border-radius: 999px; background: #1B1B2F; color: #FFFFFF; font: 700 14.5px/1.2 "DM Sans", system-ui, sans-serif; box-shadow: 0 6px 18px rgba(0,0,0,0.2); max-width: calc(100vw - 32px); text-align: center; pointer-events: none; }
+  .tcsave[hidden] { display: none; }
+  .tcsave.ok { background: #2B8A3E; }
+  .tcsave.bad { background: #C92A2A; }
+  .tcbusy { opacity: .7; cursor: progress; }
+  @media print { .tcsave { display: none !important; } }
+  /* ==================== v116: the daily class game ==================== */
+  .dgtabs { display: flex; gap: 8px; justify-content: center; margin: 0 0 12px; }
+  .dgtabs button { min-width: 64px; min-height: 40px; border-radius: 12px; border: 2px solid #DEE2E6; background: #FFFFFF; font: 800 16px/1 Outfit, "DM Sans", system-ui, sans-serif; color: #1B1B2F; cursor: pointer; }
+  .dgtabs button.on { border-color: var(--mg); background: var(--mg); color: #FFFFFF; }
+  .dgtabs button.done:not(.on) { border-color: var(--mg); }
+  .dgrope { display: flex; align-items: center; gap: 10px; margin: 14px 0; font: 800 15px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  .dgrope > span:first-child, .dgrope > span:last-child { flex: none; min-width: 110px; }
+  .dgrope > span:last-child { text-align: right; }
+  .dgrope .me { color: var(--mg, #C92A2A); text-decoration: underline; text-underline-offset: 4px; }
+  .dgrope .track { position: relative; flex: 1; height: 10px; border-radius: 99px; background: linear-gradient(90deg, #E9ECEF 49.5%, #1B1B2F 49.5%, #1B1B2F 50.5%, #E9ECEF 50.5%); }
+  .dgrope .track i { position: absolute; top: 50%; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; background: var(--mg, #C92A2A); border: 3px solid #FFFFFF; box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: left .6s ease; }
+  .dgtile .lv > span { white-space: normal; }
+  .dgboard { position: fixed; inset: 0; z-index: 8850; display: flex; align-items: center; justify-content: center; padding: 3vh 3vw; background: rgba(27,27,47,0.6); }
+  .dgboard[hidden] { display: none; }
+  .dgbcard { position: relative; width: min(1100px, 100%); max-height: 94vh; overflow-y: auto; padding: 3vh 3vw; border-radius: 28px; background: #FFFFFF; border-top: 14px solid var(--mg); text-align: center; color: #1B1B2F; }
+  .dgbcard h2 { margin: 0 0 1vh; font: 800 clamp(30px, 4vw, 56px)/1.1 Outfit, "DM Sans", system-ui, sans-serif; }
+  .dgbkick { margin: 0; font: 800 clamp(14px, 1.4vw, 20px)/1 "DM Sans", system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--mg); }
+  .dgbq { font: 700 clamp(20px, 2.2vw, 32px)/1.2 Outfit, "DM Sans", system-ui, sans-serif; margin: 1vh 0; }
+  .dgbcard .estpic { width: min(34vh, 360px); }
+  .dgbig { font: 800 clamp(40px, 6vw, 84px)/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--mg); margin: 1vh 0; }
+  .dgbsub { font: 600 clamp(16px, 1.8vw, 24px)/1.3 "DM Sans", system-ui, sans-serif; color: #56677A; }
+  .dgbmm { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5vw; margin: 2vh 0; text-align: left; }
+  .dgbmm > div { padding: 1.5vh 1.2vw; border-radius: 18px; background: #F8F9FA; display: grid; gap: 6px; font: 600 clamp(14px, 1.5vw, 20px)/1.3 "DM Sans", system-ui, sans-serif; }
+  .dgbmm em { font-style: normal; color: var(--mg); font-weight: 800; }
+  .dgbteams { display: grid; grid-template-columns: 1fr 1fr; gap: 2vw; margin-top: 2vh; text-align: left; font: 600 clamp(14px, 1.5vw, 20px)/1.4 "DM Sans", system-ui, sans-serif; }
+  .dgbteams b { display: block; font: 800 clamp(18px, 2vw, 28px)/1.2 Outfit, sans-serif; }
+  .dgbcard .dgrope { font-size: clamp(18px, 2vw, 30px); }
+  .dgbcard .mgpod { max-width: 760px; margin: 1vh auto; font-size: clamp(16px, 1.8vw, 26px); }
+  /* the Tug of War reveal */
+  .dgshow { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px 14px; margin: 6px 0 12px; text-align: center; }
+  .dgside { display: grid; gap: 4px; padding: 12px 8px; border-radius: 16px; background: #F8F9FA; border: 3px solid transparent; transition: transform .3s ease, border-color .3s ease; }
+  .dgside b { font: 800 17px/1.2 Outfit, "DM Sans", system-ui, sans-serif; }
+  .dgside .ct { font: 800 44px/1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--mg, #C92A2A); font-variant-numeric: tabular-nums; }
+  .dgside small { color: #56677A; font: 600 12.5px/1.3 "DM Sans", system-ui, sans-serif; }
+  .dgside.me b { text-decoration: underline; text-underline-offset: 4px; }
+  .dgside.won { border-color: #F2C94C; background: #FFF9DB; transform: scale(1.05); }
+  .dgvs { font: 800 18px/1 Outfit, sans-serif; color: #ADB5BD; }
+  .dgshow .dgrope { grid-column: 1 / -1; margin: 4px 0; }
+  .dgshow .dgrope .track { height: 14px; }
+  .dgshow .dgrope .track i { width: 34px; height: 34px; margin: -17px 0 0 -17px; transition: none; }
+  .dgshow.done .dgrope .track i { transition: left .9s cubic-bezier(.2, 1.4, .4, 1); }
+  .dgper, .dgwin { grid-column: 1 / -1; margin: 0; opacity: 0; transform: translateY(6px); transition: opacity .4s ease, transform .4s ease; }
+  .dgper { font: 600 15px/1.3 "DM Sans", system-ui, sans-serif; color: #56677A; }
+  .dgwin { font: 800 30px/1.1 Outfit, "DM Sans", system-ui, sans-serif; color: var(--mg, #C92A2A); }
+  .dgper.on, .dgwin.on { opacity: 1; transform: none; }
+  .dgwin.on { animation: dgpop .5s ease; }
+  @keyframes dgpop { 0% { transform: scale(.6); } 70% { transform: scale(1.12); } 100% { transform: scale(1); } }
+  .dgbcard .dgshow { max-width: 960px; margin: 2vh auto; }
+  .dgbcard .dgside b { font-size: clamp(20px, 2.2vw, 32px); }
+  .dgbcard .dgside .ct { font-size: clamp(56px, 7vw, 110px); }
+  .dgbcard .dgside small, .dgbcard .dgper { font-size: clamp(15px, 1.6vw, 22px); }
+  .dgbcard .dgwin { font-size: clamp(36px, 5vw, 72px); }
+  .dgbcard .dgshow .dgrope .track { height: 20px; }
+  .dgbcard .dgshow .dgrope .track i { width: 52px; height: 52px; margin: -26px 0 0 -26px; }
+  @media (prefers-reduced-motion: reduce) { .dgshow.done .dgrope .track i, .dgwin.on { transition: none; animation: none; } }
+  .dgbcard .dgshow + .mgbtns { justify-content: center; }
   /* ==================== v76: the lab partner card ==================== */
   body.rb .stage { display: flex !important; flex-direction: column; gap: 14px; padding: 18px; align-items: stretch; }
   body.rb .stage > .ask { display: contents; }
@@ -9046,7 +9109,7 @@
 
      The two of them are gold rather than green, everywhere a level is shown. */
   var MAX_LEVEL = 8;
-  var GAME_VERSION = "114";
+  var GAME_VERSION = "117";
   var STRETCH_MAX = 14;
   function isStretch(lv) { return (lv | 0) > MAX_LEVEL; }
   /* The first two rungs stay inside 100 so a child working at a reception or
@@ -15509,6 +15572,7 @@
     if (!cs || typeof cs !== "object") return;
     try { mgTake(cs.mg); } catch (eMg) { /* minigames wait for the next status */ }
     try { liveTake(cs.live); } catch (eLive) { /* the live game waits for the next status */ }
+    if ("dg" in cs) { classState.dg = cs.dg || null; try { dgTake(cs.dg); } catch (eDg) { /* the class game waits for the next status */ } }
     var was = JSON.stringify(classState);
     classState = { paused: !!cs.paused, focus: cs.focus && cs.focus.measure ? { measure: cs.focus.measure, game: cs.focus.game } : null,
                    season: typeof cs.season === "string" ? cs.season : "auto", pins: cs.pins === true,
@@ -15591,11 +15655,44 @@
     var t = gotd();
     if (t) goTo(t.measure, t.game);
   });
+  /* Every teacher change that goes to the sheet shows it is happening: the
+     button pressed says "Saving…" straight away, and a note at the top of the
+     screen says Saving…, then Saved, or what went wrong. The sheet can take a
+     few seconds, and without this it is hard to tell whether a tap landed. */
+  var tcPress = null, tcSaving = 0, tcNoteTimer = 0;
+  document.addEventListener("click", function (e) {
+    var b = e.target && e.target.closest ? e.target.closest("button, select") : null;
+    if (b) tcPress = { el: b, at: Date.now() };
+  }, true);
+  document.addEventListener("change", function (e) {
+    if (e.target && e.target.tagName === "SELECT") tcPress = { el: e.target, at: Date.now() };
+  }, true);
+  function tcNote(text, kind) {
+    var n = document.getElementById("tcsave");
+    if (!n) { n = document.createElement("div"); n.id = "tcsave"; n.className = "tcsave"; n.setAttribute("role", "status"); n.setAttribute("aria-live", "polite"); document.body.appendChild(n); }
+    clearTimeout(tcNoteTimer);
+    n.textContent = text; n.className = "tcsave " + (kind || ""); n.hidden = false;
+    if (kind === "ok") tcNoteTimer = setTimeout(function () { n.hidden = true; }, 1600);
+    if (kind === "bad") tcNoteTimer = setTimeout(function () { n.hidden = true; }, 5000);
+  }
+  var TC_WHY = { teacher: "the teacher password was not accepted. Switch player and sign in again.", locked: "too many wrong passwords. Wait a few minutes.",
+                 busy: "the sheet is busy. Try again in a moment.", empty: "keep at least one maths subject showing.", confirm: "type the confirmation first." };
   function teacherClassAction(body) {
     body.room = CLASS; body.teacher = TEACHER_CODE;
+    var b = tcPress && Date.now() - tcPress.at < 1500 ? tcPress.el : null, was = "";
+    tcPress = null;
+    if (b && b.tagName === "BUTTON" && !b.classList.contains("busy")) { was = b.innerHTML; b.classList.add("tcbusy"); b.setAttribute("aria-busy", "true"); if (b.textContent.length < 40 && !b.hasAttribute("data-sub") && !b.hasAttribute("data-live") && !b.hasAttribute("data-livestart")) b.textContent = "Saving\u2026"; }
+    tcSaving++; tcNote("Saving\u2026", "");
+    var done = function (d) {
+      tcSaving = Math.max(0, tcSaving - 1);
+      if (b && document.body.contains(b) && b.classList.contains("tcbusy")) { b.classList.remove("tcbusy"); b.removeAttribute("aria-busy"); if (was) b.innerHTML = was; }
+      if (d && d.ok) { if (!tcSaving) tcNote("Saved", "ok"); }
+      else tcNote("Not saved: " + ((d && TC_WHY[d.error]) || "it did not reach the sheet. Try again."), "bad");
+      return d;
+    };
     return fetchSheet(CONFIG.SHARED_URL, { method: "POST", redirect: "follow",
       headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(body) })
-      .then(function (d) { if (d && d.cs) csFloor = Date.now(); return d; });
+      .then(function (d) { if (d && d.cs) csFloor = Date.now(); return done(d); }, function (err) { done(null); throw err; });
   }
 
   /* A check of the class state that set off before the teacher's last change
@@ -21556,8 +21653,8 @@
       var list = ((mgView && mgView.awards) || []).filter(function (a) { return a.game === game && String(a.id).indexOf(game + ":") === 0; });
       return mgView && mgView.day ? list.filter(function (a) { return a.day === mgView.day; }) : list.slice(0, 1);
     };
-    var ests = today("est"), mmA = today("mm")[0];
-    if (!on.length && !ests.length && !mmA) { if (el) el.hidden = true; return; }
+    var ests = today("est"), mmA = today("mm")[0], tugA = today("tug")[0];
+    if (!on.length && !ests.length && !mmA && !tugA) { if (el) el.hidden = true; return; }
     if (!el) {
       el = document.createElement("section"); el.id = "mgpods"; el.className = "mgpods"; el.setAttribute("aria-label", "Today\u2019s minigame podiums"); side.insertBefore(el, side.firstChild);
       el.addEventListener("click", function (e) { var x = e.target.closest("[data-drop]"); if (x) mgDropAsk(x); });
@@ -21574,7 +21671,8 @@
       var t = (a.top || [])[0]; return t ? li(1, t[0], "round " + (ests.length - i) + ", " + off(t), "est", a.id) : "";
     }).filter(Boolean));
     el.innerHTML = "<h3>Today\u2019s minigames</h3>" + on.map(function (k) { return row(MG[k].name, MG[k].col, (mgMine(k).top || []).map(function (t, i) { return li(i + 1, t[0], t[1] + " right", k, ""); })); }).join("") +
-      estRow + (mmA ? row("Mystery Measure, last game", MG.mm.col, (mmA.top || []).map(function (t, i) { return li(i + 1, t[0], t[1] + " points", "mm", mmA.id); })) : "");
+      estRow + (mmA ? row("Mystery Measure, last game", MG.mm.col, (mmA.top || []).map(function (t, i) { return li(i + 1, t[0], t[1] + " points", "mm", mmA.id); })) : "") +
+      (tugA && tugA.teams ? '<div class="mgpod1" style="--mg:' + MG.tug.col + '"><b>Tug of War, class game</b><p class="mgnote">' + (tugA.winner < 0 ? "A draw between " + esc(tugA.teams[0]) + " and " + esc(tugA.teams[1]) + "." : esc(tugA.teams[tugA.winner]) + " won.") + "</p></div>" : "");
     el.hidden = false;
   }
   function mgDropAsk(x) {
@@ -21675,12 +21773,14 @@
       else if (lj && liveNow.game === "est" && liveNow.phase === "guess" && estLocked(liveNow.id) == null) liveTile = "guess";
       else if (lj && liveNow.game !== "est") liveTile = "back";
     }
+    if (typeof dgOn === "function" && dgOn() && !TEACHER) on.unshift("daily");
     if (liveTile) on.unshift("live");
     if (!on.length) return "";
     var per = function (n, c) { var rows = Math.ceil(n / c), base = Math.floor(n / rows), extra = n % rows, out = [], r, j; for (r = 0; r < rows; r++) for (j = 0; j < base + (r < extra ? 1 : 0); j++) out.push(12 / (base + (r < extra ? 1 : 0))); return out; };
     var s2 = per(on.length, 2), s4 = per(on.length, 4);
-    var title = mgView.rotate && on.length === 1 && on[0] !== "live" ? "Today\u2019s minigame" : "Minigames";
+    var title = mgView.rotate && on.length === 1 && on[0] !== "live" && on[0] !== "daily" ? "Today\u2019s minigame" : "Minigames";
     return '<section class="rbgroup g-mini" aria-label="Minigames"><h3 class="rbgh">' + title + '</h3><div class="rbgtiles">' + on.map(function (k, i) {
+      if (k === "daily") return dgTile(s2[i], s4[i]);
       if (k === "live") { var LG = MG[liveNow.game]; return '<button type="button" class="rbtile mgtile" data-mg="live" style="background:' + LG.col + ";--c:" + LG.col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '"><span><b>' + esc(LG.name) + "</b><small>" + (liveTile === "join" ? "Your teacher is running a live game" : "You are playing") + '</small></span><span class="lv"><span>' + (liveTile === "join" ? "Tap to join" : liveTile === "guess" ? "Tap to make your guess" : "Tap to go back to the game") + "</span></span></button>"; }
       var m = mgMine(k);
       return '<button type="button" class="rbtile mgtile" data-mg="' + k + '" style="background:' + MG[k].col + ";--c:" + MG[k].col + ";--s2:" + s2[i] + ";--s4:" + s4[i] + '">' +
@@ -21759,6 +21859,7 @@
     return p;
   }
   function mgOpen(k) {
+    if (k === "daily") { dgOpen(); return; }
     if (k === "live") {
       if (!liveNow) return;
       if (!liveJoined(liveNow) || liveNow.phase === "lobby") liveOpen("lobby");
@@ -21923,7 +22024,7 @@
   /* ---- the Teacher tab ---- */
   function mgTeacherBits() {
     var v = mgView || { on: {}, g: {} }, rot = !!v.rotate, idx = MG_TIMED.indexOf(v.today), next = MG_TIMED[(idx + 1) % 4], lv = typeof liveNow !== "undefined" ? liveNow : null;
-    var h = '<p class="tc-note">A minigame that is on appears at the top of every child’s home screen. Each one says how it works below.</p><span id="mg-lphase" hidden data-k="' + (lv ? lv.id + lv.phase + (lv.left ? "" : "x") : "") + '"></span><div class="mgtcards">' +
+    var h = (typeof dgTeacherCard === "function" ? '<div class="mgtcards">' + dgTeacherCard() + "</div>" : "") + '<p class="tc-note">A minigame that is on appears at the top of every child’s home screen. Each one says how it works below.</p><span id="mg-lphase" hidden data-k="' + (lv ? lv.id + lv.phase + (lv.left ? "" : "x") : "") + '"></span><div class="mgtcards">' +
       '<div class="mgtcard mgrot' + (rot ? " on" : "") + '" style="--mg:#1B1B2F"><div class="mgthead"><b>Daily rotation</b><button type="button" class="linky" data-mgrot="' + (rot ? "0" : "1") + '">' + (rot ? "Turn off" : "Turn on") + "</button></div>" +
       "<p>" + (rot ? "One timed minigame each school day, in turn. Today: <b>" + esc((MG[v.today] || {}).name || "") + "</b>. Next school day: <b>" + esc((MG[next] || {}).name || "") + "</b>. Turn this off to choose the timed games yourself." : "Off: the timed games below are on or off as you set them. Turn this on to have one each school day, in turn.") + " Estimation Station, Mystery Measure and Tug of War only run when you start them.</p></div>";
     ["speed", "unit", "shop", "clock", "est", "mm", "tug"].forEach(function (k) {
@@ -21943,6 +22044,7 @@
   function mgTeacherSummary() { var v = mgView || {}, n = Object.keys(v.on || {}).length; return v.rotate ? "today: " + ((MG[v.today] || {}).name || "") : n ? n + " on" : "all off"; }
   function mgTeacherBind(box) {
     if (typeof liveTeacherBind === "function") liveTeacherBind(box);
+    if (typeof dgTeacherBind === "function") dgTeacherBind(box);
     box.querySelectorAll("select[data-mgsecs]").forEach(function (sel) {
       sel.addEventListener("change", function () {
         var k = sel.getAttribute("data-mgsecs");
@@ -22697,6 +22799,306 @@
   }
 
 
+  /* ==================== v116: the daily class game ====================
+     One live game each school day, played whenever a child likes until 2:30pm,
+     then revealed on every iPad. It turns: Estimation Station, Mystery Measure,
+     Tug of War. The sheet keeps the answers and works out the results; this
+     side draws the tile, the game, and the teacher's switches.
+       Estimation Station: one guess each.
+       Mystery Measure: three objects. Clue 1 fits all four answers, so a child
+         unlocks clue 2 (and 3 if they like) and locks in: 100 after two clues,
+         60 after three.
+       Tug of War: two even teams for the day; three one-minute pulls each; the
+         team with more right answers per player wins. */
+  var dgNow = null, dgMade = {}, DG_MM_PTS = [0, 0, 100, 60];
+  window.__dg = function () { return dgNow; };
+  function dgOn() { return !!(dgNow && dgNow.on && dgNow.game && shared.on); }
+  function dgStoreKey() { return "dg:" + (dgNow ? dgNow.day + ":" + dgNow.game : "") + ":" + nameKeyLocal(state.name); }
+  function dgMine() { try { return JSON.parse(localStorage.getItem(dgStoreKey()) || "null"); } catch (e) { return null; } }
+  function dgKeep(m) { try { localStorage.setItem(dgStoreKey(), JSON.stringify(m)); } catch (e) { /* the sheet has it */ } }
+  function dgTake(v) {
+    var was = JSON.stringify(dgNow);
+    dgNow = v && typeof v === "object" ? v : null;
+    if (was === JSON.stringify(dgNow)) return;
+    dgMaybeMake();
+    try { if (RB_ON && rbViewNow === "home" && !document.body.classList.contains("mg-open")) rbDraw(); } catch (e) { /* drawn next time */ }
+    var p = document.getElementById("mgpanel");
+    if (mgRun && mgRun.dg && mgRun.phase !== "play" && p && !p.hidden) dgDraw();
+    var bd = document.getElementById("dgboard"); if (bd && !bd.hidden) dgBoardDraw();
+  }
+  /* The first iPad to open the game makes today's puzzle and sends it; the
+     sheet keeps the first one, so every iPad then has the same jar. */
+  function dgMaybeMake() {
+    if (!dgOn() || dgNow.rev || dgNow.p || TEACHER || !state.name || dgMade[dgNow.day + dgNow.game]) return;
+    if (dgNow.game !== "est" && dgNow.game !== "mm") return;
+    dgMade[dgNow.day + dgNow.game] = 1;
+    var body = dgNow.game === "est" ? { action: "dgmake", game: "est", p: estMake("") } : { action: "dgmake", game: "mm", rounds: mmRounds("any", 3) };
+    mgPost(body).then(function (d) { if (d && d.dg) dgTake(d.dg); else dgMade[dgNow.day + dgNow.game] = 0; }, function () { dgMade[dgNow.day + dgNow.game] = 0; });
+  }
+  function dgTeamOf(name) {
+    var me = nameKeyLocal(name), t = -1;
+    ((dgNow && dgNow.p && dgNow.p.teams) || []).forEach(function (tm, i) { (tm.kids || []).forEach(function (k) { if (nameKeyLocal(k) === me) t = i; }); });
+    return t;
+  }
+  /* ---- the tile on the home screen ---- */
+  function dgTileLine() {
+    var g = dgNow.game, mine = dgMine(), at = dgNow.at || "2:30 pm";
+    if (dgNow.rev) {
+      if (g === "est" && dgNow.res) return "The answer was " + liveFmt(dgNow.res.truth, dgNow.p) + ". Tap to see who was closest.";
+      if (g === "mm") return "The answers are out. Tap to see how you went.";
+      if (g === "tug" && dgNow.res) return dgNow.res.winner < 0 ? "A draw! Tap to see." : esc(dgNow.res.teams[dgNow.res.winner].name) + " won. Tap to see.";
+      return "Finished for today.";
+    }
+    if (g === "est") return mine && mine.v != null ? "You guessed " + esc(liveFmt(mine.v, dgNow.p || { unit: "" })) + ". Reveal at " + at + "." : "One guess each before " + at + ".";
+    if (g === "mm") { var done = mine && mine.picks ? mine.picks.filter(function (x) { return x; }).length : 0; return done + " of 3 solved. Answers at " + at + "."; }
+    if (g === "tug") {
+      var t = dgTeamOf(state.name), left = 3 - ((mine && mine.tries) || 0), sc = dgNow.score || [];
+      return (t > -1 ? "You are a " + esc(dgNow.p.teams[t].name.replace(/s$/, "")) + ". " : "") + (left > 0 ? left + (left === 1 ? " pull" : " pulls") + " left. " : "") + (sc.length ? esc(sc[0].name) + " " + sc[0].pull + " v " + esc(sc[1].name) + " " + sc[1].pull : "");
+    }
+    return "";
+  }
+  function dgTile(span2, span4) {
+    if (!dgOn() || TEACHER) return "";
+    var G = MG[dgNow.game];
+    return '<button type="button" class="rbtile mgtile dgtile" data-mg="daily" style="background:' + G.col + ";--c:" + G.col + ";--s2:" + span2 + ";--s4:" + span4 + '">' +
+      "<span><b>" + esc(G.name) + "</b><small>Class game of the day" + (dgNow.n ? " · " + dgNow.n + " played" : "") + "</small></span>" +
+      '<span class="lv"><span>' + dgTileLine() + "</span></span></button>";
+  }
+  /* ---- the game, in the minigame panel ---- */
+  function dgOpen() {
+    if (!dgOn()) return;
+    var p = mgPanel();
+    mgRun = { game: dgNow.game === "tug" ? "tug" : dgNow.game, dg: 1, phase: "dg", score: 0, mist: 0, obj: 0 };
+    p.style.setProperty("--mg", MG[dgNow.game].col); p.hidden = false; document.body.classList.add("mg-open");
+    dgDraw();
+  }
+  function dgHead(stat) { livePanelHead(MG[dgNow.game].name, stat || "Class game of the day"); }
+  function dgDraw(msg) {
+    var body = document.getElementById("mg-body"); if (!body || !dgNow || !mgRun || !mgRun.dg) return;
+    if (dgNow.game === "est") return dgEstDraw(body, msg);
+    if (dgNow.game === "mm") return dgMmDraw(body, msg);
+    return dgTugDraw(body, msg);
+  }
+  function dgWait(body) { dgHead(); body.innerHTML = '<div class="waiting"><div class="spin"></div><p class="mgnote">Getting today’s game ready…</p></div>'; dgMaybeMake(); }
+  function dgPod(list, fmt) {
+    var me = nameKeyLocal(state.name);
+    return '<ol class="mgpod">' + list.slice(0, 5).map(function (r, i) { return '<li class="p' + (i + 1) + (nameKeyLocal(r[0]) === me ? " me" : "") + '"><span class="pl">' + MG_PLACE[i] + "</span><b>" + esc(r[0]) + "</b><span>" + fmt(r) + "</span></li>"; }).join("") + "</ol>";
+  }
+  function dgEstDraw(body, msg) {
+    var p = dgNow.p; if (!p) return dgWait(body);
+    var mine = dgMine();
+    dgHead();
+    if (dgNow.rev && dgNow.res) {
+      var me = nameKeyLocal(state.name), place = -1, list = dgNow.res.list || [];
+      list.forEach(function (g, i) { if (nameKeyLocal(g[0]) === me && place < 0) place = i; });
+      var my = place > -1 ? list[place] : null;
+      body.innerHTML = '<div class="mgdone"><p class="mgnote">The real amount was</p><p class="mgbig">' + esc(liveFmt(dgNow.res.truth, p)) + "</p>" + estSVG(p, dgNow.res.truth) +
+        (my ? "<p>You guessed <b>" + esc(liveFmt(my[1], p)) + "</b>: " + (my[2] ? esc(liveFmt(my[2], p)) + " off" : "spot on!") + ". You came <b>" + (place + 1) + "</b> of " + list.length + ".</p>" : "<p>You did not guess today.</p>") +
+        "<h4>Closest</h4>" + dgPod(list, function (r) { return esc(liveFmt(r[1], p)); }) + '<div class="mgbtns"><button type="button" class="mgdone-b" data-mgx="1">Done</button></div></div>';
+      return;
+    }
+    body.innerHTML = '<div class="estq"><p class="mgask">' + esc(p.ask) + '</p><p class="estref">' + esc(p.ref) + "</p>" + estSVG(p) +
+      (mine && mine.v != null ? '<p class="estdone">Locked in: <b>' + esc(liveFmt(mine.v, p)) + "</b>. The answer comes out at " + esc(dgNow.at) + ".</p>"
+        : '<p class="mgnote">One guess each, before ' + esc(dgNow.at) + '. Closest five win bonus points.</p><form class="estin" id="dg-form"><input id="dg-g" inputmode="decimal" autocomplete="off" placeholder="Your guess" aria-label="Your guess"><span>' + esc(p.unit) + '</span><button type="submit">Lock it in</button></form>' + (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "")) + "</div>";
+    var f = document.getElementById("dg-form");
+    if (f) f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var raw = String(document.getElementById("dg-g").value).replace(/,/g, "").trim(), v = Number(raw);
+      if (!raw || !/^\d+(\.\d+)?$/.test(raw) || !isFinite(v)) { dgDraw("Type a number first."); return; }
+      f.querySelector("button").disabled = true; f.querySelector("button").textContent = "Sending…";
+      mgPost({ action: "dgguess", value: v }).then(function (d) {
+        if (d && d.ok) { dgKeep({ v: d.mine ? d.mine[1] : v }); if (d.dg) dgTake(d.dg); dgDraw(); }
+        else dgDraw(d && d.error === "over" ? "It has been revealed already." : "That did not send. Try again.");
+      }, function () { dgDraw("That did not send. Try again."); });
+    });
+  }
+  function dgMmDraw(body, msg) {
+    var p = dgNow.p; if (!p || !p.rounds) return dgWait(body);
+    var mine = dgMine() || { seen: [1, 1, 1], picks: [null, null, null] }, r = mgRun.obj | 0, q = p.rounds[r], seen = mine.seen[r] || 1, pk = mine.picks[r];
+    var rev = !!dgNow.rev, ans = rev && q.ans != null ? q.ans : null;
+    dgHead("Object " + (r + 1) + " of 3");
+    var tabs = '<div class="dgtabs">' + p.rounds.map(function (x, i) { return '<button type="button" data-dgobj="' + i + '" class="' + (i === r ? "on" : "") + (mine.picks[i] ? " done" : "") + '">' + (i + 1) + (mine.picks[i] ? " ✓" : "") + "</button>"; }).join("") + "</div>";
+    var shown = rev ? 3 : Math.max(seen, pk ? pk[1] : 1);
+    var h = tabs + '<div class="mmq"><div class="iref"><span>' + esc(q.refIcon || "") + "</span>Something you know: " + esc(q.ref || "") + "</div>" +
+      q.clues.slice(0, shown).map(function (c, i) { return '<div class="iclue">Clue ' + (i + 1) + ": " + esc(c) + "</div>"; }).join("") +
+      '<p class="mgask">' + esc(q.ask || "") + '</p><div class="mgopts mm4">' + q.opts.map(function (o, i) {
+        var cls = pk && pk[0] === i ? " sel" : ""; if (ans === i) cls += " yes"; else if (rev && pk && pk[0] === i) cls += " no";
+        return '<button type="button" class="mgopt' + cls + '" data-dgpick="' + i + '"' + (rev || pk || shown < 2 ? " disabled" : "") + ">" + esc(o) + "</button>"; }).join("") + "</div>";
+    if (rev) {
+      var got = pk && pk[0] === ans ? DG_MM_PTS[pk[1]] : 0, me = nameKeyLocal(state.name), tot = 0;
+      (dgNow.res && dgNow.res.list || []).forEach(function (s) { if (nameKeyLocal(s[0]) === me) tot = s[1]; });
+      h += '<p class="estdone">It was <b>' + esc(q.opts[ans]) + "</b>: " + esc(q.what || "") + " " + esc(q.icon || "") + "<br>" + (pk ? (got ? "You got it: " + got + " points." : "Not this one.") : "You did not try this one.") + " Your total today: <b>" + tot + "</b>.</p>" +
+        "<h4>Top scores</h4>" + dgPod((dgNow.res && dgNow.res.list) || [], function (s) { return s[1] + " points"; });
+    } else if (pk) h += '<p class="estdone">Locked in: <b>' + esc(q.opts[pk[0]]) + "</b> after " + pk[1] + " clues. Answers at " + esc(dgNow.at) + ".</p>";
+    else if (shown < 2) h += '<p class="mgnote">Clue 1 fits all four. Show clue 2, then pick.</p><div class="mgbtns"><button type="button" class="mggo" data-dgclue="2">Show clue 2</button></div>';
+    else h += '<p class="mgnote">Tap your answer to lock it in: <b>' + DG_MM_PTS[shown] + " points</b> if it is right." + (shown < 3 ? " Or show clue 3 first (then it is worth 60)." : "") + "</p>" +
+      (shown < 3 ? '<div class="mgbtns"><button type="button" class="mgdone-b" data-dgclue="3">Show clue 3</button></div>' : "");
+    if (msg) h += '<p class="esterr">' + esc(msg) + "</p>";
+    body.innerHTML = h + "</div>";
+  }
+  function dgTugDraw(body, msg) {
+    var p = dgNow.p; if (!p || !p.teams) return dgWait(body);
+    var mine = dgMine() || { tries: 0, right: 0 }, t = dgTeamOf(state.name), sc = dgNow.score || (dgNow.res && dgNow.res.teams) || [];
+    dgHead();
+    var rope = sc.length === 2 ? dgRope(sc, t) : "";
+    if (dgNow.rev && dgNow.res) {
+      body.innerHTML = '<div class="mgdone">' + dgTugShowHtml(dgNow.res, t) +
+        (mine.tries ? "<p>You pulled " + mine.right + " times today.</p>" : "") + '<div class="mgbtns"><button type="button" class="mgdone-b" data-dgreplay="1">Watch again</button><button type="button" class="mgdone-b" data-mgx="1">Done</button></div></div>';
+      var seenKey = "dgshow:" + dgNow.day + ":tug", seen = false;
+      try { seen = localStorage.getItem(seenKey) === "1"; localStorage.setItem(seenKey, "1"); } catch (e) { /* plays each time */ }
+      dgTugPlay(body.querySelector(".dgshow"), dgNow.res, seen);
+      return;
+    }
+    var left = 3 - (mine.tries || 0);
+    body.innerHTML = '<div class="mgintro"><p class="mgline">' + (t > -1 ? "You are on <b>" + esc(p.teams[t].name) + "</b>." : "You will join the smaller team.") + " Every right answer pulls the rope. The team with more right answers per player at " + esc(dgNow.at) + " wins.</p>" + rope +
+      (t > -1 ? '<p class="mgnote">Your team: ' + p.teams[t].kids.map(esc).join(", ") + "</p>" : "") +
+      (mine.tries ? "<p>You have pulled <b>" + mine.right + "</b> times so far.</p>" : "") +
+      (left > 0 ? '<button type="button" class="mggo" data-dgtug="1">Start a pull: 1 minute (' + left + " left)</button>" : '<p class="mgnote">No pulls left today. The result is at ' + esc(dgNow.at) + ".</p>") +
+      (msg ? '<p class="esterr">' + esc(msg) + "</p>" : "") + "</div>";
+  }
+  function dgRope(sc, mineT) {
+    var d = (sc[0].pull || 0) - (sc[1].pull || 0), x = Math.max(-1, Math.min(1, d / 6));
+    return '<div class="dgrope" aria-label="' + esc(sc[0].name) + " " + sc[0].pull + ", " + esc(sc[1].name) + " " + sc[1].pull + '"><span class="' + (mineT === 0 ? "me" : "") + '">' + esc(sc[0].name) + " " + sc[0].pull + '</span><span class="track"><i style="left:' + (50 - x * 40) + '%"></i></span><span class="' + (mineT === 1 ? "me" : "") + '">' + sc[1].pull + " " + esc(sc[1].name) + "</span></div>";
+  }
+  /* ---- the Tug of War reveal: both teams' right answers count up, the rope
+     is pulled back and forth as they do, then it goes to the winners' side.
+     With moving effects off (or the iPad set to reduce motion) it shows the
+     end straight away. ---- */
+  function dgTugShowHtml(res, mineT) {
+    var t = res.teams;
+    return '<div class="dgshow">' + [0, 1].map(function (i) {
+        return '<div class="dgside s' + i + (mineT === i ? " me" : "") + '"><b>' + esc(t[i].name) + (mineT === i ? " (your team)" : "") + '</b><span class="ct" data-ct="' + i + '">0</span><small>right answers from ' + t[i].players + (t[i].players === 1 ? " player" : " players") + "</small></div>";
+      }).join('<div class="dgvs">v</div>') +
+      '<div class="dgrope big"><span></span><span class="track"><i data-ball="1" style="left:50%"></i></span><span></span></div>' +
+      '<p class="dgper" data-per="1">Per player: <b>' + esc(t[0].name) + " " + t[0].pull + "</b> \u00b7 <b>" + esc(t[1].name) + " " + t[1].pull + "</b></p>" +
+      '<p class="dgwin" data-win="1">' + (res.winner < 0 ? "A draw!" : esc(t[res.winner].name) + " win!" + (mineT === res.winner ? " That\u2019s your team!" : "")) + "</p></div>";
+  }
+  function dgTugPlay(el, res, quick) {
+    if (!el) return;
+    var t = res.teams, ball = el.querySelector("[data-ball]"), cts = el.querySelectorAll("[data-ct]"), per = el.querySelector("[data-per]"), win = el.querySelector("[data-win]");
+    var place = function (a, b) {
+      var p0 = t[0].players ? a / t[0].players : 0, p1 = t[1].players ? b / t[1].players : 0, x = Math.max(-1, Math.min(1, (p0 - p1) / 6));
+      ball.style.left = (50 - x * 42) + "%";
+    };
+    var finish = function () {
+      cts[0].textContent = t[0].right; cts[1].textContent = t[1].right; place(t[0].right, t[1].right);
+      if (res.winner > -1) ball.style.left = (res.winner === 0 ? 8 : 92) + "%";
+      per.classList.add("on"); win.classList.add("on");
+      el.classList.add("done"); if (res.winner > -1) el.querySelector(".dgside.s" + res.winner).classList.add("won");
+    };
+    el.classList.remove("done"); per.classList.remove("on"); win.classList.remove("on");
+    el.querySelectorAll(".dgside").forEach(function (x) { x.classList.remove("won"); });
+    if (quick || rbStill() || !window.requestAnimationFrame) { finish(); return; }
+    var start = 0, dur = 4200 + Math.min(2500, Math.max(t[0].right, t[1].right) * 40);
+    var step = function (now) {
+      if (!el.isConnected) return;
+      if (!start) start = now;
+      var f = Math.min(1, (now - start) / dur);
+      // each side counts at its own pace, with a little wobble, so the rope tugs both ways
+      var e0 = Math.min(1, f * (1 + 0.18 * Math.sin(f * 9))), e1 = Math.min(1, f * (1 + 0.18 * Math.sin(f * 9 + 2.4)));
+      var a = Math.round(t[0].right * e0), b = Math.round(t[1].right * e1);
+      cts[0].textContent = a; cts[1].textContent = b; place(a, b);
+      if (f < 1) requestAnimationFrame(step); else setTimeout(finish, 350);
+    };
+    requestAnimationFrame(step);
+  }
+  /* A one-minute pull: the Tug of War questions, then the count goes to the sheet. */
+  function dgTugGo() {
+    var r = mgRun; if (!r || !r.dg) return;
+    r.phase = "play"; r.topic = "mixed"; r.score = 0; r.mist = 0; r.secs = 60; r.end = Date.now() + 60000;
+    mgNext();
+    r.timer = setInterval(function () {
+      if (mgRun !== r) { clearInterval(r.timer); return; }
+      var left = Math.max(0, r.end - Date.now()), bar = document.getElementById("mg-time"), st = document.getElementById("mg-stat");
+      if (bar) bar.style.width = (left / 600) + "%";
+      if (st) st.textContent = r.score + " pulls · " + Math.ceil(left / 1000) + "s";
+      if (!left) { clearInterval(r.timer); r.phase = "dg"; dgTugSend(r.score, 0); }
+    }, 200);
+  }
+  function dgTugSend(n, tries) {
+    var body = document.getElementById("mg-body");
+    if (body) body.innerHTML = '<div class="waiting"><div class="spin"></div><h3>Time!</h3><p class="mgnote">You pulled ' + n + " times. Sending…</p></div>";
+    mgPost({ action: "dgtug", right: n }).then(function (d) {
+      if (d && d.ok) { dgKeep({ tries: d.mine[2], right: d.mine[3] }); if (d.dg) dgTake(d.dg); dgDraw("You pulled " + n + " times. Your team thanks you!"); }
+      else if (d && d.error === "tries") { dgKeep({ tries: 3, right: (d.mine && d.mine[3]) || 0 }); dgDraw("No pulls left today."); }
+      else if (tries < 2) setTimeout(function () { dgTugSend(n, tries + 1); }, 2500);
+      else dgDraw("Your pulls did not send. Tell your teacher.");
+    }, function () { if (tries < 2) setTimeout(function () { dgTugSend(n, tries + 1); }, 2500); else dgDraw("Your pulls did not send. Tell your teacher."); });
+  }
+  /* The taps inside the panel for the daily game. */
+  document.addEventListener("click", function (e) {
+    if (!mgRun || !mgRun.dg) return;
+    var t = e.target;
+    var ob = t.closest && t.closest("[data-dgobj]"); if (ob) { mgRun.obj = Number(ob.getAttribute("data-dgobj")); dgDraw(); return; }
+    var cl = t.closest && t.closest("[data-dgclue]");
+    if (cl) { var m = dgMine() || { seen: [1, 1, 1], picks: [null, null, null] }; m.seen[mgRun.obj] = Number(cl.getAttribute("data-dgclue")); dgKeep(m); dgDraw(); return; }
+    var pk = t.closest && t.closest("[data-dgpick]");
+    if (pk && !pk.disabled) {
+      var mm = dgMine() || { seen: [1, 1, 1], picks: [null, null, null] }, r = mgRun.obj, i = Number(pk.getAttribute("data-dgpick")), seen = Math.max(2, mm.seen[r] || 2);
+      if (!window.confirm("Lock in " + dgNow.p.rounds[r].opts[i] + "? You cannot change it.")) return;
+      mm.picks[r] = [i, seen]; dgKeep(mm); dgDraw();
+      mgPost({ action: "dgpick", r: r, pick: i, seen: seen }).then(function (d) {
+        if (d && d.ok && d.mine) { var srv = d.mine[1][r]; if (srv) { mm.picks[r] = srv; dgKeep(mm); } if (d.dg) dgTake(d.dg); dgDraw(); }
+        else if (!d || d.error !== "over") { mm.picks[r] = null; dgKeep(mm); dgDraw("That did not send. Tap your answer again."); }
+      }, function () { mm.picks[r] = null; dgKeep(mm); dgDraw("That did not send. Tap your answer again."); });
+      return;
+    }
+    if (t.closest && t.closest("[data-dgtug]")) { dgTugGo(); return; }
+    if (t.closest && t.closest("[data-dgreplay]") && dgNow && dgNow.res) { dgTugPlay(document.querySelector("#mg-body .dgshow"), dgNow.res, false); return; }
+  });
+  /* ---- the teacher's card, in the Minigames group ---- */
+  function dgTeacherCard() {
+    var v = dgNow || (classState.dg || null), on = v ? v.on !== 0 : true;
+    var what = !v ? "Waiting for the sheet…" : !on ? "Off. No class game until you turn it on." : !v.game ? "No class game today (weekend)." :
+      MG[v.game].name + " today · " + (v.n || 0) + " played · " + (v.rev ? (v.early ? "revealed early" : "revealed at " + v.at) : "reveals at " + v.at);
+    return '<div class="mgtcard wide"><b>Class game of the day</b><p class="tc-note">One live game a school day, played whenever children like, revealed at 2:30 pm. It turns: Estimation Station, Mystery Measure, Tug of War.</p>' +
+      '<p class="mgtnow" id="dg-now">' + esc(what) + '</p><div class="mgtbtns">' +
+      (on && v && v.game && !v.rev ? '<button type="button" class="linky go" data-dgt="dgreveal">Reveal now</button>' : "") +
+      (on && v && v.game ? '<button type="button" class="linky" data-dgt="dgskip">Change to the next game</button><button type="button" class="linky" data-dgt="board">Show on the board</button>' : "") +
+      '<button type="button" class="linky" data-dgt="dgset" data-on="' + (on ? "0" : "1") + '">' + (on ? "Turn it off" : "Turn it on") + "</button></div></div>";
+  }
+  function dgTeacherBind(box) {
+    box.querySelectorAll("[data-dgt]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var a = b.getAttribute("data-dgt");
+        if (a === "board") { dgBoardOpen(); return; }
+        if (a === "dgreveal" && !window.confirm("Reveal today’s class game now? Nobody can play it after that.")) return;
+        if (a === "dgskip" && dgNow && dgNow.n && !window.confirm(dgNow.n + " children have played today’s game. Changing it starts a new game and their entries go. Change it?")) return;
+        teacherClassAction(a === "dgset" ? { action: a, on: b.getAttribute("data-on") } : { action: a }).then(function (d) { if (d && d.cs) dgTake(d.cs.dg); drawBoard(); }, function () { drawBoard(); });
+      });
+    });
+  }
+  /* ---- on the board: the teacher's screen, big ---- */
+  var dgBoardTimer = 0, dgBoardPlayed = {};
+  function dgBoardOpen() {
+    var bd = document.getElementById("dgboard");
+    if (!bd) {
+      bd = document.createElement("div"); bd.id = "dgboard"; bd.className = "dgboard"; bd.setAttribute("role", "dialog"); bd.setAttribute("aria-modal", "true");
+      document.body.appendChild(bd);
+      bd.addEventListener("click", function (e) {
+        if (e.target.closest("[data-dgbx]")) { bd.hidden = true; clearInterval(dgBoardTimer); return; }
+        if (e.target.closest("[data-dgbreplay]") && dgNow && dgNow.res) { dgTugPlay(bd.querySelector(".dgshow"), dgNow.res, false); return; }
+        if (e.target.closest("[data-dgbrev]") && window.confirm("Reveal today’s class game now? Nobody can play it after that.")) teacherClassAction({ action: "dgreveal" }).then(function (d) { if (d && d.cs) dgTake(d.cs.dg); });
+      });
+    }
+    bd.hidden = false; dgBoardDraw();
+    clearInterval(dgBoardTimer);
+    dgBoardTimer = setInterval(function () { if (bd.hidden) { clearInterval(dgBoardTimer); return; } fetchSheet(sharedUrl({ action: "status", room: CLASS }), { method: "GET", redirect: "follow" }).then(function () {}, function () {}); }, 8000);
+  }
+  function dgBoardDraw() {
+    var bd = document.getElementById("dgboard"); if (!bd || !dgNow) return;
+    var v = dgNow, G = MG[v.game] || { name: "", col: "#1B1B2F" }, h = "";
+    if (v.game === "est" && v.p) h = '<p class="dgbq">' + esc(v.p.ask) + "</p>" + estSVG(v.p, v.rev && v.res ? v.res.truth : undefined) +
+      (v.rev && v.res ? '<p class="dgbig">' + esc(liveFmt(v.res.truth, v.p)) + "</p>" + dgPod(v.res.list || [], function (r) { return esc(liveFmt(r[1], v.p)) + (r[2] ? " · " + esc(liveFmt(r[2], v.p)) + " off" : " · spot on"); }) : '<p class="dgbsub">' + v.n + " guesses so far. The answer at " + esc(v.at) + ".</p>");
+    else if (v.game === "mm" && v.p) h = '<div class="dgbmm">' + v.p.rounds.map(function (q, i) { return '<div><b>Object ' + (i + 1) + "</b><span>" + esc(q.ask) + "</span>" + (v.rev && q.ans != null ? '<em>' + esc(q.opts[q.ans]) + " · " + esc(q.what || "") + " " + esc(q.icon || "") + "</em>" : "<em>" + q.opts.map(esc).join(" · ") + "</em>") + "</div>"; }).join("") + "</div>" +
+      (v.rev && v.res ? dgPod(v.res.list || [], function (s) { return s[1] + " points"; }) : '<p class="dgbsub">' + v.n + " playing. Answers at " + esc(v.at) + ".</p>");
+    else if (v.game === "tug" && v.p && v.rev && v.res) h = dgTugShowHtml(v.res, -1) + '<div class="mgbtns"><button type="button" class="mggo" data-dgbreplay="1">Watch again</button></div>';
+    else if (v.game === "tug" && v.p) { var sc = v.score || []; h = (sc.length === 2 ? dgRope(sc, -1) : "") + '<p class="dgbsub">Right answers per player. The winner at ' + esc(v.at) + ".</p>" + '<div class="dgbteams">' + v.p.teams.map(function (t) { return "<div><b>" + esc(t.name) + "</b><span>" + t.kids.map(esc).join(", ") + "</span></div>"; }).join("") + "</div>"; }
+    else h = '<p class="dgbsub">Waiting for the first iPad to open today’s game.</p>';
+    bd.innerHTML = '<div class="dgbcard" style="--mg:' + G.col + '"><button type="button" class="mglx" data-dgbx="1" aria-label="Close">×</button><p class="dgbkick">Class game of the day</p><h2>' + esc(G.name) + "</h2>" + h +
+      (!v.rev && v.game ? '<div class="mgbtns"><button type="button" class="mggo" data-dgbrev="1">Reveal now</button></div>' : "") + "</div>";
+    if (v.game === "tug" && v.rev && v.res) { var pk = v.day + ":tug"; dgTugPlay(bd.querySelector(".dgshow"), v.res, !!dgBoardPlayed[pk]); dgBoardPlayed[pk] = 1; }
+  }
   /* ==================== v113: a new school year ====================
      From Class setup. The teacher ticks the children staying in the class
      (a composite class keeps half of them), says whether they keep their
